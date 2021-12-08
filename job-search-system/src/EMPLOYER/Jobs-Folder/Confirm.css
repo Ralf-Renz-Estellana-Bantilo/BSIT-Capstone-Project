@@ -1,0 +1,96 @@
+.confirm-container {
+	border-bottom: 1px solid grey;
+	background-color: var(--main-background);
+}
+
+.confirm-text-fields {
+	display: flex;
+	flex-direction: column;
+	width: 80%;
+	margin: 0 auto;
+}
+
+.confirm-text-fields h3 {
+	color: var(--accent-main);
+	text-align: center;
+	font-size: 14px;
+	font-weight: 600;
+	padding-top: 20px;
+}
+
+.confirm-text-fields .form {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	border: 1px solid rgb(97, 97, 97);
+	background-color: var(--dark-primary);
+	margin: 5px 0;
+	padding: 5px;
+	border-radius: 5px;
+}
+
+.confirm-text-fields .form label {
+	font-size: 12px;
+	color: var(--accent2);
+}
+
+.confirm-text-fields .form p {
+	color: var(--accent1);
+	font-size: 13px;
+	font-weight: 500;
+	white-space: pre-line;
+}
+
+.confirm-text-fields .form .desc {
+	white-space: pre-wrap;
+	text-align: left;
+}
+
+.buttons {
+	display: flex;
+	flex-direction: column;
+}
+
+.confirm-container .confirm-text-fields button {
+	color: var(--accent-main);
+	padding: 5px;
+	border-radius: 50px;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: 0.25s;
+}
+
+.confirm-container .confirm-text-fields button:hover {
+	box-shadow: none;
+	color: white;
+}
+
+.buttons .continue {
+	margin-top: 10px;
+
+	border: solid 3px transparent;
+	background-image: linear-gradient(
+			rgba(255, 255, 255, 0),
+			rgba(255, 255, 255, 0)
+		),
+		linear-gradient(-20deg, var(--light-blue), var(--dark-blue));
+	background-origin: border-box;
+	background-clip: content-box, border-box;
+	box-shadow: 2px 1000px 1px var(--main-background) inset;
+}
+
+.buttons .back {
+	margin-top: 20px;
+	margin-bottom: 20px;
+
+	border: solid 3px transparent;
+	background-image: linear-gradient(
+			rgba(255, 255, 255, 0),
+			rgba(255, 255, 255, 0)
+		),
+		linear-gradient(-20deg, var(--orange), var(--reddish));
+	background-origin: border-box;
+	background-clip: content-box, border-box;
+	box-shadow: 2px 1000px 1px var(--main-background) inset;
+}

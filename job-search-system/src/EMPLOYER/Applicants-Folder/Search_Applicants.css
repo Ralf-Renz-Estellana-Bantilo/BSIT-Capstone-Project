@@ -1,0 +1,162 @@
+.search-applicant-container {
+	margin-bottom: 10px;
+	border-bottom: 1px solid grey;
+	border-radius: 5px;
+	overflow: hidden;
+	background-color: var(--nav-background);
+}
+
+.search-applicant-header {
+	display: flex;
+	justify-content: space-between;
+	padding: 8px 10px;
+	background-color: var(--dark-primary);
+	box-shadow: 0px 1px 3px #00000083;
+}
+
+.search-applicant-upperLeft-info {
+	display: flex;
+}
+
+.search-applicant-account-profile {
+	min-width: 50px;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	overflow: hidden;
+	cursor: pointer;
+	margin-right: 10px;
+	box-shadow: 1px 1px 4px #030303;
+}
+
+.search-applicant-account-profile img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.search-applicant-basic-info {
+	display: flex;
+	flex-direction: column;
+}
+
+.search-applicant-basic-info h2 {
+	font-size: 16px;
+	font-weight: 500;
+	cursor: pointer;
+	color: var(--accent-main);
+	/* text-shadow: 0px 1px 2px #00000080; */
+}
+
+.search-applicant-address {
+	display: flex;
+}
+
+.search-applicant-address p {
+	font-size: 12px;
+	color: var(--accent2);
+	margin-right: 10px;
+}
+
+.address {
+	display: flex;
+}
+
+.address img {
+	height: 14px;
+	opacity: 0.5;
+}
+
+.search-applicant-body {
+	/* border-radius: 5px; */
+	position: relative;
+	/* background-color: var(--nav-background); */
+	transition: 0.5s;
+}
+
+.search-applicant-basic-content {
+	padding: 10px;
+	text-align: center;
+	position: relative;
+}
+
+.search-applicant-job-title {
+	display: flex;
+	flex-direction: column;
+}
+
+.search-applicant-job-title h3 {
+	font-size: 16px;
+	font-weight: 600;
+	cursor: pointer;
+	color: var(--accent-main);
+	/* text-shadow: 0px 1px 2px #00000080; */
+}
+
+.search-applicant-job-title p {
+	font-size: 14px;
+	color: var(--accent2);
+	margin-right: 10px;
+}
+
+.search-applicant-info .form {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	border: 1px solid rgb(97, 97, 97);
+	background-color: rgb(34, 34, 34);
+	margin: 5px 0;
+	padding: 5px;
+	border-radius: 5px;
+}
+
+.search-applicant-info .form label {
+	font-size: 12px;
+	color: rgb(148, 148, 148);
+}
+
+.search-applicant-info .form p {
+	color: white;
+	font-size: 13px;
+	white-space: pre-line;
+}
+
+.search-applicant-info .form .desc {
+	white-space: pre-wrap;
+	text-align: left;
+}
+
+.post-detail-container {
+	padding: 5px 20px;
+}
+
+.view-applicant-detail-btn {
+	display: flex;
+	justify-content: center;
+	margin: 10px 0;
+}
+
+.view-applicant-detail-btn button {
+	width: 95%;
+	border-radius: 50px;
+	padding: 5px;
+	color: var(--accent-main);
+	font-weight: 600;
+	font-size: 15px;
+	cursor: pointer;
+	border: solid 3px transparent;
+	background-image: linear-gradient(
+			rgba(255, 255, 255, 0),
+			rgba(255, 255, 255, 0)
+		),
+		linear-gradient(20deg, var(--light-blue), var(--dark-blue));
+	background-origin: border-box;
+	background-clip: content-box, border-box;
+	box-shadow: 2px 1000px 1px var(--nav-background) inset;
+	transition: 0.1s;
+}
+
+.view-applicant-detail-btn button:hover {
+	box-shadow: none;
+	color: var(--accent-main);
+}

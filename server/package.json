@@ -1,0 +1,23 @@
+{
+  "name": "job-search-system-api",
+  "version": "1.0.0",
+  "description": "Job Search System in Catarman Northern Samar",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "author": "Ralf Renz Estellana Bantilo",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "multer": "^1.4.3",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.3.3-rc.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
+}

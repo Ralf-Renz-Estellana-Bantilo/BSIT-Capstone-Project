@@ -1,0 +1,70 @@
+.accordion-item {
+	display: flex;
+	flex-direction: column;
+	font-size: 15px;
+	font-weight: 400;
+}
+
+.accordion-title {
+	background-color: var(--nav-background);
+	margin: 5px 0px;
+	padding: 5px 10px;
+	display: flex;
+	justify-content: space-between;
+	box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.445);
+	z-index: 9;
+	transition: 0.5s background-color;
+}
+
+.accordion-title div {
+	color: var(--accent-main);
+	font-weight: 500;
+	font-size: 15px;
+}
+
+.accordion-content {
+	background-color: var(--dark-primary);
+	padding: 15px 20px 10px 20px;
+	position: relative;
+	top: -15px;
+	border-radius: 5px;
+	box-shadow: 0px 1px 5px black;
+	transition: 0.5s background-color;
+}
+
+.accordion-content .accordion-content-button {
+	display: flex;
+	flex-direction: column;
+}
+
+.accordion-content .accordion-content-button a button,
+.accordion-content-button button {
+	width: 100%;
+	background-color: var(--dark-secondary);
+	outline: none;
+	border: none;
+	border-bottom: 1px solid var(--border1);
+	border-radius: 5px;
+	padding: 5px 5px;
+	margin: 5px 2px;
+	cursor: pointer;
+	color: var(--accent1);
+	transition: 0.5s background-color;
+}
+
+.toggle-container {
+	padding: 6px;
+	border-radius: 20px;
+	width: 25px;
+	height: 25px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	z-index: 99;
+	box-shadow: 0.2px 0.5px 5px rgba(0, 0, 0, 0.726);
+}
+
+.toggle-container:active {
+	transform: scale(0.95);
+}

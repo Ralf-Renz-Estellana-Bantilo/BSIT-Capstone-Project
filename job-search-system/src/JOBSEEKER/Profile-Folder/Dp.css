@@ -1,0 +1,271 @@
+.profile-container {
+	position: relative;
+}
+
+.profile-container h2 {
+	color: var(--accent-main);
+	font-size: 15px;
+	font-weight: 600;
+}
+
+.dp {
+	display: flex;
+	flex-direction: column;
+	width: 153px;
+	margin: 10px auto;
+	position: relative;
+}
+
+.profile-container .profile-picture {
+	min-width: 150px;
+	width: 150px;
+	height: 150px;
+	border-radius: 60%;
+	overflow: hidden;
+	margin: 0 auto;
+	position: relative;
+	box-shadow: 0px 2px 8px rgb(0, 0, 0);
+}
+
+.profile-container .profile-picture img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	cursor: pointer;
+}
+
+.profile-container h2 {
+	text-align: center;
+	font-size: 17px;
+	font-weight: 500;
+	width: 80%;
+	margin: 0 auto;
+}
+
+.camera {
+	background-color: rgba(255, 255, 255, 0.164);
+	padding: 10px 10px 3px 10px;
+	border-radius: 30px;
+	width: 40px;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	cursor: pointer;
+	box-shadow: 0px 2px 5px rgb(10, 10, 10);
+}
+
+.camera img {
+	height: 20px;
+}
+
+.file-picker {
+	border-radius: 7px;
+	padding: 10px;
+	text-align: center;
+	outline: none;
+	border: none;
+	font-weight: 500;
+	color: var(--accent1);
+	font-size: 12px;
+	width: 80%;
+	margin: 0 auto;
+	border: 1px solid grey;
+	margin-bottom: 20px;
+	background-color: var(--dark-primary);
+}
+
+.file-picker h3 {
+	color: var(--accent-main);
+	padding: 5px;
+	font-size: 13px;
+	font-weight: 500;
+	/* background-color: var(--dark-primary); */
+	margin-bottom: 10px;
+	border-bottom: 1px solid var(--border1);
+}
+
+.img-holder {
+	border: 1px solid grey;
+	padding: 5px;
+	margin: 10px 0;
+	border-radius: 3px;
+}
+
+.img-holder img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.update button {
+	color: var(--accent1);
+	border-radius: 50px;
+	padding: 5px 20px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: 0.25s;
+	font-weight: 600;
+	width: 100%;
+
+	border: solid 3px transparent;
+	background-image: linear-gradient(
+			rgba(255, 255, 255, 0),
+			rgba(255, 255, 255, 0)
+		),
+		linear-gradient(-20deg, #00b2ff, #006aff);
+	background-origin: border-box;
+	background-clip: content-box, border-box;
+	box-shadow: 2px 1000px 1px var(--dark-primary) inset;
+	transition: 0.2s;
+}
+
+.update button:hover {
+	box-shadow: none;
+	color: white;
+}
+
+/* Image Preview */
+
+.image-preview {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	width: 90%;
+	transform: translate(-50%, -50%);
+	background-color: var(--dark-primary);
+	padding: 1rem;
+	z-index: 99999;
+	border-radius: 5px;
+	border-bottom: 1px solid var(--border1);
+}
+
+.image-wrapper {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid rgba(128, 128, 128, 0.3);
+	padding: 5px;
+	border-radius: 5px;
+}
+
+.image-preview-img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.close-preview {
+	/* text-align: right;
+	cursor: pointer;
+	position: absolute;
+	top: 0;
+	right: 0;
+	transform: scaleY(0.7);
+	font-size: 23px;
+	color: rgba(255, 0, 0, 0.7);
+	padding: 9px 15px;
+	font-weight: 600; */
+	height: 30px;
+	position: absolute;
+	right: 12px;
+	top: 15px;
+}
+
+.close-preview:hover {
+	color: red;
+}
+
+.image-preview-title {
+	text-align: center;
+	margin-bottom: 10px;
+	color: var(--accent1);
+}
+
+.overlay-style {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background-color: rgba(0, 0, 0, 0.75);
+	z-index: 1000;
+}
+
+.active-status-container {
+	text-align: center;
+	display: flex;
+	margin: 10px auto;
+	justify-content: center;
+	align-items: center;
+}
+
+.active-status-container h3 {
+	padding: 0 4px;
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--accent2);
+}
+.switch {
+	border: 1px solid var(--border1);
+	display: flex;
+	align-items: center;
+	padding: 3px 5px;
+	height: 21px;
+	border-radius: 20px;
+	position: relative;
+	width: 50px;
+	justify-content: space-between;
+}
+
+.switch-on,
+.switch-off {
+	position: relative;
+	color: var(--accent2);
+	font-size: 12px;
+}
+
+.switch input {
+	display: none;
+}
+
+.switch-label {
+	color: var(--accent2);
+	font-size: 12px;
+	display: flex;
+}
+
+.slider {
+	position: absolute;
+	cursor: pointer;
+	/* background-color: #006aff; */
+	top: 2px;
+	left: 3px;
+	bottom: 0;
+	right: 0;
+	border-radius: 40px;
+}
+
+.slider::before {
+	position: absolute;
+	content: "";
+	height: 15px;
+	width: 23px;
+	left: 0;
+	background-color: #ff0000;
+	transition: 0.4s;
+	border-radius: 50px;
+}
+
+input:checked + .slider::before {
+	background-color: #1eff00;
+	transform: translateX(20px);
+}
+
+@media only screen and (min-width: 580px) {
+	.image-preview {
+		width: 70%;
+		height: 70%;
+		overflow-y: scroll;
+	}
+}

@@ -1,0 +1,66 @@
+.navbar-container {
+	position: fixed;
+	width: 700px;
+	top: 69px;
+	z-index: 100;
+	background-color: var(--nav-background);
+	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+	border-bottom: 1px solid var(--border1);
+	transition: 0.5s background-color;
+}
+
+.navbar {
+	display: flex;
+	justify-content: space-evenly;
+	padding-top: 8px;
+}
+
+.navbar a img {
+	height: 38px;
+	cursor: pointer;
+}
+
+/* .navbar a img:hover {
+	filter: brightness(100);
+} */
+
+.navbar a img:active {
+	transform: scale(0.95);
+}
+
+.img-wrapper {
+	position: relative;
+}
+
+.img-wrapper .badge {
+	background-color: red;
+	width: 20px;
+	height: 20px;
+	border-radius: 30px;
+	position: absolute;
+	right: 0;
+	z-index: 99;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 3px solid var(--nav-background);
+	transition: 0.5s border;
+}
+
+.img-wrapper .badge p {
+	color: white;
+	font-size: 11px;
+	text-align: center;
+}
+
+/* .space {
+	flex: 1.5;
+	background-color: aqua;
+	width: 100px;
+} */
+
+@media only screen and (max-width: 700px) {
+	.navbar-container {
+		width: 100%;
+	}
+}

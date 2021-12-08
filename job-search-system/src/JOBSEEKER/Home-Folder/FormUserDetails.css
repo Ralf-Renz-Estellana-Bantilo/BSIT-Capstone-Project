@@ -1,0 +1,45 @@
+.text-fields{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin: 0 auto;
+    font-family: 'Poppins';
+    margin-top: 10px;
+}
+
+.text-fields input, button{
+    padding: 5px 10px;
+    outline: none;
+    border: none;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 10px;
+    font-family: 'Poppins';
+    margin-bottom: 10px;
+}
+
+.text-fields label{
+    text-align: left;
+    font-size: 13px;
+    color: rgb(194, 194, 194);
+}
+
+.text-fields button{
+    background-color: rgb(35, 107, 167);
+    color: white;
+    width: 100%;
+    margin: 20px 0;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 500px){
+    .text-fields{
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 700px){
+    .text-fields{
+        width: 250px;
+    }
+}

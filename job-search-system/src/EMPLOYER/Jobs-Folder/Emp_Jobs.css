@@ -1,0 +1,11 @@
+.posted-jobs-container {
+	margin-top: 15px;
+	padding: 0;
+}
+
+.posted-jobs-container .posted-jobs-label {
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--accent2);
+	text-align: center;
+}

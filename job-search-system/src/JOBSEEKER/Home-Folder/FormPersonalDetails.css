@@ -1,0 +1,71 @@
+.pd-text-fields{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin: 0 auto;
+    font-family: 'Poppins';
+    margin-top: 10px;
+}
+
+.pd-text-fields input, button{
+    padding: 5px 10px;
+    outline: none;
+    border: none;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 10px;
+    font-family: 'Poppins';
+    margin-bottom: 10px;
+}
+
+.pd-text-fields label{
+    text-align: left;
+    font-size: 13px;
+}
+
+.pd-text-fields textarea{
+    height: 100px;
+    width: 100%;
+    outline: none;
+    border: none;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.buttons .back{
+    background-color: rgb(236, 97, 32);
+    color: white;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.buttons .continue{
+    background-color: rgb(35, 107, 167);
+    color: white;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+
+@media screen and (max-width: 500px){
+    .pd-text-fields{
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 700px){
+    .pd-text-fields{
+        width: 250px;
+    }
+}

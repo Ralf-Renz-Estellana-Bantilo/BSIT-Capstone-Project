@@ -1,0 +1,131 @@
+.post-content-container {
+	overflow-y: hidden;
+	transition: 0.4s height ease-out;
+}
+
+.post-content {
+	width: 90%;
+	margin: 0 auto;
+	padding-bottom: 10px;
+	overflow: hidden;
+	white-space: pre-wrap;
+	transition: 0.3s height ease-out;
+}
+
+.post-content ul {
+	list-style-type: disc;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	margin: 5px 0;
+}
+
+.post-detail-container {
+	display: flex;
+	flex-direction: row;
+	border-radius: 5px;
+	justify-content: space-evenly;
+}
+
+.post-detail-group1 {
+	display: flex;
+	flex-direction: column;
+	text-align: left;
+	flex: 1.5;
+	border: 1px solid var(--border1);
+}
+
+.post-detail-group2 {
+	display: flex;
+	flex-direction: column;
+	text-align: left;
+	flex: 1.5;
+	border: 1px solid var(--border1);
+}
+
+.post-detail {
+	display: flex;
+	border-bottom: 1px solid var(--border1);
+	align-items: center;
+}
+
+.post-detail p {
+	font-size: 12px;
+	flex: 2;
+	text-align: right;
+	margin-right: 5px;
+	color: var(--accent1);
+}
+
+.post-detail h4 {
+	font-size: 12px;
+	flex: 2;
+	color: var(--accent1);
+	font-weight: 600;
+}
+
+.active-status {
+	display: flex;
+	flex: 2;
+	align-items: center;
+}
+
+.active-status h4 {
+	margin: 0 2px;
+}
+
+.active-circle {
+	height: 10px;
+	width: 10px;
+	border-radius: 100px;
+}
+
+.post-content h2 {
+	color: rgb(226, 226, 226);
+	font-size: 13px;
+	font-weight: 500;
+	margin-top: 20px;
+	text-align: left;
+}
+
+.job-qualification-portion h3 {
+	font-size: 13px;
+	font-weight: 500;
+	margin-top: 15px;
+	margin-bottom: 2px;
+	color: rgb(226, 226, 226);
+	text-align: center;
+	padding: 0;
+}
+
+.job-qualification-portion p {
+	font-size: 12px;
+	color: var(--accent1);
+}
+
+.job-qualification-container {
+	transition: 0.3s height ease-out;
+}
+
+@media only screen and (max-width: 700px) {
+	.post-detail-container {
+		flex-direction: column;
+		border: 1px solid var(--border1);
+	}
+
+	.post-detail-group1 {
+		display: flex;
+		flex-direction: column;
+		text-align: left;
+		flex: 2;
+		border: none;
+	}
+
+	.post-detail-group2 {
+		display: flex;
+		flex-direction: column;
+		text-align: left;
+		flex: 1.5;
+		border: none;
+	}
+}

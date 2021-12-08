@@ -1,0 +1,80 @@
+.job-applicant-summary-container {
+	display: flex;
+	flex-direction: column;
+	margin-top: 5px;
+}
+
+.job-applicant-summary-container h4 {
+	text-align: center;
+	font-weight: 500;
+	font-size: 15px;
+	margin-bottom: 10px;
+	color: var(--accent1);
+	padding: 5px;
+	border-bottom: 1px solid var(--border1);
+}
+
+.job-applicant-summary-header {
+	display: flex;
+	flex-direction: column;
+}
+
+.job-applicant-summary-header .result {
+	text-align: center;
+	position: relative;
+	top: -10px;
+	color: var(--accent1);
+	font-weight: 500;
+	background-color: var(--dark-primary);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.527);
+}
+
+.summary-header-label {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	position: relative;
+}
+
+.summary-header-label h3 {
+	font-size: 17px;
+	font-weight: 600;
+	padding: 0 35px;
+	color: var(--accent-main);
+}
+
+.summary-header-label p {
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--accent2);
+}
+
+.summary-header-label .summary-header-label-close {
+	position: absolute;
+	top: 2px;
+	right: 5px;
+}
+
+.summary-header-label .summary-header-label-close img {
+	height: 25px;
+	cursor: pointer;
+}
+
+.summary-header-buttons {
+	display: flex;
+	padding: 10px 0;
+	background-color: var(--dark-primary);
+	border-top: 1px solid rgba(0, 0, 0, 0.527);
+}
+
+.summary-header-buttons button {
+	flex: 1;
+	background-color: var(--border1);
+	color: var(--accent1);
+	border: none;
+	border-bottom: 1px solid grey;
+	margin: 0 1px;
+	font-size: 15px;
+	padding: 3px 0;
+	border-radius: 5px;
+}

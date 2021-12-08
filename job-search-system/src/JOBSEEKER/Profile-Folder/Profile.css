@@ -1,0 +1,29 @@
+:root {
+	--main-background: #121212;
+	--nav-background: #242526;
+	--dark-primary: #1c1c1c;
+	--dark-secondary: #2d2d2d;
+	--accent-main: white;
+	--accent1: #e4e4e4;
+	--accent2: #949494;
+	--border1: #4d4d4d;
+}
+
+.applied-jobs-container {
+	background-color: var(--dark-primary);
+	border-radius: 10px;
+	padding: 10px 0 10px 0;
+	margin-top: 20px;
+	border-bottom: 1px solid var(--border1);
+}
+
+.applied-jobs-container h3 {
+	padding: 0 0 10px 10px;
+	color: var(--accent2);
+}
+
+@media only screen and (max-width: 700px) {
+	.applied-jobs-container {
+		border-radius: 0;
+	}
+}
