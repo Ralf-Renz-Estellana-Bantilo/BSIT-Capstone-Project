@@ -22,7 +22,7 @@ const Sidebar = ({
 	const navigate = useNavigate();
 
 	const handleDashboard = () => {
-		navigate("/");
+		navigate("/admin/dashboard");
 		axios.get("http://localhost:2000/api/read-jobPost").then((response) => {
 			if (response) {
 				setJobPosts(response.data);

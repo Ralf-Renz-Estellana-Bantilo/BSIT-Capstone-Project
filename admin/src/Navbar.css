@@ -41,8 +41,41 @@
 
 .navbar-button-container img {
 	height: 30px;
-	filter: brightness(0.2);
+	filter: brightness(0.4);
 	cursor: pointer;
+	transition: 0.2s;
+}
+
+.navbar-button-container img:hover {
+	filter: brightness(0.2);
+}
+
+.navbar-button-container button {
+	border: none;
+	color: var(--accent-main);
+	padding: 3px 5px;
+	border-radius: 50px;
+	outline: none;
+	font-size: 13px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: 0.25s;
+	margin-top: 5px;
+
+	border: solid 3px transparent;
+	background-image: linear-gradient(
+			rgba(255, 255, 255, 0),
+			rgba(255, 255, 255, 0)
+		),
+		linear-gradient(-20deg, var(--light-blue), var(--dark-blue));
+	background-origin: border-box;
+	background-clip: content-box, border-box;
+	box-shadow: 2px 1000px 1px var(--nav-background) inset;
+}
+
+.navbar-button-container button:hover {
+	box-shadow: none;
+	color: white;
 }
 
 .profile-container {

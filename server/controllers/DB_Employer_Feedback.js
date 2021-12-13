@@ -135,7 +135,7 @@ export const updateNotificationStatus = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send(result);
-				console.log("Successfully updated the notification  Status");
+				console.log("Successfully updated the notification Status");
 			}
 		}
 	);

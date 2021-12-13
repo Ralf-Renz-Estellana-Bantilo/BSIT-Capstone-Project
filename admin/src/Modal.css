@@ -13,7 +13,6 @@
 	border-radius: 10px;
 	box-shadow: 2px 2px 5px black;
 	border: 1px solid grey;
-	width: 300px;
 }
 
 .modal-container .overlay-style {
@@ -38,15 +37,16 @@
 .modal-style .modal-header .modal-close .closeIcon {
 	height: 28px;
 	cursor: pointer;
+	filter: brightness(1);
+	opacity: 1;
 }
 
 .modal-container .modal-sub-text {
 	text-align: center;
-	padding-bottom: 5px;
+	padding: 0;
 	color: var(--accent2);
 	font-weight: 600;
 	font-size: 13px;
-	border-bottom: 1px solid var(--border1);
 }
 
 .modal-container .modal-text {
@@ -55,42 +55,6 @@
 	font-size: 16px;
 	font-weight: 600;
 	color: var(--light-primary);
-}
-
-.modal-content-container {
-	display: flex;
-	flex-direction: column;
-	margin: 10px 0 5px 0;
-}
-
-.content-choices {
-	display: flex;
-	align-items: center;
-}
-
-.left-content {
-	flex: 2;
-	display: flex;
-}
-
-.left-content h4 {
-	padding: 10px 0;
-	font-size: 14px;
-	font-weight: 500;
-	color: var(--light-primary);
-}
-
-.right-content {
-	flex: 3;
-	margin-left: 10px;
-}
-
-.right-content select {
-	width: 100%;
-	outline: none;
-	padding: 3px;
-	font-weight: 500;
-	border-radius: 5px;
 }
 
 .modal-buttons {
@@ -125,7 +89,6 @@
 
 .modal-container .modal-button-send {
 	width: 120px;
-	padding: 5px;
 	border-radius: 10px;
 	color: var(--light-primary);
 	font-weight: 600;
@@ -149,11 +112,11 @@
 	box-shadow: none;
 	color: white;
 }
-/* 
+
 .modal-container .modal-button-send a {
 	position: absolute;
 	top: 50%;
-	color: var(--accent1);
+	color: var(--light-primary);
 	left: 50%;
 	transform: translate(-50%, -50%);
 	padding: 5px 41px;
@@ -163,4 +126,4 @@
 
 .modal-container .modal-button-send a:hover {
 	color: white;
-} */
+}

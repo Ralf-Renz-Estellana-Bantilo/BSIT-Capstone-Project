@@ -60,7 +60,10 @@ export class Emp_Setting extends Component {
 						setTheme={this.props.setTheme}
 						darkTheme={this.props.darkTheme}
 					/>
-					<Accordion3 />
+					<Accordion3
+						deleteCompanyPosts={this.props.deleteCompanyPosts}
+						infos={this.props.infos}
+					/>
 				</div>
 			</div>
 		);

@@ -84,7 +84,7 @@ const Applicants = ({
 							<div className='job-post-panel'>
 								<div className='job-post-header'>
 									<h3>List of Job Seekers ({jobSeekers.length})</h3>
-									<p title='More Options...'>•••</p>
+									{/* <p title='More Options...'>•••</p> */}
 								</div>
 								<div className='job-posts'>
 									{jobSeekers.map((jobSeeker) => {

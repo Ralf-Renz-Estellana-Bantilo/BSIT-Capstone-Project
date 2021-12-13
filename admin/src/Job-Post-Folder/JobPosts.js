@@ -5,6 +5,7 @@ import Sidebar from "../Sidebar";
 import "./JobPosts.css";
 import OKIcon from "../Images/OKIcon.png";
 import LocationIcon from "../Images/LocationIcon.png";
+import User from "../Images/User.png";
 import PopupMenuJobPost from "../PopupMenuJobPost";
 
 const JobPosts = ({
@@ -24,6 +25,7 @@ const JobPosts = ({
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
 	const [isPopupMenuOpen, setIsPopupMenuOpen] = useState(false);
+	const [isJobPostPanelOpen, setJobPostPanelOpen] = useState(true);
 	const [location, setLocation] = useState("");
 	const [status, setStatus] = useState("Active");
 	const [sort, setSort] = useState("Most Recent");
@@ -76,6 +78,8 @@ const JobPosts = ({
 		});
 	}
 
+	console.log(isJobPostPanelOpen);
+
 	return (
 		<div className='job-post-container'>
 			{isPopupMenuOpen && (
@@ -112,224 +116,480 @@ const JobPosts = ({
 					<Navbar
 						activePage={activePage}
 						isSidebarOpen={isSidebarOpen}
+						isJobPostPanelOpen={isJobPostPanelOpen}
 						setSidebarOpen={setSidebarOpen}
+						setJobPostPanelOpen={setJobPostPanelOpen}
 					/>
 
 					<div className='main-panel-container'>
-						<div className='job-post-panel-container'>
-							<div className='job-post-panel'>
-								<div className='job-post-header'>
-									<h3>List of Job Posts ({countList})</h3>
-									<p
-										title='More Options...'
-										onClick={() => setIsPopupMenuOpen(true)}>
-										•••
-									</p>
+						{isJobPostPanelOpen ? (
+							<div className='job-post-panel-container'>
+								<div className='job-post-panel'>
+									<div className='job-post-header'>
+										<h3>Job Vacancy Form</h3>
+									</div>
+									<div className='job-posts'>
+										<div className='post-fields'>
+											<div className='post-field'>
+												<label>Job Title:</label>
+												<input
+													// list='jobLists'
+													type='text'
+													placeholder='Job Title'
+												/>
+												{/* <datalist id='jobLists'>
+													{jobTitleSmartHints}
+												</datalist> */}
+											</div>
+											<div className='post-field'>
+												<label>Job Category:</label>
+												<select name='Job Category'>
+													<option
+														disabled='disabled'
+														hidden='hidden'
+														value=''>
+														Select Job Category
+													</option>
+													{/* {categoryResources} */}
+												</select>
+											</div>
+											<div className='post-field-group'>
+												<div className='post-field'>
+													<label>No. of Employees:</label>
+													<input
+														type='number'
+														placeholder='No. of Employees'
+														// onChange={handleChange("noReqEmp")}
+														// value={values.noReqEmp}
+													/>
+												</div>
+												<div className='post-field'>
+													<label>Salary:</label>
+													<input
+														type='number'
+														placeholder='₱ ----'
+														// onChange={handleChange("salary")}
+														// value={values.salary}
+													/>
+												</div>
+											</div>
+
+											<div className='post-field-group'>
+												<div className='post-field'>
+													<label>Preferred Sex:</label>
+													<select
+														name='Preferred Sex'
+														// onChange={handleChange("prefSex")}
+														// value={values.prefSex}
+													>
+														<option
+															disabled='disabled'
+															hidden='hidden'
+															value=''>
+															Select Gender
+														</option>
+														<option value='Male'>Male</option>
+														<option value='Female'>Female</option>
+														<option value='Male/Female'>
+															Male/Female
+														</option>
+													</select>
+												</div>
+												<div className='post-field'>
+													<label>Job Type:</label>
+													<select
+														name='Job Type'
+														// onChange={handleChange("jobType")}
+														// value={values.jobType}
+													>
+														<option
+															disabled='disabled'
+															hidden='hidden'
+															value=''>
+															Select Job Type
+														</option>
+														<option value='Full-time'>
+															Full-time
+														</option>
+														<option value='Part-time'>
+															Part-time
+														</option>
+														<option value='Contract'>
+															Contract
+														</option>
+														<option value='Urgent Hiring'>
+															Urgent Hiring
+														</option>
+														<option value='Temporary'>
+															Temporary
+														</option>
+														<option value='Seasonal'>
+															Seasonal
+														</option>
+														<option value='Freelance'>
+															Freelance
+														</option>
+														<option value='Intern'>Intern</option>
+													</select>
+												</div>
+											</div>
+											<div className='job-qualification'>
+												<h4>Job Qualifications</h4>
+												<textarea
+													name='work-experience'
+													placeholder=' - Sample 
+                            - Job 
+                            - Qualifications'
+													// onChange={handleChange(
+													// 	"jobQualification"
+													// )}
+													// value={
+													// 	values.jobQualification
+													// }
+												></textarea>
+											</div>
+											<div className='job-qualification'>
+												<h4>Job Requirements</h4>
+												<textarea
+													name='work-experience'
+													placeholder=' - Sample
+                            - Job
+                            - Requirements'
+													// onChange={handleChange("jobRequirement")}
+													// defaultValue={
+													// 	values.jobRequirement
+													// }
+												></textarea>
+											</div>
+											<div className='job-qualification'>
+												<h4>Job Description</h4>
+												<textarea
+													name='work-experience'
+													placeholder=' Sample Description'
+													// onChange={handleChange("jobDescription")}
+													// defaultValue={
+													// 	values.jobDescription
+													// }
+												></textarea>
+											</div>
+										</div>
+									</div>
 								</div>
-								<div className='job-posts'>
-									{activePosts.map((jobPost) => {
-										let address =
-											jobPost.Company_Address.split(", ")[
-												jobPost.Company_Address.split(", ").length -
-													1
-											];
-										let selectedPost = "";
-										if (post) {
-											if (post.JobID === jobPost.JobID) {
-												selectedPost = post.JobID;
-											}
-										}
-										if (
-											`${address}`
-												.toLowerCase()
-												.includes(location.toLowerCase())
-										) {
-											count += 1;
-											return (
-												<div
-													className={
-														jobPost.JobID === selectedPost
-															? "selected-job-post"
-															: "job-post"
-													}
-													style={
-														jobPost.Active_Status === "Active"
-															? {
-																	borderLeft:
-																		"5px solid #00ff40",
-															  }
-															: { borderLeft: "5px solid red" }
-													}
-													onClick={() => setPostPreview(jobPost)}>
-													<div className='post-right-text'>
-														<h2>{jobPost.Job_Title}</h2>
-														<h5>{jobPost.Company_Name}</h5>
-													</div>
-													<div className='post-left-text'>
-														<p>
-															{AdminResources.setTimeStamp(
-																jobPost.Minutes,
-																jobPost.Hour,
-																jobPost.Day,
-																jobPost.Month,
-																jobPost.Year
-															)}
-														</p>
-														<h3>{address}</h3>
+
+								<div className='job-post-preview'>
+									<div className='post-preview-panel'>
+										<div className='job-post-header'>
+											<h3>Business Stablishment Information</h3>
+										</div>
+										<div className='job-posts'>
+											<div className='post-fields'>
+												<div className='post-field'>
+													<label>Company Name:</label>
+													<input
+														type='text'
+														placeholder={`Enter Company's Name`}
+													/>
+												</div>
+												<div className='post-field'>
+													<label>Street:</label>
+													<input
+														type='text'
+														placeholder='Address: (Street)'
+													/>
+												</div>
+												<div className='post-field'>
+													<label>Zone:</label>
+													<input
+														type='text'
+														placeholder='Address: (Zone)'
+													/>
+												</div>
+												<div className='post-field'>
+													<label>Barangay:</label>
+													<select>
+														<option
+															disabled='disabled'
+															hidden='hidden'
+															value=''>
+															Select Barangay
+														</option>
+														<option value='Male'>Male</option>
+														<option value='Female'>Female</option>
+														<option value='Male/Female'>
+															Male/Female
+														</option>
+													</select>
+												</div>
+												<div className='post-field'>
+													<label>Employer's Name:</label>
+													<input
+														type='text'
+														placeholder={`Enter Employer's Name`}
+													/>
+												</div>
+												<div className='post-field'>
+													<label>Stablishment Contact No.:</label>
+													<input
+														type='text'
+														placeholder='Cellphone Number'
+													/>
+												</div>
+												<div className='post-field'>
+													<label>Stablishment Photo:</label>
+													<input type='file' />
+													<div className='photo-panel'>
+														<img
+															src={User}
+															alt='Actual Stablishment'
+														/>
 													</div>
 												</div>
-											);
-										}
-									})}
 
-									{count === 0 && activePosts.length > 0 && (
-										<p
-											style={{
-												textAlign: "center",
-												padding: "10px",
-												backgroundColor: "red",
-												fontWeight: "500",
-												fontSize: "14px",
-											}}>
-											No Posts Available in {location}!
-										</p>
-									)}
+												<div className='post-field'>
+													<button className='next'>Post</button>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
-
-							<div className='job-post-preview'>
-								<div className='post-preview-panel'>
+						) : (
+							<div className='job-post-panel-container'>
+								<div className='job-post-panel'>
 									<div className='job-post-header'>
-										<h3>Job Post Preview</h3>
+										<h3>List of Job Posts ({countList})</h3>
+										<p
+											title='More Options...'
+											onClick={() => setIsPopupMenuOpen(true)}>
+											•••
+										</p>
 									</div>
-
-									{post !== null ? (
-										<div>
-											<div className='post-header'>
-												<div className='upperLeft-info'>
-													<div className='account-profile-container'>
-														<div className='account-profile'>
-															<img
-																src={`../assets/${post.Company_Image}`}
-																alt='Stablishment'
-															/>
+									<div className='job-posts'>
+										{activePosts.map((jobPost) => {
+											let address =
+												jobPost.Company_Address.split(", ")[
+													jobPost.Company_Address.split(", ")
+														.length - 1
+												];
+											let selectedPost = "";
+											if (post) {
+												if (post.JobID === jobPost.JobID) {
+													selectedPost = post.JobID;
+												}
+											}
+											if (
+												`${address}`
+													.toLowerCase()
+													.includes(location.toLowerCase())
+											) {
+												count += 1;
+												return (
+													<div
+														className={
+															jobPost.JobID === selectedPost
+																? "selected-job-post"
+																: "job-post"
+														}
+														style={
+															jobPost.Active_Status === "Active"
+																? {
+																		borderLeft:
+																			"5px solid #00ff40",
+																  }
+																: {
+																		borderLeft:
+																			"5px solid red",
+																  }
+														}
+														onClick={() =>
+															setPostPreview(jobPost)
+														}>
+														<div className='post-right-text'>
+															<h2>{jobPost.Job_Title}</h2>
+															<h5>{jobPost.Company_Name}</h5>
 														</div>
-														{post.Required_Employees >= 5 && (
+														<div className='post-left-text'>
+															<p>
+																{AdminResources.setTimeStamp(
+																	jobPost.Minutes,
+																	jobPost.Hour,
+																	jobPost.Day,
+																	jobPost.Month,
+																	jobPost.Year
+																)}
+															</p>
+															<h3>{address}</h3>
+														</div>
+													</div>
+												);
+											}
+										})}
+
+										{count === 0 && activePosts.length > 0 && (
+											<p
+												style={{
+													textAlign: "center",
+													padding: "10px",
+													backgroundColor: "red",
+													fontWeight: "500",
+													fontSize: "14px",
+												}}>
+												No Posts Available in {location}!
+											</p>
+										)}
+									</div>
+								</div>
+
+								<div className='job-post-preview'>
+									<div className='post-preview-panel'>
+										<div className='job-post-header'>
+											<h3>Job Post Preview</h3>
+										</div>
+
+										{post !== null ? (
+											<div>
+												<div className='post-header'>
+													<div className='upperLeft-info'>
+														<div className='account-profile-container'>
+															<div className='account-profile'>
+																<img
+																	src={`../assets/${post.Company_Image}`}
+																	alt='Stablishment'
+																/>
+															</div>
+															{/* {post.Required_Employees >= 5 && (
 															<div
 																className='verify'
 																title='Verified'>
-																<img src={OKIcon} alt='okay' />
-															</div>
-														)}
-													</div>
-
-													<div className='basic-info'>
-														<h2>{post.Company_Name}</h2>
-
-														<div className='date-address'>
-															<p>
-																{AdminResources.setTimeStamp(
-																	post.Minutes,
-																	post.Hour,
-																	post.Day,
-																	post.Month,
-																	post.Year
-																)}
-															</p>
-															<div className='address'>
 																<img
-																	src={LocationIcon}
-																	alt='Location Icon'
+																	src={OKIcon}
+																	alt='Verified'
 																/>
-																<p>{post.Company_Address}</p>
+															</div>
+														)} */}
+														</div>
+
+														<div className='basic-info'>
+															<h2>{post.Company_Name}</h2>
+
+															<div className='date-address'>
+																<p>
+																	{AdminResources.setTimeStamp(
+																		post.Minutes,
+																		post.Hour,
+																		post.Day,
+																		post.Month,
+																		post.Year
+																	)}
+																</p>
+																<div className='address'>
+																	<img
+																		src={LocationIcon}
+																		alt='Location Icon'
+																	/>
+																	<p>{post.Company_Address}</p>
+																</div>
 															</div>
 														</div>
 													</div>
+													<div className='upperRight-info'>
+														•••
+													</div>
 												</div>
-												<div className='upperRight-info'>•••</div>
-											</div>
-											<div className='post-preview'>
-												<div className='post-body'>
-													<div className='post-basic-content'>
-														<h3 className='job-title'>
-															{post.Job_Title}
-														</h3>
-														<p className='job-category'>
-															({post.Category})
-														</p>
+												<div className='post-preview'>
+													<div className='post-body'>
+														<div className='post-basic-content'>
+															<h3 className='job-title'>
+																{post.Job_Title}
+															</h3>
+															<p className='job-category'>
+																({post.Category})
+															</p>
 
-														<div className='post-detail-container'>
-															<div className='post-detail-group1'>
-																<div className='post-detail'>
-																	<p>Salary:</p>
-																	<h4>₱ {post.Salary}</h4>
-																</div>
-																<div className='post-detail'>
-																	<p>Req. Employees:</p>
-																	<h4>
-																		{post.Required_Employees}
-																	</h4>
-																</div>
-																<div className='post-detail'>
-																	<p>Applied Applicants:</p>
-																	<h4>
-																		{numApplicants.length}
-																	</h4>
-																</div>
-															</div>
-
-															<div className='post-detail-group2'>
-																<div className='post-detail'>
-																	<p>Job Type:</p>
-																	<h4>{post.Job_Type}</h4>
-																</div>
-																<div className='post-detail'>
-																	<p>Pref. Sex:</p>
-																	<h4>{post.Preferred_Sex}</h4>
-																</div>
-																<div className='post-detail'>
-																	<p>Job Status:</p>
-																	<div className='active-status'>
-																		<div
-																			className='active-circle'
-																			style={
-																				post.Active_Status ===
-																				"Active"
-																					? {
-																							backgroundColor:
-																								"#00ff40",
-																					  }
-																					: {
-																							backgroundColor:
-																								"red",
-																					  }
-																			}></div>
+															<div className='post-detail-container'>
+																<div className='post-detail-group1'>
+																	<div className='post-detail'>
+																		<p>Salary:</p>
+																		<h4>₱ {post.Salary}</h4>
+																	</div>
+																	<div className='post-detail'>
+																		<p title='Required no. of Employees'>
+																			Req. Employees:
+																		</p>
 																		<h4>
-																			{post.Active_Status}
+																			{
+																				post.Required_Employees
+																			}
 																		</h4>
+																	</div>
+																	<div className='post-detail'>
+																		<p>Applied Applicants:</p>
+																		<h4>
+																			{numApplicants.length}
+																		</h4>
+																	</div>
+																</div>
+
+																<div className='post-detail-group2'>
+																	<div className='post-detail'>
+																		<p>Job Type:</p>
+																		<h4>{post.Job_Type}</h4>
+																	</div>
+																	<div className='post-detail'>
+																		<p title='Preferred Sex'>
+																			Pref. Sex:
+																		</p>
+																		<h4>
+																			{post.Preferred_Sex}
+																		</h4>
+																	</div>
+																	<div className='post-detail'>
+																		<p>Job Status:</p>
+																		<div className='active-status'>
+																			<div
+																				className='active-circle'
+																				style={
+																					post.Active_Status ===
+																					"Active"
+																						? {
+																								backgroundColor:
+																									"#00ff40",
+																						  }
+																						: {
+																								backgroundColor:
+																									"red",
+																						  }
+																				}></div>
+																			<h4>
+																				{post.Active_Status}
+																			</h4>
+																		</div>
 																	</div>
 																</div>
 															</div>
 														</div>
-													</div>
-													<div className='job-qualification-container'>
-														<div className='job-qualification-portion'>
-															<h3>--- Job Qualifications ---</h3>
-															<p>{post.Job_Qualifications}</p>
-														</div>
-														<div className='job-qualification-portion'>
-															<h3>--- Job Requirements ---</h3>
-															<p>{post.Job_Requirements}</p>
-														</div>
-														<div className='job-qualification-portion'>
-															<h3>--- Job Description ---</h3>
-															<p>{post.Job_Description}</p>
-														</div>
-														<div className='job-qualification-portion'>
-															<h3>--- Employer's Name ---</h3>
-															<p>{post.Employer_Name}</p>
-														</div>
-														{/* <div className='job-qualification-portion'>
+														<div className='job-qualification-container'>
+															<div className='job-qualification-portion'>
+																<h3>
+																	--- Job Qualifications ---
+																</h3>
+																<p>{post.Job_Qualifications}</p>
+															</div>
+															<div className='job-qualification-portion'>
+																<h3>
+																	--- Job Requirements ---
+																</h3>
+																<p>{post.Job_Requirements}</p>
+															</div>
+															<div className='job-qualification-portion'>
+																<h3>--- Job Description ---</h3>
+																<p>{post.Job_Description}</p>
+															</div>
+															<div className='job-qualification-portion'>
+																<h3>--- Employer's Name ---</h3>
+																<p>{post.Employer_Name}</p>
+															</div>
+															{/* <div className='job-qualification-portion'>
 															<h3>--- Contact Number ---</h3>
 															<p>
 																{companyData[0].Contact_Number}
@@ -346,25 +606,26 @@ const JobPosts = ({
 																}
 															</p>
 														</div> */}
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-									) : (
-										<p
-											style={{
-												textAlign: "center",
-												padding: "10px",
-												backgroundColor: "red",
-												fontWeight: "500",
-												fontSize: "14px",
-											}}>
-											No Job Post Selected!
-										</p>
-									)}
+										) : (
+											<p
+												style={{
+													textAlign: "center",
+													padding: "10px",
+													backgroundColor: "red",
+													fontWeight: "500",
+													fontSize: "14px",
+												}}>
+												No Job Post Selected!
+											</p>
+										)}
+									</div>
 								</div>
 							</div>
-						</div>
+						)}
 					</div>
 				</div>
 			</div>

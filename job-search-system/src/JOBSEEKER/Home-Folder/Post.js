@@ -57,6 +57,11 @@ export class Post extends Component {
 			(numApplicant) => numApplicant.JobID === info.JobID
 		);
 
+		let address =
+			info.Company_Address.split(", ")[
+				info.Company_Address.split(", ").length - 1
+			];
+
 		return (
 			<>
 				<div className='post-container'>
@@ -98,7 +103,7 @@ export class Post extends Component {
 													: { filter: "brightness(0.3)" }
 											}
 										/>
-										<p>{info.Company_Address}</p>
+										<p>{address}</p>
 									</div>
 								</div>
 							</div>

@@ -70,7 +70,7 @@ const Companies = ({
 										List of Registered Companies (
 										{`${companiesData.length}`})
 									</h3>
-									<p title='More Options...'>•••</p>
+									{/* <p title='More Options...'>•••</p> */}
 								</div>
 								<div className='job-posts'>
 									{companiesData.map((company) => {
@@ -104,7 +104,7 @@ const Companies = ({
 														}}>
 														<img
 															src={`../assets/${company.Company_Image}`}
-															alt='Job Seeker'
+															alt='Company'
 														/>
 													</div>
 													<div className='basic-info'>

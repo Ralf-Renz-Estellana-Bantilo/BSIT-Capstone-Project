@@ -15,13 +15,13 @@ export class Filter extends Component {
 		await this.props.handleLocationChange(e);
 	};
 
-	componentDidMount = async () => {
+	componentDidMount = () => {
 		const { applicants } = this.props;
 		const userSession = sessionStorage.getItem("UserID");
 
 		for (let index = 0; index < applicants.length; index++) {
 			if (applicants[index].UserID === userSession) {
-				await this.setState({
+				this.setState({
 					preferredCategory: applicants[index].Preferred_Category,
 				});
 			}

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Modal from "../Home-Folder/Modal";
 import "./Accordion.css";
 
-const Accordion3 = () => {
+const Accordion3 = ({ deleteCompanyPosts }) => {
 	const [isActive, setIsActive] = useState(false);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -71,6 +71,8 @@ const Accordion3 = () => {
 		console.log("userSession", userSession);
 		console.log("companySession", companySession);
 
+		await deletePosts();
+
 		// Delete User Account Data
 		await axios
 			.delete(`http://localhost:2000/api/delete-user-account/${userSession}`)
@@ -87,7 +89,9 @@ const Accordion3 = () => {
 
 		// Delete Job Posts Data
 		await axios
-			.delete(`http://localhost:2000/api/delete-jobPost/${companySession}`)
+			.delete(
+				`http://localhost:2000/api/delete-company-jobPost/${companySession}`
+			)
 			.then(async (response) => {
 				console.log("Job Posts Data have been deleted");
 			});
@@ -118,6 +122,15 @@ const Accordion3 = () => {
 			.then(async (response) => {
 				console.log("Employer Feedback Data have been deleted");
 			});
+
+		localStorage.clear();
+		sessionStorage.clear();
+	};
+
+	const deletePosts = async () => {
+		const companySession = sessionStorage.getItem("CompanyID");
+
+		await deleteCompanyPosts(companySession);
 	};
 
 	const userTypeSession = sessionStorage.getItem("UserType");
@@ -192,6 +205,10 @@ const Accordion3 = () => {
 			)}
 		</div>
 	);
+};
+
+Accordion3.defaultProps = {
+	deleteCompanyPosts: function () {},
 };
 
 export default Accordion3;

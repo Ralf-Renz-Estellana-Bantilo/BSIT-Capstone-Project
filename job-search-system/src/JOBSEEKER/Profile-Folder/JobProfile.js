@@ -55,11 +55,11 @@ export class JobProfile extends Component {
 		await applicants.map(async (applicant) => {
 			if (applicant.UserID === userSession) {
 				await this.setState({
-					firstName: currentUser.First_Name,
-					middleName: currentUser.Middle_Name,
-					lastName: currentUser.Last_Name,
+					firstName: applicant.First_Name,
+					middleName: applicant.Middle_Name,
+					lastName: applicant.Last_Name,
 					address: applicant.Home_Address,
-					sex: currentUser.Sex,
+					sex: applicant.Sex,
 					bMonth: applicant.B_Month,
 					bDay: applicant.B_Day,
 					bYear: applicant.B_Year,
@@ -171,10 +171,6 @@ export class JobProfile extends Component {
 			1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
 			21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
 		],
-		year: [
-			1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001,
-			2002, 2003, 2004, 2005, 2006, 2007, 2008,
-		],
 	};
 
 	render() {
@@ -186,7 +182,13 @@ export class JobProfile extends Component {
 			);
 		});
 
-		let birthYear = this.props.year.map((year) => {
+		const currentYear = new Date().getFullYear();
+		let year = [];
+		for (let age = currentYear - 75; age < currentYear - 10; age++) {
+			year.push(age);
+		}
+
+		let birthYear = year.map((year) => {
 			return (
 				<option key={year} value={year}>
 					{year}
@@ -328,7 +330,10 @@ export class JobProfile extends Component {
 											onChange={(e) => {
 												this.handleChange(e, "bMonth");
 											}}>
-											<option disabled='disabled' hidden='hidden'>
+											<option
+												disabled='disabled'
+												hidden='hidden'
+												value=''>
 												Month
 											</option>
 											<option value={1}>January</option>
@@ -350,7 +355,10 @@ export class JobProfile extends Component {
 											onChange={(e) => {
 												this.handleChange(e, "bDay");
 											}}>
-											<option disabled='disabled' hidden='hidden'>
+											<option
+												disabled='disabled'
+												hidden='hidden'
+												value=''>
 												Day
 											</option>
 											{birthDay}
@@ -361,7 +369,10 @@ export class JobProfile extends Component {
 											onChange={(e) => {
 												this.handleChange(e, "bYear");
 											}}>
-											<option disabled='disabled' hidden='hidden'>
+											<option
+												disabled='disabled'
+												hidden='hidden'
+												value=''>
 												Year
 											</option>
 											{birthYear}
@@ -422,7 +433,7 @@ export class JobProfile extends Component {
 									<select
 										name='civilStatus'
 										placeholder='Enter Civil Status'
-										defaultValue={civilStatus}
+										value={civilStatus}
 										onChange={(event) => {
 											this.handleChange(event, "civilStatus");
 										}}>

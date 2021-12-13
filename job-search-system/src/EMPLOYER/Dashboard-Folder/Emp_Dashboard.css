@@ -234,3 +234,9 @@
 .register-field select {
 	margin: 2px 1px;
 }
+
+@media only screen and (min-width: 500px) {
+	.register-form {
+		width: 420px;
+	}
+}

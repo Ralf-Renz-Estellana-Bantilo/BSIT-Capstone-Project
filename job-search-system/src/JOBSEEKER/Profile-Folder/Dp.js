@@ -113,9 +113,32 @@ export class Dp extends Component {
 	};
 
 	render() {
+		const sessionApplicant = sessionStorage.getItem("ApplicantID");
 		const { First_Name, Middle_Name, Last_Name, User_Image } =
 			this.props.currentUser;
-		const { hiringStatus } = this.props;
+		const { hiringStatus, applicants } = this.props;
+		let isHirable = false;
+
+		let currentApplicant = applicants.filter(
+			(applicant) => applicant.ApplicantID === sessionApplicant
+		);
+
+		console.log(currentApplicant);
+
+		if (currentApplicant) {
+			try {
+				if (
+					currentApplicant[0].Preferred_Job !== null &&
+					currentApplicant[0].Preferred_Category !== null &&
+					currentApplicant[0].Good_At !== null &&
+					currentApplicant[0].Interested_In !== null
+				) {
+					isHirable = true;
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		}
 
 		return (
 			<div className='profile-container'>
@@ -212,21 +235,25 @@ export class Dp extends Component {
 				)}
 				<h2>{`${First_Name} ${Middle_Name} ${Last_Name}`}</h2>
 
-				<div className='active-status-container'>
-					<h3>Available to hire</h3>
+				{isHirable && (
+					<div className='active-status-container'>
+						<h3>Available to hire</h3>
 
-					<label className='switch'>
-						<p className='switch-on'>on</p>
-						<p className='switch-off'>off</p>
-						<input
-							type='checkbox'
-							className='checkbox'
-							checked={`${hiringStatus}` === "Active" ? "checked" : ""}
-							onChange={this.handleToggleHire}
-						/>
-						<span className='slider'></span>
-					</label>
-				</div>
+						<label className='switch'>
+							<p className='switch-on'>on</p>
+							<p className='switch-off'>off</p>
+							<input
+								type='checkbox'
+								className='checkbox'
+								checked={
+									`${hiringStatus}` === "Active" ? "checked" : ""
+								}
+								onChange={this.handleToggleHire}
+							/>
+							<span className='slider'></span>
+						</label>
+					</div>
+				)}
 			</div>
 		);
 	}

@@ -186,7 +186,7 @@ app.put("/api/update-jobPost-content", updateJobPost);
 app.put("/api/update-jobPost-active-status", updateActiveStatus);
 app.put("/api/update-jobPost-business-profile", updateJobPostBusinessProfile);
 app.delete("/api/delete-jobPost/:id", deleteCompanyPost);
-app.delete("/api/delete-jobPost/:id", account_deleteJobPosts); // ----------
+app.delete("/api/delete-company-jobPost/:id", account_deleteJobPosts); // ----------
 
 // Job Applicants Database Table ----------
 app.post("/api/create-job-applicant", addJobApplicants);

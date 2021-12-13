@@ -7,6 +7,7 @@ import JobPosts from "./Job-Post-Folder/JobPosts";
 import Applicants from "./Applicant-Folder/Applicants";
 import Companies from "./Company-Folder/Companies";
 import Settings from "./Settings-Folder/Settings";
+import LoginAdmin from "./LoginAdmin";
 
 export default function App() {
 	const [jobPosts, setJobPosts] = useState([]);
@@ -93,9 +94,10 @@ export default function App() {
 		<>
 			<BrowserRouter>
 				<Routes>
+					<Route exact path='/' element={<LoginAdmin />} />
 					<Route
 						exact
-						path='/'
+						path='/admin/dashboard'
 						element={
 							<Dashboard
 								activePage={activePage}

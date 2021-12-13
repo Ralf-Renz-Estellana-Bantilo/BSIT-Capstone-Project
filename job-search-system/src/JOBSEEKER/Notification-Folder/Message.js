@@ -18,12 +18,16 @@ export class Message extends Component {
 
 	componentWillUnmount() {
 		const { feedback } = this.props;
-		this.props.updateNotificationStatus(feedback.FeedbackID);
+		if (feedback.Status === "New") {
+			this.props.updateNotificationStatus(feedback.FeedbackID);
+		}
 	}
 
 	render() {
 		const { feedback, currentUser, darkTheme } = this.props;
 		const status = feedback.Application_Status;
+
+		console.log(feedback);
 
 		const month = [
 			"January",

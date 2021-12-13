@@ -39,8 +39,14 @@ export class Emp_Dashboard extends Component {
 		});
 	};
 
+	closeModal = () => {
+		this.setState({
+			isModalOpen: false,
+		});
+	};
+
 	handleCreateCompanyData = async (e) => {
-		// e.preventDefault();
+		e.preventDefault();
 
 		const { currentUser, company } = this.props;
 		const companySession = sessionStorage.getItem("CompanyID");
@@ -60,6 +66,22 @@ export class Emp_Dashboard extends Component {
 		const data = new FormData();
 		data.append("image", fileData);
 
+		const companyData = {
+			Company_Name: comp_stablismentName,
+			Employer_Name: employerName,
+			Street: comp_street,
+			Zone: comp_zone,
+			Barangay: comp_barangay,
+			Contact_Number: comp_contactNumber,
+			Company_Description: comp_description,
+			Company_Image: fileData.name,
+			UserID: company.UserID,
+			CompanyID: company.CompanyID,
+		};
+
+		await this.closeModal();
+		await this.props.setCompany(companyData);
+
 		await fetch("http://localhost:2000/api/upload-image", {
 			method: "POST",
 			body: data,
@@ -74,9 +96,9 @@ export class Emp_Dashboard extends Component {
 			.catch((error) => {
 				console.log("Multer Error!", error);
 
-				// this.setState({
-				// 	isModalOpen: false,
-				// });
+				this.setState({
+					isModalOpen: false,
+				});
 			});
 
 		await axios
@@ -95,14 +117,10 @@ export class Emp_Dashboard extends Component {
 			.then((response) => {
 				console.log(response);
 
-				// this.setState({
-				// 	isModalOpen: false,
-				// });
+				this.setState({
+					isModalOpen: false,
+				});
 			});
-
-		this.setState({
-			isModalOpen: false,
-		});
 	};
 
 	redirectTo = (path) => {
@@ -228,16 +246,21 @@ export class Emp_Dashboard extends Component {
 
 		return (
 			<div className='dashboard-container'>
-				{this.state.isModalOpen === true && (
+				{/* {this.state.isModalOpen === true ? ( */}
+				{company.companyName === "" ||
+				company.Company_Name === "" ||
+				company.companyName === null ||
+				company.Company_Name === null ? (
 					<div className='employer-register-company-container'>
 						<div className='employer-register-overlay' />
 						<form
 							className='register-form'
 							onSubmit={(e) => this.handleCreateCompanyData(e)}>
-							<h3>Business Registration</h3>
+							<h3 onClick={this.closeModal}>Business Registration</h3>
 							<div className='register-field'>
 								<label>Business Stablishment Name:</label>
 								<input
+									autoFocus
 									type='text'
 									placeholder='Set Stablishment Name'
 									onChange={(e) =>
@@ -305,6 +328,8 @@ export class Emp_Dashboard extends Component {
 							</button>
 						</form>
 					</div>
+				) : (
+					""
 				)}
 
 				<Emp_Gap />

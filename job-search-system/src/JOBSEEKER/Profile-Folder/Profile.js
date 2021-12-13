@@ -94,6 +94,7 @@ export class Profile extends Component {
 					handleToggleHire={this.handleToggleHire}
 					hiringStatus={hiringStatus}
 					setTheme={this.props.setTheme}
+					applicants={this.props.applicants}
 					changeCurrentUserProfile={this.props.changeCurrentUserProfile}
 				/>
 				<JobProfile
