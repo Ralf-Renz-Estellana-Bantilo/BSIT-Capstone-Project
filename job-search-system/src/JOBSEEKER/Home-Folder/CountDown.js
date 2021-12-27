@@ -24,7 +24,24 @@ export class CountDown extends Component {
 	}
 
 	render() {
-		return <div></div>;
+		const sessionUser = localStorage.getItem("UserID");
+		return (
+			<div>
+				{sessionUser !== null || sessionUser !== "" ? (
+					<div>
+						{this.state.count === 3
+							? "Initializing Components."
+							: this.state.count === 2
+							? "Initializing Components.."
+							: this.state.count === 1
+							? "Initializing Components..."
+							: "Initializing Components"}
+					</div>
+				) : (
+					<div></div>
+				)}
+			</div>
+		);
 	}
 }
 

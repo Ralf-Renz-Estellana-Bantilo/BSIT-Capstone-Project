@@ -20,9 +20,9 @@ export class ApplicationForm extends Component {
 		role: "",
 		homeAddress: "",
 		sex: "",
-		bMonth: "",
-		bDay: "",
-		bYear: "",
+		bMonth: 0,
+		bDay: 0,
+		bYear: 0,
 		contactNumber: "",
 		email: "",
 		civilStatus: "",
@@ -114,6 +114,9 @@ export class ApplicationForm extends Component {
 			fileData: fileData,
 		};
 
+		await this.props.addJobApplicants(applicantData);
+		await this.props.handleApplication(this.props.targetCompany);
+
 		try {
 			if (this.state.fileData !== null) {
 				const data = new FormData();
@@ -129,9 +132,6 @@ export class ApplicationForm extends Component {
 						console.log("Multer Error!", error);
 					});
 			}
-
-			await this.props.addJobApplicants(applicantData);
-			await this.props.handleApplication(this.props.targetCompany);
 		} catch (error) {
 			console.log("Application Form:", error);
 		}
@@ -194,8 +194,8 @@ export class ApplicationForm extends Component {
 			});
 	};
 
-	handleChange = (event, fieldName) => {
-		this.setState({
+	handleChange = async (event, fieldName) => {
+		await this.setState({
 			[fieldName]: event.target.value,
 			isValid: true,
 		});
@@ -253,7 +253,7 @@ export class ApplicationForm extends Component {
 				})
 				.then(async (response) => {
 					if (response.data.length === 1) {
-						this.setState({
+						await this.setState({
 							firstName: response.data[0].First_Name,
 							middleName: response.data[0].Middle_Name,
 							lastName: response.data[0].Last_Name,
@@ -317,15 +317,7 @@ export class ApplicationForm extends Component {
 			);
 		});
 
-		let birthYear = this.props.year.map((year) => {
-			return (
-				<option key={year} value={year}>
-					{year}
-				</option>
-			);
-		});
-
-		const { activePage, darkTheme } = this.props;
+		const { activePage, darkTheme, employerFeedback } = this.props;
 		const {
 			lastName,
 			firstName,
@@ -344,6 +336,25 @@ export class ApplicationForm extends Component {
 			seeMore,
 			height,
 		} = this.state;
+
+		let applicationStatus = "";
+		// feedback checking
+		for (let a = 0; a < employerFeedback.length; a++) {
+			if (
+				employerFeedback[a].JobID === post.JobID &&
+				employerFeedback[a].Status === "Seen"
+			) {
+				applicationStatus = employerFeedback[a].Application_Status;
+			}
+		}
+
+		if (applicationStatus === "" && post.Active_Status === "Active") {
+			applicationStatus = "Pending...";
+		}
+
+		if (applicationStatus === "" && post.Active_Status === "Closed") {
+			applicationStatus = "Closed";
+		}
 
 		return (
 			<div className='application-form-container'>
@@ -477,59 +488,75 @@ export class ApplicationForm extends Component {
 						</button>
 					</div>
 				</div>
-
 				<div className='application-form'>
 					<h2>Application Form</h2>
-					<div className='app-form'>
+					<form
+						className='app-form'
+						onSubmit={(e) => {
+							e.preventDefault();
+							this.viewModal();
+						}}>
 						<div className='fields'>
-							<div className='field'>
-								<label>First Name: </label>
-								<input
-									name='firstName'
-									type='text'
-									placeholder='First Name'
-									value={firstName}
-									onChange={(e) => {
-										this.handleChange(e, "firstName");
-									}}
-									disabled={`${activePage}` === "profile" && "disable"}
-								/>
+							<div className='group-field'>
+								<div className='field'>
+									<label>First Name: </label>
+									<input
+										name='firstName'
+										type='text'
+										placeholder='First Name'
+										value={firstName}
+										onChange={(e) => {
+											this.handleChange(e, "firstName");
+										}}
+										disabled={
+											`${activePage}` === "profile" && "disable"
+										}
+									/>
+								</div>
+								<div className='field'>
+									<label>Middle Name: </label>
+									<input
+										type='text'
+										placeholder='Middle Name'
+										value={middleName}
+										onChange={(e) => {
+											this.handleChange(e, "middleName");
+										}}
+										disabled={
+											`${activePage}` === "profile" && "disable"
+										}
+									/>
+								</div>
 							</div>
-							<div className='field'>
-								<label>Middle Name: </label>
-								<input
-									type='text'
-									placeholder='Middle Name'
-									value={middleName}
-									onChange={(e) => {
-										this.handleChange(e, "middleName");
-									}}
-									disabled={`${activePage}` === "profile" && "disable"}
-								/>
-							</div>
-							<div className='field'>
-								<label>Last Name: </label>
-								<input
-									type='text'
-									placeholder='Last Name'
-									value={lastName}
-									onChange={(e) => {
-										this.handleChange(e, "lastName");
-									}}
-									disabled={`${activePage}` === "profile" && "disable"}
-								/>
-							</div>
-							<div className='field'>
-								<label>Home Address: </label>
-								<input
-									type='text'
-									placeholder='Home Address'
-									value={homeAddress}
-									onChange={(e) => {
-										this.handleChange(e, "homeAddress");
-									}}
-									disabled={`${activePage}` === "profile" && "disable"}
-								/>
+							<div className='group-field'>
+								<div className='field'>
+									<label>Last Name: </label>
+									<input
+										type='text'
+										placeholder='Last Name'
+										value={lastName}
+										onChange={(e) => {
+											this.handleChange(e, "lastName");
+										}}
+										disabled={
+											`${activePage}` === "profile" && "disable"
+										}
+									/>
+								</div>
+								<div className='field'>
+									<label>Home Address: </label>
+									<input
+										type='text'
+										placeholder='Home Address'
+										value={homeAddress}
+										onChange={(e) => {
+											this.handleChange(e, "homeAddress");
+										}}
+										disabled={
+											`${activePage}` === "profile" && "disable"
+										}
+									/>
+								</div>
 							</div>
 							<div className='status-group'>
 								<div className='field'>
@@ -609,7 +636,7 @@ export class ApplicationForm extends Component {
 										{birthDay}
 									</select>
 
-									<select
+									{/* <select
 										value={bYear}
 										onChange={(e) => {
 											this.handleChange(e, "bYear");
@@ -621,32 +648,50 @@ export class ApplicationForm extends Component {
 											Year
 										</option>
 										{birthYear}
-									</select>
+									</select> */}
+									<input
+										type='number'
+										placeholder='Year'
+										style={{ width: "80px" }}
+										value={bYear}
+										disabled={
+											`${activePage}` === "profile" && "disable"
+										}
+										onChange={(e) => {
+											this.handleChange(e, "bYear");
+										}}
+									/>
 								</div>
 							</div>
-							<div className='field'>
-								<label>Contact Number: </label>
-								<input
-									type='text'
-									placeholder='Contact Number'
-									value={contactNumber}
-									onChange={(e) => {
-										this.handleChange(e, "contactNumber");
-									}}
-									disabled={`${activePage}` === "profile" && "disable"}
-								/>
-							</div>
-							<div className='field'>
-								<label>Email Address: </label>
-								<input
-									type='email'
-									placeholder='Email Address'
-									value={email}
-									onChange={(e) => {
-										this.handleChange(e, "email");
-									}}
-									disabled={`${activePage}` === "profile" && "disable"}
-								/>
+							<div className='group-field'>
+								<div className='field'>
+									<label>Contact Number: </label>
+									<input
+										type='text'
+										placeholder='Contact Number'
+										value={contactNumber}
+										onChange={(e) => {
+											this.handleChange(e, "contactNumber");
+										}}
+										disabled={
+											`${activePage}` === "profile" && "disable"
+										}
+									/>
+								</div>
+								<div className='field'>
+									<label>Email Address: </label>
+									<input
+										type='email'
+										placeholder='Email Address'
+										value={email}
+										onChange={(e) => {
+											this.handleChange(e, "email");
+										}}
+										disabled={
+											`${activePage}` === "profile" && "disable"
+										}
+									/>
+								</div>
 							</div>
 							<div className='field'>
 								<label>Educational Attainment: </label>
@@ -707,7 +752,10 @@ export class ApplicationForm extends Component {
 						)}
 
 						<button
-							onClick={this.viewModal}
+							onClick={(e) => {
+								e.preventDefault();
+								this.viewModal();
+							}}
 							disabled={`${activePage}` === "profile" && "disable"}
 							style={
 								`${activePage}` === "profile"
@@ -732,8 +780,60 @@ export class ApplicationForm extends Component {
 						) : (
 							""
 						)}
-					</div>
+					</form>
 				</div>
+
+				{`${activePage}` === "profile" && (
+					<div
+						className='application-status-container'
+						style={
+							applicationStatus === "Hired"
+								? {
+										padding: "10px",
+										borderRadius: "5px",
+										background:
+											"linear-gradient(20deg, #00f33d, #88ff00)",
+								  }
+								: applicationStatus === "Declined"
+								? {
+										padding: "10px",
+										borderRadius: "5px",
+										background:
+											"linear-gradient(20deg, #ff004c, #ff7b00)",
+								  }
+								: applicationStatus === "Meet"
+								? {
+										padding: "10px",
+										borderRadius: "5px",
+										background:
+											"linear-gradient(20deg, #00b2ff, #006aff)",
+								  }
+								: {}
+						}>
+						<p
+							style={
+								applicationStatus === "Hired"
+									? {
+											color: "#1f1f1f",
+									  }
+									: {}
+							}>
+							Application Status:
+						</p>
+						<h3
+							style={
+								applicationStatus === "Hired"
+									? {
+											color: "#121212",
+									  }
+									: {}
+							}>
+							{applicationStatus === "Meet"
+								? "Scheduled for an interview"
+								: applicationStatus}
+						</h3>
+					</div>
+				)}
 			</div>
 		);
 	}

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import CountDown from "../JOBSEEKER/Home-Folder/CountDown";
+import CountDownSignUp from "../JOBSEEKER/Home-Folder/CountDownSignUp";
 
 export class AuthIndication extends Component {
 	toggleSignUp = () => {
@@ -19,7 +19,7 @@ export class AuthIndication extends Component {
 						now!
 					</p>
 					{
-						<CountDown
+						<CountDownSignUp
 							method={this.props.method}
 							delay={this.props.delay}
 						/>

@@ -20,6 +20,11 @@ export class Emp_Applicants_Summary extends Component {
 		await this.props.toggleSummaryPanel();
 	};
 
+	componentWillUnmount() {
+		const scroll = localStorage.getItem("empApplicantScroll");
+		window.scrollTo(0, scroll);
+	}
+
 	render() {
 		const { jobTitle, requiredEmp, applied, activeStatus } = this.props;
 		const { activeButton, candidates } = this.state;

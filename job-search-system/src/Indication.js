@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import CountDown from "./JOBSEEKER/Home-Folder/CountDown";
+import CountDownSignUp from "./JOBSEEKER/Home-Folder/CountDownSignUp";
 
 export class Indication extends Component {
 	render() {
@@ -27,7 +27,7 @@ export class Indication extends Component {
 					<div>
 						{this.props.text}
 						{
-							<CountDown
+							<CountDownSignUp
 								method={this.props.method}
 								delay={this.props.delay}
 							/>

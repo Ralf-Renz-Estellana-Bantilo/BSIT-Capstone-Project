@@ -12,10 +12,11 @@ a {
 	margin-bottom: 10px;
 	border-bottom: 1px solid var(--border2);
 	cursor: pointer;
+	transition: 0.1s;
 }
 
 .job:active {
-	transform: scale(0.98);
+	transform: scale(0.99);
 }
 
 /* .job:hover {

@@ -90,6 +90,10 @@ export default function App() {
 		// };
 	}, []);
 
+	const addPost = (post) => {
+		setJobPosts((posts) => [...posts, post]);
+	};
+
 	return (
 		<>
 			<BrowserRouter>
@@ -132,6 +136,7 @@ export default function App() {
 								setJobApplicants={setJobApplicants}
 								setJobSeekers={setJobSeekers}
 								setPostPreview={setPostPreview}
+								addPost={addPost}
 							/>
 						}
 					/>

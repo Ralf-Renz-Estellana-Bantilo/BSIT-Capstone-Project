@@ -798,6 +798,202 @@ class Resources {
 				],
 			},
 		];
+
+		this.lastDayOfTheMonth = [
+			{
+				lastDay: 30,
+				month: 11,
+				year: 2021,
+			},
+			{
+				lastDay: 31,
+				month: 12,
+				year: 2021,
+			},
+			// 2022 -----
+			{
+				lastDay: 31,
+				month: 1,
+				year: 2022,
+			},
+			{
+				lastDay: 28,
+				month: 2,
+				year: 2022,
+			},
+			{
+				lastDay: 31,
+				month: 3,
+				year: 2022,
+			},
+			{
+				lastDay: 30,
+				month: 4,
+				year: 2022,
+			},
+			{
+				lastDay: 31,
+				month: 5,
+				year: 2022,
+			},
+			{
+				lastDay: 30,
+				month: 6,
+				year: 2022,
+			},
+			{
+				lastDay: 31,
+				month: 7,
+				year: 2022,
+			},
+			{
+				lastDay: 31,
+				month: 8,
+				year: 2022,
+			},
+			{
+				lastDay: 30,
+				month: 9,
+				year: 2022,
+			},
+			{
+				lastDay: 31,
+				month: 10,
+				year: 2022,
+			},
+			{
+				lastDay: 30,
+				month: 11,
+				year: 2022,
+			},
+			{
+				lastDay: 31,
+				month: 12,
+				year: 2022,
+			},
+			// 2023 -----
+			{
+				lastDay: 31,
+				month: 1,
+				year: 2023,
+			},
+			{
+				lastDay: 28,
+				month: 2,
+				year: 2023,
+			},
+			{
+				lastDay: 31,
+				month: 3,
+				year: 2023,
+			},
+			{
+				lastDay: 30,
+				month: 4,
+				year: 2023,
+			},
+			{
+				lastDay: 31,
+				month: 5,
+				year: 2023,
+			},
+			{
+				lastDay: 30,
+				month: 6,
+				year: 2023,
+			},
+			{
+				lastDay: 31,
+				month: 7,
+				year: 2023,
+			},
+			{
+				lastDay: 31,
+				month: 8,
+				year: 2023,
+			},
+			{
+				lastDay: 30,
+				month: 9,
+				year: 2023,
+			},
+			{
+				lastDay: 31,
+				month: 10,
+				year: 2023,
+			},
+			{
+				lastDay: 30,
+				month: 11,
+				year: 2023,
+			},
+			{
+				lastDay: 31,
+				month: 12,
+				year: 2023,
+			},
+			// 2024 -----
+			{
+				lastDay: 31,
+				month: 1,
+				year: 2024,
+			},
+			{
+				lastDay: 29,
+				month: 2,
+				year: 2024,
+			},
+			{
+				lastDay: 31,
+				month: 3,
+				year: 2024,
+			},
+			{
+				lastDay: 30,
+				month: 4,
+				year: 2024,
+			},
+			{
+				lastDay: 31,
+				month: 5,
+				year: 2024,
+			},
+			{
+				lastDay: 30,
+				month: 6,
+				year: 2024,
+			},
+			{
+				lastDay: 31,
+				month: 7,
+				year: 2024,
+			},
+			{
+				lastDay: 31,
+				month: 8,
+				year: 2024,
+			},
+			{
+				lastDay: 30,
+				month: 9,
+				year: 2024,
+			},
+			{
+				lastDay: 31,
+				month: 10,
+				year: 2024,
+			},
+			{
+				lastDay: 30,
+				month: 11,
+				year: 2024,
+			},
+			{
+				lastDay: 31,
+				month: 12,
+				year: 2024,
+			},
+		];
 	}
 
 	getCategories = () => {
@@ -835,6 +1031,44 @@ class Resources {
 
 		const currentAge = `${age} yrs old`;
 		return currentAge;
+	};
+
+	getLastDayOfTheMonth = () => {
+		return this.lastDayOfTheMonth;
+	};
+
+	formatName = (name) => {
+		let holdOutput = "";
+		let nameLength = name.length;
+		let isSpace = false;
+		let holdIndex = 0;
+		let b;
+
+		for (let a = 0; a < nameLength; a++) {
+			if (a === 0) {
+				b = name[a].toUpperCase();
+				holdOutput += b;
+			} else if (a !== nameLength) {
+				b = name[a];
+				if (b === " ") {
+					isSpace = true;
+					holdIndex = a + 1;
+					holdOutput += b;
+				}
+				if (isSpace === true) {
+					if (a === holdIndex) {
+						b = name[a].toUpperCase();
+						holdOutput += b;
+						isSpace = false;
+					}
+				} else {
+					b = name[a].toLowerCase();
+					holdOutput += b;
+				}
+			}
+		}
+
+		return holdOutput;
 	};
 }
 

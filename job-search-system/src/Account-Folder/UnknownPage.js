@@ -7,9 +7,13 @@ export class UnknownPage extends Component {
 		return (
 			<div>
 				<h2>Page not Found</h2>
-				{isLogin ? <Link to={`/`}>Back</Link> : <Link to='/'>Back</Link>}
+				{isLogin ? (
+					<Link to={`/`}>Back</Link>
+				) : (
+					<Link to='/'>Home Page</Link>
+				)}
 
-				<p>{isLogin}</p>
+				<p>Login State: {isLogin}</p>
 			</div>
 		);
 	}

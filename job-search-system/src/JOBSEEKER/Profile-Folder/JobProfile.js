@@ -16,9 +16,9 @@ export class JobProfile extends Component {
 			lastName: "",
 			address: "",
 			sex: "",
-			bMonth: 0,
-			bDay: 0,
-			bYear: 0,
+			bMonth: "",
+			bDay: "",
+			bYear: "",
 			contactNumber: "",
 			email: "",
 			civilStatus: "",
@@ -123,9 +123,9 @@ export class JobProfile extends Component {
 		} else {
 			await axios
 				.put("http://localhost:2000/api/update-appplicant-data", {
-					firstName: firstName,
-					middleName: middleName,
-					lastName: lastName,
+					firstName: Resources.formatName(firstName),
+					middleName: Resources.formatName(middleName),
+					lastName: Resources.formatName(lastName),
 					email: email,
 					bMonth: parseInt(bMonth),
 					bDay: parseInt(bDay),
@@ -147,7 +147,39 @@ export class JobProfile extends Component {
 					console.log("Job Profile has been Updated");
 					this.handleToggleEditProfile();
 					this.toggleIndication();
+
+					const user = {
+						First_Name: firstName,
+						Middle_Name: middleName,
+						Last_Name: lastName,
+						Home_Address: address,
+						Sex: sex,
+						B_Month: parseInt(bMonth),
+						B_Day: parseInt(bDay),
+						B_Year: parseInt(bYear),
+						Contact_Number: contactNumber,
+						Email_Address: email,
+						Civil_Status: civilStatus,
+						Educ_Attainment: educationalAttainment,
+						Preferred_Job: preferredJob,
+						Preferred_Category: preferredCategory,
+						Preferred_Salary: preferredSalary,
+						Interested_In: interest,
+						Good_At: goodAt,
+						Credentials: credentials,
+						UserID: sessionStorage.getItem("UserID"),
+						ApplicantID: sessionStorage.getItem("ApplicantID"),
+					};
+
+					this.props.updateApplicantData(user);
+					console.log(user);
 				});
+
+			this.setState({
+				firstName: Resources.formatName(firstName),
+				middleName: Resources.formatName(middleName),
+				lastName: Resources.formatName(lastName),
+			});
 		}
 	};
 
@@ -182,20 +214,6 @@ export class JobProfile extends Component {
 			);
 		});
 
-		const currentYear = new Date().getFullYear();
-		let year = [];
-		for (let age = currentYear - 75; age < currentYear - 10; age++) {
-			year.push(age);
-		}
-
-		let birthYear = year.map((year) => {
-			return (
-				<option key={year} value={year}>
-					{year}
-				</option>
-			);
-		});
-
 		const getCategories = Resources.getCategories();
 		let categoryResources = getCategories.map((category) => {
 			return (
@@ -210,7 +228,6 @@ export class JobProfile extends Component {
 			firstName,
 			middleName,
 			lastName,
-			role,
 			address,
 			sex,
 			bMonth,
@@ -326,9 +343,10 @@ export class JobProfile extends Component {
 									<label>Date of Birth: </label>
 									<div className='basic-info-birthdate'>
 										<select
+											name='bMonth'
 											value={bMonth}
-											onChange={(e) => {
-												this.handleChange(e, "bMonth");
+											onChange={(event) => {
+												this.handleChange(event, "bMonth");
 											}}>
 											<option
 												disabled='disabled'
@@ -351,9 +369,10 @@ export class JobProfile extends Component {
 										</select>
 
 										<select
+											name='bDay'
 											value={bDay}
-											onChange={(e) => {
-												this.handleChange(e, "bDay");
+											onChange={(event) => {
+												this.handleChange(event, "bDay");
 											}}>
 											<option
 												disabled='disabled'
@@ -363,20 +382,15 @@ export class JobProfile extends Component {
 											</option>
 											{birthDay}
 										</select>
-
-										<select
+										<input
+											type='number'
+											placeholder='Year'
+											style={{ width: "80px" }}
 											value={bYear}
 											onChange={(e) => {
-												this.handleChange(e, "bYear");
-											}}>
-											<option
-												disabled='disabled'
-												hidden='hidden'
-												value=''>
-												Year
-											</option>
-											{birthYear}
-										</select>
+												this.setState({ bYear: e.target.value });
+											}}
+										/>
 									</div>
 								</div>
 

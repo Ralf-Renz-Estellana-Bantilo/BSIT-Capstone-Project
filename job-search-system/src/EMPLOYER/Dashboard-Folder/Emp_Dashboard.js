@@ -158,7 +158,7 @@ export class Emp_Dashboard extends Component {
 			.then(async (response) => {
 				if (response) {
 					await this.setState({
-						activeJobPost: response.data.length,
+						activeJobPost: response.data,
 					});
 				} else {
 					console.log("Error fetching information...");
@@ -220,7 +220,7 @@ export class Emp_Dashboard extends Component {
 
 	render() {
 		const { currentUser, jobApplicants, applicants, company } = this.props;
-		const { jobApplicantLength } = this.state;
+		const { jobApplicantLength, activeJobPost } = this.state;
 		const barangays = Resources.getBarangay();
 
 		let barangayResources = barangays.map((barangay) => {
@@ -242,6 +242,13 @@ export class Emp_Dashboard extends Component {
 			userType = "jobseeker";
 		} else {
 			userType = "employer";
+		}
+
+		let activeJobPosts = 0;
+		for (let a = 0; a < activeJobPost.length; a++) {
+			if (activeJobPost[a].Active_Status === "Active") {
+				activeJobPosts += 1;
+			}
 		}
 
 		return (
@@ -373,56 +380,63 @@ export class Emp_Dashboard extends Component {
 
 				<div className='dashboard-update-container'>
 					<h3>Daily Updates</h3>
-					<div className='dashboard-update-card'>
-						<div className='dashboard-update-card-content'>
-							<h5>Available Applicants</h5>
-							<h1>{numAvailableApplicants}</h1>
-							<p>
-								as of{" "}
-								{`${
-									this.state.month
-								} ${new Date().getDate()}, ${new Date().getFullYear()}`}
-							</p>
+					<div className='dashboard-update-card-container'>
+						<div className='dashboard-update-card'>
+							<div className='dashboard-update-card-content'>
+								<h5>Available Applicants</h5>
+								<h1>{numAvailableApplicants}</h1>
+								<p>
+									as of{" "}
+									{`${
+										this.state.month
+									} ${new Date().getDate()}, ${new Date().getFullYear()}`}
+								</p>
+							</div>
+							<div
+								className='dashboard-update-card-link'
+								onClick={() => this.redirectTo(`/${userType}/search`)}>
+								<h3>View</h3>
+							</div>
 						</div>
-						<div
-							className='dashboard-update-card-link'
-							onClick={() => this.redirectTo(`/${userType}/search`)}>
-							<h3>View</h3>
+						<div className='dashboard-update-card'>
+							<div className='dashboard-update-card-content'>
+								<h5>Job Applicants</h5>
+								<h1>{jobApplicantLength}</h1>
+								<p>
+									as of{" "}
+									{`${
+										this.state.month
+									} ${new Date().getDate()}, ${new Date().getFullYear()}`}
+								</p>
+							</div>
+							<div
+								className='dashboard-update-card-link'
+								onClick={() =>
+									this.redirectTo(`/${userType}/applicants`)
+								}>
+								<h3>View</h3>
+							</div>
 						</div>
-					</div>
-
-					<div className='dashboard-update-card'>
-						<div className='dashboard-update-card-content'>
-							<h5>Job Applicants</h5>
-							<h1>{jobApplicantLength}</h1>
-							<p>
-								as of{" "}
-								{`${
-									this.state.month
-								} ${new Date().getDate()}, ${new Date().getFullYear()}`}
-							</p>
-						</div>
-						<div
-							className='dashboard-update-card-link'
-							onClick={() => this.redirectTo(`/${userType}/applicants`)}>
-							<h3>View</h3>
-						</div>
-					</div>
-					<div className='dashboard-update-card'>
-						<div className='dashboard-update-card-content'>
-							<h5>Total Active Job Post/s</h5>
-							<h1>{this.state.activeJobPost}</h1>
-							<p>
-								as of{" "}
-								{`${
-									this.state.month
-								} ${new Date().getDate()}, ${new Date().getFullYear()}`}
-							</p>
-						</div>
-						<div
-							className='dashboard-update-card-link'
-							onClick={() => this.redirectTo(`/${userType}/jobs`)}>
-							<h3>View</h3>
+						<div className='dashboard-update-card'>
+							<div className='dashboard-update-card-content'>
+								<h5>
+									{activeJobPosts <= 1
+										? "Total Active Job Post"
+										: "Total Active Job Posts"}
+								</h5>
+								<h1>{activeJobPosts}</h1>
+								<p>
+									as of{" "}
+									{`${
+										this.state.month
+									} ${new Date().getDate()}, ${new Date().getFullYear()}`}
+								</p>
+							</div>
+							<div
+								className='dashboard-update-card-link'
+								onClick={() => this.redirectTo(`/${userType}/jobs`)}>
+								<h3>View</h3>
+							</div>
 						</div>
 					</div>
 				</div>

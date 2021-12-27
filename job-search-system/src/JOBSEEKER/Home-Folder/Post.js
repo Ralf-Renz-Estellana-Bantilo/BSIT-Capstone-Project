@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./Post.css";
-import DeleteIcon from "../../Images/DeleteIcon.png";
+import DeleteIcon from "../../Images/HideIcon.png";
 import LocationIcon from "../../Images/LocationIcon.png";
 import PostContent from "./PostContent";
 import { Link } from "react-router-dom";
@@ -84,7 +84,7 @@ export class Post extends Component {
 								<h2>{info.Company_Name}</h2>
 
 								<div className='date-address'>
-									<p>
+									<p title={`${info.Month}/${info.Day}/${info.Year}`}>
 										{TimeStamp.setTimeStamp(
 											info.Minutes,
 											info.Hour,
@@ -103,7 +103,7 @@ export class Post extends Component {
 													: { filter: "brightness(0.3)" }
 											}
 										/>
-										<p>{address}</p>
+										<p title={`${info.Company_Address}`}>{address}</p>
 									</div>
 								</div>
 							</div>
@@ -113,20 +113,20 @@ export class Post extends Component {
 								<img
 									src={DeleteIcon}
 									alt='Delete'
-									title={`Close this post from ${info.Company_Name}`}
+									title={`Hide this post from ${info.Company_Name}`}
 									onClick={this.viewModal}
 									style={
 										darkTheme
-											? { filter: "brightness(1)" }
-											: { filter: "brightness(0.3)" }
+											? { filter: "brightness(0.7)", height: "18px" }
+											: { filter: "brightness(0.3)", height: "18px" }
 									}
 								/>
 							)}
 
 							{this.state.isModalOpen ? (
 								<Modal
-									headText='Remove Post Confirmation'
-									modalText={`Are you sure you want to remove this post from ${info.Company_Name}?`}
+									headText='Hide Post Confirmation'
+									modalText={`Are you sure you want to hide this post from ${info.Company_Name}?`}
 									confirmText='Yes'
 									closeText='No'
 									close={this.onCloseModal}

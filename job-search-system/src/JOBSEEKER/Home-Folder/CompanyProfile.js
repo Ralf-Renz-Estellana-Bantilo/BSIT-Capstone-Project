@@ -118,23 +118,6 @@ export class CompanyProfile extends Component {
 						</div>
 					</div>
 				</div>
-
-				{this.state.isApplied || this.state.status !== "Active" ? (
-					<div
-						style={{
-							fontSize: "12px",
-							textAlign: "center",
-							color: "red",
-						}}>
-						{this.state.isApplied
-							? "You have applied for this company"
-							: ""}
-					</div>
-				) : (
-					<Link to='/home/apply-now'>
-						<h3>View Job Vacancy</h3>
-					</Link>
-				)}
 			</div>
 		);
 	}

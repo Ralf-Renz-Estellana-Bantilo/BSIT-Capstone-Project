@@ -71,7 +71,7 @@
 }
 
 .date-address p {
-	font-size: 11px;
+	font-size: 12px;
 	color: var(--accent2);
 	margin-right: 10px;
 }
@@ -82,7 +82,7 @@
 
 .address img {
 	height: 14px;
-	opacity: 0.5;
+	/* opacity: 0.5; */
 }
 
 /* ----------- */
@@ -92,8 +92,6 @@
 .upperRight-info img {
 	height: 16px;
 	cursor: pointer;
-	opacity: 0.7;
-	filter: brightness(0.5);
 }
 
 .upperRight-info img:active {
@@ -134,10 +132,10 @@
 	border: none;
 	border-radius: 50px;
 	padding: 5px 20px;
-	font-weight: bold;
 	cursor: pointer;
 	transition: 0.25s;
 	font-weight: 600;
+	font-size: 14px;
 	width: 40%;
 	border: solid 3px transparent;
 	background-image: linear-gradient(
@@ -165,10 +163,10 @@
 	border: none;
 	border-radius: 50px;
 	padding: 5px 20px;
-	font-weight: bold;
 	cursor: pointer;
 	transition: 0.25s;
 	font-weight: 600;
+	font-size: 14px;
 	border: solid 3px transparent;
 	background-image: linear-gradient(
 			rgba(255, 255, 255, 0),

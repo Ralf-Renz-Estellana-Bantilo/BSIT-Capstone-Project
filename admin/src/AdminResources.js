@@ -799,6 +799,202 @@ class AdminResources {
 			},
 		];
 
+		this.lastDayOfTheMonth = [
+			{
+				lastDay: 30,
+				month: 11,
+				year: 2021,
+			},
+			{
+				lastDay: 31,
+				month: 12,
+				year: 2021,
+			},
+			// 2022 -----
+			{
+				lastDay: 31,
+				month: 1,
+				year: 2022,
+			},
+			{
+				lastDay: 28,
+				month: 2,
+				year: 2022,
+			},
+			{
+				lastDay: 31,
+				month: 3,
+				year: 2022,
+			},
+			{
+				lastDay: 30,
+				month: 4,
+				year: 2022,
+			},
+			{
+				lastDay: 31,
+				month: 5,
+				year: 2022,
+			},
+			{
+				lastDay: 30,
+				month: 6,
+				year: 2022,
+			},
+			{
+				lastDay: 31,
+				month: 7,
+				year: 2022,
+			},
+			{
+				lastDay: 31,
+				month: 8,
+				year: 2022,
+			},
+			{
+				lastDay: 30,
+				month: 9,
+				year: 2022,
+			},
+			{
+				lastDay: 31,
+				month: 10,
+				year: 2022,
+			},
+			{
+				lastDay: 30,
+				month: 11,
+				year: 2022,
+			},
+			{
+				lastDay: 31,
+				month: 12,
+				year: 2022,
+			},
+			// 2023 -----
+			{
+				lastDay: 31,
+				month: 1,
+				year: 2023,
+			},
+			{
+				lastDay: 28,
+				month: 2,
+				year: 2023,
+			},
+			{
+				lastDay: 31,
+				month: 3,
+				year: 2023,
+			},
+			{
+				lastDay: 30,
+				month: 4,
+				year: 2023,
+			},
+			{
+				lastDay: 31,
+				month: 5,
+				year: 2023,
+			},
+			{
+				lastDay: 30,
+				month: 6,
+				year: 2023,
+			},
+			{
+				lastDay: 31,
+				month: 7,
+				year: 2023,
+			},
+			{
+				lastDay: 31,
+				month: 8,
+				year: 2023,
+			},
+			{
+				lastDay: 30,
+				month: 9,
+				year: 2023,
+			},
+			{
+				lastDay: 31,
+				month: 10,
+				year: 2023,
+			},
+			{
+				lastDay: 30,
+				month: 11,
+				year: 2023,
+			},
+			{
+				lastDay: 31,
+				month: 12,
+				year: 2023,
+			},
+			// 2024 -----
+			{
+				lastDay: 31,
+				month: 1,
+				year: 2024,
+			},
+			{
+				lastDay: 29,
+				month: 2,
+				year: 2024,
+			},
+			{
+				lastDay: 31,
+				month: 3,
+				year: 2024,
+			},
+			{
+				lastDay: 30,
+				month: 4,
+				year: 2024,
+			},
+			{
+				lastDay: 31,
+				month: 5,
+				year: 2024,
+			},
+			{
+				lastDay: 30,
+				month: 6,
+				year: 2024,
+			},
+			{
+				lastDay: 31,
+				month: 7,
+				year: 2024,
+			},
+			{
+				lastDay: 31,
+				month: 8,
+				year: 2024,
+			},
+			{
+				lastDay: 30,
+				month: 9,
+				year: 2024,
+			},
+			{
+				lastDay: 31,
+				month: 10,
+				year: 2024,
+			},
+			{
+				lastDay: 30,
+				month: 11,
+				year: 2024,
+			},
+			{
+				lastDay: 31,
+				month: 12,
+				year: 2024,
+			},
+		];
+
 		this.time = "";
 	}
 
@@ -840,6 +1036,18 @@ class AdminResources {
 	};
 
 	setTimeStamp = (min, hour, day, month, year) => {
+		const lastDayOfTheMonth = this.getLastDayOfTheMonth();
+		let lastDay = 0;
+
+		for (let a = 0; a < lastDayOfTheMonth.length; a++) {
+			if (
+				lastDayOfTheMonth[a].month === month &&
+				lastDayOfTheMonth[a].year === year
+			) {
+				lastDay = lastDayOfTheMonth[a].lastDay;
+			}
+		}
+
 		let time = this;
 
 		let currentMin = new Date().getMinutes();
@@ -914,6 +1122,10 @@ class AdminResources {
 		}
 
 		return time;
+	};
+
+	getLastDayOfTheMonth = () => {
+		return this.lastDayOfTheMonth;
 	};
 }
 

@@ -1,8 +1,22 @@
+import Resources from "./Resources";
+
 export class TimeStamp {
 	constructor() {
 		this.time = "";
 	}
 	setTimeStamp = (min, hour, day, month, year) => {
+		const lastDayOfTheMonth = Resources.getLastDayOfTheMonth();
+		let lastDay = 0;
+
+		for (let a = 0; a < lastDayOfTheMonth.length; a++) {
+			if (
+				lastDayOfTheMonth[a].month === month &&
+				lastDayOfTheMonth[a].year === year
+			) {
+				lastDay = lastDayOfTheMonth[a].lastDay;
+			}
+		}
+
 		let time = this;
 
 		let currentMin = new Date().getMinutes();
@@ -39,7 +53,7 @@ export class TimeStamp {
 		}
 
 		if (currentDay < day) {
-			elapsedDay += 30; // we need to get the last day of that specific month in the database
+			elapsedDay += lastDay; // we need to get the last day of that specific month in the database
 			elapsedMonth -= 1;
 		}
 

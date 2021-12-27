@@ -53,16 +53,6 @@ export class JobVacancyForm extends Component {
 						jobCategory: jobTitles[a].category,
 					});
 				}
-
-				// if (
-				// 	`${jobTitles[a].jobs[b]}`
-				// 		.toLowerCase()
-				// 		.includes(`${e.target.value}`.toLowerCase())
-				// ) {
-				// 	this.setState({
-				// 		jobCategory: jobTitles[a].category,
-				// 	});
-				// }
 			}
 		}
 	};

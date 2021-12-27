@@ -263,6 +263,12 @@ export class SearchEngine extends Component {
 											.includes(
 												`${this.state.text}`.toLowerCase()
 											) &&
+											applicant.Hiring_Status === "Active") ||
+										(`${applicant.Home_Address}`
+											.toLowerCase()
+											.includes(
+												`${this.state.text}`.toLowerCase()
+											) &&
 											applicant.Hiring_Status === "Active")
 									) {
 										count += 1;
@@ -285,6 +291,12 @@ export class SearchEngine extends Component {
 											) &&
 											applicant.Hiring_Status === "Active") ||
 										(`${applicant.Preferred_Category}`
+											.toLowerCase()
+											.includes(
+												`${this.state.text}`.toLowerCase()
+											) &&
+											applicant.Hiring_Status === "Active") ||
+										(`${applicant.Home_Address}`
 											.toLowerCase()
 											.includes(
 												`${this.state.text}`.toLowerCase()

@@ -94,7 +94,8 @@ export class Emp_Post extends Component {
 							</Link>
 
 							<div className='date-address'>
-								<p>
+								<p
+									title={`${companyJobPost.Month}/${companyJobPost.Day}/${companyJobPost.Year}`}>
 									{TimeStamp.setTimeStamp(
 										companyJobPost.Minutes,
 										companyJobPost.Hour,
@@ -110,7 +111,7 @@ export class Emp_Post extends Component {
 										style={
 											darkTheme
 												? { filter: "brightness(1)" }
-												: { filter: "brightness(0.1)" }
+												: { filter: "brightness(0.3)" }
 										}
 									/>
 									<p>{companyJobPost.Company_Address}</p>
@@ -124,6 +125,11 @@ export class Emp_Post extends Component {
 							alt='Delete'
 							title={`Close this post from ${companyJobPost.Company_Name}`}
 							onClick={this.viewModal}
+							style={
+								darkTheme
+									? { filter: "brightness(0.7)" }
+									: { filter: "brightness(0.3)" }
+							}
 						/>
 
 						{this.state.isModalOpen ? (

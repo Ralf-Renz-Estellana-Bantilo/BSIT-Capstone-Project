@@ -62,6 +62,11 @@
 	margin-top: 20px;
 }
 
+.dashboard-update-card-container {
+	display: flex;
+	flex-direction: column;
+}
+
 .dashboard-update-container h3 {
 	color: var(--accent-main);
 	font-size: 16px;
@@ -238,5 +243,17 @@
 @media only screen and (min-width: 500px) {
 	.register-form {
 		width: 420px;
+	}
+}
+
+@media only screen and (min-width: 800px) {
+	.dashboard-update-card-container {
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	.dashboard-update-card {
+		width: 31%;
+		/* width: 250px; */
 	}
 }

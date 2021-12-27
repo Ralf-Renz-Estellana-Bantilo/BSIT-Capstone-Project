@@ -22,17 +22,95 @@ const JobPosts = ({
 	postPreview,
 	setPostPreview,
 	setCompaniesData,
+	addPost,
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
 	const [isPopupMenuOpen, setIsPopupMenuOpen] = useState(false);
-	const [isJobPostPanelOpen, setJobPostPanelOpen] = useState(true);
+	const [isJobPostPanelOpen, setJobPostPanelOpen] = useState(false);
 	const [location, setLocation] = useState("");
 	const [status, setStatus] = useState("Active");
 	const [sort, setSort] = useState("Most Recent");
 
+	// States for Posting a Job
+	const [jobTitle, setJobTitle] = useState("");
+	const [jobCategory, setJobCategory] = useState("");
+	const [noReqEmp, setNoReqEmp] = useState("");
+	const [salary, setSalary] = useState("");
+	const [prefSex, setPrefSex] = useState("");
+	const [jobType, setJobType] = useState("");
+	const [jobQualification, setJobQualification] = useState("");
+	const [jobRequirement, setJobRequirement] = useState("");
+	const [jobDescription, setJobDescription] = useState("");
+	const [companyName, setCompanyName] = useState("");
+	const [street, setStreet] = useState("");
+	const [zone, setZone] = useState("");
+	const [companyBarangay, setCompanyBarangay] = useState("");
+	const [employerName, setEmployerName] = useState("");
+	const [contactNumber, setContactNumber] = useState("");
+	const [companyImage, setCompanyImage] = useState(null);
+
 	useEffect(() => {
 		setActivePage("Job Posts");
 	}, []);
+
+	const handlePostJob = async () => {
+		const post = {
+			JobID: Math.floor(Math.random() * 10000) + 1,
+			CompanyID: Math.floor(Math.random() * 10000) + 1,
+			Minutes: new Date().getMinutes(),
+			Hour: new Date().getHours(),
+			Day: new Date().getDate(),
+			Month: new Date().getMonth() + 1,
+			Year: new Date().getFullYear(),
+			Date_Posted: new Date(),
+			Job_Title: jobTitle,
+			Category: jobCategory,
+			Required_Employees: noReqEmp,
+			Salary: salary,
+			Preferred_Sex: prefSex,
+			Job_Type: jobType,
+			Job_Qualifications: jobQualification,
+			Job_Requirements: jobRequirement,
+			Job_Description: jobDescription,
+			Company_Name: companyName,
+			Company_Address: `${street}, ${zone}, ${companyBarangay}`,
+			Employer_Name: employerName,
+			Contact_Number: contactNumber,
+			Company_Image: companyImage,
+			Active_Status: "Active",
+		};
+		setJobPostPanelOpen(false);
+		addPost(post);
+
+		// Clearing all the entries
+		setJobTitle("");
+		setJobCategory("");
+		setNoReqEmp("");
+		setSalary("");
+		setPrefSex("");
+		setJobType("");
+		setJobQualification("");
+		setJobRequirement("");
+		setJobDescription("");
+		setCompanyName("");
+		setStreet("");
+		setZone("");
+		setCompanyBarangay("");
+		setEmployerName("");
+		setContactNumber("");
+		setCompanyImage(null);
+	};
+
+	const handleChange = (text) => {
+		const jobTitles = AdminResources.getCategoriesWithDescription();
+		for (let a = 0; a < jobTitles.length; a++) {
+			for (let b = 0; b < jobTitles[a].jobs.length; b++) {
+				if (jobTitles[a].jobs[b] === text) {
+					setJobCategory(jobTitles[a].category);
+				}
+			}
+		}
+	};
 
 	let post = postPreview;
 
@@ -68,6 +146,8 @@ const JobPosts = ({
 		}
 	}
 
+	console.log(jobPosts);
+
 	if (sort === "Most Recent") {
 		activePosts = activePosts.sort((a, b) => {
 			return a.Date_Posted < b.Date_Posted ? 1 : -1;
@@ -78,7 +158,48 @@ const JobPosts = ({
 		});
 	}
 
-	console.log(isJobPostPanelOpen);
+	// Posting a JOB logic -----
+	const categories = AdminResources.getCategories();
+	const jobTitles = AdminResources.getCategoriesWithDescription();
+
+	let categoryResources = categories.map((category) => {
+		return (
+			<option key={category} value={category}>
+				{category}
+			</option>
+		);
+	});
+
+	let arrayJobs = [];
+	let arrayCategories = [];
+
+	for (let a = 0; a < jobTitles.length; a++) {
+		let categoryName = jobTitles[a].category;
+		for (let b = 0; b < jobTitles[a].jobs.length; b++) {
+			arrayJobs.push(jobTitles[a].jobs[b]);
+			arrayCategories.push(categoryName);
+		}
+	}
+
+	let numCount = -1;
+
+	let jobTitleSmartHints = arrayJobs.map((jobTitle) => {
+		numCount += 1;
+		return (
+			<option key={jobTitle} value={jobTitle}>
+				{arrayCategories[numCount]}
+			</option>
+		);
+	});
+
+	const listOfBarangays = AdminResources.getBarangay();
+	let barangay = listOfBarangays.map((b) => {
+		return (
+			<option key={b} value={b}>
+				{b}
+			</option>
+		);
+	});
 
 	return (
 		<div className='job-post-container'>
@@ -133,24 +254,34 @@ const JobPosts = ({
 											<div className='post-field'>
 												<label>Job Title:</label>
 												<input
-													// list='jobLists'
+													list='jobLists'
 													type='text'
 													placeholder='Job Title'
+													value={jobTitle}
+													onChange={(e) => {
+														setJobTitle(e.target.value);
+														handleChange(e.target.value);
+													}}
 												/>
-												{/* <datalist id='jobLists'>
+												<datalist id='jobLists'>
 													{jobTitleSmartHints}
-												</datalist> */}
+												</datalist>
 											</div>
 											<div className='post-field'>
 												<label>Job Category:</label>
-												<select name='Job Category'>
+												<select
+													name='Job Category'
+													value={jobCategory}
+													onChange={(e) =>
+														setJobCategory(e.target.value)
+													}>
 													<option
 														disabled='disabled'
 														hidden='hidden'
 														value=''>
 														Select Job Category
 													</option>
-													{/* {categoryResources} */}
+													{categoryResources}
 												</select>
 											</div>
 											<div className='post-field-group'>
@@ -159,8 +290,10 @@ const JobPosts = ({
 													<input
 														type='number'
 														placeholder='No. of Employees'
-														// onChange={handleChange("noReqEmp")}
-														// value={values.noReqEmp}
+														onChange={(e) =>
+															setNoReqEmp(e.target.value)
+														}
+														value={noReqEmp}
 													/>
 												</div>
 												<div className='post-field'>
@@ -168,8 +301,10 @@ const JobPosts = ({
 													<input
 														type='number'
 														placeholder='₱ ----'
-														// onChange={handleChange("salary")}
-														// value={values.salary}
+														onChange={(e) =>
+															setSalary(e.target.value)
+														}
+														value={salary}
 													/>
 												</div>
 											</div>
@@ -179,9 +314,10 @@ const JobPosts = ({
 													<label>Preferred Sex:</label>
 													<select
 														name='Preferred Sex'
-														// onChange={handleChange("prefSex")}
-														// value={values.prefSex}
-													>
+														onChange={(e) =>
+															setPrefSex(e.target.value)
+														}
+														value={prefSex}>
 														<option
 															disabled='disabled'
 															hidden='hidden'
@@ -199,9 +335,10 @@ const JobPosts = ({
 													<label>Job Type:</label>
 													<select
 														name='Job Type'
-														// onChange={handleChange("jobType")}
-														// value={values.jobType}
-													>
+														onChange={(e) =>
+															setJobType(e.target.value)
+														}
+														value={jobType}>
 														<option
 															disabled='disabled'
 															hidden='hidden'
@@ -240,13 +377,12 @@ const JobPosts = ({
 													placeholder=' - Sample 
                             - Job 
                             - Qualifications'
-													// onChange={handleChange(
-													// 	"jobQualification"
-													// )}
-													// value={
-													// 	values.jobQualification
-													// }
-												></textarea>
+													onChange={(e) =>
+														setJobQualification(e.target.value)
+													}
+													defaultValue={
+														jobQualification
+													}></textarea>
 											</div>
 											<div className='job-qualification'>
 												<h4>Job Requirements</h4>
@@ -255,22 +391,20 @@ const JobPosts = ({
 													placeholder=' - Sample
                             - Job
                             - Requirements'
-													// onChange={handleChange("jobRequirement")}
-													// defaultValue={
-													// 	values.jobRequirement
-													// }
-												></textarea>
+													onChange={(e) =>
+														setJobRequirement(e.target.value)
+													}
+													defaultValue={jobRequirement}></textarea>
 											</div>
 											<div className='job-qualification'>
 												<h4>Job Description</h4>
 												<textarea
 													name='work-experience'
 													placeholder=' Sample Description'
-													// onChange={handleChange("jobDescription")}
-													// defaultValue={
-													// 	values.jobDescription
-													// }
-												></textarea>
+													onChange={(e) =>
+														setJobDescription(e.target.value)
+													}
+													defaultValue={jobDescription}></textarea>
 											</div>
 										</div>
 									</div>
@@ -288,6 +422,10 @@ const JobPosts = ({
 													<input
 														type='text'
 														placeholder={`Enter Company's Name`}
+														value={companyName}
+														onChange={(e) =>
+															setCompanyName(e.target.value)
+														}
 													/>
 												</div>
 												<div className='post-field'>
@@ -295,6 +433,10 @@ const JobPosts = ({
 													<input
 														type='text'
 														placeholder='Address: (Street)'
+														value={street}
+														onChange={(e) =>
+															setStreet(e.target.value)
+														}
 													/>
 												</div>
 												<div className='post-field'>
@@ -302,22 +444,26 @@ const JobPosts = ({
 													<input
 														type='text'
 														placeholder='Address: (Zone)'
+														value={zone}
+														onChange={(e) =>
+															setZone(e.target.value)
+														}
 													/>
 												</div>
 												<div className='post-field'>
 													<label>Barangay:</label>
-													<select>
+													<select
+														value={companyBarangay}
+														onChange={(e) =>
+															setCompanyBarangay(e.target.value)
+														}>
 														<option
 															disabled='disabled'
 															hidden='hidden'
 															value=''>
 															Select Barangay
 														</option>
-														<option value='Male'>Male</option>
-														<option value='Female'>Female</option>
-														<option value='Male/Female'>
-															Male/Female
-														</option>
+														{barangay}
 													</select>
 												</div>
 												<div className='post-field'>
@@ -325,6 +471,10 @@ const JobPosts = ({
 													<input
 														type='text'
 														placeholder={`Enter Employer's Name`}
+														value={employerName}
+														onChange={(e) =>
+															setEmployerName(e.target.value)
+														}
 													/>
 												</div>
 												<div className='post-field'>
@@ -332,21 +482,43 @@ const JobPosts = ({
 													<input
 														type='text'
 														placeholder='Cellphone Number'
+														value={contactNumber}
+														onChange={(e) =>
+															setContactNumber(e.target.value)
+														}
 													/>
 												</div>
 												<div className='post-field'>
 													<label>Stablishment Photo:</label>
-													<input type='file' />
+													<input
+														type='file'
+														accept='image/jpeg, image/png'
+														onChange={(e) =>
+															setCompanyImage(
+																URL.createObjectURL(
+																	e.target.files[0]
+																)
+															)
+														}
+													/>
 													<div className='photo-panel'>
 														<img
-															src={User}
-															alt='Actual Stablishment'
+															src={companyImage}
+															alt={
+																companyImage !== null
+																	? "Company Picture"
+																	: "No Loaded Picture"
+															}
 														/>
 													</div>
 												</div>
 
 												<div className='post-field'>
-													<button className='next'>Post</button>
+													<button
+														className='next'
+														onClick={handlePostJob}>
+														Post
+													</button>
 												</div>
 											</div>
 										</div>

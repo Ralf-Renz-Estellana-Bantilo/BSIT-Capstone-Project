@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Bell from "../../Images/Bell.png";
-import Warning from "../../Images/Warning.png";
+import Bell from "../../Images/MessageIcon.png";
+import ReplyIcon from "../../Images/ReplyIcon.png";
 import DeleteIcon from "../../Images/DeleteIcon.png";
 import LocationIcon from "../../Images/LocationIcon.png";
 import "./Activity.css";
@@ -36,6 +36,10 @@ export class Activity extends Component {
 
 	render() {
 		const { feedback, darkTheme } = this.props;
+		let barangay =
+			feedback.Company_Address.split(", ")[
+				feedback.Company_Address.split(", ").length - 1
+			];
 		return (
 			<div>
 				{this.state.isModalOpen ? (
@@ -75,7 +79,7 @@ export class Activity extends Component {
 										: "activity-left-panel-img-support-warning"
 								}>
 								<img
-									src={feedback.Type === "feedback" ? Bell : Warning}
+									src={feedback.Type === "feedback" ? ReplyIcon : Bell}
 									alt=''
 								/>
 							</div>
@@ -93,9 +97,8 @@ export class Activity extends Component {
 								</h4>
 							) : (
 								<h4>
-									<strong>{feedback.Company_Name}</strong> is
-									interested on hiring you as{" "}
-									<span>{feedback.Job_Title}</span>
+									<strong>{feedback.Company_Name}</strong> messaged on
+									your profile as <span>{feedback.Job_Title}</span>
 								</h4>
 							)}
 
@@ -119,7 +122,7 @@ export class Activity extends Component {
 												: { filter: "brightness(0.1)" }
 										}
 									/>
-									<p>{feedback.Company_Address}</p>
+									<p>{barangay}</p>
 								</div>
 							</div>
 						</div>

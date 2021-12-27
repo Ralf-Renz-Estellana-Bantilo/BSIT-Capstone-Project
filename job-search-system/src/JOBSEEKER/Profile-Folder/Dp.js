@@ -23,8 +23,6 @@ export class Dp extends Component {
 			file: URL.createObjectURL(event.target.files[0]),
 			fileData: event.target.files[0],
 		});
-
-		console.log(this.state.fileData);
 	};
 
 	handleSave = async (e) => {
@@ -123,8 +121,6 @@ export class Dp extends Component {
 			(applicant) => applicant.ApplicantID === sessionApplicant
 		);
 
-		console.log(currentApplicant);
-
 		if (currentApplicant) {
 			try {
 				if (
@@ -165,11 +161,6 @@ export class Dp extends Component {
 									onClick={this.toggleImagePreview}
 								/>
 								<h4 className='image-preview-title'>Image Preview</h4>
-								{/* <div
-									className='close-preview'
-									onClick={this.toggleImagePreview}>
-									x
-								</div> */}
 								<div className='image-wrapper'>
 									<img
 										className='image-preview-img'
@@ -188,8 +179,8 @@ export class Dp extends Component {
 							src={CameraIcon}
 							alt='Edit Profile'
 							title='Edit Profile Picture'
-							onClick={() => {
-								this.setState({
+							onClick={async () => {
+								await this.setState({
 									toggleChooser: !this.state.toggleChooser,
 								});
 							}}

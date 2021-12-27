@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import Resources from "../../Resources";
 import TimeStamp from "../../TimeStamp";
+import DeleteIcon from "../../Images/DeleteIcon.png";
+import Modal from "../../JOBSEEKER/Home-Folder/Modal";
 
 export class Emp_Job_Applicants extends Component {
 	constructor() {
@@ -13,8 +15,23 @@ export class Emp_Job_Applicants extends Component {
 			count: 0,
 			countHired: 0,
 			applicants: [],
+			isModalOpen: false,
+			jobID: null,
+			applicantID: null,
 		};
 	}
+
+	viewModal = () => {
+		this.setState({
+			isModalOpen: true,
+		});
+	};
+
+	onCloseModal = () => {
+		this.setState({
+			isModalOpen: false,
+		});
+	};
 
 	togglePanel = async () => {
 		await this.setState({
@@ -48,6 +65,18 @@ export class Emp_Job_Applicants extends Component {
 		this.props.toggleSummaryPanel();
 	};
 
+	deleteJobApplicant = async () => {
+		const { jobID, applicantID } = this.state;
+
+		await this.openDeleteState();
+		await this.onCloseModal();
+		await this.props.deleteJobApplicants(applicantID, jobID);
+	};
+
+	openDeleteState = async () => {
+		this.props.openDeleteState();
+	};
+
 	componentDidMount = async () => {
 		const height = this.divElement.clientHeight;
 		const titleHeight = this.titleElement.clientHeight;
@@ -66,7 +95,20 @@ export class Emp_Job_Applicants extends Component {
 				await this.setState({ countHired: this.state.countHired + 1 });
 			}
 		}
+
+		const scroll = localStorage.getItem("empApplicantScroll");
+		window.scrollTo(0, scroll);
 	};
+
+	componentWillUnmount() {
+		localStorage.setItem("empApplicantScroll", window.pageYOffset);
+		window.scrollTo(0, window.pageYOffset);
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		const scroll = localStorage.getItem("empApplicantScroll");
+		window.scrollTo(0, scroll);
+	}
 
 	render() {
 		const { info, jobApplicants, convertedMonth, darkTheme } = this.props;
@@ -74,171 +116,221 @@ export class Emp_Job_Applicants extends Component {
 			this.state;
 
 		return (
-			<div
-				className='job-post-summary-parent-container'
-				style={
-					!toggleApplicantsPanel
-						? { height: `${titleHeight + 1}px` }
-						: { height: `${height}px` }
-				}>
+			<>
 				<div
-					className='job-post-summary-container'
-					ref={(divElement) => {
-						this.divElement = divElement;
-					}}>
+					className='job-post-summary-parent-container'
+					style={
+						!toggleApplicantsPanel
+							? { height: `${titleHeight + 1}px` }
+							: { height: `${height}px` }
+					}>
 					<div
-						className='job-post-title'
-						ref={(titleElement) => {
-							this.titleElement = titleElement;
-						}}
-						style={
-							info.Active_Status === "Active"
-								? {
-										borderLeft: "5px solid #1eff00",
-										boxShadow: "1px 0px 2px black",
-								  }
-								: {
-										borderLeft: "5px solid #ff0000",
-										boxShadow: "2px 0px 2px black",
-								  }
-						}>
+						className='job-post-summary-container'
+						ref={(divElement) => {
+							this.divElement = divElement;
+						}}>
 						<div
-							className='job-post-content-left-container'
-							onClick={() => {
-								this.applicantSummary(info.JobID);
-								this.props.setJobTitle(
-									info.Active_Status,
-									info.Job_Title,
-									info.Required_Employees,
-									count
-								);
-							}}>
-							<h3>{`${info.Job_Title}`}</h3>
-							<p>
-								Req: <strong>{info.Required_Employees}</strong> | Hired:{" "}
-								<strong>{countHired}</strong> | Applied:{" "}
-								<strong>{count}</strong>
-							</p>
-						</div>
-						<div className='job-post-content-right-container'>
-							<p>{`• ${convertedMonth} ${info.Day}, ${info.Year}`}</p>
+							className='job-post-title'
+							ref={(titleElement) => {
+								this.titleElement = titleElement;
+							}}
+							style={
+								info.Active_Status === "Active"
+									? {
+											borderLeft: "5px solid #1eff00",
+									  }
+									: {
+											borderLeft: "5px solid #ff0000",
+									  }
+							}>
 							<div
-								className='toggle-job-post-content'
-								onClick={this.togglePanel}
-								style={
-									toggleApplicantsPanel
-										? {
-												background:
-													"linear-gradient(20deg, #ff004c, #ff7b00)",
-										  }
-										: {
-												background:
-													"linear-gradient(20deg, #00b2ff, #006aff)",
-										  }
-								}>
-								{toggleApplicantsPanel ? "-" : "+"}
+								className='job-post-content-left-container'
+								onClick={() => {
+									this.applicantSummary(info.JobID);
+									this.props.setJobTitle(
+										info.Active_Status,
+										info.Job_Title,
+										info.Required_Employees,
+										count
+									);
+									localStorage.setItem(
+										"empApplicantScroll",
+										window.pageYOffset
+									);
+								}}>
+								<h3>{`${info.Job_Title}`}</h3>
+								<p>
+									Req: <strong>{info.Required_Employees}</strong> |
+									Hired: <strong>{countHired}</strong> | Applied:{" "}
+									<strong>{count}</strong>
+								</p>
+							</div>
+							<div className='job-post-content-right-container'>
+								<p>{`• ${convertedMonth} ${info.Day}, ${info.Year}`}</p>
+								<div
+									className='toggle-job-post-content'
+									onClick={(e) => {
+										this.togglePanel();
+										localStorage.setItem(
+											"empApplicantScroll",
+											window.pageYOffset
+										);
+									}}
+									style={
+										toggleApplicantsPanel
+											? {
+													background:
+														"linear-gradient(20deg, #ff004c, #ff7b00)",
+											  }
+											: {
+													background:
+														"linear-gradient(20deg, #00b2ff, #006aff)",
+											  }
+									}>
+									{toggleApplicantsPanel ? "-" : "+"}
+								</div>
 							</div>
 						</div>
-					</div>
 
-					{jobApplicants.map((applicant) => {
-						let homeAddress = "";
-						if (applicant.JobID === info.JobID) {
-							homeAddress =
-								applicant.Home_Address.split(", ")[
-									applicant.Home_Address.split(", ").length - 1
-								];
+						{jobApplicants.map((applicant) => {
+							let homeAddress = "";
+							if (applicant.JobID === info.JobID) {
+								homeAddress =
+									applicant.Home_Address.split(", ")[
+										applicant.Home_Address.split(", ").length - 1
+									];
 
-							return (
-								<div
-									className={
-										applicant.Status === "New"
-											? "applicant-info-container-new"
-											: "applicant-info-container"
-									}
-									key={applicant.id}>
+								return (
 									<div
-										className='applicant-info'
-										onClick={async (e) => {
-											this.viewApplicant(applicant);
-											await this.props.setJobID(applicant.JobID);
-											await this.props.updateJobApplicantStatus(
-												applicant.JobID,
-												applicant.ApplicantID
-											);
-										}}>
-										<div className='applicant-info-left-portion'>
-											<div className='applicant-image'>
-												<img
-													src={`../assets/${applicant.User_Image}`}
-													alt='User'
-												/>
+										className={
+											applicant.Status === "New"
+												? "applicant-info-container-new"
+												: "applicant-info-container"
+										}
+										key={applicant.id}>
+										<div className='applicant-info'>
+											<div
+												className='applicant-info-left-portion'
+												onClick={async (e) => {
+													this.viewApplicant(applicant);
+													await this.props.setJobID(
+														applicant.JobID
+													);
+													if (applicant.Status === "New") {
+														await this.props.updateJobApplicantStatus(
+															applicant.JobID,
+															applicant.ApplicantID
+														);
+													}
+												}}>
+												<div className='applicant-image-container'>
+													<div className='applicant-image'>
+														<img
+															src={`../assets/${applicant.User_Image}`}
+															alt='User'
+														/>
+													</div>
+													<div
+														className='circle'
+														style={
+															applicant.Candidate_Status ===
+															"Meet"
+																? {
+																		background:
+																			"linear-gradient(20deg, #00b2ff, #006aff)",
+																  }
+																: applicant.Candidate_Status ===
+																  "Hired"
+																? {
+																		background:
+																			"linear-gradient(20deg, #00f33d, #88ff00)",
+																  }
+																: applicant.Candidate_Status ===
+																  "Declined"
+																? {
+																		background:
+																			"linear-gradient(20deg, #ff004c, #ff7b00)",
+																  }
+																: { backgroundColor: "none" }
+														}
+													/>
+												</div>
+												<div className='applicant-name'>
+													<h3>{`${applicant.Last_Name}, ${applicant.First_Name}`}</h3>
+													<p>
+														{homeAddress} |{" "}
+														{Resources.getCurrentAge(
+															applicant.B_Month,
+															applicant.B_Day,
+															applicant.B_Year
+														)}
+													</p>
+												</div>
 											</div>
-											<div className='applicant-name'>
-												<h3>{`${applicant.Last_Name}, ${applicant.First_Name}`}</h3>
+											<div className='applicant-info-right-portion'>
 												<p>
-													{homeAddress} |{" "}
-													{Resources.getCurrentAge(
-														applicant.B_Month,
-														applicant.B_Day,
-														applicant.B_Year
+													{TimeStamp.setTimeStamp(
+														applicant.Minutes,
+														applicant.Hour,
+														applicant.Day,
+														applicant.Month,
+														applicant.Year
 													)}
 												</p>
+
+												{applicant.Status !== "New" && (
+													<div className='applicant-info-right-portion-delete'>
+														<img
+															src={DeleteIcon}
+															alt='Delete Applicant'
+															style={
+																darkTheme
+																	? {
+																			filter:
+																				"brightness(1)",
+																	  }
+																	: {
+																			filter:
+																				"brightness(0.3)",
+																	  }
+															}
+															onClick={(e) => {
+																this.viewModal();
+																this.setState({
+																	jobID: applicant.JobID,
+																	applicantID:
+																		applicant.ApplicantID,
+																});
+																localStorage.setItem(
+																	"empApplicantScroll",
+																	window.pageYOffset
+																);
+															}}
+														/>
+													</div>
+												)}
 											</div>
 										</div>
-										<div className='applicant-info-right-portion'>
-											<div
-												className='circle'
-												style={
-													applicant.Candidate_Status === "Meet"
-														? {
-																background:
-																	"linear-gradient(20deg, #00b2ff, #006aff)",
-														  }
-														: applicant.Candidate_Status ===
-														  "Hired"
-														? {
-																background:
-																	"linear-gradient(20deg, #00f33d, #88ff00)",
-														  }
-														: applicant.Candidate_Status ===
-														  "Declined"
-														? {
-																background:
-																	"linear-gradient(20deg, #ff004c, #ff7b00)",
-														  }
-														: { backgroundColor: "none" }
-												}
-											/>
-											<p>
-												{TimeStamp.setTimeStamp(
-													applicant.Minutes,
-													applicant.Hour,
-													applicant.Day,
-													applicant.Month,
-													applicant.Year
-												)}
-											</p>
-										</div>
 									</div>
-								</div>
-							);
-						}
-					})}
-
-					{/* {this.state.count === 0 && (
-						<p
-							style={{
-								textAlign: "center",
-								padding: "5px",
-								fontSize: "14px",
-								background: "linear-gradient(45deg, #ff7b00, #ff004c)",
-							}}>
-							No Applicant/s yet
-						</p>
-					)} */}
+								);
+							}
+						})}
+					</div>
 				</div>
-			</div>
+				{this.state.isModalOpen ? (
+					<Modal
+						headText='Delete Applicant Confirmation'
+						modalText={`Continue Deleting this applicant?`}
+						confirmText='Yes'
+						closeText='No'
+						close={this.onCloseModal}
+						confirm={this.deleteJobApplicant}
+						path='/employer/applicants'
+					/>
+				) : (
+					""
+				)}
+			</>
 		);
 	}
 }

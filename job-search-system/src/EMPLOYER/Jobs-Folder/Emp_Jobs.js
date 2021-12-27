@@ -79,7 +79,7 @@ export class Emp_Jobs extends Component {
 				)}
 
 				<WorkPostHeader
-					name='Ralf Renz'
+					name={`User: ${currentUser.First_Name} ${currentUser.Last_Name}`}
 					onAdd={this.props.onAdd}
 					showAdd={this.props.showAdd}
 					toggle={this.props.toggle}

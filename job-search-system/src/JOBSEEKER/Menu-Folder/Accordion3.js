@@ -195,11 +195,13 @@ const Accordion3 = ({ deleteCompanyPosts }) => {
 			{isActive && (
 				<div className='accordion-content'>
 					<div className='accordion-content-button'>
-						<button className='accordionButton'>Update Account</button>
+						<button className='accordionButton'>
+							Change Username and Password
+						</button>
 						<button className='accordionButton' onClick={viewModal}>
 							Delete Account
 						</button>
-						<button className='accordionButton'>Reboot Account</button>
+						{/* <button className='accordionButton'>Reboot Account</button> */}
 					</div>
 				</div>
 			)}

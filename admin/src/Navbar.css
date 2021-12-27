@@ -33,6 +33,12 @@
 	display: flex;
 }
 
+.navbar-button-container-holder {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .navbar-button-container {
 	display: flex;
 	align-items: center;

@@ -79,7 +79,7 @@ export class Navbar extends Component {
 							style={
 								darkTheme
 									? { filter: "brightness(1)" }
-									: { filter: "brightness(0.3)" }
+									: { filter: "brightness(0.25)" }
 							}
 						/>
 					</Link>
@@ -95,7 +95,7 @@ export class Navbar extends Component {
 							style={
 								darkTheme
 									? { filter: "brightness(1)" }
-									: { filter: "brightness(0.3)" }
+									: { filter: "brightness(0.25)" }
 							}
 						/>
 					</Link>
@@ -121,7 +121,7 @@ export class Navbar extends Component {
 								style={
 									darkTheme
 										? { filter: "brightness(1)" }
-										: { filter: "brightness(0.3)" }
+										: { filter: "brightness(0.25)" }
 								}
 							/>
 						</div>
@@ -134,7 +134,7 @@ export class Navbar extends Component {
 							style={
 								darkTheme
 									? { filter: "brightness(1)" }
-									: { filter: "brightness(0.3)" }
+									: { filter: "brightness(0.25)" }
 							}
 						/>
 					</Link>

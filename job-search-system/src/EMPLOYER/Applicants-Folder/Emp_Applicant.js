@@ -6,6 +6,7 @@ import "./Emp_Applicant.css";
 import { withRouter } from "react-router-dom";
 import Emp_Job_Applicants from "./Emp_Job_Applicants";
 import Emp_Applicants_Summary from "./Emp_Applicants_Summary";
+import Indication from "../../Indication";
 
 export class Emp_Applicant extends Component {
 	state = {
@@ -43,7 +44,15 @@ export class Emp_Applicant extends Component {
 		});
 	};
 
-	componentDidMount = async () => {
+	closeDeleteState = async () => {
+		await this.props.closeDeleteState();
+	};
+
+	openDeleteState = async () => {
+		await this.props.setDeleteState();
+	};
+
+	componentDidMount() {
 		const session = sessionStorage.getItem("UserID");
 
 		if (!session) {
@@ -53,7 +62,7 @@ export class Emp_Applicant extends Component {
 
 		localStorage.setItem("activePage", "applicants");
 		localStorage.setItem("isSearchOpen", false);
-	};
+	}
 
 	render() {
 		const { currentUser, jobApplicants, companyJobPost } = this.props;
@@ -129,6 +138,10 @@ export class Emp_Applicant extends Component {
 											this.props.updateJobApplicantStatus
 										}
 										darkTheme={this.props.darkTheme}
+										deleteJobApplicants={
+											this.props.deleteJobApplicants
+										}
+										openDeleteState={this.openDeleteState}
 									/>
 								</div>
 							);
@@ -160,6 +173,16 @@ export class Emp_Applicant extends Component {
 						}}>
 						You haven't posted anything yet!
 					</p>
+				)}
+
+				{this.props.isDeleted === true && (
+					<Indication
+						type='secondary'
+						text='Job applicant has been deleted!'
+						method={this.closeDeleteState}
+						delay={3}
+						module='employer'
+					/>
 				)}
 			</div>
 		);

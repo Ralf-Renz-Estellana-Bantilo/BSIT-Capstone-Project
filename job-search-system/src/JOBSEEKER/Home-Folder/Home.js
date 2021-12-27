@@ -80,7 +80,7 @@ export class Home extends Component {
 				{this.props.isDeleted === true && (
 					<Indication
 						type='secondary'
-						text='Post has been removed!'
+						text='Post has been temporarily hidden from feed!'
 						method={this.closeDeleteState}
 						delay={3}
 					/>

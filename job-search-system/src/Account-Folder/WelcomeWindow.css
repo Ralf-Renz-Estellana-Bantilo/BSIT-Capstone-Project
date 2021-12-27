@@ -1,6 +1,7 @@
 .welcome-container {
 	position: relative;
 	width: 100%;
+	cursor: progress;
 }
 
 .welcome-container .welcome-container-overlay {

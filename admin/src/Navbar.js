@@ -52,21 +52,27 @@ const Navbar = ({
 			</div>
 
 			<div className='navbar-right-portion'>
-				{activePage === "Job Posts" && isJobPostPanelOpen === false ? (
-					<div className='navbar-button-container'>
-						{/* <button>Post a Job Vacancy</button> */}
-						<img
-							src={CreateIcon}
-							title='Post a Job Vacancy'
-							alt='Create Job Post Icon'
-							onClick={openJobPostPanel}
-						/>
-					</div>
-				) : (
-					<div className='navbar-button-container'>
-						<button onClick={closeJobPostPanel}>Go Back</button>
+				{activePage === "Job Posts" && (
+					<div className='navbar-button-container-holder'>
+						{activePage === "Job Posts" &&
+						isJobPostPanelOpen === false ? (
+							<div className='navbar-button-container'>
+								{/* <button>Post a Job Vacancy</button> */}
+								<img
+									src={CreateIcon}
+									title='Post a Job Vacancy'
+									alt='Create Job Post Icon'
+									onClick={openJobPostPanel}
+								/>
+							</div>
+						) : (
+							<div className='navbar-button-container'>
+								<button onClick={closeJobPostPanel}>Go Back</button>
+							</div>
+						)}
 					</div>
 				)}
+
 				<div className='profile-container'>
 					<h5>Ralf Renz Bantilo</h5>
 					<div className='profile-img'>

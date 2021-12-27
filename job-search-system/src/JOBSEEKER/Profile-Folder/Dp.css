@@ -254,10 +254,12 @@
 	left: 0;
 	background-color: #ff0000;
 	transition: 0.4s;
+	box-shadow: 0 0 2px black;
 	border-radius: 50px;
 }
 
 input:checked + .slider::before {
+	box-shadow: 0 0 2px black;
 	background-color: #1eff00;
 	transform: translateX(20px);
 }

@@ -315,7 +315,7 @@ export class SignUp extends Component {
 									<input
 										autoFocus
 										type='text'
-										placeholder='Set Username'
+										placeholder='Email'
 										onChange={(e) => {
 											this.handleChange(e, "username");
 										}}
@@ -331,7 +331,7 @@ export class SignUp extends Component {
 												? "text"
 												: "password"
 										}
-										placeholder='Set Password'
+										placeholder='Password'
 										onChange={(e) => {
 											this.handleChange(e, "password");
 										}}

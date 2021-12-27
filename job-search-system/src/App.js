@@ -29,6 +29,7 @@ import axios from "axios";
 import shortid from "shortid";
 import Emp_Job_Applicant_Data from "./EMPLOYER/Applicants-Folder/Emp_Job_Applicant_Data";
 import Hiree_Information from "./EMPLOYER/Hiree_Information";
+import Resources from "./Resources";
 
 export class App extends Component {
 	constructor() {
@@ -99,6 +100,21 @@ export class App extends Component {
 			currentUser: {},
 			showWelcomWindow: false,
 		});
+
+		let theme = localStorage.getItem("darkTheme");
+		if (theme === "true") {
+			this.setState({
+				darkTheme: true,
+			});
+		} else if (theme === "false") {
+			this.setState({
+				darkTheme: false,
+			});
+		} else {
+			this.setState({
+				darkTheme: true,
+			});
+		}
 
 		// Fetching data ----------------
 
@@ -281,6 +297,12 @@ export class App extends Component {
 		}
 	};
 
+	setJobPosts = (jobPosts) => {
+		this.setState({
+			infos: jobPosts,
+		});
+	};
+
 	addPost = async (post) => {
 		const { infos, companyJobPost } = this.state;
 		// await this.setState({ infos: [post, ...infos] });
@@ -460,7 +482,7 @@ export class App extends Component {
 	};
 
 	handleApplication = async (targetCompany) => {
-		await this.setState((prevState) => ({
+		this.setState((prevState) => ({
 			infos: prevState.infos.map((info) =>
 				info.JobID === targetCompany
 					? Object.assign(info, { Is_Applied: true })
@@ -519,6 +541,8 @@ export class App extends Component {
 		const jobSeeker = this.state.user.jobSeeker;
 		const employer = this.state.user.employer;
 		const userData = this.state.userData;
+		const applicants = this.state.applicants;
+		const generateApplicantID = shortid.generate();
 
 		if (user.Sex === "Male") {
 			let addImage = { ...user, userImage: DefaultUserMale };
@@ -533,15 +557,15 @@ export class App extends Component {
 						...userData.jobSeeker,
 						{
 							id: user.UserID,
-							firstName: user.First_Name,
-							middleName: user.Middle_Name,
-							lastName: user.Last_Name,
+							firstName: Resources.formatName(user.First_Name),
+							middleName: Resources.formatName(user.Middle_Name),
+							lastName: Resources.formatName(user.Last_Name),
 							role: user.Role,
 							homeAddress: "",
 							sex: user.Sex,
-							bMonth: 0,
-							bDay: 0,
-							bYear: 0,
+							bMonth: "",
+							bDay: "",
+							bYear: "",
 							contactNumber: "",
 							email: "",
 							civilStatus: "",
@@ -557,9 +581,9 @@ export class App extends Component {
 			await axios
 				.post("http://localhost:2000/api/create-user", {
 					userID: user.UserID,
-					firstName: user.First_Name,
-					middleName: user.Middle_Name,
-					lastName: user.Last_Name,
+					firstName: Resources.formatName(user.First_Name),
+					middleName: Resources.formatName(user.Middle_Name),
+					lastName: Resources.formatName(user.Last_Name),
 					sex: user.Sex,
 					role: user.Role,
 					username: user.Username,
@@ -573,19 +597,19 @@ export class App extends Component {
 			await axios
 				.post("http://localhost:2000/api/create-applicant-data", {
 					userID: user.UserID,
-					applicantID: shortid.generate(),
-					firstName: user.First_Name,
-					middleName: user.Middle_Name,
-					lastName: user.Last_Name,
+					applicantID: generateApplicantID,
+					firstName: Resources.formatName(user.First_Name),
+					middleName: Resources.formatName(user.Middle_Name),
+					lastName: Resources.formatName(user.Last_Name),
 					role: user.Role,
 					sex: user.Sex,
 					homeAddress: "",
 					userImage: "DefaultUserMale.png",
 					emailAddress: "",
 					contactNumber: "",
-					bMonth: 1,
-					bDay: 11,
-					bYear: 2000,
+					bMonth: null,
+					bDay: null,
+					bYear: null,
 					civilStatus: "",
 					educationalAttainment: "",
 					hiringStatus: "Inactive",
@@ -666,6 +690,33 @@ export class App extends Component {
 					console.log("Successfully Created your Applicant data...");
 				});
 		}
+
+		const registeredApplicant = {
+			First_Name: Resources.formatName(user.First_Name),
+			Middle_Name: Resources.formatName(user.Middle_Name),
+			Last_Name: Resources.formatName(user.Last_Name),
+			Home_Address: null,
+			Sex: user.Sex,
+			B_Month: 0,
+			B_Day: 0,
+			B_Year: null,
+			Contact_Number: null,
+			Email_Address: null,
+			Civil_Status: null,
+			Educ_Attainment: null,
+			Preferred_Job: null,
+			Preferred_Category: null,
+			Preferred_Salary: null,
+			Interested_In: null,
+			Good_At: null,
+			Credentials: null,
+			UserID: user.UserID,
+			ApplicantID: generateApplicantID,
+		};
+
+		this.setState({
+			applicants: [...applicants, registeredApplicant],
+		});
 	};
 
 	registerEmployer = async (user) => {
@@ -689,9 +740,9 @@ export class App extends Component {
 		await axios
 			.post("http://localhost:2000/api/create-user", {
 				userID: user.UserID,
-				firstName: user.First_Name,
-				middleName: user.Middle_Name,
-				lastName: user.Last_Name,
+				firstName: Resources.formatName(user.First_Name),
+				middleName: Resources.formatName(user.Middle_Name),
+				lastName: Resources.formatName(user.Last_Name),
 				sex: user.Sex,
 				role: user.Role,
 				username: user.Username,
@@ -868,16 +919,6 @@ export class App extends Component {
 		}));
 	};
 
-	changeCandidateStatus = (status, applicantID) => {
-		this.setState((prevState) => ({
-			jobApplicants: prevState.jobApplicants.map((jobApplicant) =>
-				jobApplicant.ApplicantID === applicantID
-					? Object.assign(jobApplicant, { Candidate_Status: status })
-					: jobApplicant
-			),
-		}));
-	};
-
 	toggleHiringStatus = async (applicantID, status) => {
 		await this.setState((prevState) => ({
 			applicants: prevState.applicants.map((applicant) =>
@@ -886,6 +927,58 @@ export class App extends Component {
 					: applicant
 			),
 		}));
+	};
+
+	updateApplicantData = (user) => {
+		this.setState((prevState) => ({
+			applicants: prevState.applicants.map((applicant) =>
+				applicant.ApplicantID === user.ApplicantID
+					? Object.assign(applicant, {
+							First_Name: Resources.formatName(user.First_Name),
+							Middle_Name: Resources.formatName(user.Middle_Name),
+							Last_Name: Resources.formatName(user.Last_Name),
+							Home_Address: user.Home_Address,
+							Sex: user.Sex,
+							B_Month: user.B_Month,
+							B_Day: user.B_Day,
+							B_Year: user.B_Year,
+							Contact_Number: user.Contact_Number,
+							Email_Address: user.Email_Address,
+							Civil_Status: user.Civil_Status,
+							Educ_Attainment: user.Educ_Attainment,
+							Preferred_Job: user.Preferred_Job,
+							Preferred_Category: user.Preferred_Category,
+							Preferred_Salary: user.Preferred_Salary,
+							Interested_In: user.Interested_In,
+							Good_At: user.Good_At,
+							Credentials: user.Credentials,
+					  })
+					: applicant
+			),
+		}));
+
+		// Spread Operator ----------
+		this.setState((prevState) => ({
+			// Spread Operator ----------
+			currentUser: {
+				...prevState.currentUser,
+				First_Name: Resources.formatName(user.First_Name),
+				Middle_Name: Resources.formatName(user.Middle_Name),
+				Last_Name: Resources.formatName(user.Last_Name),
+			},
+		}));
+
+		// User Account Database Table -----------
+		axios
+			.put("http://localhost:2000/api/update-user-business-profile", {
+				firstName: Resources.formatName(user.First_Name),
+				middleName: Resources.formatName(user.Middle_Name),
+				lastName: Resources.formatName(user.Last_Name),
+				userID: user.UserID,
+			})
+			.then((response) => {
+				console.log(response);
+			});
 	};
 
 	// Employer Portion ----------------------
@@ -897,8 +990,8 @@ export class App extends Component {
 
 	addEmployerFeedBack = async (feedback) => {
 		const { employerFeedback } = this.state;
-		await this.setState({
-			employerFeedback: [...employerFeedback, feedback],
+		this.setState({
+			employerFeedback: [feedback, ...employerFeedback],
 		});
 
 		await axios
@@ -1037,6 +1130,15 @@ export class App extends Component {
 		this.deletePost(id);
 	};
 
+	deleteJobApplicants = (applicantID, jobID) => {
+		let jobApplicants = this.state.jobApplicants;
+		let index = jobApplicants.findIndex(
+			(x) => x.JobID === jobID && x.ApplicantID === applicantID
+		);
+		jobApplicants.splice(index, 1);
+		this.setState({ jobApplicants: jobApplicants });
+	};
+
 	setTargetJobPost = (post) => {
 		this.setState({
 			targetJobPost: post,
@@ -1149,7 +1251,7 @@ export class App extends Component {
 				jobID: jobID,
 			})
 			.then((response) => {
-				console.log(response);
+				// console.log(response);
 			});
 	};
 
@@ -1204,7 +1306,7 @@ export class App extends Component {
 				userID: newValue.userID,
 			})
 			.then((response) => {
-				console.log(response);
+				// console.log(response);
 			});
 
 		// Company Database Table -----------
@@ -1220,7 +1322,7 @@ export class App extends Component {
 				companyID: newValue.companyID,
 			})
 			.then((response) => {
-				console.log(response);
+				// console.log(response);
 			});
 
 		// Job Posts Database Table -----------
@@ -1231,7 +1333,7 @@ export class App extends Component {
 				companyID: newValue.companyID,
 			})
 			.then((response) => {
-				console.log(response);
+				// console.log(response);
 			});
 
 		// Applied Jobs Database Table -----------
@@ -1245,7 +1347,7 @@ export class App extends Component {
 				}
 			)
 			.then((response) => {
-				console.log(response);
+				// console.log(response);
 			});
 
 		// Employer Feedback Database Table -----------
@@ -1259,7 +1361,7 @@ export class App extends Component {
 				}
 			)
 			.then((response) => {
-				console.log(response);
+				// console.log(response);
 			});
 	};
 
@@ -1267,6 +1369,12 @@ export class App extends Component {
 		await this.setState({
 			darkTheme: !this.state.darkTheme,
 		});
+
+		if (this.state.darkTheme) {
+			localStorage.setItem("darkTheme", true);
+		} else {
+			localStorage.setItem("darkTheme", false);
+		}
 	};
 
 	render() {
@@ -1317,6 +1425,7 @@ export class App extends Component {
 									setEmployerFeedBack={this.setEmployerFeedBack}
 									setCompany={this.setCompany}
 									setCompanyJobPosts={this.setCompanyJobPosts}
+									setJobPosts={this.setJobPosts}
 								/>
 							)}
 						/>
@@ -1402,6 +1511,7 @@ export class App extends Component {
 										this.changeCurrentUserProfile
 									}
 									toggleHiringStatus={this.toggleHiringStatus}
+									updateApplicantData={this.updateApplicantData}
 								/>
 							)}
 						/>
@@ -1472,6 +1582,7 @@ export class App extends Component {
 									activePage={this.state.activePage}
 									currentUser={this.state.currentUser}
 									applicants={this.state.applicants}
+									employerFeedback={this.state.employerFeedback}
 									handleChange={this.handleChange}
 									handleApplication={this.handleApplication}
 									addJobApplicants={this.addJobApplicants}
@@ -1612,6 +1723,7 @@ export class App extends Component {
 									infos={this.state.infos}
 									targetCompany={this.state.targetCompany}
 									darkTheme={this.state.darkTheme}
+									isDeleted={this.state.isDeleted}
 									setCurrentUser={this.setCurrentUser}
 									setCompanyID={this.setCompanyID}
 									handleLogout={this.handleLogout}
@@ -1624,6 +1736,9 @@ export class App extends Component {
 									updateJobApplicantStatus={
 										this.updateJobApplicantStatus
 									}
+									deleteJobApplicants={this.deleteJobApplicants}
+									setDeleteState={this.setDeleteState}
+									closeDeleteState={this.closeDeleteState}
 								/>
 							)}
 						/>
@@ -1667,15 +1782,12 @@ export class App extends Component {
 							path={`/${userType}/applicants/applicant-data`}
 							component={() => (
 								<Emp_Job_Applicant_Data
-									targetApplicant={this.state.targetApplicant}
-									targetJob={this.state.targetJob}
 									employerFeedback={this.state.employerFeedback}
 									jobApplicantData={this.state.jobApplicantData}
 									companyJobPost={this.state.companyJobPost}
 									darkTheme={this.state.darkTheme}
 									addEmployerFeedBack={this.addEmployerFeedBack}
 									updateCandidateStatus={this.updateCandidateStatus}
-									changeCandidateStatus={this.changeCandidateStatus}
 								/>
 							)}
 						/>

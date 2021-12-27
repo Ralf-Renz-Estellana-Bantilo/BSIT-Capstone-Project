@@ -90,7 +90,7 @@ export class Hiree_Information extends Component {
 						closeText='Cancel'
 						close={this.onCloseModal}
 						confirm={this.handleSendRequest}
-						path='/jobseeker/search'
+						path={`/${userType}/search`}
 					/>
 				) : (
 					""

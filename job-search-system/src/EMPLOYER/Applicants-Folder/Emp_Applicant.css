@@ -79,14 +79,14 @@
 	justify-content: space-between;
 	margin-bottom: 5px;
 	padding: 10px;
-	cursor: pointer;
+	/* cursor: pointer; */
 	transition: 0.1s;
 	box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.411);
 }
-
+/* 
 .applicant-info:active {
 	transform: scale(0.99);
-}
+} */
 
 /* .applicant-info:hover {
 	background-color: var(--dark-primary-hover);
@@ -96,6 +96,7 @@
 	display: flex;
 	align-items: center;
 	flex: 6;
+	cursor: pointer;
 }
 
 .applicant-name {
@@ -112,6 +113,10 @@
 .applicant-name p {
 	font-size: 13px;
 	color: var(--accent2);
+}
+
+.applicant-image-container {
+	position: relative;
 }
 
 .applicant-image {
@@ -137,15 +142,29 @@
 	flex: 2;
 }
 
-.applicant-info-right-portion .circle {
+.applicant-info-left-portion .applicant-image-container .circle {
 	height: 10px;
 	width: 10px;
 	border-radius: 30px;
-	margin-right: 10px;
+	/* margin-right: 10px; */
+	position: absolute;
+	bottom: 0;
+	right: 0;
 }
 
 .applicant-info-right-portion p {
 	font-size: 13px;
 	color: var(--accent2);
 	text-align: right;
+}
+
+.applicant-info-right-portion-delete {
+	display: flex;
+	align-items: center;
+	margin-left: 10px;
+	cursor: pointer;
+}
+
+.applicant-info-right-portion-delete img {
+	height: 16px;
 }

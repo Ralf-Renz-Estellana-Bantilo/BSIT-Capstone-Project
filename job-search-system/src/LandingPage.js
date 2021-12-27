@@ -52,16 +52,14 @@ export class LandingPage extends Component {
 									applicant, don't worry we got you covered.
 								</p>
 							</div>
-							<div className='login-wrapper'>
-								<Link to='/login'>
-									<button
-										onClick={() => {
-											this.props.setUserType("Job Seeker");
-										}}>
-										Login
-									</button>
-								</Link>
-							</div>
+							<Link to='/login'>
+								<button
+									onClick={() => {
+										this.props.setUserType("Job Seeker");
+									}}>
+									Login
+								</button>
+							</Link>
 						</div>
 					</div>
 				</div>

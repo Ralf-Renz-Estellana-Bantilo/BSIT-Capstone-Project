@@ -153,7 +153,7 @@ export class JobVacancyFormPart1 extends Component {
 									onChange={handleChange("prefSex")}
 									value={values.prefSex}>
 									<option disabled='disabled' hidden='hidden' value=''>
-										Select Gender
+										Preferred Sex
 									</option>
 									<option value='Male'>Male</option>
 									<option value='Female'>Female</option>

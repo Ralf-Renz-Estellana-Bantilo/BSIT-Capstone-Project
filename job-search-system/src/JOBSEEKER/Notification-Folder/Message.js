@@ -27,8 +27,6 @@ export class Message extends Component {
 		const { feedback, currentUser, darkTheme } = this.props;
 		const status = feedback.Application_Status;
 
-		console.log(feedback);
-
 		const month = [
 			"January",
 			"February",

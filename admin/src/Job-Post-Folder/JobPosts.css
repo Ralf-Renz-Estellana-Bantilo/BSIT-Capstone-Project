@@ -87,9 +87,11 @@
 	color: var(--dark-blue);
 }
 
-.post-right-text h2 {
+.selected-job-post .post-right-text h5 {
 	font-weight: 600;
-	font-size: 16px;
+	font-size: 14px;
+	color: var(--dark-blue);
+	/* text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); */
 }
 
 .post-left-text {
@@ -207,7 +209,7 @@
 	margin: auto 0px auto 20px;
 	cursor: pointer;
 	color: var(--accent2);
-	transition: 0.2s;
+	/* transition: 0.2s; */
 }
 
 .upperRight-info:hover {
@@ -327,9 +329,12 @@
 	display: flex;
 	flex-direction: column;
 	margin: 7px 0;
+	/* justify-content: center;
+	align-items: center; */
 }
 
 .post-field input {
+	/* width: 97%; */
 	border-radius: 7px;
 	padding: 5px 10px;
 	text-align: center;
@@ -353,7 +358,6 @@
 	color: black;
 	font-weight: 500;
 	font-size: 13px;
-	transition: 0.5s ease-in-out;
 	white-space: pre-line;
 	box-shadow: 1px 1px 4px black;
 }
@@ -361,7 +365,7 @@
 .post-field select {
 	width: 100%;
 	border-radius: 7px;
-	padding: 4px 5px;
+	padding: 5px 10px;
 	outline: none;
 	border: none;
 	background-color: white;
@@ -388,7 +392,7 @@
 }
 
 .post-field-group .post-field select {
-	width: 132px;
+	width: 153px;
 	border-radius: 7px;
 	padding: 4px 5px;
 	outline: none;

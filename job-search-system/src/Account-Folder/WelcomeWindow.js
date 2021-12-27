@@ -35,6 +35,13 @@ export class WelcomeWindow extends Component {
 		const companySession = sessionStorage.getItem("CompanyID");
 
 		if (applicantSession) {
+			// Fetching Job Posts Data
+			await axios
+				.get("http://localhost:2000/api/read-jobPost")
+				.then((response) => {
+					this.props.setJobPosts(response.data);
+				});
+
 			// Fetching Job Applicant Data
 			await axios
 				.post("http://localhost:2000/api/read-applied-jobs", {
@@ -112,10 +119,16 @@ export class WelcomeWindow extends Component {
 				<div className='welcome-container-content'>
 					<img src={this.props.roleGif} alt='Loading1 gif' />
 					<h3>Welcome {`${First_Name} ${Last_Name}`}</h3>
-					<p>Initializing Components...</p>
+					{/* <p>Initializing Components...</p> */}
+					<p>
+						{
+							<CountDown
+								method={this.props.method}
+								delay={this.props.delay}
+							/>
+						}
+					</p>
 				</div>
-
-				{<CountDown method={this.props.method} delay={this.props.delay} />}
 			</div>
 		);
 	}

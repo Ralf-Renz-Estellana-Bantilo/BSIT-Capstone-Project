@@ -105,6 +105,7 @@ export class Profile extends Component {
 					applicants={this.props.applicants}
 					setApplicants={this.props.setApplicants}
 					darkTheme={this.props.darkTheme}
+					updateApplicantData={this.props.updateApplicantData}
 				/>
 
 				<div className='applied-jobs-container'>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import LeftArrow from "../../Images/LeftArrow.png";
 import Modal from "../../JOBSEEKER/Home-Folder/Modal";
@@ -6,18 +6,14 @@ import Resources from "../../Resources";
 import "./Emp_Job_Applicant_Data.css";
 
 const Emp_Job_Applicant_Data = ({
-	targetApplicant,
 	companyJobPost,
 	addEmployerFeedBack,
 	updateCandidateStatus,
 	jobApplicantData,
 	employerFeedback,
-	changeCandidateStatus,
 	darkTheme,
 }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [applicant, setJobApplicants] = useState({});
-	// const [company, setCompany] = useState([]);
 
 	const [isRow2Open, setIsRow2Open] = useState(false);
 	const [row1Text, setRow1Text] = useState("");
@@ -51,6 +47,8 @@ const Emp_Job_Applicant_Data = ({
 	const [selectedAMPM, setSelectedAMPM] = useState("");
 	const [activeButton, setActiveButton] = useState("");
 	const [valid, setValid] = useState(false);
+	const [height, setHeight] = useState(0);
+	const ref = useRef(null);
 
 	const viewModal = () => {
 		setIsModalOpen(true);
@@ -97,11 +95,10 @@ const Emp_Job_Applicant_Data = ({
 				Message: text,
 			};
 
-			await changeCandidateStatus(status, applicant.ApplicantID);
 			await addEmployerFeedBack(feedback);
 			await updateCandidateStatus(
-				applicant.ApplicantID,
-				jobPost[0].JobID,
+				jobApplicantData.ApplicantID,
+				jobApplicantData.JobID,
 				status
 			);
 		} catch (error) {
@@ -222,6 +219,11 @@ const Emp_Job_Applicant_Data = ({
 		activeButton,
 	]);
 
+	useEffect(() => {
+		window.scrollTo(0, 0);
+		setHeight(ref.current.clientHeight);
+	}, []);
+
 	let jobPost = companyJobPost.filter(
 		(jobPost) => jobPost.JobID === jobApplicantData.JobID
 	);
@@ -240,7 +242,7 @@ const Emp_Job_Applicant_Data = ({
 	return (
 		<div className='job-applicant-data-container'>
 			<div className='applicant-data-container'>
-				<div className='job-title-header'>
+				<div className='job-title-header' ref={ref}>
 					<Link to='/employer/applicants'>
 						<img
 							src={LeftArrow}
@@ -257,6 +259,8 @@ const Emp_Job_Applicant_Data = ({
 						<p>{jobPost[0].Category}</p>
 					</div>
 				</div>
+
+				<div style={{ marginTop: `${height + 10}px` }} />
 
 				<div className='applicant-dp'>
 					<div className='applicant-profile'>
@@ -285,8 +289,9 @@ const Emp_Job_Applicant_Data = ({
 								borderRadius: "5px",
 								background: "linear-gradient(20deg, #00b2ff, #006aff)",
 								fontSize: "14px",
+								// border: "1px solid grey",
 							}}>
-							Scheduled for Meet Up
+							Scheduled for an Interview
 						</p>
 					) : jobApplicantData.Candidate_Status === "Hired" ? (
 						<p
@@ -297,6 +302,7 @@ const Emp_Job_Applicant_Data = ({
 								borderRadius: "5px",
 								background: "linear-gradient(20deg, #00f33d, #88ff00)",
 								fontSize: "14px",
+								// border: "1px solid grey",
 							}}>
 							Hired
 						</p>
@@ -309,6 +315,7 @@ const Emp_Job_Applicant_Data = ({
 								borderRadius: "5px",
 								background: "linear-gradient(20deg, #ff004c, #ff7b00)",
 								fontSize: "14px",
+								// border: "1px solid grey",
 							}}>
 							Declined
 						</p>
