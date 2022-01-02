@@ -15,14 +15,12 @@ const Accordion2 = ({ setTheme, darkTheme }) => {
 					className='toggle-container'
 					style={{
 						background: isActive
-							? "linear-gradient(to bottom, #ff7b00, #ff004c"
-							: "linear-gradient(to bottom, #00b2ff, #006aff",
+							? "linear-gradient(to bottom, #ff7b00, #ff004c)"
+							: "linear-gradient(to bottom, #00b2ff, #006aff)",
 					}}>
-					<div
-						className='toggleAccordion'
-						title={isActive ? "Show Less" : "Show More"}>
+					<p title={isActive ? "Show Less" : "Show More"}>
 						{isActive ? "-" : "+"}
-					</div>
+					</p>
 				</div>
 			</div>
 
@@ -44,12 +42,8 @@ const Accordion2 = ({ setTheme, darkTheme }) => {
 								<span className='slider'></span>
 							</label>
 						</div>
-						<Link to='/jobseeker/menu/settings'>
-							<button>Settings</button>{" "}
-						</Link>
-						<Link to='/jobseeker/menu/terms-and-condition'>
-							<button>Terms and Condition</button>{" "}
-						</Link>
+						<button>Settings</button>
+						<button>Terms and Condition</button>
 					</div>
 				</div>
 			)}

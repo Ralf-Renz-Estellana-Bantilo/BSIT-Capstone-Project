@@ -51,8 +51,8 @@
 	font-weight: 600;
 }
 
-@media only screen and (min-width: 700px) {
+@media only screen and (min-width: 800px) {
 	.welcome-container .welcome-container-content {
-		width: 41%;
+		width: 29%;
 	}
 }

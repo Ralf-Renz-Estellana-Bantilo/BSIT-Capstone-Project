@@ -75,7 +75,7 @@ export class CompanyProfile extends Component {
 				</Link>
 
 				<div className='company-profile-content'>
-					<h1>Business Details</h1>
+					<h1>Business Stablishment Details</h1>
 					<div className='company-header'>
 						<div className='company-logo'>
 							<img src={`../../assets/${imageURL}`} alt='sample' />

@@ -18,11 +18,14 @@ const Applicants = ({
 	applicantPreview,
 	setApplicantPreview,
 	setCompaniesData,
+	applicantSearch,
+	setApplicantSearch,
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
 
 	useEffect(() => {
 		setActivePage("Applicants");
+		localStorage.setItem("activePage", "Applicants");
 	}, []);
 
 	const getMonth = (monthNum) => {
@@ -53,6 +56,34 @@ const Applicants = ({
 
 	let applicant = applicantPreview;
 
+	let countApplicant = 0;
+	{
+		jobSeekers.map((jobSeeker) => {
+			if (
+				`${jobSeeker.Preferred_Job}`
+					.toLowerCase()
+					.includes(`${applicantSearch}`.toLowerCase()) ||
+				`${jobSeeker.Preferred_Category}`
+					.toLowerCase()
+					.includes(`${applicantSearch}`.toLowerCase()) ||
+				`${jobSeeker.Last_Name}`
+					.toLowerCase()
+					.includes(`${applicantSearch}`.toLowerCase()) ||
+				`${jobSeeker.First_Name}`
+					.toLowerCase()
+					.includes(`${applicantSearch}`.toLowerCase()) ||
+				`${jobSeeker.Home_Address}`
+					.toLowerCase()
+					.includes(`${applicantSearch}`.toLowerCase()) ||
+				`${jobSeeker.Hiring_Status}`
+					.toLowerCase()
+					.includes(`${applicantSearch}`.toLowerCase())
+			) {
+				countApplicant += 1;
+			}
+		});
+	}
+
 	return (
 		<div className='applicants-container'>
 			<div className='content-wrapper'>
@@ -75,86 +106,141 @@ const Applicants = ({
 				)}
 				<div className='panel-container'>
 					<Navbar
-						setSidebarOpen={setSidebarOpen}
 						isSidebarOpen={isSidebarOpen}
+						text={applicantSearch}
+						setText={setApplicantSearch}
+						setSidebarOpen={setSidebarOpen}
 					/>
 
 					<div className='main-panel-container'>
 						<div className='job-post-panel-container'>
 							<div className='job-post-panel'>
 								<div className='job-post-header'>
-									<h3>List of Job Seekers ({jobSeekers.length})</h3>
+									<h3>List of Job Seekers ({countApplicant})</h3>
 									{/* <p title='More Options...'>•••</p> */}
 								</div>
 								<div className='job-posts'>
 									{jobSeekers.map((jobSeeker) => {
-										let selectedApplicant = "";
-										if (applicant) {
-											if (
-												applicant.ApplicantID ===
-												jobSeeker.ApplicantID
-											) {
-												selectedApplicant = applicant.ApplicantID;
+										if (
+											`${jobSeeker.Preferred_Job}`
+												.toLowerCase()
+												.includes(
+													`${applicantSearch}`.toLowerCase()
+												) ||
+											`${jobSeeker.Preferred_Category}`
+												.toLowerCase()
+												.includes(
+													`${applicantSearch}`.toLowerCase()
+												) ||
+											`${jobSeeker.Last_Name}`
+												.toLowerCase()
+												.includes(
+													`${applicantSearch}`.toLowerCase()
+												) ||
+											`${jobSeeker.First_Name}`
+												.toLowerCase()
+												.includes(
+													`${applicantSearch}`.toLowerCase()
+												) ||
+											`${jobSeeker.Home_Address}`
+												.toLowerCase()
+												.includes(
+													`${applicantSearch}`.toLowerCase()
+												) ||
+											`${jobSeeker.Hiring_Status}`
+												.toLowerCase()
+												.includes(
+													`${applicantSearch}`.toLowerCase()
+												)
+										) {
+											let selectedApplicant = "";
+											if (applicant) {
+												if (
+													applicant.ApplicantID ===
+													jobSeeker.ApplicantID
+												) {
+													selectedApplicant =
+														applicant.ApplicantID;
+												}
 											}
-										}
-										return (
-											<div
-												className={
-													jobSeeker.ApplicantID ===
-													selectedApplicant
-														? "selected-job-post"
-														: "job-post"
-												}
-												style={
-													jobSeeker.Hiring_Status === "Active"
-														? { borderLeft: "5px solid #00ff40" }
-														: { borderLeft: "5px solid red" }
-												}
-												onClick={() => {
-													// setApplicant(jobSeeker);
-													setApplicantPreview(jobSeeker);
-												}}>
-												<div className='upperLeft-info'>
-													<div
-														className='account-profile'
-														style={{
-															height: "50px",
-															width: "50px",
-														}}>
-														<img
-															src={`../assets/${jobSeeker.User_Image}`}
-															alt='Job Seeker'
-														/>
-													</div>
-													<div className='basic-info'>
-														<h2>
-															{jobSeeker.Last_Name},{" "}
-															{jobSeeker.First_Name}{" "}
-															{jobSeeker.Middle_Name[0]}.
-														</h2>
+											return (
+												<div
+													className={
+														jobSeeker.ApplicantID ===
+														selectedApplicant
+															? "selected-job-post"
+															: "job-post"
+													}
+													style={
+														jobSeeker.Hiring_Status === "Active"
+															? {
+																	borderLeft:
+																		"5px solid #00ff40",
+															  }
+															: { borderLeft: "5px solid red" }
+													}
+													onClick={() => {
+														// setApplicant(jobSeeker);
+														setApplicantPreview(jobSeeker);
+													}}>
+													<div className='upperLeft-info'>
+														<div
+															className='account-profile'
+															style={{
+																height: "50px",
+																width: "50px",
+															}}>
+															<img
+																src={`../assets/${jobSeeker.User_Image}`}
+																alt='Job Seeker'
+															/>
+														</div>
+														<div className='basic-info'>
+															<h2>
+																{jobSeeker.Last_Name},{" "}
+																{jobSeeker.First_Name}{" "}
+																{jobSeeker.Middle_Name[0]}.
+															</h2>
 
-														<div className='date-address'>
-															<p>
-																•{" "}
-																{AdminResources.getCurrentAge(
-																	jobSeeker.B_Month,
-																	jobSeeker.B_Day,
-																	jobSeeker.B_Year
-																)}
-															</p>
-															<div className='address'>
-																<img
-																	src={LocationIcon}
-																	alt='Location Icon'
-																/>
-																<p>{jobSeeker.Home_Address}</p>
+															<div className='date-address'>
+																<p>
+																	•{" "}
+																	{AdminResources.getCurrentAge(
+																		jobSeeker.B_Month,
+																		jobSeeker.B_Day,
+																		jobSeeker.B_Year
+																	)}
+																</p>
+																<div className='address'>
+																	<img
+																		src={LocationIcon}
+																		alt='Location Icon'
+																	/>
+																	<p>
+																		{jobSeeker.Home_Address}
+																	</p>
+																</div>
 															</div>
 														</div>
 													</div>
 												</div>
-											</div>
-										);
+											);
+										}
 									})}
+
+									{countApplicant === 0 &&
+										applicantSearch.length !== 0 && (
+											<p
+												style={{
+													textAlign: "center",
+													padding: "10px",
+													backgroundColor: "red",
+													fontWeight: "500",
+													fontSize: "14px",
+												}}>
+												No results found!
+											</p>
+										)}
 								</div>
 							</div>
 

@@ -154,11 +154,9 @@ const Accordion3 = ({ deleteCompanyPosts }) => {
 							? "linear-gradient(to bottom, #ff7b00, #ff004c)"
 							: "linear-gradient(to bottom, #00b2ff, #006aff)",
 					}}>
-					<div
-						title={isActive ? "Show Less" : "Show More"}
-						className='toggleAccordion'>
+					<p title={isActive ? "Show Less" : "Show More"}>
 						{isActive ? "-" : "+"}
-					</div>
+					</p>
 				</div>
 			</div>
 

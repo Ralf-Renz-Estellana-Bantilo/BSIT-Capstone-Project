@@ -15,6 +15,7 @@ export class Emp_Company_Profile extends Component {
 		zone: "",
 		barangay: "",
 		contactNumber: "",
+		emailAddress: "",
 		companyName: "",
 		companyDescription: "",
 		company: [],
@@ -115,6 +116,7 @@ export class Emp_Company_Profile extends Component {
 			zone,
 			barangay,
 			contactNumber,
+			emailAddress,
 			companyName,
 			companyDescription,
 			isIndicationOpen,
@@ -211,6 +213,19 @@ export class Emp_Company_Profile extends Component {
 										}
 									/>
 								</div>
+
+								{/* <div className='field'>
+									<label>Email Address:</label>
+									<input
+										name='emailAddress'
+										type='email'
+										placeholder='Enter your Email Address'
+										value={emailAddress}
+										onChange={(e) =>
+											this.handleChange(e, "emailAddress")
+										}
+									/>
+								</div> */}
 							</div>
 						</div>
 
@@ -232,11 +247,13 @@ export class Emp_Company_Profile extends Component {
 									placeholder='Input Street'
 									value={street}
 									onChange={(e) => this.handleChange(e, "street")}
+									style={{ marginBottom: "5px" }}
 								/>
 								<select
 									defaultValue=''
 									value={zone}
-									onChange={(e) => this.handleChange(e, "zone")}>
+									onChange={(e) => this.handleChange(e, "zone")}
+									style={{ marginBottom: "5px" }}>
 									<option disabled='disabled' hidden='hidden' value=''>
 										Select Zone
 									</option>
@@ -250,7 +267,8 @@ export class Emp_Company_Profile extends Component {
 								<select
 									defaultValue=''
 									value={barangay}
-									onChange={(e) => this.handleChange(e, "barangay")}>
+									onChange={(e) => this.handleChange(e, "barangay")}
+									style={{ marginBottom: "5px" }}>
 									<option disabled='disabled' hidden='hidden' value=''>
 										Select Barangay
 									</option>
@@ -263,8 +281,6 @@ export class Emp_Company_Profile extends Component {
 								<textarea
 									name='interest'
 									id='textarea'
-									cols='30'
-									rows='10'
 									placeholder='Describe what your business does..'
 									value={companyDescription}
 									onChange={(e) =>

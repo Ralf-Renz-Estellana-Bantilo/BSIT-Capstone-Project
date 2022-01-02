@@ -152,7 +152,7 @@ export class Message extends Component {
 					</div>{" "}
 				</div>
 				<div className='message-panel-container'>
-					<p className='message-time'>{`${convertedMonth} ${feedback.Day} at ${convertHour}:${convertMinute} ${ampm}`}</p>
+					<p className='message-time'>{`${convertedMonth} ${feedback.Day}, ${feedback.Year} at ${convertHour}:${convertMinute} ${ampm}`}</p>
 					<div className='message-panels'>
 						<div className='message-left-panel'>
 							<div className='message-left-panel-img'>

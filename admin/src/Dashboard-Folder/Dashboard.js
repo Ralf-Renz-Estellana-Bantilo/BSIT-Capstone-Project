@@ -24,6 +24,7 @@ const Dashboard = ({
 
 	useEffect(() => {
 		setActivePage("Dashboard");
+		localStorage.setItem("activePage", "Dashboard");
 	}, []);
 
 	const listOfBarangays = AdminResources.getBarangay();

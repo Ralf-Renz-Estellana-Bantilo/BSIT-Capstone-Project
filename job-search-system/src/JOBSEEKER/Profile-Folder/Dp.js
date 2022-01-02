@@ -100,7 +100,7 @@ export class Dp extends Component {
 				userID: userSession,
 			})
 			.then((response) => {
-				console.log("Hiring_Status has been Updated");
+				// console.log("Hiring_Status has been Updated");
 			});
 	};
 

@@ -1,0 +1,75 @@
+.unknown-page-container {
+	height: 100vh;
+	background-color: var(--dark-primary);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.unknown-page {
+	height: 60vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	position: relative;
+	top: -20px;
+}
+
+.unknown-page img {
+	height: 150px;
+}
+
+.unknown-page h3 {
+	color: var(--accent-main);
+	font-size: 17px;
+	font-weight: 600;
+	/* position: relative;
+	top: -20px; */
+}
+
+.unknown-page button {
+	color: var(--accent-main);
+	border: none;
+	border-radius: 50px;
+	padding: 5px 20px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: 0.25s;
+	font-weight: 600;
+	width: 80%;
+
+	border: solid 3px transparent;
+	background-image: linear-gradient(
+			rgba(255, 255, 255, 0),
+			rgba(255, 255, 255, 0)
+		),
+		linear-gradient(-20deg, var(--light-blue), var(--dark-blue));
+	background-origin: border-box;
+	background-clip: content-box, border-box;
+	box-shadow: 2px 1000px 1px var(--dark-primary) inset;
+}
+
+.unknown-page button:hover {
+	box-shadow: none;
+	color: var(--accent-main);
+}
+
+.unknown-page ul {
+	text-decoration: dotted;
+}
+
+.try {
+	width: 90%;
+}
+
+.try li {
+	color: var(--accent1);
+	font-size: 12px;
+}
+
+@media only screen and (min-width: 600px) {
+	.unknown-page {
+		width: 400px;
+	}
+}

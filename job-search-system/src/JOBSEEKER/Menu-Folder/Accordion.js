@@ -1,9 +1,22 @@
 import React, { useState } from "react";
 import "./Accordion.css";
 import { Link } from "react-router-dom";
+import About from "./OutsideLinks/About";
+import Contact from "./OutsideLinks/Contact";
 
 const Accordion = () => {
 	const [isActive, setIsActive] = useState(false);
+	const [isAboutModal, setAboutModal] = useState(false);
+	const [isContactModal, setContactModal] = useState(false);
+
+	const userTypeSession = sessionStorage.getItem("UserType");
+	let userType = "";
+
+	if (userTypeSession === "Job Seeker") {
+		userType = "jobseeker";
+	} else if (userTypeSession === "Employer") {
+		userType = "employer";
+	}
 
 	return (
 		<div className='accordion-item'>
@@ -23,22 +36,28 @@ const Accordion = () => {
 					</p>
 				</div>
 			</div>
-			{/* {isActive && <div className='accordion-content'>{content}</div>} */}
 			{isActive && (
 				<div className='accordion-content'>
 					<div className='accordion-content-button'>
-						<Link to='/jobseeker/menu/about'>
-							<button>About Job Search Catarman</button>{" "}
+						<Link to={`/${userType}/menu/about`}>
+							<button onClick={() => setAboutModal(true)}>
+								About Job Search Catarman
+							</button>
 						</Link>
-						<Link to='/jobseeker/menu/contact'>
-							<button>Contact Us</button>{" "}
+						<Link to={`/${userType}/menu/contact`}>
+							<button onClick={() => setContactModal(true)}>
+								Contact Us
+							</button>
 						</Link>
-						<Link to='/jobseeker/menu/help'>
-							<button>Help Center</button>{" "}
+						<Link to={`/${userType}/menu/help`}>
+							<button>Help Center</button>
 						</Link>
 					</div>
 				</div>
 			)}
+
+			{isAboutModal && <About close={() => setAboutModal(false)} />}
+			{isContactModal && <Contact close={() => setContactModal(false)} />}
 		</div>
 	);
 };

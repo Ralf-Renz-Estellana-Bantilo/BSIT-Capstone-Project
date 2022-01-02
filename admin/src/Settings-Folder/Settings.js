@@ -16,6 +16,7 @@ const Settings = ({
 
 	useEffect(() => {
 		setActivePage("Settings");
+		localStorage.setItem("activePage", "Settings");
 	}, []);
 
 	return (

@@ -17,8 +17,16 @@
 	border-bottom: 1px solid var(--border1);
 }
 
-.applied-jobs-container h3 {
-	padding: 0 0 10px 10px;
+.applied-jobs-container .applied-jobs-title {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
+
+.applied-jobs-container .applied-jobs-title h3 {
+	padding: 0 15px;
+	font-size: 13px;
+	font-weight: 600;
 	color: var(--accent2);
 }
 

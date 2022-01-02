@@ -8,26 +8,7 @@ import Accordion2 from "../../JOBSEEKER/Menu-Folder/Accordion2";
 import Accordion3 from "../../JOBSEEKER/Menu-Folder/Accordion3";
 
 export class Emp_Setting extends Component {
-	// state = {
-	// 	company: [],
-	// };
-
 	componentDidMount = async () => {
-		// Fetching Company Data
-		// await axios
-		// 	.post("http://localhost:2000/api/read-company", {
-		// 		userID: this.props.currentUser.UserID,
-		// 	})
-		// 	.then(async (response) => {
-		// 		if (response.data.length === 1) {
-		// 			await this.setState({
-		// 				company: response.data[0],
-		// 			});
-		// 		} else {
-		// 			console.log("Error fetching information...");
-		// 		}
-		// 	});
-
 		const session = sessionStorage.getItem("UserID");
 
 		if (!session) {
@@ -38,6 +19,7 @@ export class Emp_Setting extends Component {
 		localStorage.setItem("activePage", "settings");
 		localStorage.setItem("isSearchOpen", false);
 	};
+
 	render() {
 		const { currentUser } = this.props;
 		return (
@@ -60,10 +42,7 @@ export class Emp_Setting extends Component {
 						setTheme={this.props.setTheme}
 						darkTheme={this.props.darkTheme}
 					/>
-					<Accordion3
-						deleteCompanyPosts={this.props.deleteCompanyPosts}
-						infos={this.props.infos}
-					/>
+					<Accordion3 deleteCompanyPosts={this.props.deleteCompanyPosts} />
 				</div>
 			</div>
 		);

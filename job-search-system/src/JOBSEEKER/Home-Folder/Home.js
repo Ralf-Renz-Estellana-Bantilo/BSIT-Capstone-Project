@@ -98,6 +98,7 @@ export class Home extends Component {
 							applicants={this.props.applicants}
 							numApplicants={this.props.numApplicants}
 							darkTheme={this.props.darkTheme}
+							appliedJobs={this.props.appliedJobs}
 						/>
 					) : (
 						<p

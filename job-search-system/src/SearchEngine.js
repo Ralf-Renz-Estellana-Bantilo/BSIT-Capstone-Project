@@ -176,11 +176,7 @@ export class SearchEngine extends Component {
 										count += 1;
 									}
 								})}
-								<p
-									className='results'
-									style={{
-										paddingTop: "20px",
-									}}>{`Finding results for "${this.state.text}" | found ${count}`}</p>
+								<p className='results'>{`Finding results for "${this.state.text}" | found ${count}`}</p>
 								{infos.map((info) => {
 									if (
 										(`${info.Job_Title}`
@@ -278,8 +274,7 @@ export class SearchEngine extends Component {
 								<p
 									className='results'
 									style={{
-										paddingTop: "20px",
-										marginBottom: "10px",
+										marginBottom: "15px",
 									}}>{`Finding results for "${this.state.text}" | found ${count} `}</p>
 
 								{applicants.map((applicant) => {

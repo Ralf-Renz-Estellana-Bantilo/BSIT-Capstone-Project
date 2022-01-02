@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import Emp_Navbar from "../Emp_Navbar";
 import Emp_Gap from "../Emp_Gap";
-import axios from "axios";
 import { withRouter } from "react-router-dom";
 import Emp_DP from "./Emp_DP";
 import Emp_Company_Profile from "./Emp_Company_Profile";
 import TimeStamp from "../../TimeStamp";
+import "./Emp_BusinessProfile.css";
 
 export class Emp_BusinessProfile extends Component {
 	state = {
@@ -86,15 +86,12 @@ export class Emp_BusinessProfile extends Component {
 				/>
 
 				<div className='applied-jobs-container'>
-					<h3
-						style={{
-							fontSize: "13px",
-							color: "#5a5a5a",
-							fontWeight: "600",
-							marginLeft: "10px",
-						}}>
-						Job Seekers that you messaged:
-					</h3>
+					<div className='applied-jobs-title'>
+						<h3>Job Seekers that you messaged: </h3>
+						<h3 style={{ textAlign: "right" }}>
+							({messagedApplicants.length})
+						</h3>
+					</div>
 
 					{messagedApplicants.length <= 0 && (
 						<p

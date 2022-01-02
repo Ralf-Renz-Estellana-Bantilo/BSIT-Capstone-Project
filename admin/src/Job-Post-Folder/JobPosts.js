@@ -23,13 +23,18 @@ const JobPosts = ({
 	setPostPreview,
 	setCompaniesData,
 	addPost,
+	location,
+	status,
+	sort,
+	setLocation,
+	setStatus,
+	setSort,
+	jobPostSearch,
+	setJobPostSearch,
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
 	const [isPopupMenuOpen, setIsPopupMenuOpen] = useState(false);
 	const [isJobPostPanelOpen, setJobPostPanelOpen] = useState(false);
-	const [location, setLocation] = useState("");
-	const [status, setStatus] = useState("Active");
-	const [sort, setSort] = useState("Most Recent");
 
 	// States for Posting a Job
 	const [jobTitle, setJobTitle] = useState("");
@@ -51,6 +56,7 @@ const JobPosts = ({
 
 	useEffect(() => {
 		setActivePage("Job Posts");
+		localStorage.setItem("activePage", "Job Posts");
 	}, []);
 
 	const handlePostJob = async () => {
@@ -136,17 +142,50 @@ const JobPosts = ({
 	let countList = 0;
 	let count = 0;
 
-	for (let a = 0; a < activePosts.length; a++) {
-		let address =
-			activePosts[a].Company_Address.split(", ")[
-				activePosts[a].Company_Address.split(", ").length - 1
-			];
-		if (`${address}`.toLowerCase().includes(location.toLowerCase())) {
-			countList += 1;
-		}
+	// for (let a = 0; a < activePosts.length; a++) {
+	// 	let address =
+	// 		activePosts[a].Company_Address.split(", ")[
+	// 			activePosts[a].Company_Address.split(", ").length - 1
+	// 		];
+	// 	if (`${address}`.toLowerCase().includes(location.toLowerCase())) {
+	// 		countList += 1;
+	// 	}
+	// }
+
+	{
+		activePosts.map((jobPost) => {
+			let address =
+				jobPost.Company_Address.split(", ")[
+					jobPost.Company_Address.split(", ").length - 1
+				];
+			if (
+				(`${jobPost.Job_Title}`
+					.toLowerCase()
+					.includes(`${jobPostSearch}`.toLowerCase()) ||
+					`${jobPost.Job_Type}`
+						.toLowerCase()
+						.includes(`${jobPostSearch}`.toLowerCase()) ||
+					`${jobPost.Category}`
+						.toLowerCase()
+						.includes(`${jobPostSearch}`.toLowerCase()) ||
+					`${jobPost.Company_Address}`
+						.toLowerCase()
+						.includes(`${jobPostSearch}`.toLowerCase()) ||
+					`${jobPost.Company_Name}`
+						.toLowerCase()
+						.includes(`${jobPostSearch}`.toLowerCase()) ||
+					`${jobPost.Preferred_Sex}`
+						.toLowerCase()
+						.includes(`${jobPostSearch}`.toLowerCase())) &&
+				`${address}`.toLowerCase().includes(location.toLowerCase())
+			) {
+				countList += 1;
+			}
+		});
 	}
 
-	console.log(jobPosts);
+	if (count === 0) {
+	}
 
 	if (sort === "Most Recent") {
 		activePosts = activePosts.sort((a, b) => {
@@ -236,6 +275,8 @@ const JobPosts = ({
 				<div className='panel-container'>
 					<Navbar
 						activePage={activePage}
+						text={jobPostSearch}
+						setText={setJobPostSearch}
 						isSidebarOpen={isSidebarOpen}
 						isJobPostPanelOpen={isJobPostPanelOpen}
 						setSidebarOpen={setSidebarOpen}
@@ -413,7 +454,7 @@ const JobPosts = ({
 								<div className='job-post-preview'>
 									<div className='post-preview-panel'>
 										<div className='job-post-header'>
-											<h3>Business Stablishment Information</h3>
+											<h3>Business Stablishment jobPostrmation</h3>
 										</div>
 										<div className='job-posts'>
 											<div className='post-fields'>
@@ -538,66 +579,102 @@ const JobPosts = ({
 									</div>
 									<div className='job-posts'>
 										{activePosts.map((jobPost) => {
-											let address =
-												jobPost.Company_Address.split(", ")[
-													jobPost.Company_Address.split(", ")
-														.length - 1
-												];
-											let selectedPost = "";
-											if (post) {
-												if (post.JobID === jobPost.JobID) {
-													selectedPost = post.JobID;
-												}
-											}
 											if (
-												`${address}`
+												`${jobPost.Job_Title}`
 													.toLowerCase()
-													.includes(location.toLowerCase())
+													.includes(
+														`${jobPostSearch}`.toLowerCase()
+													) ||
+												`${jobPost.Job_Type}`
+													.toLowerCase()
+													.includes(
+														`${jobPostSearch}`.toLowerCase()
+													) ||
+												`${jobPost.Category}`
+													.toLowerCase()
+													.includes(
+														`${jobPostSearch}`.toLowerCase()
+													) ||
+												`${jobPost.Company_Address}`
+													.toLowerCase()
+													.includes(
+														`${jobPostSearch}`.toLowerCase()
+													) ||
+												`${jobPost.Company_Name}`
+													.toLowerCase()
+													.includes(
+														`${jobPostSearch}`.toLowerCase()
+													) ||
+												`${jobPost.Preferred_Sex}`
+													.toLowerCase()
+													.includes(
+														`${jobPostSearch}`.toLowerCase()
+													)
 											) {
-												count += 1;
-												return (
-													<div
-														className={
-															jobPost.JobID === selectedPost
-																? "selected-job-post"
-																: "job-post"
-														}
-														style={
-															jobPost.Active_Status === "Active"
-																? {
-																		borderLeft:
-																			"5px solid #00ff40",
-																  }
-																: {
-																		borderLeft:
-																			"5px solid red",
-																  }
-														}
-														onClick={() =>
-															setPostPreview(jobPost)
-														}>
-														<div className='post-right-text'>
-															<h2>{jobPost.Job_Title}</h2>
-															<h5>{jobPost.Company_Name}</h5>
+												let address =
+													jobPost.Company_Address.split(", ")[
+														jobPost.Company_Address.split(", ")
+															.length - 1
+													];
+												let selectedPost = "";
+												if (post) {
+													if (post.JobID === jobPost.JobID) {
+														selectedPost = post.JobID;
+													}
+												}
+												if (
+													`${address}`
+														.toLowerCase()
+														.includes(location.toLowerCase())
+												) {
+													count += 1;
+													return (
+														<div
+															className={
+																jobPost.JobID === selectedPost
+																	? "selected-job-post"
+																	: "job-post"
+															}
+															style={
+																jobPost.Active_Status ===
+																"Active"
+																	? {
+																			borderLeft:
+																				"5px solid #00ff40",
+																	  }
+																	: {
+																			borderLeft:
+																				"5px solid red",
+																	  }
+															}
+															onClick={() =>
+																setPostPreview(jobPost)
+															}>
+															<div className='post-right-text'>
+																<h2>{jobPost.Job_Title}</h2>
+																<h5>{jobPost.Company_Name}</h5>
+															</div>
+															<div className='post-left-text'>
+																<p>
+																	{AdminResources.setTimeStamp(
+																		jobPost.Minutes,
+																		jobPost.Hour,
+																		jobPost.Day,
+																		jobPost.Month,
+																		jobPost.Year
+																	)}
+																</p>
+																<h3>{address}</h3>
+															</div>
 														</div>
-														<div className='post-left-text'>
-															<p>
-																{AdminResources.setTimeStamp(
-																	jobPost.Minutes,
-																	jobPost.Hour,
-																	jobPost.Day,
-																	jobPost.Month,
-																	jobPost.Year
-																)}
-															</p>
-															<h3>{address}</h3>
-														</div>
-													</div>
-												);
+													);
+												}
 											}
 										})}
 
-										{count === 0 && activePosts.length > 0 && (
+										{count === 0 &&
+										activePosts.length > 0 &&
+										location.length !== 0 ? (
 											<p
 												style={{
 													textAlign: "center",
@@ -608,6 +685,19 @@ const JobPosts = ({
 												}}>
 												No Posts Available in {location}!
 											</p>
+										) : countList === 0 && location.length === 0 ? (
+											<p
+												style={{
+													textAlign: "center",
+													padding: "10px",
+													backgroundColor: "red",
+													fontWeight: "500",
+													fontSize: "14px",
+												}}>
+												No results found!
+											</p>
+										) : (
+											""
 										)}
 									</div>
 								</div>
@@ -621,7 +711,7 @@ const JobPosts = ({
 										{post !== null ? (
 											<div>
 												<div className='post-header'>
-													<div className='upperLeft-info'>
+													<div className='upperLeft-jobPost'>
 														<div className='account-profile-container'>
 															<div className='account-profile'>
 																<img
@@ -641,7 +731,7 @@ const JobPosts = ({
 														)} */}
 														</div>
 
-														<div className='basic-info'>
+														<div className='basic-jobPost'>
 															<h2>{post.Company_Name}</h2>
 
 															<div className='date-address'>
@@ -664,7 +754,7 @@ const JobPosts = ({
 															</div>
 														</div>
 													</div>
-													<div className='upperRight-info'>
+													<div className='upperRight-jobPost'>
 														•••
 													</div>
 												</div>

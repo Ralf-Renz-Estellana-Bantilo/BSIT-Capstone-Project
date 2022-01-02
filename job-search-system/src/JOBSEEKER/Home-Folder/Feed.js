@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Post from "./Post";
 import "./Feed.css";
 import Filter from "./Filter";
+import TimeStamp from "../../TimeStamp";
 
 export class Feed extends Component {
 	constructor(props) {
@@ -61,7 +62,7 @@ export class Feed extends Component {
 	}
 
 	render() {
-		const { infos, applicants } = this.props;
+		const { infos, applicants, appliedJobs } = this.props;
 		const { filter, location, preferredCategory } = this.state;
 
 		let posts = [];
@@ -89,8 +90,8 @@ export class Feed extends Component {
 				<Filter
 					handleFilterChange={this.handleFilterChange}
 					handleLocationChange={this.handleLocationChange}
-					filter={this.state.filter}
-					location={this.state.location}
+					filter={filter}
+					location={location}
 					applicants={applicants}
 				/>
 				<div
@@ -102,11 +103,49 @@ export class Feed extends Component {
 								info.Company_Address.split(", ").length - 1
 							];
 
+						let applied = [];
+						for (let a = 0; a < appliedJobs.length; a++) {
+							if (appliedJobs[a].JobID === info.JobID) {
+								applied = appliedJobs[a];
+							}
+						}
+
+						let timeElapsed = TimeStamp.setTimeStamp(
+							applied.Minutes,
+							applied.Hour,
+							applied.Day,
+							applied.Month,
+							applied.Year
+						).split(" ");
+
+						// Hide the posts if you are already applied to it over an hour ago -------
+						let visible = true;
+						if (
+							(timeElapsed[1] !== "now" ||
+								timeElapsed[1] !== "min" ||
+								timeElapsed[1] !== "mins") &&
+							info.Is_Applied === true
+						) {
+							visible = false;
+						}
+
+						if (
+							(timeElapsed[1] === "now" ||
+								timeElapsed[1] === "min" ||
+								timeElapsed[1] === "mins") &&
+							info.Is_Applied === true
+						) {
+							visible = true;
+						}
+
+						// -------
+
 						if (
 							`${address}`
 								.toLowerCase()
 								.includes(location.toLowerCase()) &&
-							info.Active_Status === "Active"
+							info.Active_Status === "Active" &&
+							visible === true
 						) {
 							count += 1;
 							return (
@@ -128,13 +167,13 @@ export class Feed extends Component {
 					})}
 				</div>
 
-				{count === 0 && posts.length > 0 && (
+				{count === 0 && posts.length > 0 && location.length !== 0 && (
 					<p
 						style={{
 							textAlign: "center",
 							padding: "10px",
 							backgroundColor: "red",
-							marginTop: "20px",
+							marginTop: "6px",
 							fontSize: "12px",
 						}}>
 						No Posts Available in this Barangay!
@@ -147,7 +186,7 @@ export class Feed extends Component {
 							textAlign: "center",
 							padding: "10px",
 							backgroundColor: "red",
-							marginTop: "20px",
+							marginTop: "6px",
 							fontSize: "12px",
 						}}>
 						No Suggested Posts Available!

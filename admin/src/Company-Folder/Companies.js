@@ -20,6 +20,8 @@ const Companies = ({
 	setCompanyPreview,
 	jobPosts,
 	setCompaniesData,
+	companySearch,
+	setCompanySearch,
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
 	const [selectedPostPreview, setSelectedPostPreview] = useState(null);
@@ -27,6 +29,7 @@ const Companies = ({
 
 	useEffect(() => {
 		setActivePage("Companies");
+		localStorage.setItem("activePage", "Companies");
 	}, []);
 
 	let companyPosts = null;
@@ -34,6 +37,22 @@ const Companies = ({
 		companyPosts = jobPosts.filter(
 			(post) => post.CompanyID === companyPreview.CompanyID
 		);
+	}
+
+	let countCompany = 0;
+	{
+		companiesData.map((company) => {
+			if (
+				`${company.Company_Name}`
+					.toLowerCase()
+					.includes(`${companySearch}`.toLowerCase()) ||
+				`${company.Barangay}`
+					.toLowerCase()
+					.includes(`${companySearch}`.toLowerCase())
+			) {
+				countCompany += 1;
+			}
+		});
 	}
 
 	return (
@@ -58,8 +77,10 @@ const Companies = ({
 				)}
 				<div className='panel-container'>
 					<Navbar
-						setSidebarOpen={setSidebarOpen}
 						isSidebarOpen={isSidebarOpen}
+						text={companySearch}
+						setText={setCompanySearch}
+						setSidebarOpen={setSidebarOpen}
 					/>
 
 					<div className='main-panel-container'>
@@ -67,63 +88,88 @@ const Companies = ({
 							<div className='job-post-panel'>
 								<div className='job-post-header'>
 									<h3>
-										List of Registered Companies (
-										{`${companiesData.length}`})
+										List of Companies/Business Establishments (
+										{`${countCompany}`})
 									</h3>
 									{/* <p title='More Options...'>•••</p> */}
 								</div>
 								<div className='job-posts'>
 									{companiesData.map((company) => {
-										let selectedCompany = "";
-										if (companyPreview) {
-											if (
-												companyPreview.CompanyID ===
-												company.CompanyID
-											) {
-												selectedCompany = companyPreview.CompanyID;
-											}
-										}
-										return (
-											<div
-												className={
-													company.CompanyID === selectedCompany
-														? "selected-job-post"
-														: "job-post"
+										if (
+											`${company.Company_Name}`
+												.toLowerCase()
+												.includes(
+													`${companySearch}`.toLowerCase()
+												) ||
+											`${company.Barangay}`
+												.toLowerCase()
+												.includes(`${companySearch}`.toLowerCase())
+										) {
+											let selectedCompany = "";
+											if (companyPreview) {
+												if (
+													companyPreview.CompanyID ===
+													company.CompanyID
+												) {
+													selectedCompany =
+														companyPreview.CompanyID;
 												}
-												style={{ border: "none" }}
-												onClick={() => {
-													setCompanyPreview(company);
-													setFrameNumber(1);
-												}}>
-												<div className='upperLeft-info'>
-													<div
-														className='account-profile'
-														style={{
-															height: "50px",
-															width: "50px",
-														}}>
-														<img
-															src={`../assets/${company.Company_Image}`}
-															alt='Company'
-														/>
-													</div>
-													<div className='basic-info'>
-														<h2>{company.Company_Name}</h2>
+											}
+											return (
+												<div
+													className={
+														company.CompanyID === selectedCompany
+															? "selected-job-post"
+															: "job-post"
+													}
+													style={{ border: "none" }}
+													onClick={() => {
+														setCompanyPreview(company);
+														setFrameNumber(1);
+													}}>
+													<div className='upperLeft-info'>
+														<div
+															className='account-profile'
+															style={{
+																height: "50px",
+																width: "50px",
+															}}>
+															<img
+																src={`../assets/${company.Company_Image}`}
+																alt='Company'
+															/>
+														</div>
+														<div className='basic-info'>
+															<h2>{company.Company_Name}</h2>
 
-														<div className='date-address'>
-															<div className='address'>
-																<img
-																	src={LocationIcon}
-																	alt='Location Icon'
-																/>
-																<p>{company.Barangay}</p>
+															<div className='date-address'>
+																<div className='address'>
+																	<img
+																		src={LocationIcon}
+																		alt='Location Icon'
+																	/>
+																	<p>{company.Barangay}</p>
+																</div>
 															</div>
 														</div>
 													</div>
 												</div>
-											</div>
-										);
+											);
+										}
 									})}
+
+									{countCompany === 0 && companySearch.length !== 0 && (
+										<p
+											style={{
+												textAlign: "center",
+												padding: "10px",
+												backgroundColor: "red",
+												fontWeight: "500",
+												fontSize: "14px",
+											}}>
+											No results found!
+										</p>
+									)}
 								</div>
 							</div>
 
@@ -144,9 +190,9 @@ const Companies = ({
 														/>
 													</div>
 													<h3>{companyPreview.Company_Name}</h3>
-													<StarRating
+													{/* <StarRating
 														rating={companyPosts.length}
-													/>
+													/> */}
 												</div>
 												<div className='applicant-detail'>
 													<div className='applicant-info'>
@@ -178,14 +224,6 @@ const Companies = ({
 																}
 															</p>
 														</div>
-														{/* <p>
-															Business Description:{" "}
-															<span>
-																{
-																	companyPreview.Company_Description
-																}
-															</span>
-														</p> */}
 													</div>
 												</div>
 												<div className='company-posts'>

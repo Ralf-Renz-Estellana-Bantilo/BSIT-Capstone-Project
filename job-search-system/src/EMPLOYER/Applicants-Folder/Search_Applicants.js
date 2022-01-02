@@ -77,7 +77,7 @@ export class Search_Applicants extends Component {
 											alt='Location Icon'
 											style={
 												darkTheme
-													? { filter: "brightness(1)" }
+													? { filter: "brightness(0.7)" }
 													: { filter: "brightness(0.1)" }
 											}
 										/>

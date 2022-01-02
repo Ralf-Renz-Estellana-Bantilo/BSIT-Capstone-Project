@@ -14,7 +14,7 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	height: 80vh;
+	height: 75vh;
 }
 
 .bottom-container .logoutButton {
@@ -48,3 +48,124 @@
 	box-shadow: none;
 	color: white;
 }
+
+/* OUTSIDE LINKS */
+.outside-link-container {
+	position: relative;
+}
+
+.outside-link-container .outside-link {
+	padding: 10px 15px;
+}
+
+.outside-link .outside-link-title h3 {
+	text-align: center;
+	font-weight: 600;
+	font-size: 17px;
+	border-bottom: 1px solid var(--border1);
+	color: var(--accent-main);
+	padding-bottom: 5px;
+}
+
+.outside-link-content p {
+	font-size: 15px;
+	color: var(--accent1);
+	margin: 1rem 0;
+	text-align: justify;
+	line-height: 1.5;
+}
+
+.outside-link-content p strong {
+	font-weight: 600;
+	color: var(--accent-main);
+}
+
+/* Contact */
+.contact-container {
+	height: 80vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.contact-form {
+	display: flex;
+	flex-direction: column;
+	border: 1px solid var(--border1);
+	width: 80%;
+	padding: 10px;
+	border-radius: 5px;
+	background-color: var(--dark-primary);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.contact-form .contact-form-header {
+	display: flex;
+	justify-content: center;
+}
+
+.contact-form .contact-form-header h3 {
+	font-weight: 600;
+	font-size: 16px;
+	padding-bottom: 5px;
+	color: var(--accent1);
+}
+
+.contact-form .contact {
+	display: flex;
+	flex-direction: column;
+}
+
+.contact-form .contact input,
+.contact-form .contact textarea {
+	outline: none;
+	border: none;
+	border-radius: 5px;
+	font-size: 13px;
+	font-weight: 600;
+	padding: 5px 5px;
+	color: black;
+	text-align: center;
+	background-color: #1d1d1d;
+	border-bottom: 1px solid var(--border1);
+	box-shadow: 1px 1px 4px black;
+	background-color: white;
+	margin-bottom: 5px;
+}
+
+.contact-form .contact textarea {
+	text-align: left;
+}
+
+.contact-form .contact button {
+	text-align: center;
+	border-radius: 50px;
+	color: var(--accent1);
+	padding: 5px;
+	width: 100%;
+	margin: 0 auto;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+
+	border: solid 3px transparent;
+	background-image: linear-gradient(
+			rgba(255, 255, 255, 0),
+			rgba(255, 255, 255, 0)
+		),
+		linear-gradient(-20deg, var(--light-blue), var(--dark-blue));
+	background-origin: border-box;
+	background-clip: content-box, border-box;
+	box-shadow: 2px 1000px 1px var(--dark-primary) inset;
+	transition: 0.2s;
+}
+
+.contact-form .contact button:hover {
+	box-shadow: none;
+	color: white;
+}
+/* @media only screen and (min-width: 800px) {
+	.outside-link-container .outside-link {
+		width: 40%;
+	}
+} */

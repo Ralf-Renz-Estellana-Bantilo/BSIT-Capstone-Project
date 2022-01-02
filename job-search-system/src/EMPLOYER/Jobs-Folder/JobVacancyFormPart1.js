@@ -25,7 +25,6 @@ export class JobVacancyFormPart1 extends Component {
 		) {
 			this.closeIsNotValid();
 			this.props.nextStep();
-			console.log(values);
 		} else {
 			this.setState({
 				isNotValid: false,

@@ -23,6 +23,16 @@ export default function App() {
 	const [applicantPreview, setApplicantPreview] = useState(null);
 	const [companyPreview, setCompanyPreview] = useState(null);
 
+	// Job Post States
+	const [location, setLocation] = useState("");
+	const [status, setStatus] = useState("Active");
+	const [sort, setSort] = useState("Most Recent");
+
+	// Search States
+	const [jobPostSearch, setJobPostSearch] = useState("");
+	const [applicantSearch, setApplicantSearch] = useState("");
+	const [companySearch, setCompanySearch] = useState("");
+
 	useEffect(() => {
 		axios.get("http://localhost:2000/api/read-jobPost").then((response) => {
 			if (response) {
@@ -128,6 +138,10 @@ export default function App() {
 								jobApplicants={jobApplicants}
 								companiesData={companiesData}
 								postPreview={postPreview}
+								location={location}
+								status={status}
+								sort={sort}
+								jobPostSearch={jobPostSearch}
 								setActivePage={setActivePage}
 								setJobPosts={setJobPosts}
 								setEmployers={setEmployers}
@@ -137,6 +151,10 @@ export default function App() {
 								setJobSeekers={setJobSeekers}
 								setPostPreview={setPostPreview}
 								addPost={addPost}
+								setLocation={setLocation}
+								setStatus={setStatus}
+								setSort={setSort}
+								setJobPostSearch={setJobPostSearch}
 							/>
 						}
 					/>
@@ -148,6 +166,7 @@ export default function App() {
 								activePage={activePage}
 								jobSeekers={jobSeekers}
 								applicantPreview={applicantPreview}
+								applicantSearch={applicantSearch}
 								setActivePage={setActivePage}
 								setJobPosts={setJobPosts}
 								setEmployers={setEmployers}
@@ -156,6 +175,7 @@ export default function App() {
 								setJobApplicants={setJobApplicants}
 								setJobSeekers={setJobSeekers}
 								setApplicantPreview={setApplicantPreview}
+								setApplicantSearch={setApplicantSearch}
 							/>
 						}
 					/>
@@ -168,6 +188,7 @@ export default function App() {
 								companiesData={companiesData}
 								companyPreview={companyPreview}
 								jobPosts={jobPosts}
+								companySearch={companySearch}
 								setActivePage={setActivePage}
 								setJobPosts={setJobPosts}
 								setEmployers={setEmployers}
@@ -176,6 +197,7 @@ export default function App() {
 								setJobApplicants={setJobApplicants}
 								setJobSeekers={setJobSeekers}
 								setCompanyPreview={setCompanyPreview}
+								setCompanySearch={setCompanySearch}
 							/>
 						}
 					/>

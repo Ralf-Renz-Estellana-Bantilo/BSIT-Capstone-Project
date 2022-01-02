@@ -338,7 +338,7 @@ export class App extends Component {
 					status: post.Active_Status,
 				})
 				.then(() => {
-					console.log("Successfully Posted a Job Vacancy...");
+					// console.log("Successfully Posted a Job Vacancy...");
 				});
 		} catch (error) {
 			console.log(error);
@@ -1472,6 +1472,7 @@ export class App extends Component {
 									hasApplied={this.state.hasApplied}
 									currentUser={this.state.currentUser}
 									isDeleted={this.state.isDeleted}
+									appliedJobs={this.state.appliedJobs}
 									setEmployerFeedBack={this.setEmployerFeedBack}
 									onDelete={this.deletePost}
 									handleChangePage={this.handleChangePage}
@@ -1615,22 +1616,30 @@ export class App extends Component {
 						/>
 
 						{/* Menu Sub Components */}
-						<Route exact path='/jobseeker/menu/about' component={About} />
 						<Route
 							exact
-							path='/jobseeker/menu/contact'
-							component={Contact}
-						/>
-						<Route exact path='/jobseeker/menu/help' component={Help} />
-						<Route
-							exact
-							path='/jobseeker/menu/settings'
-							component={Settings}
+							path={`/${userType}/menu/about`}
+							render={() => <About darkTheme={this.state.darkTheme} />}
 						/>
 						<Route
 							exact
-							path='/jobseeker/menu/terms-and-condition'
-							component={TermsAndCondition}
+							path={`/${userType}/menu/contact`}
+							render={() => <Contact darkTheme={this.state.darkTheme} />}
+						/>
+						<Route
+							exact
+							path={`/${userType}/menu/help`}
+							render={() => <Help />}
+						/>
+						<Route
+							exact
+							path={`/${userType}/menu/settings`}
+							render={() => <Settings />}
+						/>
+						<Route
+							exact
+							path={`/${userType}/menu/terms-and-condition`}
+							render={() => <TermsAndCondition />}
 						/>
 
 						{/* EMPLOYER COMPONENT LINKS */}

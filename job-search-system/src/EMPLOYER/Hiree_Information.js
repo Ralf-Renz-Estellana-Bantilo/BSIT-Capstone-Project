@@ -85,7 +85,7 @@ export class Hiree_Information extends Component {
 				{this.state.isModalOpen ? (
 					<Modal
 						headText='Message Confirmation'
-						modalText={`Continue sending your message to ${hiree.First_Name} `}
+						modalText={`Continue sending your message to ${hiree.First_Name}?`}
 						confirmText='Continue'
 						closeText='Cancel'
 						close={this.onCloseModal}

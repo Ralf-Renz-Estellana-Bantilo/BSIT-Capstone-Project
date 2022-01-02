@@ -135,20 +135,6 @@ export class Emp_Dashboard extends Component {
 
 	componentDidMount = async () => {
 		const { company } = this.props;
-		// Fetching Company Data
-		// await axios
-		// 	.post("http://localhost:2000/api/read-company", {
-		// 		userID: this.props.currentUser.UserID,
-		// 	})
-		// 	.then(async (response) => {
-		// 		if (response.data.length === 1) {
-		// 			await this.setState({
-		// 				company: response.data[0],
-		// 			});
-		// 		} else {
-		// 			console.log("Error fetching information...");
-		// 		}
-		// 	});
 
 		// Fetching Job Posts Data
 		await axios
@@ -171,7 +157,7 @@ export class Emp_Dashboard extends Component {
 			})
 			.then(async (response) => {
 				await this.setState({
-					jobApplicantLength: response.data.length,
+					jobApplicantLength: response.data,
 				});
 			});
 
@@ -201,7 +187,7 @@ export class Emp_Dashboard extends Component {
 			"December",
 		];
 
-		for (let index = 1; index < 12; index++) {
+		for (let index = 1; index <= 12; index++) {
 			if (currentMonth === index) {
 				this.setMonth(MONTH[index - 1]);
 			}
@@ -223,6 +209,13 @@ export class Emp_Dashboard extends Component {
 		const { jobApplicantLength, activeJobPost } = this.state;
 		const barangays = Resources.getBarangay();
 
+		let newApplicants = 0;
+		for (let a = 0; a < jobApplicantLength.length; a++) {
+			if (jobApplicantLength[a].Status === "New") {
+				newApplicants += 1;
+			}
+		}
+
 		let barangayResources = barangays.map((barangay) => {
 			return (
 				<option key={barangay} value={barangay}>
@@ -230,6 +223,7 @@ export class Emp_Dashboard extends Component {
 				</option>
 			);
 		});
+
 		let numAvailableApplicants = 0;
 		for (let a = 0; a < applicants.length; a++) {
 			if (applicants[a].Hiring_Status === "Active") {
@@ -253,7 +247,6 @@ export class Emp_Dashboard extends Component {
 
 		return (
 			<div className='dashboard-container'>
-				{/* {this.state.isModalOpen === true ? ( */}
 				{company.companyName === "" ||
 				company.Company_Name === "" ||
 				company.companyName === null ||
@@ -400,8 +393,8 @@ export class Emp_Dashboard extends Component {
 						</div>
 						<div className='dashboard-update-card'>
 							<div className='dashboard-update-card-content'>
-								<h5>Job Applicants</h5>
-								<h1>{jobApplicantLength}</h1>
+								<h5>Unpreviewed Job Applicants</h5>
+								<h1>{newApplicants}</h1>
 								<p>
 									as of{" "}
 									{`${

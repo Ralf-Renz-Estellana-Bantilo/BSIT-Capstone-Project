@@ -1,22 +1,31 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import QuestionMarkIcon from "../Images/QuestionMarkIcon.png";
+import "./UnknownPage.css";
 
 export class UnknownPage extends Component {
-	render() {
-		let isLogin = `${this.props.isLogin}`;
-		return (
-			<div>
-				<h2>Page not Found</h2>
-				{isLogin ? (
-					<Link to={`/`}>Back</Link>
-				) : (
-					<Link to='/'>Home Page</Link>
-				)}
+	gotoHome = () => {
+		this.props.history.push("/");
+	};
 
-				<p>Login State: {isLogin}</p>
+	render() {
+		return (
+			<div className='unknown-page-container'>
+				<div className='unknown-page'>
+					<img src={QuestionMarkIcon} alt='Unknown Page' />
+					<h3>Sorry, Page not found!</h3>
+					<div className='try'>
+						<li>Try to login again.</li>
+						<li>We couldn't recognize this link.</li>
+						<li>
+							You might not have the previledge to access this link.
+						</li>
+					</div>
+					<button onClick={this.gotoHome}>Home</button>
+				</div>
 			</div>
 		);
 	}
 }
 
-export default UnknownPage;
+export default withRouter(UnknownPage);

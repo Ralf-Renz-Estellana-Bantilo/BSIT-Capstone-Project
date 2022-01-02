@@ -68,3 +68,7 @@
 .toggle-container:active {
 	transform: scale(0.95);
 }
+
+.toggle-container p {
+	color: white;
+}

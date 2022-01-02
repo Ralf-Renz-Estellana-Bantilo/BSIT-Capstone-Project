@@ -109,16 +109,12 @@ export class Profile extends Component {
 				/>
 
 				<div className='applied-jobs-container'>
-					<h3
-						style={{
-							fontSize: "13px",
-							color: "#5a5a5a",
-							fontWeight: "600",
-							marginLeft: "10px",
-						}}>
-						Jobs you Applied for:
-					</h3>
-
+					<div className='applied-jobs-title'>
+						<h3>Jobs you Applied for: </h3>
+						<h3 style={{ textAlign: "right" }}>
+							({this.props.appliedJobs.length})
+						</h3>
+					</div>
 					{this.props.appliedJobs.length <= 0 && (
 						<p
 							style={{
@@ -130,7 +126,6 @@ export class Profile extends Component {
 							You haven't applied for a job yet!
 						</p>
 					)}
-
 					{this.props.appliedJobs.map((appliedJob) => {
 						if (appliedJob.ApplicantID === applicantSession) {
 							return (

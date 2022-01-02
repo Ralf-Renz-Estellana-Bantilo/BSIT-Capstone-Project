@@ -12,6 +12,8 @@ const Navbar = ({
 	activePage,
 	isJobPostPanelOpen,
 	setJobPostPanelOpen,
+	text,
+	setText,
 }) => {
 	const [isModalOpen, setModalOpen] = useState(false);
 	const onCloseModal = () => {
@@ -25,6 +27,12 @@ const Navbar = ({
 	const closeJobPostPanel = () => {
 		setJobPostPanelOpen(false);
 	};
+
+	const handleSearch = (e) => {
+		setText(e.target.value);
+	};
+
+	const panel = localStorage.getItem("activePage");
 
 	return (
 		<div className='navbar-container'>
@@ -48,7 +56,18 @@ const Navbar = ({
 					/>
 				)}
 
-				<input type='text' placeholder='Search here' />
+				{panel === "Job Posts" ||
+				panel === "Applicants" ||
+				panel === "Companies" ? (
+					<input
+						type='text'
+						placeholder='Search here'
+						value={text}
+						onChange={(e) => handleSearch(e)}
+					/>
+				) : (
+					""
+				)}
 			</div>
 
 			<div className='navbar-right-portion'>

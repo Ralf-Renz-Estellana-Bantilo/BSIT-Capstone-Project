@@ -92,6 +92,18 @@ export class JobVacancyFormPart2 extends Component {
 								/>
 							</div>
 						</div>
+						{/* <div className='post-field-group-emp'>
+							<div className='post-field'>
+								<label>Email Address:</label>
+								<input
+									disabled='disabled'
+									type='email'
+									placeholder='Email Address'
+									// onChange={handleChange("emailAddress")}
+									// defaultValue={company.Contact_Number}
+								/>
+							</div>
+						</div> */}
 						<div className='post-field'>
 							<label>Complete Business Location:</label>
 							<input
