@@ -7,6 +7,7 @@ import OKIcon from "../Images/OKIcon.png";
 import LocationIcon from "../Images/LocationIcon.png";
 import User from "../Images/User.png";
 import PopupMenuJobPost from "../PopupMenuJobPost";
+import { useNavigate } from "react-router-dom";
 
 const JobPosts = ({
 	activePage,
@@ -31,6 +32,7 @@ const JobPosts = ({
 	setSort,
 	jobPostSearch,
 	setJobPostSearch,
+	admin,
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
 	const [isPopupMenuOpen, setIsPopupMenuOpen] = useState(false);
@@ -52,17 +54,25 @@ const JobPosts = ({
 	const [companyBarangay, setCompanyBarangay] = useState("");
 	const [employerName, setEmployerName] = useState("");
 	const [contactNumber, setContactNumber] = useState("");
+	const [imagePreview, setImagePreview] = useState(null);
 	const [companyImage, setCompanyImage] = useState(null);
+
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		setActivePage("Job Posts");
 		localStorage.setItem("activePage", "Job Posts");
+
+		const sessionUser = sessionStorage.getItem("UserID");
+		if (!sessionUser) {
+			navigate("/");
+		}
 	}, []);
 
 	const handlePostJob = async () => {
 		const post = {
 			JobID: Math.floor(Math.random() * 10000) + 1,
-			CompanyID: Math.floor(Math.random() * 10000) + 1,
+			CompanyID: sessionStorage.getItem("UserID"),
 			Minutes: new Date().getMinutes(),
 			Hour: new Date().getHours(),
 			Day: new Date().getDate(),
@@ -88,6 +98,10 @@ const JobPosts = ({
 		setJobPostPanelOpen(false);
 		addPost(post);
 
+		clearInputEntries();
+	};
+
+	const clearInputEntries = () => {
 		// Clearing all the entries
 		setJobTitle("");
 		setJobCategory("");
@@ -105,6 +119,7 @@ const JobPosts = ({
 		setEmployerName("");
 		setContactNumber("");
 		setCompanyImage(null);
+		setImagePreview(null);
 	};
 
 	const handleChange = (text) => {
@@ -141,16 +156,6 @@ const JobPosts = ({
 
 	let countList = 0;
 	let count = 0;
-
-	// for (let a = 0; a < activePosts.length; a++) {
-	// 	let address =
-	// 		activePosts[a].Company_Address.split(", ")[
-	// 			activePosts[a].Company_Address.split(", ").length - 1
-	// 		];
-	// 	if (`${address}`.toLowerCase().includes(location.toLowerCase())) {
-	// 		countList += 1;
-	// 	}
-	// }
 
 	{
 		activePosts.map((jobPost) => {
@@ -240,6 +245,26 @@ const JobPosts = ({
 		);
 	});
 
+	let finalSalary = "";
+	if (post) {
+		let jobSalary = post.Salary;
+		for (let a = 1; a <= jobSalary.length; a++) {
+			if (
+				jobSalary.length - a === 3 ||
+				jobSalary.length - a === 6 ||
+				jobSalary.length - a === 9 ||
+				jobSalary.length - a === 12 ||
+				jobSalary.length - a === 15 ||
+				jobSalary.length - a === 18 ||
+				jobSalary.length - a === 21
+			) {
+				finalSalary += jobSalary[a - 1] + ",";
+			} else {
+				finalSalary += jobSalary[a - 1];
+			}
+		}
+	}
+
 	return (
 		<div className='job-post-container'>
 			{isPopupMenuOpen && (
@@ -276,6 +301,7 @@ const JobPosts = ({
 					<Navbar
 						activePage={activePage}
 						text={jobPostSearch}
+						admin={admin}
 						setText={setJobPostSearch}
 						isSidebarOpen={isSidebarOpen}
 						isJobPostPanelOpen={isJobPostPanelOpen}
@@ -534,17 +560,18 @@ const JobPosts = ({
 													<input
 														type='file'
 														accept='image/jpeg, image/png'
-														onChange={(e) =>
-															setCompanyImage(
+														onChange={(e) => {
+															setCompanyImage(e.target.files[0]);
+															setImagePreview(
 																URL.createObjectURL(
 																	e.target.files[0]
 																)
-															)
-														}
+															);
+														}}
 													/>
 													<div className='photo-panel'>
 														<img
-															src={companyImage}
+															src={imagePreview}
 															alt={
 																companyImage !== null
 																	? "Company Picture"
@@ -772,7 +799,7 @@ const JobPosts = ({
 																<div className='post-detail-group1'>
 																	<div className='post-detail'>
 																		<p>Salary:</p>
-																		<h4>₱ {post.Salary}</h4>
+																		<h4>₱ {finalSalary}</h4>
 																	</div>
 																	<div className='post-detail'>
 																		<p title='Required no. of Employees'>

@@ -4,7 +4,7 @@ import DashboardIcon from "./Images/DashboardIcon.png";
 import JobsIcon from "./Images/JobsIcon.png";
 import BusinessProfile from "./Images/BusinessProfile.png";
 import Building from "./Images/Building.png";
-import Settings from "./Images/Settings.png";
+import Settings from "./Images/MenuIconFilled.png";
 import { useNavigate } from "react-router-dom";
 import "./Sidebar.css";
 import axios from "axios";
@@ -250,7 +250,7 @@ const Sidebar = ({
 							style={
 								activePage === "Settings" ? { color: "white" } : {}
 							}>
-							SETTINGS
+							MENU
 						</h3>
 					</div>
 				</div>
@@ -261,10 +261,7 @@ const Sidebar = ({
 					<h4>Administrator</h4>
 				</div>
 				<div className='footer'>
-					<p>
-						Job Search System in Catarman, Northern Samar | All Rights
-						Reserved 2021
-					</p>
+					<p>Copyright © 2021 | Job Search System in Catarman</p>
 				</div>
 			</div>
 		</div>

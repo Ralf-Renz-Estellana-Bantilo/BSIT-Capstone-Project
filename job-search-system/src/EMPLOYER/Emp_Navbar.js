@@ -229,7 +229,7 @@ export class Emp_Navbar extends Component {
 
 						<div
 							className={
-								panel === "Jobs"
+								panel === "Job Posts"
 									? "category-panel-container-active"
 									: "category-panel-container"
 							}>

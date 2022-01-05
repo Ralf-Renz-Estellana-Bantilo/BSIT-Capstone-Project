@@ -59,7 +59,12 @@ export class Navbar extends Component {
 
 	render() {
 		const active = `${this.props.activePage}`;
-		const { employerFeedback, darkTheme } = this.props;
+		const { employerFeedback, darkTheme, applicants } = this.props;
+		const applicantSession = sessionStorage.getItem("ApplicantID");
+
+		let currentJobSeekerData = applicants.filter(
+			(applicant) => applicant.ApplicantID === applicantSession
+		);
 
 		let countNewNotif = 0;
 
@@ -85,19 +90,31 @@ export class Navbar extends Component {
 					</Link>
 
 					<Link to='/jobseeker/profile'>
-						<img
-							src={
-								active === "profile"
-									? ProfileIconFilled
-									: ProfileIconOutlined
-							}
-							alt='Profile Icon Outlined'
-							style={
-								darkTheme
-									? { filter: "brightness(1)" }
-									: { filter: "brightness(0.25)" }
-							}
-						/>
+						<div className='img-wrapper'>
+							{currentJobSeekerData.map((data) => {
+								if (!data.Preferred_Job) {
+									return (
+										<div className='badge'>
+											<p>!</p>
+										</div>
+									);
+								}
+							})}
+
+							<img
+								src={
+									active === "profile"
+										? ProfileIconFilled
+										: ProfileIconOutlined
+								}
+								alt='Profile Icon Outlined'
+								style={
+									darkTheme
+										? { filter: "brightness(1)" }
+										: { filter: "brightness(0.25)" }
+								}
+							/>
+						</div>
 					</Link>
 
 					<Link to='/jobseeker/notification'>

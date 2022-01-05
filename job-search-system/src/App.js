@@ -167,7 +167,7 @@ export class App extends Component {
 				if (response) {
 					this.setState({ numApplicants: response.data });
 				} else {
-					console.log("Error fetching information...");
+					// console.log("Error fetching information...");
 				}
 			});
 
@@ -184,7 +184,7 @@ export class App extends Component {
 					if (response.data.length === 1) {
 						await this.setCurrentUser(response.data[0]);
 					} else {
-						console.log("Error retaining user information");
+						// console.log("Error retaining user information");
 					}
 				});
 
@@ -246,7 +246,7 @@ export class App extends Component {
 				}
 			}
 		} else {
-			console.log("Not logged in yet..");
+			// console.log("Not logged in yet..");
 		}
 
 		if (companySession) {
@@ -269,7 +269,7 @@ export class App extends Component {
 					if (response.data.length === 1) {
 						await this.setState({ company: response.data[0] });
 					} else {
-						console.log("Error fetching information...");
+						// console.log("Error fetching information...");
 					}
 				});
 
@@ -282,7 +282,7 @@ export class App extends Component {
 					if (response) {
 						await this.setState({ companyJobPost: response.data });
 					} else {
-						console.log("Error fetching information...");
+						// console.log("Error fetching information...");
 					}
 				});
 
@@ -591,7 +591,7 @@ export class App extends Component {
 					userImage: "DefaultUserMale.png",
 				})
 				.then(() => {
-					console.log("Successfully Registered...");
+					// console.log("Successfully Registered...");
 				});
 
 			await axios
@@ -615,7 +615,7 @@ export class App extends Component {
 					hiringStatus: "Inactive",
 				})
 				.then(() => {
-					console.log("Successfully Created your data...");
+					// console.log("Successfully Created your data...");
 				});
 		} else {
 			let addImage = { ...user, userImage: DefaultUserFemale };
@@ -663,7 +663,7 @@ export class App extends Component {
 					userImage: "DefaultUserFemale.png",
 				})
 				.then(() => {
-					console.log("Successfully Registered...");
+					// console.log("Successfully Registered...");
 				});
 
 			await axios
@@ -687,7 +687,7 @@ export class App extends Component {
 					hiringStatus: "Inactive",
 				})
 				.then(() => {
-					console.log("Successfully Created your Applicant data...");
+					// console.log("Successfully Created your Applicant data...");
 				});
 		}
 
@@ -750,7 +750,7 @@ export class App extends Component {
 				userImage: defaultImage,
 			})
 			.then(() => {
-				console.log("Successfully Registered...");
+				// console.log("Successfully Registered...");
 			});
 
 		await axios
@@ -766,7 +766,7 @@ export class App extends Component {
 				companyImage: "",
 			})
 			.then(() => {
-				console.log("Successfully Registered your Company...");
+				// console.log("Successfully Registered your Company...");
 			});
 	};
 
@@ -805,7 +805,7 @@ export class App extends Component {
 				dateApplied: new Date(),
 			})
 			.then(() => {
-				console.log("Successfully Applied for a Job");
+				// console.log("Successfully Applied for a Job");
 			});
 	};
 
@@ -851,7 +851,7 @@ export class App extends Component {
 					resume: applicant.resume,
 				})
 				.then(() => {
-					console.log("Successfully Added a Job Application!");
+					// console.log("Successfully Added a Job Application!");
 				});
 		} catch (error) {
 			console.log(error);
@@ -977,7 +977,7 @@ export class App extends Component {
 				userID: user.UserID,
 			})
 			.then((response) => {
-				console.log(response);
+				// console.log(response);
 			});
 	};
 
@@ -1016,7 +1016,7 @@ export class App extends Component {
 				message: feedback.Message,
 			})
 			.then(() => {
-				console.log("Successfully Added a Feedback!");
+				// console.log("Successfully Added a Feedback!");
 			});
 
 		await axios
@@ -1027,7 +1027,7 @@ export class App extends Component {
 				jobID: feedback.JobID,
 			})
 			.then((response) => {
-				console.log(response);
+				// console.log(response);
 			});
 	};
 
@@ -1205,7 +1205,7 @@ export class App extends Component {
 				jobID: jobPost.JobID,
 			})
 			.then((response) => {
-				console.log(response);
+				// console.log(response);
 			});
 
 		await axios
@@ -1222,7 +1222,7 @@ export class App extends Component {
 				jobID: jobPost.JobID,
 			})
 			.then((response) => {
-				console.log(response);
+				// console.log(response);
 			});
 	};
 
@@ -1526,6 +1526,7 @@ export class App extends Component {
 									darkTheme={this.state.darkTheme}
 									employerFeedback={this.state.employerFeedback}
 									badge={this.state.employerFeedback.length}
+									applicants={this.state.applicants}
 									handleChangePage={this.handleChangePage}
 									setCurrentUser={this.setCurrentUser}
 									updateNotificationStatus={
@@ -1547,6 +1548,7 @@ export class App extends Component {
 									currentUser={this.state.currentUser}
 									badge={this.state.employerFeedback.length}
 									employerFeedback={this.state.employerFeedback}
+									applicants={this.state.applicants}
 									handleChangePage={this.handleChangePage}
 									setCurrentUser={this.setCurrentUser}
 									handleLogout={this.handleLogout}

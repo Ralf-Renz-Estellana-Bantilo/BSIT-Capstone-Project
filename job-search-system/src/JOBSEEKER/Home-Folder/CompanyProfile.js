@@ -78,7 +78,10 @@ export class CompanyProfile extends Component {
 					<h1>Business Stablishment Details</h1>
 					<div className='company-header'>
 						<div className='company-logo'>
-							<img src={`../../assets/${imageURL}`} alt='sample' />
+							<img
+								src={`../../assets/${imageURL}`}
+								alt='Company Photo'
+							/>
 						</div>
 						<h3>{companyName}</h3>
 					</div>

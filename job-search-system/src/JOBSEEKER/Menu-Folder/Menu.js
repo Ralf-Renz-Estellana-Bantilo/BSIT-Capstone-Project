@@ -64,7 +64,7 @@ export class Menu extends Component {
 				/>
 				<Navbar
 					activePage='menu'
-					badge={this.props.badge}
+					applicants={this.props.applicants}
 					employerFeedback={this.props.employerFeedback}
 					setEmployerFeedBack={this.props.setEmployerFeedBack}
 					darkTheme={this.props.darkTheme}

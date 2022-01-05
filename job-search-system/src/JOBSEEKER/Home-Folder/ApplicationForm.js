@@ -356,6 +356,24 @@ export class ApplicationForm extends Component {
 			applicationStatus = "Closed";
 		}
 
+		let finalSalary = "";
+		let jobSalary = String(post.Salary);
+		for (let a = 1; a <= jobSalary.length; a++) {
+			if (
+				jobSalary.length - a === 3 ||
+				jobSalary.length - a === 6 ||
+				jobSalary.length - a === 9 ||
+				jobSalary.length - a === 12 ||
+				jobSalary.length - a === 15 ||
+				jobSalary.length - a === 18 ||
+				jobSalary.length - a === 21
+			) {
+				finalSalary += jobSalary[a - 1] + ",";
+			} else {
+				finalSalary += jobSalary[a - 1];
+			}
+		}
+
 		return (
 			<div className='application-form-container'>
 				<Link to={`/jobseeker/${activePage}`}>
@@ -421,7 +439,7 @@ export class ApplicationForm extends Component {
 									</div>
 									<div className='apply-detail'>
 										<p>Salary:</p>
-										<h4>{post.Salary}</h4>
+										<h4>₱ {finalSalary}</h4>
 									</div>
 									<div className='apply-detail'>
 										<p>Job Type:</p>

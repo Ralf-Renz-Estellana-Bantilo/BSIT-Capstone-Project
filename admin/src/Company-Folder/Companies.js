@@ -6,6 +6,7 @@ import LocationIcon from "../Images/LocationIcon.png";
 import "./Companies.css";
 import AdminResources from "../AdminResources";
 import StarRating from "../StarRating";
+import { useNavigate } from "react-router-dom";
 
 const Companies = ({
 	activePage,
@@ -22,14 +23,22 @@ const Companies = ({
 	setCompaniesData,
 	companySearch,
 	setCompanySearch,
+	admin,
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
 	const [selectedPostPreview, setSelectedPostPreview] = useState(null);
 	const [frameNumber, setFrameNumber] = useState(1);
 
+	const navigate = useNavigate();
+
 	useEffect(() => {
 		setActivePage("Companies");
 		localStorage.setItem("activePage", "Companies");
+
+		const sessionUser = sessionStorage.getItem("UserID");
+		if (!sessionUser) {
+			navigate("/");
+		}
 	}, []);
 
 	let companyPosts = null;
@@ -79,6 +88,7 @@ const Companies = ({
 					<Navbar
 						isSidebarOpen={isSidebarOpen}
 						text={companySearch}
+						admin={admin}
 						setText={setCompanySearch}
 						setSidebarOpen={setSidebarOpen}
 					/>

@@ -197,3 +197,20 @@ export const updateUserAccountBusinessProfile = (req, res) => {
 		}
 	);
 };
+
+export const loginAdmin = (req, res) => {
+	const username = req.body.username;
+	const password = req.body.password;
+
+	db.query(
+		"SELECT * FROM user_account WHERE Role = 'Admin' AND Username = ? AND Password = ?",
+		[username, password],
+		(err, result) => {
+			if (err) {
+				res.send("Wrong Username/Password Combination...");
+			} else {
+				res.send(result);
+			}
+		}
+	);
+};

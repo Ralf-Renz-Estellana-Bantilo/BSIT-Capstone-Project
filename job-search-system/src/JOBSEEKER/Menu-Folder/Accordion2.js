@@ -10,7 +10,7 @@ const Accordion2 = ({ setTheme, darkTheme }) => {
 			<div
 				className='accordion-title'
 				onClick={() => setIsActive(!isActive)}>
-				<div>Setting & Privacy</div>
+				<div>Appearance & Privacy</div>
 				<div
 					className='toggle-container'
 					style={{

@@ -5,6 +5,7 @@ import User from "../Images/User.png";
 import LocationIcon from "../Images/LocationIcon.png";
 import AdminResources from "../AdminResources";
 import "./Applicants.css";
+import { useNavigate } from "react-router-dom";
 
 const Applicants = ({
 	activePage,
@@ -20,12 +21,19 @@ const Applicants = ({
 	setCompaniesData,
 	applicantSearch,
 	setApplicantSearch,
+	admin,
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		setActivePage("Applicants");
 		localStorage.setItem("activePage", "Applicants");
+
+		const sessionUser = sessionStorage.getItem("UserID");
+		if (!sessionUser) {
+			navigate("/");
+		}
 	}, []);
 
 	const getMonth = (monthNum) => {
@@ -108,6 +116,7 @@ const Applicants = ({
 					<Navbar
 						isSidebarOpen={isSidebarOpen}
 						text={applicantSearch}
+						admin={admin}
 						setText={setApplicantSearch}
 						setSidebarOpen={setSidebarOpen}
 					/>

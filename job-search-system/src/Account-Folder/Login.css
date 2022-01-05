@@ -377,8 +377,14 @@
 	background: linear-gradient(-20deg, var(--light-blue), var(--dark-blue));
 }
 
-@media only screen and (min-width: 800px) {
+@media only screen and (min-width: 600px) {
 	.form-login {
 		width: 50%;
+	}
+
+	.error-wrapper,
+	.success-wrapper {
+		width: 50%;
+		margin: 0 auto;
 	}
 }

@@ -4,27 +4,36 @@ import Eye from "./Images/Eye.png";
 import PasswordIcon from "./Images/PasswordIcon.png";
 import UsernameIcon from "./Images/UsernameIcon.png";
 import "./LoginAdmin.css";
-import { useNavigate } from "react-router-dom";
 import AdminWelcomeWindow from "./AdminWelcomeWindow";
+import axios from "axios";
 
-const LoginAdmin = () => {
+const LoginAdmin = ({ setAdmin }) => {
 	const [isPasswordVisible, setPasswordVisible] = useState(false);
 	const [isValid, setValid] = useState(true);
 	const [isWelcomeOpen, setWelcomeOpen] = useState(false);
 	const [userName, setUserName] = useState(null);
 	const [password, setPassword] = useState(null);
+	const [userID, setUserID] = useState(null);
 
-	const USERNAME = "ralf";
-	const PASSWORD = "bantilo";
-
-	const navigate = useNavigate();
-
-	const handleLogin = (e) => {
+	const handleLogin = async (e) => {
 		e.preventDefault();
 
 		try {
-			if (USERNAME === userName && PASSWORD === password) {
-				setWelcomeOpen(true);
+			if (userName !== null && password !== null) {
+				await axios
+					.post("http://localhost:2000/api/login-admin", {
+						username: userName,
+						password: password,
+					})
+					.then(async (response) => {
+						if (response.data.length === 1) {
+							setAdmin(response.data[0]);
+							setUserID(response.data[0].UserID);
+							setWelcomeOpen(true);
+						} else {
+							setValid(false);
+						}
+					});
 			} else {
 				setValid(false);
 			}
@@ -40,7 +49,11 @@ const LoginAdmin = () => {
 	return (
 		<>
 			{isWelcomeOpen && (
-				<AdminWelcomeWindow method={closeWelcome} delay={5} />
+				<AdminWelcomeWindow
+					method={closeWelcome}
+					delay={5}
+					userID={userID}
+				/>
 			)}
 			<div className='login-container'>
 				<form
@@ -118,9 +131,7 @@ const LoginAdmin = () => {
 							<button onClick={(e) => handleLogin(e)}>Login</button>
 						</div>
 						<div className='login-footer'>
-							<p>
-								© Job Search System in Catarman, Northern Samar - 2021
-							</p>
+							<p>Copyright © 2021 | Job Search System in Catarman</p>
 						</div>
 					</div>
 				</form>

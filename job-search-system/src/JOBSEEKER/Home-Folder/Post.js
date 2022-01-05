@@ -62,6 +62,24 @@ export class Post extends Component {
 				info.Company_Address.split(", ").length - 1
 			];
 
+		let finalSalary = "";
+		let jobSalary = info.Salary;
+		for (let a = 1; a <= jobSalary.length; a++) {
+			if (
+				jobSalary.length - a === 3 ||
+				jobSalary.length - a === 6 ||
+				jobSalary.length - a === 9 ||
+				jobSalary.length - a === 12 ||
+				jobSalary.length - a === 15 ||
+				jobSalary.length - a === 18 ||
+				jobSalary.length - a === 21
+			) {
+				finalSalary += jobSalary[a - 1] + ",";
+			} else {
+				finalSalary += jobSalary[a - 1];
+			}
+		}
+
 		return (
 			<>
 				<div className='post-container'>
@@ -147,7 +165,7 @@ export class Post extends Component {
 								<div className='post-detail-group1'>
 									<div className='post-detail'>
 										<p>Salary:</p>
-										<h4>₱ {info.Salary}</h4>
+										<h4>₱ {finalSalary}</h4>
 									</div>
 									<div className='post-detail'>
 										<p>Job Type:</p>

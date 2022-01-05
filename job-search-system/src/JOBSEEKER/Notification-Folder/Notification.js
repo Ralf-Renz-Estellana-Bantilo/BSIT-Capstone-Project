@@ -31,7 +31,7 @@ export class Notification extends Component {
 				/>
 				<Navbar
 					activePage='notification'
-					badge={this.props.badge}
+					applicants={this.props.applicants}
 					employerFeedback={this.props.employerFeedback}
 					darkTheme={this.props.darkTheme}
 				/>

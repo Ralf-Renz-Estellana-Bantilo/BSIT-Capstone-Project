@@ -18,6 +18,9 @@ export default function App() {
 	const [jobApplicants, setJobApplicants] = useState([]);
 	const [activePage, setActivePage] = useState("Dashboard");
 
+	// Admin Data
+	const [admin, setAdmin] = useState([]);
+
 	// Preview --------
 	const [postPreview, setPostPreview] = useState(null);
 	const [applicantPreview, setApplicantPreview] = useState(null);
@@ -75,17 +78,6 @@ export default function App() {
 				}
 			});
 
-		// Fetching Job Applicants
-		// axios
-		// 	.get("http://localhost:2000/api/read-company-applicants")
-		// 	.then((response) => {
-		// 		if (response) {
-		// 			setJobApplicants(response.data);
-		// 		} else {
-		// 			console.log("Error fetching information...");
-		// 		}
-		// 	});
-
 		// Fetching Companies
 		axios.get("http://localhost:2000/api/read-companies").then((response) => {
 			if (response) {
@@ -95,20 +87,90 @@ export default function App() {
 			}
 		});
 
+		const sessionUser = sessionStorage.getItem("UserID");
+		if (sessionUser) {
+			axios
+				.post("http://localhost:2000/api/fetchSession", {
+					userID: sessionUser,
+				})
+				.then(async (response) => {
+					if (response.data.length === 1) {
+						setAdmin(response.data[0]);
+					}
+				});
+		}
+
 		// return () => {
 		// 	cleanup;
 		// };
 	}, []);
 
-	const addPost = (post) => {
+	const addPost = async (post) => {
 		setJobPosts((posts) => [...posts, post]);
+
+		await axios
+			.post("http://localhost:2000/api/create-jobPost", {
+				jobID: post.JobID,
+				companyID: post.CompanyID,
+				companyName: post.Company_Name,
+				min: post.Minutes,
+				hour: post.Hour,
+				day: post.Day,
+				month: post.Month,
+				year: post.Year,
+				datePosted: post.Date_Posted,
+				companyAddress: post.Company_Address,
+				jobTitle: post.Job_Title,
+				category: post.Category,
+				reqNoEmp: post.Required_Employees,
+				salary: post.Salary,
+				jobType: post.Job_Type,
+				prefSex: post.Preferred_Sex,
+				qualifications: post.Job_Qualifications,
+				requirements: post.Job_Requirements,
+				description: post.Job_Description,
+				employerName: post.Employer_Name,
+				companyImage: post.Company_Image.name,
+				status: post.Active_Status,
+			})
+			.then(() => {
+				console.log("Successfully Posted a Job Vacancy...");
+			});
+
+		const data = new FormData();
+		data.append("image", post.Company_Image);
+		await fetch("http://localhost:2000/api/upload-image", {
+			method: "POST",
+			body: data,
+		})
+			.then(async (result) => {
+				console.log("The File has been Uploaded...");
+			})
+			.catch((error) => {
+				console.log("Multer Error!", error);
+			});
+
+		await fetch("http://localhost:2000/api/upload-image-admin", {
+			method: "POST",
+			body: data,
+		})
+			.then(async (result) => {
+				console.log("The File has been Uploaded to the Administrator...");
+			})
+			.catch((error) => {
+				console.log("Multer Error!", error);
+			});
 	};
 
 	return (
 		<>
 			<BrowserRouter>
 				<Routes>
-					<Route exact path='/' element={<LoginAdmin />} />
+					<Route
+						exact
+						path='/'
+						element={<LoginAdmin setAdmin={setAdmin} />}
+					/>
 					<Route
 						exact
 						path='/admin/dashboard'
@@ -118,6 +180,7 @@ export default function App() {
 								jobPosts={jobPosts}
 								applicantsData={applicantsData}
 								employers={employers}
+								admin={admin}
 								setActivePage={setActivePage}
 								setJobPosts={setJobPosts}
 								setEmployers={setEmployers}
@@ -141,6 +204,7 @@ export default function App() {
 								location={location}
 								status={status}
 								sort={sort}
+								admin={admin}
 								jobPostSearch={jobPostSearch}
 								setActivePage={setActivePage}
 								setJobPosts={setJobPosts}
@@ -166,6 +230,7 @@ export default function App() {
 								activePage={activePage}
 								jobSeekers={jobSeekers}
 								applicantPreview={applicantPreview}
+								admin={admin}
 								applicantSearch={applicantSearch}
 								setActivePage={setActivePage}
 								setJobPosts={setJobPosts}
@@ -188,6 +253,7 @@ export default function App() {
 								companiesData={companiesData}
 								companyPreview={companyPreview}
 								jobPosts={jobPosts}
+								admin={admin}
 								companySearch={companySearch}
 								setActivePage={setActivePage}
 								setJobPosts={setJobPosts}
@@ -206,6 +272,7 @@ export default function App() {
 						path='/admin/settings'
 						element={
 							<Settings
+								admin={admin}
 								activePage={activePage}
 								setActivePage={setActivePage}
 								setJobPosts={setJobPosts}

@@ -82,7 +82,7 @@ export class Profile extends Component {
 				/>
 				<Navbar
 					activePage='profile'
-					badge={this.props.badge}
+					applicants={this.props.applicants}
 					employerFeedback={this.props.employerFeedback}
 					setEmployerFeedBack={this.props.setEmployerFeedBack}
 					darkTheme={this.props.darkTheme}

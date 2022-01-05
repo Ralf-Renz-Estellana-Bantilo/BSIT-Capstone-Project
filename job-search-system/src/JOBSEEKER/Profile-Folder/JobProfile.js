@@ -29,6 +29,24 @@ export class JobProfile extends Component {
 			interest: "",
 			goodAt: "",
 			credentials: "",
+			prevState_firstName: "",
+			prevState_middleName: "",
+			prevState_lastName: "",
+			prevState_address: "",
+			prevState_sex: "",
+			prevState_bMonth: "",
+			prevState_bDay: "",
+			prevState_bYear: "",
+			prevState_contactNumber: "",
+			prevState_email: "",
+			prevState_civilStatus: "",
+			prevState_educationalAttainment: "",
+			prevState_preferredJob: "",
+			prevState_preferredCategory: "",
+			prevState_preferredSalary: "",
+			prevState_interest: "",
+			prevState_goodAt: "",
+			prevState_credentials: "",
 		};
 	}
 
@@ -49,7 +67,7 @@ export class JobProfile extends Component {
 	};
 
 	locateData = async () => {
-		const { applicants, currentUser } = this.props;
+		const { applicants } = this.props;
 		const userSession = sessionStorage.getItem("UserID");
 
 		await applicants.map(async (applicant) => {
@@ -73,6 +91,26 @@ export class JobProfile extends Component {
 					interest: applicant.Interested_In,
 					goodAt: applicant.Good_At,
 					credentials: applicant.Credentials,
+
+					// -----
+					prevState_firstName: applicant.First_Name,
+					prevState_middleName: applicant.Middle_Name,
+					prevState_lastName: applicant.Last_Name,
+					prevState_address: applicant.Home_Address,
+					prevState_sex: applicant.Sex,
+					prevState_bMonth: applicant.B_Month,
+					prevState_bDay: applicant.B_Day,
+					prevState_bYear: applicant.B_Year,
+					prevState_contactNumber: applicant.Contact_Number,
+					prevState_email: applicant.Email_Address,
+					prevState_civilStatus: applicant.Civil_Status,
+					prevState_educationalAttainment: applicant.Educ_Attainment,
+					prevState_preferredJob: applicant.Preferred_Job,
+					prevState_preferredCategory: applicant.Preferred_Category,
+					prevState_preferredSalary: applicant.Preferred_Salary,
+					prevState_interest: applicant.Interested_In,
+					prevState_goodAt: applicant.Good_At,
+					prevState_credentials: applicant.Credentials,
 				});
 			}
 		});
@@ -172,13 +210,32 @@ export class JobProfile extends Component {
 					};
 
 					this.props.updateApplicantData(user);
-					console.log(user);
+					// console.log(user);
 				});
 
 			this.setState({
 				firstName: Resources.formatName(firstName),
 				middleName: Resources.formatName(middleName),
 				lastName: Resources.formatName(lastName),
+
+				prevState_firstName: Resources.formatName(firstName),
+				prevState_middleName: Resources.formatName(middleName),
+				prevState_lastName: Resources.formatName(lastName),
+				prevState_email: email,
+				prevState_bMonth: parseInt(bMonth),
+				prevState_bDay: parseInt(bDay),
+				prevState_bYear: parseInt(bYear),
+				prevState_sex: sex,
+				prevState_contactNumber: contactNumber,
+				prevState_address: address,
+				prevState_civilStatus: civilStatus,
+				prevState_educationalAttainment: educationalAttainment,
+				prevState_preferredJob: preferredJob,
+				prevState_preferredCategory: preferredCategory,
+				prevState_preferredSalary: preferredSalary,
+				prevState_interest: interest,
+				prevState_goodAt: goodAt,
+				prevState_credentials: credentials,
 			});
 		}
 	};
@@ -243,10 +300,53 @@ export class JobProfile extends Component {
 			interest,
 			goodAt,
 			credentials,
+			prevState_firstName,
+			prevState_middleName,
+			prevState_lastName,
+			prevState_address,
+			prevState_sex,
+			prevState_bMonth,
+			prevState_bDay,
+			prevState_bYear,
+			prevState_contactNumber,
+			prevState_email,
+			prevState_civilStatus,
+			prevState_educationalAttainment,
+			prevState_preferredJob,
+			prevState_preferredCategory,
+			prevState_preferredSalary,
+			prevState_interest,
+			prevState_goodAt,
+			prevState_credentials,
 			isIndicationOpen,
 		} = this.state;
 
 		const { darkTheme } = this.props;
+
+		let isUpdateButtonEnable = true;
+
+		if (
+			prevState_firstName === firstName &&
+			prevState_middleName === middleName &&
+			prevState_lastName === lastName &&
+			prevState_address === address &&
+			prevState_sex === sex &&
+			prevState_bMonth === bMonth &&
+			prevState_bDay === bDay &&
+			prevState_bYear === bYear &&
+			prevState_contactNumber === contactNumber &&
+			prevState_email === email &&
+			prevState_civilStatus === civilStatus &&
+			prevState_educationalAttainment === educationalAttainment &&
+			prevState_preferredJob === preferredJob &&
+			prevState_preferredCategory === preferredCategory &&
+			prevState_preferredSalary === preferredSalary &&
+			prevState_interest === interest &&
+			prevState_goodAt === goodAt &&
+			prevState_credentials === credentials
+		) {
+			isUpdateButtonEnable = false;
+		}
 
 		return (
 			<>
@@ -565,7 +665,14 @@ export class JobProfile extends Component {
 						<div
 							className='save-update'
 							style={{ display: this.state.visible ? "" : "none" }}>
-							<button onClick={this.updateApplicantData}>
+							<button
+								onClick={this.updateApplicantData}
+								style={
+									isUpdateButtonEnable
+										? { opacity: "1" }
+										: { opacity: "0.3" }
+								}
+								disabled={isUpdateButtonEnable ? "" : "disabled"}>
 								Save Update
 							</button>
 						</div>

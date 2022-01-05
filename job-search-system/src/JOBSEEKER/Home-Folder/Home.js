@@ -61,7 +61,7 @@ export class Home extends Component {
 				/>
 				<Navbar
 					activePage='home'
-					badge={this.props.badge}
+					applicants={this.props.applicants}
 					employerFeedback={this.props.employerFeedback}
 					setEmployerFeedBack={this.props.setEmployerFeedBack}
 					darkTheme={this.props.darkTheme}

@@ -4,12 +4,13 @@ import "./AdminWelcomeWindow.css";
 import AdminCountDown from "./AdminCountDown";
 import { useNavigate } from "react-router-dom";
 
-const AdminWelcomeWindow = ({ method, delay }) => {
+const AdminWelcomeWindow = ({ method, delay, userID }) => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		return () => {
 			navigate("/admin/dashboard");
+			sessionStorage.setItem("UserID", userID);
 		};
 	}, []);
 	return (

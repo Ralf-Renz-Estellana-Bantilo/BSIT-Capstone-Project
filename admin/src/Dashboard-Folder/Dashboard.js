@@ -6,6 +6,7 @@ import JobsIcon from "../Images/JobsIcon.png";
 import BusinessProfile from "../Images/BusinessProfile.png";
 import Employer from "../Images/Employer.png";
 import AdminResources from "../AdminResources";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = ({
 	activePage,
@@ -19,12 +20,19 @@ const Dashboard = ({
 	setJobApplicants,
 	setJobSeekers,
 	setCompaniesData,
+	admin,
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		setActivePage("Dashboard");
 		localStorage.setItem("activePage", "Dashboard");
+
+		const sessionUser = sessionStorage.getItem("UserID");
+		if (!sessionUser) {
+			navigate("/");
+		}
 	}, []);
 
 	const listOfBarangays = AdminResources.getBarangay();
@@ -83,6 +91,7 @@ const Dashboard = ({
 					<Navbar
 						setSidebarOpen={setSidebarOpen}
 						isSidebarOpen={isSidebarOpen}
+						admin={admin}
 					/>
 
 					<div className='main-panel-container'>

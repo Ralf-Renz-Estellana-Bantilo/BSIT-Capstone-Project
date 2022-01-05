@@ -256,7 +256,9 @@ export class Emp_Dashboard extends Component {
 						<form
 							className='register-form'
 							onSubmit={(e) => this.handleCreateCompanyData(e)}>
-							<h3 onClick={this.closeModal}>Business Registration</h3>
+							<h3 onClick={this.closeModal}>
+								Business Registration Form
+							</h3>
 							<div className='register-field'>
 								<label>Business Stablishment Name:</label>
 								<input

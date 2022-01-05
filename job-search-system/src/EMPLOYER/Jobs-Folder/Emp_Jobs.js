@@ -64,7 +64,7 @@ export class Emp_Jobs extends Component {
 					company={company}
 					setCurrentUser={this.props.setCurrentUser}
 					getJobApplicantsByCompany={this.props.getJobApplicantsByCompany}
-					panel='Jobs'
+					panel='Job Posts'
 					darkTheme={this.props.darkTheme}
 				/>
 

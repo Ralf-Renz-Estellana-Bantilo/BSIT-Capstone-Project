@@ -9,6 +9,7 @@ import {
 	getEmployerUsers,
 	getJobSeekerUsers,
 	login,
+	loginAdmin,
 	retainUser,
 	updateUserAccountBusinessProfile,
 } from "./controllers/DB_User_Account.js";
@@ -150,6 +151,7 @@ app.get("/api/read-user-jobseeker", getJobSeekerUsers);
 app.get("/api/read-user-employer", getEmployerUsers);
 app.post("/api/create-user", createUser);
 app.post("/api/login", login);
+app.post("/api/login-admin", loginAdmin);
 app.post("/api/fetchSession", retainUser);
 app.put("/api/update-user-profile", changeAccountPicture);
 app.put("/api/update-user-business-profile", updateUserAccountBusinessProfile);

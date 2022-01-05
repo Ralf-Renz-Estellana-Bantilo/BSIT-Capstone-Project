@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import User from "./Images/User.png";
+import SearchIcon from "./Images/SearchIcon.png";
 import Logout from "./Images/Logout.png";
 import MenuIconFilled from "./Images/MenuIconFilled.png";
 import CreateIcon from "./Images/CreateIcon.png";
@@ -14,10 +14,16 @@ const Navbar = ({
 	setJobPostPanelOpen,
 	text,
 	setText,
+	admin,
 }) => {
 	const [isModalOpen, setModalOpen] = useState(false);
 	const onCloseModal = () => {
 		setModalOpen(false);
+	};
+
+	const onLogout = () => {
+		sessionStorage.clear();
+		onCloseModal();
 	};
 
 	const openJobPostPanel = () => {
@@ -43,7 +49,7 @@ const Navbar = ({
 					confirmText='Logout'
 					closeText='Cancel'
 					close={onCloseModal}
-					confirm={onCloseModal}
+					confirm={onLogout}
 					path='/'
 				/>
 			)}
@@ -59,12 +65,15 @@ const Navbar = ({
 				{panel === "Job Posts" ||
 				panel === "Applicants" ||
 				panel === "Companies" ? (
-					<input
-						type='text'
-						placeholder='Search here'
-						value={text}
-						onChange={(e) => handleSearch(e)}
-					/>
+					<div className='search-container'>
+						<img src={SearchIcon} alt='Search Here' />
+						<input
+							type='text'
+							placeholder='Search here'
+							value={text}
+							onChange={(e) => handleSearch(e)}
+						/>
+					</div>
 				) : (
 					""
 				)}
@@ -93,9 +102,12 @@ const Navbar = ({
 				)}
 
 				<div className='profile-container'>
-					<h5>Ralf Renz Bantilo</h5>
+					<h5>{`${admin.First_Name} ${admin.Middle_Name} ${admin.Last_Name}`}</h5>
 					<div className='profile-img'>
-						<img src={User} alt='Administrator' />
+						<img
+							src={`../assets/${admin.User_Image}`}
+							alt='Administrator'
+						/>
 					</div>
 				</div>
 				<div className='logout-container'>

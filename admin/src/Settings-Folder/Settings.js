@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
 
@@ -11,12 +12,19 @@ const Settings = ({
 	setJobApplicants,
 	setJobSeekers,
 	setCompaniesData,
+	admin,
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		setActivePage("Settings");
 		localStorage.setItem("activePage", "Settings");
+
+		const sessionUser = sessionStorage.getItem("UserID");
+		if (!sessionUser) {
+			navigate("/");
+		}
 	}, []);
 
 	return (
@@ -42,6 +50,7 @@ const Settings = ({
 				<div className='panel-container'>
 					<Navbar
 						setSidebarOpen={setSidebarOpen}
+						admin={admin}
 						isSidebarOpen={isSidebarOpen}
 					/>
 
