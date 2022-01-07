@@ -244,6 +244,7 @@ const Applicants = ({
 													textAlign: "center",
 													padding: "10px",
 													backgroundColor: "red",
+													color: "white",
 													fontWeight: "500",
 													fontSize: "14px",
 												}}>
@@ -391,6 +392,7 @@ const Applicants = ({
 												textAlign: "center",
 												padding: "10px",
 												backgroundColor: "red",
+												color: "white",
 												fontWeight: "500",
 												fontSize: "14px",
 											}}>

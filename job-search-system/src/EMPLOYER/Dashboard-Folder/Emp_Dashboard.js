@@ -82,6 +82,7 @@ export class Emp_Dashboard extends Component {
 		await this.closeModal();
 		await this.props.setCompany(companyData);
 
+		// Uploading the image to the ClientSide Storage
 		await fetch("http://localhost:2000/api/upload-image", {
 			method: "POST",
 			body: data,
@@ -99,6 +100,18 @@ export class Emp_Dashboard extends Component {
 				this.setState({
 					isModalOpen: false,
 				});
+			});
+
+		// Uploading the image to the Admin Storage
+		await fetch("http://localhost:2000/api/upload-image-admin", {
+			method: "POST",
+			body: data,
+		})
+			.then((result) => {
+				console.log("The File has been Uploaded to the Administrator...");
+			})
+			.catch((error) => {
+				console.log("Multer Error!", error);
 			});
 
 		await axios

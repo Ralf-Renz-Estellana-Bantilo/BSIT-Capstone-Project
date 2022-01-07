@@ -1,6 +1,7 @@
 .application-form-container {
 	padding: 10px 0;
 	background-color: var(--main-backgrund);
+	position: relative;
 }
 
 .back-icon-container {
@@ -338,6 +339,27 @@
 	color: var(--accent-main);
 	font-weight: 600;
 	margin-left: 5px;
+}
+
+.application-form-delete-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	right: 15px;
+	top: 20px;
+	z-index: 3;
+}
+
+.application-form-delete-container img {
+	height: 15px;
+	cursor: pointer;
+	opacity: 0.8;
+	transition: 0.2s;
+}
+
+.application-form-delete-container img:hover {
+	opacity: 1;
 }
 
 @media only screen and (min-width: 800px) {

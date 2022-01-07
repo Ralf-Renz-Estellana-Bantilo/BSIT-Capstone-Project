@@ -6,6 +6,7 @@ import LeftArrow from "../../Images/LeftArrow.png";
 import Modal from "../Home-Folder/Modal";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
+import DeleteIcon from "../../Images/DeleteIcon.png";
 
 export class ApplicationForm extends Component {
 	state = {
@@ -14,6 +15,7 @@ export class ApplicationForm extends Component {
 		post: {},
 		applicantID: "",
 		isModalOpen: false,
+		isDeleteModalOpen: false,
 		firstName: "",
 		middleName: "",
 		lastName: "",
@@ -32,6 +34,7 @@ export class ApplicationForm extends Component {
 		userImage: "",
 		applicants: [],
 		height: 0,
+		targetDeleteJobID: null,
 	};
 
 	filterObject = () => {
@@ -61,6 +64,7 @@ export class ApplicationForm extends Component {
 						Company_Image: info.Company_Image,
 						Active_Status: info.Active_Status,
 					},
+					targetDeleteJobID: info.JobID,
 				});
 			}
 		});
@@ -178,10 +182,35 @@ export class ApplicationForm extends Component {
 		}
 	};
 
+	viewDeleteModal = () => {
+		this.setState({
+			isDeleteModalOpen: true,
+		});
+	};
+
 	onCloseModal = () => {
 		this.setState({
 			isModalOpen: false,
 		});
+	};
+
+	onDeleteCloseModal = () => {
+		this.setState({
+			isDeleteModalOpen: false,
+		});
+	};
+
+	handleDeleteAppliedJob = () => {
+		const { applicants, targetDeleteJobID } = this.state;
+		const applicantSession = sessionStorage.getItem("ApplicantID");
+		let filteredApplicant = applicants.filter(
+			(applicant) => applicant.ApplicantID === applicantSession
+		);
+
+		this.props.deleteAppliedJob(
+			filteredApplicant[0].ApplicantID,
+			targetDeleteJobID
+		);
 	};
 
 	locateData = async () => {
@@ -391,6 +420,37 @@ export class ApplicationForm extends Component {
 						/>
 					</div>
 				</Link>
+				{`${activePage}` === "profile" &&
+					applicationStatus !== "Pending..." && (
+						<div className='application-form-delete-container'>
+							<img
+								src={DeleteIcon}
+								alt='Delete'
+								title='Delete Applied Job'
+								style={
+									darkTheme
+										? { filter: "brightness(1)" }
+										: { filter: "brightness(0.3)" }
+								}
+								onClick={this.viewDeleteModal}
+							/>
+						</div>
+					)}
+
+				{this.state.isDeleteModalOpen ? (
+					<Modal
+						headText='Delete Applied Job Confirmation'
+						modalText='Continue Deleting Job Application?'
+						confirmText='Delete'
+						closeText='Cancel'
+						close={this.onDeleteCloseModal}
+						confirm={this.handleDeleteAppliedJob}
+						path={`/jobseeker/${activePage}`}
+					/>
+				) : (
+					""
+				)}
+
 				<div className='company-img'>
 					<div className='company-img-wrapper'>
 						<img
@@ -800,7 +860,6 @@ export class ApplicationForm extends Component {
 						)}
 					</form>
 				</div>
-
 				{`${activePage}` === "profile" && (
 					<div
 						className='application-status-container'

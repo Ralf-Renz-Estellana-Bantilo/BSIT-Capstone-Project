@@ -123,7 +123,7 @@ export class Emp_Post extends Component {
 						<img
 							src={DeleteIcon}
 							alt='Delete'
-							title={`Close this post from ${companyJobPost.Company_Name}`}
+							title={`Delete this post`}
 							onClick={this.viewModal}
 							style={
 								darkTheme

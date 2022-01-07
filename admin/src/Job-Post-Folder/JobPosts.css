@@ -224,6 +224,18 @@
 	color: var(--dark-primary);
 }
 
+.upperRight-jobPost {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.upperRight-jobPost img {
+	height: 16px;
+	filter: brightness(0.3);
+	cursor: pointer;
+}
+
 .post-body {
 	border-radius: 5px;
 	position: relative;
@@ -341,7 +353,8 @@
 	align-items: center; */
 }
 
-.post-field input {
+.post-field input,
+.post-field textarea {
 	/* width: 97%; */
 	border-radius: 7px;
 	padding: 5px 10px;

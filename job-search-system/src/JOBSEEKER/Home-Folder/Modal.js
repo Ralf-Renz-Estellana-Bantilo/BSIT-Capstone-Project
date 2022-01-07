@@ -7,7 +7,7 @@ export class Modal extends Component {
 	render() {
 		return (
 			<div className='modal-container'>
-				<div className='overlay-style' />
+				<div className='overlay-style' onClick={this.props.close} />
 				<div className='modal-style'>
 					<div className='modal-header'>
 						<h3 className='modal-sub-text'>{this.props.headText}</h3>

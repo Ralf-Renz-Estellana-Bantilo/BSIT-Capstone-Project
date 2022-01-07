@@ -174,6 +174,7 @@ const Companies = ({
 												textAlign: "center",
 												padding: "10px",
 												backgroundColor: "red",
+												color: "white",
 												fontWeight: "500",
 												fontSize: "14px",
 											}}>
@@ -299,6 +300,7 @@ const Companies = ({
 													textAlign: "center",
 													padding: "10px",
 													backgroundColor: "red",
+													color: "white",
 													fontWeight: "500",
 													fontSize: "14px",
 												}}>

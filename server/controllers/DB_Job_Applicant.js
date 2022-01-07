@@ -135,6 +135,24 @@ export const deleteJobApplicants = (req, res) => {
 	);
 };
 
+export const deleteJobApplicant = (req, res) => {
+	const jobID = req.params.jobID;
+	const applicantID = req.params.applicantID;
+
+	db.query(
+		"DELETE FROM job_applicants WHERE JobID = ? AND ApplicantID = ?",
+		[jobID, applicantID],
+		(err, result) => {
+			if (err) {
+				console.log("deleteCompanyPost:", err);
+			} else {
+				res.send(result);
+				console.log("Job Applicant data has been cleaned");
+			}
+		}
+	);
+};
+
 export const account_deleteJobApplicants = (req, res) => {
 	const applicantID = req.params.id;
 

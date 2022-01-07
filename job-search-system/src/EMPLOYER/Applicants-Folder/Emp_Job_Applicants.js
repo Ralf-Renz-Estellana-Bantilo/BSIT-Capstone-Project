@@ -77,23 +77,27 @@ export class Emp_Job_Applicants extends Component {
 		this.props.openDeleteState();
 	};
 
-	componentDidMount = async () => {
+	componentDidMount = () => {
 		const height = this.divElement.clientHeight;
 		const titleHeight = this.titleElement.clientHeight;
 		this.setState({ height });
 		this.setState({ titleHeight });
 
-		const { info, jobApplicants } = this.props;
-		for (let index = 0; index < jobApplicants.length; index++) {
-			if (info.JobID === jobApplicants[index].JobID) {
-				await this.setState({ count: this.state.count + 1 });
+		try {
+			const { info, jobApplicants } = this.props;
+			for (let index = 0; index < jobApplicants.length; index++) {
+				if (info.JobID === jobApplicants[index].JobID) {
+					this.setState({ count: this.state.count + 1 });
+				}
+				if (
+					jobApplicants[index].Candidate_Status === "Hired" &&
+					info.JobID === jobApplicants[index].JobID
+				) {
+					this.setState({ countHired: this.state.countHired + 1 });
+				}
 			}
-			if (
-				jobApplicants[index].Candidate_Status === "Hired" &&
-				info.JobID === jobApplicants[index].JobID
-			) {
-				await this.setState({ countHired: this.state.countHired + 1 });
-			}
+		} catch (error) {
+			// console.log(error);
 		}
 
 		const scroll = localStorage.getItem("empApplicantScroll");

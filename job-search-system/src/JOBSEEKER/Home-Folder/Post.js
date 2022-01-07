@@ -209,7 +209,8 @@ export class Post extends Component {
 							<button onClick={this.seeMore} className='see-more'>
 								{this.state.showMore ? "See More" : "See Less"}
 							</button>
-							<Link to={`/jobseeker/${this.props.activePage}/apply-now`}>
+							<Link
+								to={`/jobseeker/${this.props.activePage}/application-form`}>
 								<button
 									title={
 										info.Is_Applied === true

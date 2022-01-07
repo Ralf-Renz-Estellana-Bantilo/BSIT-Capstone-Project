@@ -981,6 +981,22 @@ export class App extends Component {
 			});
 	};
 
+	deleteAppliedJob = async (applicantID, jobID) => {
+		let appliedJobs = this.state.appliedJobs;
+		let index = appliedJobs.findIndex(
+			(x) => x.JobID === jobID && x.ApplicantID === applicantID
+		);
+		appliedJobs.splice(index, 1);
+		this.setState({ appliedJobs: appliedJobs });
+
+		// Delete Applied Jobs Data
+		await axios
+			.delete(`http://localhost:2000/api/delete-applied-job/${jobID}`)
+			.then(async (response) => {
+				console.log("Applied Job has been deleted");
+			});
+	};
+
 	// Employer Portion ----------------------
 	toggleSidebar = () => {
 		this.setState({
@@ -1130,13 +1146,21 @@ export class App extends Component {
 		this.deletePost(id);
 	};
 
-	deleteJobApplicants = (applicantID, jobID) => {
+	deleteJobApplicants = async (applicantID, jobID) => {
 		let jobApplicants = this.state.jobApplicants;
 		let index = jobApplicants.findIndex(
 			(x) => x.JobID === jobID && x.ApplicantID === applicantID
 		);
 		jobApplicants.splice(index, 1);
 		this.setState({ jobApplicants: jobApplicants });
+
+		await axios
+			.delete(
+				`http://localhost:2000/api/delete-specific-job-applicant/${jobID}/${applicantID}`
+			)
+			.then(async (response) => {
+				console.log("Job Applicant has been deleted");
+			});
 	};
 
 	setTargetJobPost = (post) => {
@@ -1574,7 +1598,7 @@ export class App extends Component {
 						/>
 						<Route
 							exact
-							path={`/${userType}/${this.state.activePage}/apply-now`}
+							path={`/${userType}/${this.state.activePage}/application-form`}
 							render={() => (
 								<ApplicationForm
 									user={this.state.user}
@@ -1590,6 +1614,7 @@ export class App extends Component {
 									handleApplication={this.handleApplication}
 									addJobApplicants={this.addJobApplicants}
 									setCompanyID={this.setCompanyID}
+									deleteAppliedJob={this.deleteAppliedJob}
 								/>
 							)}
 						/>

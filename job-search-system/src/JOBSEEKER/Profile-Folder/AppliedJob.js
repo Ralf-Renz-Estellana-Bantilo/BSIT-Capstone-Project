@@ -49,7 +49,7 @@ export class AppliedJob extends Component {
 		}
 
 		return (
-			<Link to={`/jobseeker/${this.props.activePage}/apply-now`}>
+			<Link to={`/jobseeker/${this.props.activePage}/application-form`}>
 				<div
 					className='job'
 					style={

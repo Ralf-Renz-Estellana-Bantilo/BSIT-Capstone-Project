@@ -3,11 +3,13 @@ import AdminResources from "../AdminResources";
 import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
 import "./JobPosts.css";
-import OKIcon from "../Images/OKIcon.png";
+import DeleteIcon from "../Images/DeleteIcon.png";
 import LocationIcon from "../Images/LocationIcon.png";
 import User from "../Images/User.png";
 import PopupMenuJobPost from "../PopupMenuJobPost";
 import { useNavigate } from "react-router-dom";
+import Modal from "../Modal";
+import axios from "axios";
 
 const JobPosts = ({
 	activePage,
@@ -37,6 +39,8 @@ const JobPosts = ({
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
 	const [isPopupMenuOpen, setIsPopupMenuOpen] = useState(false);
 	const [isJobPostPanelOpen, setJobPostPanelOpen] = useState(false);
+	const [previewID, setPreviewID] = useState(null);
+	const [previewDeleteCompany, setPreviewDeleteCompany] = useState(null);
 
 	// States for Posting a Job
 	const [jobTitle, setJobTitle] = useState("");
@@ -56,6 +60,7 @@ const JobPosts = ({
 	const [contactNumber, setContactNumber] = useState("");
 	const [imagePreview, setImagePreview] = useState(null);
 	const [companyImage, setCompanyImage] = useState(null);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -131,6 +136,32 @@ const JobPosts = ({
 				}
 			}
 		}
+	};
+
+	const handleDeletePost = async () => {
+		await axios
+			.delete(`http://localhost:2000/api/delete-jobPost/${previewID}`)
+			.then(async (response) => {
+				console.log("Post has been deleted");
+				setIsModalOpen(false);
+
+				let posts = jobPosts;
+				let index = posts.findIndex((x) => x.JobID === previewID);
+				posts.splice(index, 1);
+
+				await setJobPosts(posts);
+				await setPostPreview(null);
+			});
+		await axios
+			.delete(`http://localhost:2000/api/delete-job-applicants/${previewID}`)
+			.then(async (response) => {
+				console.log("Job Applicants have been deleted");
+			});
+		await axios
+			.delete(`http://localhost:2000/api/delete-applied-job/${previewID}`)
+			.then(async (response) => {
+				console.log("Applied Job has been deleted");
+			});
 	};
 
 	let post = postPreview;
@@ -276,6 +307,18 @@ const JobPosts = ({
 					location={location}
 					status={status}
 					sort={sort}
+				/>
+			)}
+
+			{isModalOpen && (
+				<Modal
+					headText='Delete Post Confirmation'
+					modalText={`Are you sure you want to permanently delete this post from ${previewDeleteCompany}?`}
+					confirmText='Yes'
+					closeText='No'
+					close={() => setIsModalOpen(false)}
+					confirm={handleDeletePost}
+					path='/admin/job-posts'
 				/>
 			)}
 
@@ -480,7 +523,7 @@ const JobPosts = ({
 								<div className='job-post-preview'>
 									<div className='post-preview-panel'>
 										<div className='job-post-header'>
-											<h3>Business Stablishment jobPostrmation</h3>
+											<h3>Business Stablishment Information</h3>
 										</div>
 										<div className='job-posts'>
 											<div className='post-fields'>
@@ -555,6 +598,13 @@ const JobPosts = ({
 														}
 													/>
 												</div>
+												<div className='job-qualification'>
+													<h4>Business Description:</h4>
+													<textarea
+														name='business-description'
+														placeholder='Enter Business Description'></textarea>
+												</div>
+
 												<div className='post-field'>
 													<label>Stablishment Photo:</label>
 													<input
@@ -707,6 +757,7 @@ const JobPosts = ({
 													textAlign: "center",
 													padding: "10px",
 													backgroundColor: "red",
+													color: "white",
 													fontWeight: "500",
 													fontSize: "14px",
 												}}>
@@ -718,6 +769,7 @@ const JobPosts = ({
 													textAlign: "center",
 													padding: "10px",
 													backgroundColor: "red",
+													color: "white",
 													fontWeight: "500",
 													fontSize: "14px",
 												}}>
@@ -782,7 +834,18 @@ const JobPosts = ({
 														</div>
 													</div>
 													<div className='upperRight-jobPost'>
-														•••
+														<img
+															src={DeleteIcon}
+															alt='Delete post'
+															title='Delete this post'
+															onClick={() => {
+																setIsModalOpen(true);
+																setPreviewID(post.JobID);
+																setPreviewDeleteCompany(
+																	post.Company_Name
+																);
+															}}
+														/>
 													</div>
 												</div>
 												<div className='post-preview'>
@@ -905,6 +968,7 @@ const JobPosts = ({
 													textAlign: "center",
 													padding: "10px",
 													backgroundColor: "red",
+													color: "white",
 													fontWeight: "500",
 													fontSize: "14px",
 												}}>

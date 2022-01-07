@@ -3,6 +3,7 @@ import SearchIcon from "./Images/SearchIcon.png";
 import Logout from "./Images/Logout.png";
 import MenuIconFilled from "./Images/MenuIconFilled.png";
 import CreateIcon from "./Images/CreateIcon.png";
+import JobsIcon from "./Images/JobsIcon.png";
 import "./Navbar.css";
 import Modal from "./Modal";
 
@@ -95,7 +96,14 @@ const Navbar = ({
 							</div>
 						) : (
 							<div className='navbar-button-container'>
-								<button onClick={closeJobPostPanel}>Go Back</button>
+								{/* <button onClick={closeJobPostPanel}>Go Back</button> */}
+								<img
+									src={JobsIcon}
+									title='Job Posts'
+									alt='Job Posts'
+									onClick={closeJobPostPanel}
+									style={{ height: "27px" }}
+								/>
 							</div>
 						)}
 					</div>

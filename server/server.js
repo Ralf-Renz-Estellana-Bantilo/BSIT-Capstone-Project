@@ -2,6 +2,7 @@ import express from "express";
 import mysql from "mysql2";
 import cors from "cors";
 import multer from "multer";
+import sharp from "sharp";
 import {
 	account_deleteUserAccount,
 	changeAccountPicture,
@@ -49,6 +50,7 @@ import {
 	account_deleteEmployer,
 	account_deleteJobApplicants,
 	addJobApplicants,
+	deleteJobApplicant,
 	deleteJobApplicants,
 	getJobApplicant,
 	getJobApplicants,
@@ -195,6 +197,10 @@ app.post("/api/create-job-applicant", addJobApplicants);
 app.post("/api/read-job-applicant", getJobApplicants);
 app.post("/api/read-specific-job-applicant", getJobApplicant);
 app.delete("/api/delete-job-applicants/:id", deleteJobApplicants);
+app.delete(
+	"/api/delete-specific-job-applicant/:jobID/:applicantID",
+	deleteJobApplicant
+);
 app.delete(
 	"/api/account-delete-job-applicant/:id",
 	account_deleteJobApplicants

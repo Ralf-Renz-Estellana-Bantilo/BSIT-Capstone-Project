@@ -106,13 +106,8 @@
 
 .back-icon {
 	position: fixed;
-	height: 30px;
+	height: 35px;
 	opacity: 0.8;
 	transition: 0.1s;
 	cursor: pointer;
-}
-
-.back-icon:hover {
-	opacity: 1;
-	transform: scale(1.1);
 }
