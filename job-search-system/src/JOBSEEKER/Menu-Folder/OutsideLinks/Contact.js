@@ -6,10 +6,24 @@ import Logo from "../../../Images/Logo.png";
 export class Contact extends Component {
 	render() {
 		const { darkTheme } = this.props;
+
+		const userTypeSession = sessionStorage.getItem("UserType");
+		let userType = "";
+		if (userTypeSession === "Job Seeker") {
+			userType = "jobseeker";
+		} else {
+			userType = "employer";
+		}
+
 		return (
 			<div className='outside-link-container'>
 				<div className='login-nav'>
-					<Link to='/jobseeker/menu'>
+					<Link
+						to={
+							userType === "jobseeker"
+								? `/${userType}/menu`
+								: `/${userType}/settings`
+						}>
 						<img
 							src={LeftArrow}
 							alt='Go Back'

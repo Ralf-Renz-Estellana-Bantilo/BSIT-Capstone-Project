@@ -18,6 +18,16 @@ export class Emp_Company_Profile extends Component {
 		emailAddress: "",
 		companyName: "",
 		companyDescription: "",
+		prevState_firstName: "",
+		prevState_middleName: "",
+		prevState_lastName: "",
+		prevState_street: "",
+		prevState_zone: "",
+		prevState_barangay: "",
+		prevState_contactNumber: "",
+		prevState_emailAddress: "",
+		prevState_companyName: "",
+		prevState_companyDescription: "",
 		company: [],
 	};
 
@@ -35,6 +45,17 @@ export class Emp_Company_Profile extends Component {
 			contactNumber: company.Contact_Number,
 			companyName: company.Company_Name,
 			companyDescription: company.Company_Description,
+
+			// Previous States -----
+			prevState_firstName: currentUser.First_Name,
+			prevState_middleName: currentUser.Middle_Name,
+			prevState_lastName: currentUser.Last_Name,
+			prevState_street: company.Street,
+			prevState_zone: company.Zone,
+			prevState_barangay: company.Barangay,
+			prevState_contactNumber: company.Contact_Number,
+			prevState_companyName: company.Company_Name,
+			prevState_companyDescription: company.Company_Description,
 		});
 	};
 
@@ -86,6 +107,18 @@ export class Emp_Company_Profile extends Component {
 		this.handleToggleEditProfile();
 		this.toggleIndication();
 		this.props.updateCompanyProfile(data);
+
+		this.setState({
+			prevState_firstName: firstName,
+			prevState_middleName: middleName,
+			prevState_lastName: lastName,
+			prevState_street: street,
+			prevState_zone: zone,
+			prevState_barangay: barangay,
+			prevState_contactNumber: contactNumber,
+			prevState_companyName: companyName,
+			prevState_companyDescription: companyDescription,
+		});
 	};
 
 	componentDidMount = async () => {
@@ -119,8 +152,18 @@ export class Emp_Company_Profile extends Component {
 			emailAddress,
 			companyName,
 			companyDescription,
+			prevState_firstName,
+			prevState_middleName,
+			prevState_lastName,
+			prevState_street,
+			prevState_zone,
+			prevState_barangay,
+			prevState_contactNumber,
+			prevState_companyName,
+			prevState_companyDescription,
 			isIndicationOpen,
 		} = this.state;
+
 		const { darkTheme } = this.props;
 
 		const barangays = Resources.getBarangay();
@@ -132,6 +175,22 @@ export class Emp_Company_Profile extends Component {
 				</option>
 			);
 		});
+
+		let isUpdateButtonEnable = true;
+
+		if (
+			prevState_firstName === firstName &&
+			prevState_middleName === middleName &&
+			prevState_lastName === lastName &&
+			prevState_street === street &&
+			prevState_zone === zone &&
+			prevState_barangay === barangay &&
+			prevState_contactNumber === contactNumber &&
+			prevState_companyName === companyName &&
+			prevState_companyDescription === companyDescription
+		) {
+			isUpdateButtonEnable = false;
+		}
 
 		return (
 			<>
@@ -291,7 +350,16 @@ export class Emp_Company_Profile extends Component {
 						</div>
 
 						<div className='save-update'>
-							<button onClick={this.handleUpdate}>Save Update</button>
+							<button
+								onClick={this.handleUpdate}
+								style={
+									isUpdateButtonEnable
+										? { opacity: "1" }
+										: { opacity: "0.3" }
+								}
+								disabled={isUpdateButtonEnable ? "" : "disabled"}>
+								Save Update
+							</button>
 						</div>
 					</div>
 				</div>

@@ -18,72 +18,96 @@ export class Dp extends Component {
 		};
 	}
 
-	handleFileChange = async (event) => {
-		await this.setState({
-			file: URL.createObjectURL(event.target.files[0]),
-			fileData: event.target.files[0],
-		});
+	handleFileChange = (event) => {
+		try {
+			this.setState({
+				file: URL.createObjectURL(event.target.files[0]),
+				fileData: event.target.files[0],
+			});
+		} catch (error) {
+			this.setState({
+				file: null,
+			});
+		}
 	};
 
 	handleSave = async (e) => {
 		e.preventDefault();
+		const { fileData, file } = this.state;
+		const date =
+			new Date().getMonth() +
+			1 +
+			"_" +
+			new Date().getDate() +
+			"_" +
+			new Date().getFullYear();
 
-		try {
-			const data = new FormData();
-			data.append("image", this.state.fileData);
-			await fetch("http://localhost:2000/api/upload-image", {
-				method: "POST",
-				body: data,
-			})
-				.then(async (result) => {
-					console.log("The File has been Uploaded...");
-					await this.props.changeCurrentUserProfile(
-						this.state.fileData.name,
-						this.props.currentUser.UserID
-					);
-				})
-				.catch((error) => {
-					console.log("Multer Error!", error);
-				});
+		const newFileName = date + "_" + fileData.name;
 
-			await fetch("http://localhost:2000/api/upload-image-admin", {
-				method: "POST",
-				body: data,
-			})
-				.then(async (result) => {
-					console.log(
-						"The File has been Uploaded to the Administrator..."
-					);
-				})
-				.catch((error) => {
-					console.log("Multer Error!", error);
-				});
-
-			await axios
-				.put("http://localhost:2000/api/update-user-profile", {
-					image: this.state.fileData.name,
-					userID: sessionStorage.getItem("UserID"),
-				})
-				.then((response) => {
-					console.log(response);
-				});
-
-			await axios
-				.put("http://localhost:2000/api/update-appplicant-profile", {
-					image: this.state.fileData.name,
-					userID: sessionStorage.getItem("UserID"),
-				})
-				.then((response) => {
-					console.log(response);
-				});
-
+		if (fileData.size > 2000000) {
+			alert("File too large (2mb limit) ! Please try again!");
 			this.setState({
-				profileImg: this.state.file,
-				toggleChooser: false,
 				file: null,
+				fileData: null,
 			});
-		} catch (error) {
-			alert(error);
+		} else {
+			try {
+				const data = new FormData();
+				data.append("image", fileData);
+				await fetch("http://localhost:2000/api/upload-image", {
+					method: "POST",
+					body: data,
+				})
+					.then(async (result) => {
+						console.log("The File has been Uploaded...");
+						await this.props.changeCurrentUserProfile(
+							newFileName,
+							this.props.currentUser.UserID
+						);
+					})
+					.catch((error) => {
+						console.log("Multer Error!", error);
+					});
+
+				await fetch("http://localhost:2000/api/upload-image-admin", {
+					method: "POST",
+					body: data,
+				})
+					.then(async (result) => {
+						console.log(
+							"The File has been Uploaded to the Administrator..."
+						);
+					})
+					.catch((error) => {
+						console.log("Multer Error!", error);
+					});
+
+				await axios
+					.put("http://localhost:2000/api/update-user-profile", {
+						image: newFileName,
+						userID: sessionStorage.getItem("UserID"),
+					})
+					.then((response) => {
+						console.log(response);
+					});
+
+				await axios
+					.put("http://localhost:2000/api/update-appplicant-profile", {
+						image: newFileName,
+						userID: sessionStorage.getItem("UserID"),
+					})
+					.then((response) => {
+						console.log(response);
+					});
+
+				this.setState({
+					profileImg: file,
+					toggleChooser: false,
+					file: null,
+				});
+			} catch (error) {
+				alert(error);
+			}
 		}
 	};
 

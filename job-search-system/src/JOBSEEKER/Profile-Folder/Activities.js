@@ -29,6 +29,8 @@ export class Activities extends Component {
 		const { feedback, isMessagePanelOpen } = this.state;
 		const applicantSession = sessionStorage.getItem("ApplicantID");
 
+		let notificationLength = 0;
+
 		return (
 			<div className='activities-container'>
 				{!isMessagePanelOpen && (
@@ -40,14 +42,25 @@ export class Activities extends Component {
 							color: "#5a5a5a",
 							fontWeight: "600",
 						}}>
-						Notifications ({employerFeedback.length})
+						{employerFeedback.map((feedback) => {
+							if (
+								feedback.ApplicantID === applicantSession &&
+								feedback.IsDeleted === "false"
+							) {
+								notificationLength += 1;
+							}
+						})}
+						Notifications ({notificationLength})
 					</h3>
 				)}
 
 				{!isMessagePanelOpen ? (
 					<div>
 						{employerFeedback.map((feedback) => {
-							if (feedback.ApplicantID === applicantSession) {
+							if (
+								feedback.ApplicantID === applicantSession &&
+								feedback.IsDeleted === "false"
+							) {
 								return (
 									<div key={feedback.FeedbackID}>
 										{" "}
@@ -58,6 +71,7 @@ export class Activities extends Component {
 												this.props.deleteNotification
 											}
 											darkTheme={this.props.darkTheme}
+											openDeleteState={this.props.openDeleteState}
 										/>
 									</div>
 								);
@@ -79,14 +93,21 @@ export class Activities extends Component {
 						darkTheme={this.props.darkTheme}
 					/>
 				)}
-				{/* */}
 
-				{/* <Activity status='new' />
-				<Activity />
-				<Activity status='new' />
-				<Activity status='new' type='hire' />
-				<Activity type='hire' />
-				<Activity status='new' /> */}
+				{notificationLength === 0 && isMessagePanelOpen === false ? (
+					<p
+						style={{
+							textAlign: "center",
+							padding: "10px",
+							backgroundColor: "red",
+							marginTop: "20px",
+							fontSize: "12px",
+						}}>
+						No Available Notifications yet!
+					</p>
+				) : (
+					""
+				)}
 			</div>
 		);
 	}

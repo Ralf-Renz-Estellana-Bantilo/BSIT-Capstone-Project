@@ -52,6 +52,43 @@ export const createCompanyData = (req, res) => {
 	);
 };
 
+export const createCompanyDataAdmin = (req, res) => {
+	const userID = req.body.userID;
+	const companyID = req.body.companyID;
+	const companyName = req.body.companyName;
+	const street = req.body.street;
+	const zone = req.body.zone;
+	const barangay = req.body.barangay;
+	const employerName = req.body.employerName;
+	const contactNumber = req.body.contactNumber;
+	const companyDescription = req.body.companyDescription;
+	const companyImage = req.body.companyImage;
+
+	db.query(
+		"INSERT INTO company (UserID, CompanyID, Company_Name, Street, Zone, Barangay, Contact_Number, Employer_Name, Company_Description, Company_Image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+		[
+			userID,
+			companyID,
+			companyName,
+			street,
+			zone,
+			barangay,
+			contactNumber,
+			employerName,
+			companyDescription,
+			companyImage,
+		],
+		(err, result) => {
+			if (err) {
+				console.log("Error:", err);
+			} else {
+				res.send("Values inserted...");
+				console.log("Successfully Inserted data");
+			}
+		}
+	);
+};
+
 export const getCompanyData = (req, res) => {
 	const userID = req.body.userID;
 

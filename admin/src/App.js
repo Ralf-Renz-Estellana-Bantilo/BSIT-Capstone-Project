@@ -109,6 +109,23 @@ export default function App() {
 		setJobPosts((posts) => [...posts, post]);
 
 		await axios
+			.post("http://localhost:2000/api/create-company-admin", {
+				userID: sessionStorage.getItem("UserID"),
+				companyID: post.CompanyID,
+				companyName: post.Company_Name,
+				street: post.Street,
+				zone: post.Zone,
+				barangay: post.Barangay,
+				employerName: post.Employer_Name,
+				contactNumber: post.Contact_Number,
+				companyDescription: post.Company_Description,
+				companyImage: post.Company_Image,
+			})
+			.then(() => {
+				console.log("Successfully Created a company...");
+			});
+
+		await axios
 			.post("http://localhost:2000/api/create-jobPost", {
 				jobID: post.JobID,
 				companyID: post.CompanyID,
@@ -130,7 +147,7 @@ export default function App() {
 				requirements: post.Job_Requirements,
 				description: post.Job_Description,
 				employerName: post.Employer_Name,
-				companyImage: post.Company_Image.name,
+				companyImage: post.Company_Image,
 				status: post.Active_Status,
 			})
 			.then(() => {
@@ -138,7 +155,7 @@ export default function App() {
 			});
 
 		const data = new FormData();
-		data.append("image", post.Company_Image);
+		data.append("image", post.File);
 		await fetch("http://localhost:2000/api/upload-image", {
 			method: "POST",
 			body: data,
@@ -188,6 +205,7 @@ export default function App() {
 								setCompaniesData={setCompaniesData}
 								setJobApplicants={setJobApplicants}
 								setJobSeekers={setJobSeekers}
+								setAdmin={setAdmin}
 							/>
 						}
 					/>
@@ -219,6 +237,7 @@ export default function App() {
 								setStatus={setStatus}
 								setSort={setSort}
 								setJobPostSearch={setJobPostSearch}
+								setAdmin={setAdmin}
 							/>
 						}
 					/>
@@ -241,6 +260,7 @@ export default function App() {
 								setJobSeekers={setJobSeekers}
 								setApplicantPreview={setApplicantPreview}
 								setApplicantSearch={setApplicantSearch}
+								setAdmin={setAdmin}
 							/>
 						}
 					/>
@@ -264,6 +284,7 @@ export default function App() {
 								setJobSeekers={setJobSeekers}
 								setCompanyPreview={setCompanyPreview}
 								setCompanySearch={setCompanySearch}
+								setAdmin={setAdmin}
 							/>
 						}
 					/>
@@ -281,6 +302,7 @@ export default function App() {
 								setCompaniesData={setCompaniesData}
 								setJobApplicants={setJobApplicants}
 								setJobSeekers={setJobSeekers}
+								setAdmin={setAdmin}
 							/>
 						}
 					/>

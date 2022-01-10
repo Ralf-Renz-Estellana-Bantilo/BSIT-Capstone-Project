@@ -4,10 +4,26 @@ import { Header } from "../../Header";
 import Navbar from "../../Navbar";
 import { withRouter } from "react-router-dom";
 import Activities from "../Profile-Folder/Activities";
+import Indication from "../../Indication";
 
 export class Notification extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			isDeleted: false,
+		};
+	}
+
 	handleChangePage = async (page) => {
 		await this.props.handleChangePage(page);
+	};
+
+	openDeleteState = () => {
+		this.setState({ isDeleted: true });
+	};
+
+	closeDeleteState = () => {
+		this.setState({ isDeleted: false });
 	};
 
 	componentDidMount = async () => {
@@ -37,6 +53,15 @@ export class Notification extends Component {
 				/>
 				<Gap />
 
+				{this.state.isDeleted === true && (
+					<Indication
+						type='secondary'
+						text='Notification has been deleted'
+						method={this.closeDeleteState}
+						delay={3}
+					/>
+				)}
+
 				<Activities
 					employerFeedback={this.props.employerFeedback}
 					currentUser={this.props.currentUser}
@@ -46,22 +71,8 @@ export class Notification extends Component {
 					setCompanyID={this.props.setCompanyID}
 					darkTheme={this.props.darkTheme}
 					activePage='notification'
+					openDeleteState={this.openDeleteState}
 				/>
-
-				{this.props.employerFeedback.length === 0 ? (
-					<p
-						style={{
-							textAlign: "center",
-							padding: "10px",
-							backgroundColor: "red",
-							marginTop: "20px",
-							fontSize: "12px",
-						}}>
-						No Available Notifications yet!
-					</p>
-				) : (
-					""
-				)}
 			</div>
 		);
 	}

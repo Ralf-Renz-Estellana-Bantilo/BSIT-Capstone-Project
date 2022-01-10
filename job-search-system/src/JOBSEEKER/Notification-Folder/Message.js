@@ -89,7 +89,7 @@ export class Message extends Component {
 						onClick={() => {
 							this.props.closeMessagePanel();
 						}}>
-						<img src={CloseIcon} alt='Close' />
+						<img src={CloseIcon} alt='Close' title='Close' />
 					</div>
 					<div
 						className='message-company-profile'
@@ -97,6 +97,7 @@ export class Message extends Component {
 						<img
 							src={`../../assets/${feedback.Company_Image}`}
 							alt='Company Profile'
+							title='View Company Details'
 						/>
 					</div>
 					<div className='message-company-name'>
@@ -174,6 +175,7 @@ export class Message extends Component {
 									<img
 										src={`../../assets/${currentUser.User_Image}`}
 										alt='Company Profile'
+										title='Seen'
 									/>
 								</div>
 							</div>

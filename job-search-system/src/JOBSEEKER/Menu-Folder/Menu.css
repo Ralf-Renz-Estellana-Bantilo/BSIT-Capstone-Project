@@ -80,6 +80,96 @@
 	color: var(--accent-main);
 }
 
+.outside-link-cards {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+.outside-link-card {
+	display: flex;
+	flex-direction: column;
+	border-bottom: 1px solid var(--border1);
+	border-radius: 5px;
+	overflow: hidden;
+	margin: 10px;
+	width: 90%;
+	background-color: var(--dark-primary);
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.outside-link-card-upper-portion {
+	width: 380px;
+	height: 200px;
+	/* border-radius: 60%; */
+	overflow: hidden;
+	margin: 0 auto;
+	position: relative;
+	box-shadow: 0px 2px 8px rgb(0, 0, 0);
+}
+
+.outside-link-card-upper-portion img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.outside-link-card-lower-portion {
+	padding: 10px;
+}
+
+.about-owner-name {
+	color: var(--accent-main);
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.about-owner-position {
+	color: var(--accent2);
+	font-size: 14px;
+	font-weight: 600;
+	margin-bottom: 8px;
+}
+
+.about-owner-info {
+	color: var(--accent1);
+	font-size: 14px;
+	text-align: justify;
+}
+
+.about-owner-email {
+	color: var(--accent1);
+	font-size: 14px;
+	padding: 10px 0;
+	text-decoration: underline;
+}
+
+.about-owner-button {
+	color: var(--accent1);
+	border: none;
+	border-radius: 50px;
+	padding: 5px 20px;
+	cursor: pointer;
+	transition: 0.25s;
+	font-weight: 600;
+	font-size: 14px;
+	border: solid 3px transparent;
+	background-image: linear-gradient(
+			rgba(255, 255, 255, 0),
+			rgba(255, 255, 255, 0)
+		),
+		linear-gradient(-20deg, var(--light-blue), var(--dark-blue));
+	background-origin: border-box;
+	background-clip: content-box, border-box;
+	box-shadow: 2px 1000px 1px var(--dark-primary) inset;
+	width: 100%;
+}
+
+.about-owner-button:hover {
+	box-shadow: none;
+	color: white;
+}
+
 /* Contact */
 .contact-container {
 	height: 80vh;
@@ -164,8 +254,28 @@
 	box-shadow: none;
 	color: white;
 }
-/* @media only screen and (min-width: 800px) {
-	.outside-link-container .outside-link {
-		width: 40%;
+
+/* Help */
+.help-content .help-content-header h1 {
+	text-align: center;
+	font-size: 16px;
+	color: var(--accent-main);
+}
+
+.help-content-body h3 {
+	font-size: 16px;
+	font-weight: 600;
+	color: var(--accent1);
+}
+
+.help-content-body p {
+	font-size: 16px;
+	color: var(--accent1);
+}
+
+@media only screen and (max-width: 600px) {
+	.outside-link-cards {
+		display: flex;
+		flex-direction: column;
 	}
-} */
+}

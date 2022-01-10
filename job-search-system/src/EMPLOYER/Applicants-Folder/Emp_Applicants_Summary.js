@@ -136,8 +136,12 @@ export class Emp_Applicants_Summary extends Component {
 									className='applicant-info-container'
 									key={candidate.ApplicantID}>
 									<div className='applicant-info'>
-										<div className='applicant-info-left-portion'>
-											<div className='applicant-image'>
+										<div
+											className='applicant-info-left-portion'
+											style={{ cursor: "auto" }}>
+											<div
+												className='applicant-image'
+												style={{ cursor: "auto" }}>
 												<img
 													src={`../assets/${candidate.User_Image}`}
 													alt='User'

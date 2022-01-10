@@ -176,6 +176,24 @@ export const changeEmployerFeedbackPicture = (req, res) => {
 	);
 };
 
+export const deleteApplicantNotification = (req, res) => {
+	const jobID = req.body.jobID;
+	const applicantID = req.body.applicantID;
+
+	db.query(
+		"UPDATE employer_feedback SET IsDeleted='true' WHERE JobID=? AND ApplicantID=?",
+		[jobID, applicantID],
+		(err, result) => {
+			if (err) {
+				console.log("Error:", err);
+			} else {
+				res.send(result);
+				console.log("Successfully deleted applicant notification");
+			}
+		}
+	);
+};
+
 export const updateFeedbackBusinessProfile = (req, res) => {
 	const companyID = req.body.companyID;
 	const companyName = req.body.companyName;

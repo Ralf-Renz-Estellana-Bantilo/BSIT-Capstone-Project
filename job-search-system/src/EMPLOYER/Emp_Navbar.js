@@ -9,8 +9,7 @@ import DashboardIcon from "../Images/DashboardIcon.png";
 import BusinessProfile from "../Images/BusinessProfile.png";
 import JobsIcon from "../Images/JobsIcon.png";
 import ApplicantIcon from "../Images/ApplicantIcon.png";
-import Settings from "../Images/Settings.png";
-import Icon4 from "../Images/Icon4.png";
+import Settings from "../Images/MenuIconFilled.png";
 import CloseIcon from "../Images/CloseIcon.png";
 import Footer from "../JOBSEEKER/Home-Folder/Footer";
 import { Link } from "react-router-dom";
@@ -278,7 +277,7 @@ export class Emp_Navbar extends Component {
 
 						<div
 							className={
-								panel === "Settings"
+								panel === "Menu"
 									? "category-panel-container-active"
 									: "category-panel-container"
 							}>
@@ -295,34 +294,10 @@ export class Emp_Navbar extends Component {
 									/>
 								</div>
 								<div className='category-text'>
-									<h3>SETTINGS</h3>
+									<h3>MENU</h3>
 								</div>
 							</Link>
 						</div>
-
-						{/* <div
-							className={
-								panel === "Account"
-									? "category-panel-container-active"
-									: "category-panel-container"
-							}>
-							<Link to='/employer/account'>
-								<div className='category-icon'>
-									<img
-										src={Icon4}
-										alt='Icon4 Icon'
-										style={
-											darkTheme
-												? { filter: "brightness(1)" }
-												: { filter: "brightness(0.1)" }
-										}
-									/>
-								</div>
-								<div className='category-text'>
-									<h3>ACCOUNT</h3>
-								</div>
-							</Link>
-						</div> */}
 
 						<div className='footer-panel'>
 							<Footer />

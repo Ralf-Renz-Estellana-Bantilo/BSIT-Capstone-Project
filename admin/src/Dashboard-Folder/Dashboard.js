@@ -21,6 +21,7 @@ const Dashboard = ({
 	setJobSeekers,
 	setCompaniesData,
 	admin,
+	setAdmin,
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
 	const navigate = useNavigate();
@@ -92,6 +93,7 @@ const Dashboard = ({
 						setSidebarOpen={setSidebarOpen}
 						isSidebarOpen={isSidebarOpen}
 						admin={admin}
+						setAdmin={setAdmin}
 					/>
 
 					<div className='main-panel-container'>

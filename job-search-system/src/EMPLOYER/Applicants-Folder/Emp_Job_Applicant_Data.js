@@ -93,6 +93,7 @@ const Emp_Job_Applicant_Data = ({
 				Status: "New",
 				Type: "feedback",
 				Message: text,
+				IsDeleted: "false",
 			};
 
 			await addEmployerFeedBack(feedback);
@@ -239,6 +240,11 @@ const Emp_Job_Applicant_Data = ({
 		}
 	}
 
+	let category = "";
+	try {
+		category = jobPost[0].Category;
+	} catch (error) {}
+
 	return (
 		<div className='job-applicant-data-container'>
 			<div className='applicant-data-container'>
@@ -256,7 +262,7 @@ const Emp_Job_Applicant_Data = ({
 					</Link>
 					<div className='job-title'>
 						<h1>{jobApplicantData.Job_Title}</h1>
-						<p>{jobPost[0].Category}</p>
+						<p>{category}</p>
 					</div>
 				</div>
 

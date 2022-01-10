@@ -13,6 +13,7 @@ const Settings = ({
 	setJobSeekers,
 	setCompaniesData,
 	admin,
+	setAdmin,
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
 	const navigate = useNavigate();
@@ -52,11 +53,10 @@ const Settings = ({
 						setSidebarOpen={setSidebarOpen}
 						admin={admin}
 						isSidebarOpen={isSidebarOpen}
+						setAdmin={setAdmin}
 					/>
 
-					<div className='main-panel-container'>
-						<p>SETTINGS PANEL</p>
-					</div>
+					<div className='main-panel-container'></div>
 				</div>
 			</div>
 		</div>

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import LeftArrow from "../../../Images/LeftArrow.png";
+import User from "../../../Images/User.png";
+import Piolo from "../../../Images/Piolo.jpg";
 import Logo from "../../../Images/Logo.png";
 import Resources from "../../../Resources";
 import Footer from "../../Home-Folder/Footer";
@@ -8,10 +10,24 @@ import Footer from "../../Home-Folder/Footer";
 export class About extends Component {
 	render() {
 		const { darkTheme } = this.props;
+
+		const userTypeSession = sessionStorage.getItem("UserType");
+		let userType = "";
+		if (userTypeSession === "Job Seeker") {
+			userType = "jobseeker";
+		} else {
+			userType = "employer";
+		}
+
 		return (
 			<div className='outside-link-container'>
 				<div className='login-nav'>
-					<Link to='/jobseeker/menu'>
+					<Link
+						to={
+							userType === "jobseeker"
+								? `/${userType}/menu`
+								: `/${userType}/settings`
+						}>
 						<img
 							src={LeftArrow}
 							alt='Go Back'
@@ -64,17 +80,60 @@ export class About extends Component {
 							University of Eastern Philippines as part of their Capstone
 							Project. This is meant to be the easiest way to find a job
 							and to find some applicants for a certain job.
-							<br />
-							<br />
-							<strong>Piolo Jose Nava</strong>,{" "}
+							{/* <br />
+							<br /> */}
+							{/* <strong>Piolo Jose Nava</strong>,{" "}
 							{Resources.getCurrentAge(7, 10, 2000)}, a programmer from
 							Catarman, Northern Samar.
 							<br />
 							<br />
 							<strong>Ralf Renz Bantilo</strong>,{" "}
 							{Resources.getCurrentAge(7, 10, 2000)}, a programmer from
-							San Roque, Northern Samar.
+							San Roque, Northern Samar. */}
 						</p>
+					</div>
+
+					<div className='outside-link-cards'>
+						<div className='outside-link-card'>
+							<div className='outside-link-card-upper-portion'>
+								<img src={User} alt='Programmer' />
+							</div>
+							<div className='outside-link-card-lower-portion'>
+								<h3 className='about-owner-name'>Ralf Renz Bantilo</h3>
+								<h5 className='about-owner-position'>
+									Software Developer
+								</h5>
+								<p className='about-owner-info'>
+									Bachelor of Science in Information Technology student
+									from the University of Eastern Philippines who lives
+									in San Roque, Northern Samar.
+								</p>
+								<p className='about-owner-email'>
+									ralfrenzbantilo853@gmail.com
+								</p>
+								<button className='about-owner-button'>Contact</button>
+							</div>
+						</div>
+						<div className='outside-link-card'>
+							<div className='outside-link-card-upper-portion'>
+								<img src={Piolo} alt='Programmer' />
+							</div>
+							<div className='outside-link-card-lower-portion'>
+								<h3 className='about-owner-name'>Piolo Jose Nava</h3>
+								<h5 className='about-owner-position'>
+									Software Developer
+								</h5>
+								<p className='about-owner-info'>
+									Bachelor of Science in Information Technology student
+									from the University of Eastern Philippines who lives
+									in Catarman, Northern Samar.
+								</p>
+								<p className='about-owner-email'>
+									piolonava01@gmail.com
+								</p>
+								<button className='about-owner-button'>Contact</button>
+							</div>
+						</div>
 					</div>
 				</div>
 				<Footer />

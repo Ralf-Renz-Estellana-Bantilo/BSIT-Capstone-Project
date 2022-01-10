@@ -12,3 +12,7 @@
 	--orange: #ff7b00;
 	--reddish: #ff004c;
 }
+
+button:active {
+	transform: scale(0.98);
+}

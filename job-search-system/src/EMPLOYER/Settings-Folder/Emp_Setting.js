@@ -33,7 +33,7 @@ export class Emp_Setting extends Component {
 					company={this.props.company}
 					setCurrentUser={this.props.setCurrentUser}
 					getJobApplicantsByCompany={this.props.getJobApplicantsByCompany}
-					panel='Settings'
+					panel='Menu'
 					darkTheme={this.props.darkTheme}
 				/>
 				<div className='accordion'>

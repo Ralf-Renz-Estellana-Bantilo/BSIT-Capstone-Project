@@ -52,6 +52,11 @@ export class Home extends Component {
 	}
 
 	render() {
+		const { employerFeedback } = this.props;
+		let appliedJobsFeedback = employerFeedback.filter(
+			(feedback) => feedback.Type === "feedback"
+		);
+
 		return (
 			<div className='home-container'>
 				<Header
@@ -99,6 +104,7 @@ export class Home extends Component {
 							numApplicants={this.props.numApplicants}
 							darkTheme={this.props.darkTheme}
 							appliedJobs={this.props.appliedJobs}
+							appliedJobsFeedback={appliedJobsFeedback}
 						/>
 					) : (
 						<p

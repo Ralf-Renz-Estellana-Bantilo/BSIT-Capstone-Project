@@ -22,6 +22,7 @@ const Applicants = ({
 	applicantSearch,
 	setApplicantSearch,
 	admin,
+	setAdmin,
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
 	const navigate = useNavigate();
@@ -117,6 +118,7 @@ const Applicants = ({
 						isSidebarOpen={isSidebarOpen}
 						text={applicantSearch}
 						admin={admin}
+						setAdmin={setAdmin}
 						setText={setApplicantSearch}
 						setSidebarOpen={setSidebarOpen}
 					/>

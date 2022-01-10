@@ -27,6 +27,7 @@ import {
 	account_deleteCompany,
 	changeCompanyPicture,
 	createCompanyData,
+	createCompanyDataAdmin,
 	getAllCompanies,
 	getCompanyData,
 	getCompanyDetails,
@@ -73,6 +74,7 @@ import {
 	account_deleteFeedback,
 	addEmployerFeedBack,
 	changeEmployerFeedbackPicture,
+	deleteApplicantNotification,
 	getApplicantResponse,
 	getEmployerFeedBacks,
 	getEmployerFeedBack_Employer,
@@ -87,12 +89,20 @@ const PORT = 2000;
 app.use(cors());
 app.use(express.json());
 
+const date =
+	new Date().getMonth() +
+	1 +
+	"_" +
+	new Date().getDate() +
+	"_" +
+	new Date().getFullYear();
+
 const imageFileStorageEngine = multer.diskStorage({
 	destination: (req, file, callback) => {
 		callback(null, "../job-search-system/public/assets");
 	},
 	filename: (req, file, callback) => {
-		callback(null, file.originalname);
+		callback(null, date + "_" + file.originalname);
 	},
 });
 
@@ -101,7 +111,7 @@ const adminImageFileStorageEngine = multer.diskStorage({
 		callback(null, "../admin/public/assets");
 	},
 	filename: (req, file, callback) => {
-		callback(null, file.originalname);
+		callback(null, date + "_" + file.originalname);
 	},
 });
 
@@ -110,13 +120,22 @@ const pdfFileStorageEngine = multer.diskStorage({
 		callback(null, "../job-search-system/public/pdf");
 	},
 	filename: (req, file, callback) => {
-		callback(null, file.originalname);
+		callback(null, date + "_" + file.originalname);
 	},
 });
 
-const uploadImage = multer({ storage: imageFileStorageEngine });
-const uploadImageAdmin = multer({ storage: adminImageFileStorageEngine });
-const uploadPDF = multer({ storage: pdfFileStorageEngine });
+const uploadImage = multer({
+	storage: imageFileStorageEngine,
+	limits: { fileSize: 2000000 },
+});
+const uploadImageAdmin = multer({
+	storage: adminImageFileStorageEngine,
+	limits: { fileSize: 2000000 },
+});
+const uploadPDF = multer({
+	storage: pdfFileStorageEngine,
+	limits: { fileSize: 2000000 },
+});
 
 const db = mysql.createConnection({
 	user: "root",
@@ -134,18 +153,32 @@ db.connect((err) => {
 });
 
 // Image Upload ---------
+
 app.post("/api/upload-image", uploadImage.single("image"), (req, res) => {
-	res.send("Successfully Uploaded a File...");
+	if (res) {
+		res.send("Successfully Uploaded a File...");
+	} else {
+		console.log(req.file);
+	}
 });
+
 app.post(
 	"/api/upload-image-admin",
 	uploadImageAdmin.single("image"),
 	(req, res) => {
-		res.send("Successfully Uploaded a File to the Administrator...");
+		if (res) {
+			res.send("Successfully Uploaded a File to the Administrator...");
+		} else {
+			console.log(req.file);
+		}
 	}
 );
 app.post("/api/upload-pdf", uploadPDF.single("pdf"), (req, res) => {
-	res.send("Successfully Uploaded a PDF File...");
+	if (res) {
+		res.send("Successfully Uploaded a PDF File...");
+	} else {
+		console.log(req.file);
+	}
 });
 
 // User_Account Database Table ----------
@@ -172,6 +205,7 @@ app.delete("/api/delete-applicant/:id", account_deleteApplicant);
 app.get("/api/read-companies", getAllCompanies);
 app.post("/api/get-companyID", getCompanyID);
 app.post("/api/create-company", createCompanyData);
+app.post("/api/create-company-admin", createCompanyDataAdmin);
 app.post("/api/read-company", getCompanyData);
 app.post("/api/read-company-details", getCompanyDetails);
 app.put("/api/insertData-company", insertCompanyData);
@@ -236,6 +270,7 @@ app.post("/api/read-applicant-response", getApplicantResponse);
 app.get("/api/read-employer-feedback", getEmployerFeedBacks);
 app.put("/api/update-feedback-status", updateNotificationStatus);
 app.put("/api/update-employer-feedback-picture", changeEmployerFeedbackPicture);
+app.put("/api/delete-applicant-notification", deleteApplicantNotification);
 app.delete("/api/delete-employer-feedback/:id", account_deleteFeedback);
 app.put(
 	"/api/update-employer-feedback-business-profile",

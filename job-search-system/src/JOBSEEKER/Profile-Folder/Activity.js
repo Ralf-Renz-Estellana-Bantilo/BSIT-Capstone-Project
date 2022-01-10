@@ -30,8 +30,9 @@ export class Activity extends Component {
 
 	handleDeleteNotification = () => {
 		const { feedback } = this.props;
-		this.props.deleteNotification(feedback.FeedbackID);
+		this.props.deleteNotification(feedback);
 		this.onCloseModal();
+		this.props.openDeleteState();
 	};
 
 	render() {
@@ -134,6 +135,7 @@ export class Activity extends Component {
 							<img
 								src={DeleteIcon}
 								alt='Delete'
+								title='Delete Notification'
 								style={
 									darkTheme
 										? { filter: "brightness(1)" }

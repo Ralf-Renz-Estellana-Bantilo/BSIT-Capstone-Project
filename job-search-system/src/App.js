@@ -1112,17 +1112,24 @@ export class App extends Component {
 			.then((response) => {});
 	};
 
-	deleteNotification = (feedbackID) => {
+	deleteNotification = async (feedbackObj) => {
 		let employerFeedback = this.state.employerFeedback;
 		let index = employerFeedback.findIndex(
-			(feedback) => feedback.FeedbackID === feedbackID
+			(feedback) => feedback.FeedbackID === feedbackObj.FeedbackID
 		);
 		employerFeedback.splice(index, 1);
 		this.setState({ employerFeedback: employerFeedback });
+
+		await axios
+			.put("http://localhost:2000/api/delete-applicant-notification", {
+				jobID: feedbackObj.JobID,
+				applicantID: feedbackObj.ApplicantID,
+			})
+			.then((response) => {});
 	};
 
-	setHiree = async (hiree) => {
-		await this.setState({ hiree });
+	setHiree = (hiree) => {
+		this.setState({ hiree });
 	};
 
 	setJobApplicantData = (applicantData) => [
@@ -1475,6 +1482,7 @@ export class App extends Component {
 								<LandingPage
 									darkTheme={this.state.darkTheme}
 									setUserType={this.setUserType}
+									setTheme={this.setTheme}
 								/>
 							)}
 						/>
@@ -1656,17 +1664,21 @@ export class App extends Component {
 						<Route
 							exact
 							path={`/${userType}/menu/help`}
-							render={() => <Help />}
+							render={() => <Help darkTheme={this.state.darkTheme} />}
 						/>
 						<Route
 							exact
 							path={`/${userType}/menu/settings`}
-							render={() => <Settings />}
+							render={() => (
+								<Settings darkTheme={this.state.darkTheme} />
+							)}
 						/>
 						<Route
 							exact
 							path={`/${userType}/menu/terms-and-condition`}
-							render={() => <TermsAndCondition />}
+							render={() => (
+								<TermsAndCondition darkTheme={this.state.darkTheme} />
+							)}
 						/>
 
 						{/* EMPLOYER COMPONENT LINKS */}

@@ -10,6 +10,7 @@ import PopupMenuJobPost from "../PopupMenuJobPost";
 import { useNavigate } from "react-router-dom";
 import Modal from "../Modal";
 import axios from "axios";
+import shortid from "shortid";
 
 const JobPosts = ({
 	activePage,
@@ -35,6 +36,7 @@ const JobPosts = ({
 	jobPostSearch,
 	setJobPostSearch,
 	admin,
+	setAdmin,
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
 	const [isPopupMenuOpen, setIsPopupMenuOpen] = useState(false);
@@ -58,6 +60,7 @@ const JobPosts = ({
 	const [companyBarangay, setCompanyBarangay] = useState("");
 	const [employerName, setEmployerName] = useState("");
 	const [contactNumber, setContactNumber] = useState("");
+	const [companyDescription, setCompanyDescription] = useState("");
 	const [imagePreview, setImagePreview] = useState(null);
 	const [companyImage, setCompanyImage] = useState(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -75,9 +78,17 @@ const JobPosts = ({
 	}, []);
 
 	const handlePostJob = async () => {
+		const date =
+			new Date().getMonth() +
+			1 +
+			"_" +
+			new Date().getDate() +
+			"_" +
+			new Date().getFullYear();
+
 		const post = {
-			JobID: Math.floor(Math.random() * 10000) + 1,
-			CompanyID: sessionStorage.getItem("UserID"),
+			JobID: shortid.generate(),
+			CompanyID: shortid.generate(),
 			Minutes: new Date().getMinutes(),
 			Hour: new Date().getHours(),
 			Day: new Date().getDate(),
@@ -95,9 +106,14 @@ const JobPosts = ({
 			Job_Description: jobDescription,
 			Company_Name: companyName,
 			Company_Address: `${street}, ${zone}, ${companyBarangay}`,
+			Street: street,
+			Zone: zone,
+			Barangay: companyBarangay,
 			Employer_Name: employerName,
 			Contact_Number: contactNumber,
-			Company_Image: companyImage,
+			Company_Description: companyDescription,
+			Company_Image: date + "_" + companyImage.name,
+			File: companyImage,
 			Active_Status: "Active",
 		};
 		setJobPostPanelOpen(false);
@@ -350,6 +366,7 @@ const JobPosts = ({
 						isJobPostPanelOpen={isJobPostPanelOpen}
 						setSidebarOpen={setSidebarOpen}
 						setJobPostPanelOpen={setJobPostPanelOpen}
+						setAdmin={setAdmin}
 					/>
 
 					<div className='main-panel-container'>
@@ -599,10 +616,15 @@ const JobPosts = ({
 													/>
 												</div>
 												<div className='job-qualification'>
-													<h4>Business Description:</h4>
+													<h4>Company Description:</h4>
 													<textarea
 														name='business-description'
-														placeholder='Enter Business Description'></textarea>
+														placeholder='Enter Business Description'
+														onChange={(e) =>
+															setCompanyDescription(
+																e.target.value
+															)
+														}></textarea>
 												</div>
 
 												<div className='post-field'>

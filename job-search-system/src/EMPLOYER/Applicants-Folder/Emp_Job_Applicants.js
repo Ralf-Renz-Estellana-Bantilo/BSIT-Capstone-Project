@@ -12,7 +12,6 @@ export class Emp_Job_Applicants extends Component {
 			toggleApplicantsPanel: true,
 			height: 0,
 			titleHeight: 0,
-			count: 0,
 			countHired: 0,
 			applicants: [],
 			isModalOpen: false,
@@ -86,9 +85,6 @@ export class Emp_Job_Applicants extends Component {
 		try {
 			const { info, jobApplicants } = this.props;
 			for (let index = 0; index < jobApplicants.length; index++) {
-				if (info.JobID === jobApplicants[index].JobID) {
-					this.setState({ count: this.state.count + 1 });
-				}
 				if (
 					jobApplicants[index].Candidate_Status === "Hired" &&
 					info.JobID === jobApplicants[index].JobID
@@ -116,8 +112,10 @@ export class Emp_Job_Applicants extends Component {
 
 	render() {
 		const { info, jobApplicants, convertedMonth, darkTheme } = this.props;
-		const { height, titleHeight, toggleApplicantsPanel, count, countHired } =
+		const { height, titleHeight, toggleApplicantsPanel, countHired } =
 			this.state;
+
+		let countApplicants = 0;
 
 		return (
 			<>
@@ -133,6 +131,12 @@ export class Emp_Job_Applicants extends Component {
 						ref={(divElement) => {
 							this.divElement = divElement;
 						}}>
+						{jobApplicants.map((applicant) => {
+							if (applicant.JobID === info.JobID) {
+								countApplicants += 1;
+							}
+						})}
+
 						<div
 							className='job-post-title'
 							ref={(titleElement) => {
@@ -155,7 +159,7 @@ export class Emp_Job_Applicants extends Component {
 										info.Active_Status,
 										info.Job_Title,
 										info.Required_Employees,
-										count
+										countApplicants
 									);
 									localStorage.setItem(
 										"empApplicantScroll",
@@ -166,7 +170,7 @@ export class Emp_Job_Applicants extends Component {
 								<p>
 									Req: <strong>{info.Required_Employees}</strong> |
 									Hired: <strong>{countHired}</strong> | Applied:{" "}
-									<strong>{count}</strong>
+									<strong>{countApplicants}</strong>
 								</p>
 							</div>
 							<div className='job-post-content-right-container'>

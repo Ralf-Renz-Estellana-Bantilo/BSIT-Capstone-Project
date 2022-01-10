@@ -24,6 +24,7 @@ const Companies = ({
 	companySearch,
 	setCompanySearch,
 	admin,
+	setAdmin,
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
 	const [selectedPostPreview, setSelectedPostPreview] = useState(null);
@@ -89,6 +90,7 @@ const Companies = ({
 						isSidebarOpen={isSidebarOpen}
 						text={companySearch}
 						admin={admin}
+						setAdmin={setAdmin}
 						setText={setCompanySearch}
 						setSidebarOpen={setSidebarOpen}
 					/>

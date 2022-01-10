@@ -62,7 +62,8 @@ export class Feed extends Component {
 	}
 
 	render() {
-		const { infos, applicants, appliedJobs } = this.props;
+		const { infos, applicants, appliedJobs, appliedJobsFeedback } =
+			this.props;
 		const { filter, location, preferredCategory } = this.state;
 
 		let posts = [];
@@ -137,15 +138,22 @@ export class Feed extends Component {
 						) {
 							visible = true;
 						}
-
 						// -------
+
+						let isPostVisible = true;
+						for (let a = 0; a < appliedJobsFeedback.length; a++) {
+							if (info.JobID === appliedJobsFeedback[a].JobID) {
+								isPostVisible = false;
+							}
+						}
 
 						if (
 							`${address}`
 								.toLowerCase()
 								.includes(location.toLowerCase()) &&
 							info.Active_Status === "Active" &&
-							visible === true
+							visible === true &&
+							isPostVisible === true
 						) {
 							count += 1;
 							return (

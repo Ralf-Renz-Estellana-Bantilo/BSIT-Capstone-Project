@@ -829,21 +829,25 @@ export class ApplicationForm extends Component {
 							</p>
 						)}
 
-						<button
-							onClick={(e) => {
-								e.preventDefault();
-								this.viewModal();
-							}}
-							disabled={`${activePage}` === "profile" && "disable"}
-							style={
-								`${activePage}` === "profile"
-									? { opacity: "0.3" }
-									: { opacity: "1" }
-							}>
-							{`${activePage}` === "profile"
-								? "Application Sent"
-								: "Send Application"}
-						</button>
+						{post.Active_Status ? (
+							<button
+								onClick={(e) => {
+									e.preventDefault();
+									this.viewModal();
+								}}
+								disabled={`${activePage}` === "profile" && "disable"}
+								style={
+									`${activePage}` === "profile"
+										? { opacity: "0.3" }
+										: { opacity: "1" }
+								}>
+								{`${activePage}` === "profile"
+									? "Application Sent"
+									: "Send Application"}
+							</button>
+						) : (
+							""
+						)}
 
 						{this.state.isModalOpen ? (
 							<Modal

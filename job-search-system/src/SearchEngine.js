@@ -120,7 +120,7 @@ export class SearchEngine extends Component {
 						autoFocus
 						className='search-panel-input'
 						type='text'
-						placeholder='Search here (eg. Job Title, Job Category, Address)'
+						placeholder='Search here...'
 						onChange={(e) => {
 							this.setText(e.target.value);
 						}}
