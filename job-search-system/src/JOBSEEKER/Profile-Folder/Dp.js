@@ -44,6 +44,8 @@ export class Dp extends Component {
 
 		const newFileName = date + "_" + fileData.name;
 
+		console.log(fileData);
+
 		if (fileData.size > 2000000) {
 			alert("File too large (2mb limit) ! Please try again!");
 			this.setState({
@@ -198,16 +200,22 @@ export class Dp extends Component {
 						""
 					)}
 
-					<div className='camera'>
+					<div
+						className='camera'
+						title={
+							this.state.toggleChooser
+								? "Toggle File Picker Off"
+								: "Toggle File Picker On"
+						}
+						onClick={() => {
+							this.setState({
+								toggleChooser: !this.state.toggleChooser,
+							});
+						}}>
 						<img
 							src={CameraIcon}
 							alt='Edit Profile'
-							title='Edit Profile Picture'
-							onClick={async () => {
-								await this.setState({
-									toggleChooser: !this.state.toggleChooser,
-								});
-							}}
+							// title='Edit Profile Picture'
 						/>
 					</div>
 				</div>

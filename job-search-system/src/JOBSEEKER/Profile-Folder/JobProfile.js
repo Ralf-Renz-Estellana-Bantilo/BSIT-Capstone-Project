@@ -362,6 +362,12 @@ export class JobProfile extends Component {
 				)}
 				<div className='job-profile-container'>
 					<h3>Job Seeker Profile</h3>
+					{preferredJob === null && (
+						<div className='badge'>
+							<p>!</p>
+						</div>
+					)}
+
 					<img
 						src={EditProfileIcon}
 						alt='Edit Profile Details'

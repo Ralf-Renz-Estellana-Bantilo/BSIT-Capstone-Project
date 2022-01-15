@@ -54,7 +54,7 @@ export class JobVacancyFormPart2 extends Component {
 
 	render() {
 		window.scrollTo(0, 0);
-		const { values, handleChange, company } = this.props;
+		const { handleChange, company } = this.props;
 		return (
 			<div className='pd-text-fields'>
 				{this.state.isNotValid === false ? (

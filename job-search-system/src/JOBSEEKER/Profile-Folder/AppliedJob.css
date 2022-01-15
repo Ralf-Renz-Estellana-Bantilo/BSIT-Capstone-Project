@@ -25,7 +25,7 @@ a {
 
 .job-status {
 	/* background-color: rgb(0, 255, 0); */
-	width: 7px;
+	width: 5px;
 }
 
 .job-detail-container {
@@ -126,7 +126,7 @@ a {
 	transform: rotate(180deg);
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 800px) {
 	.job {
 		border-radius: 7px;
 	}

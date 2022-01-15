@@ -27,7 +27,6 @@ export class Emp_Navbar extends Component {
 	handleLogout = (e) => {
 		e.preventDefault();
 		console.log("User has been logged out!");
-		this.props.handleLogout();
 
 		Auth.setNotAuthenticated();
 		localStorage.clear();
@@ -117,7 +116,7 @@ export class Emp_Navbar extends Component {
 								onClick={this.push}>
 								<input
 									type='text'
-									placeholder='Search here...'
+									placeholder='Search here'
 									onFocus={() =>
 										this.props.history.push(`/${userType}/search`)
 									}

@@ -45,8 +45,6 @@ export class Confirm extends Component {
 				jobQualification,
 				jobRequirement,
 				jobDescription,
-				employerName,
-				contactNo,
 				address,
 			},
 		} = this.props;
@@ -152,8 +150,6 @@ export class Confirm extends Component {
 				address,
 			},
 			targetJobPost,
-
-			company,
 		} = this.props;
 
 		return (

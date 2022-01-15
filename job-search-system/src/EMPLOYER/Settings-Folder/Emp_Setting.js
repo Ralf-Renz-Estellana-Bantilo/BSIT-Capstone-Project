@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Emp_Navbar from "../Emp_Navbar";
 import Emp_Gap from "../Emp_Gap";
-import axios from "axios";
 import { withRouter } from "react-router-dom";
 import Accordion from "../../JOBSEEKER/Menu-Folder/Accordion";
 import Accordion2 from "../../JOBSEEKER/Menu-Folder/Accordion2";
@@ -28,7 +27,6 @@ export class Emp_Setting extends Component {
 				<Emp_Navbar
 					isSidebarOpen={this.props.isSidebarOpen}
 					toggleSidebar={this.props.toggleSidebar}
-					handleLogout={this.props.handleLogout}
 					currentUser={currentUser}
 					company={this.props.company}
 					setCurrentUser={this.props.setCurrentUser}

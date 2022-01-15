@@ -33,7 +33,6 @@ export class Menu extends Component {
 
 		// this.props.handleIsLogin();
 		console.log("User has been logged out!");
-		this.props.handleLogout();
 		localStorage.clear();
 		Auth.setNotAuthenticated();
 		this.props.resetScroll();
@@ -93,6 +92,7 @@ export class Menu extends Component {
 							<Accordion3 />
 						</div>
 					</div>
+
 					<div className='bottom-container'>
 						<button className='logoutButton' onClick={this.viewModal}>
 							Logout

@@ -3,7 +3,6 @@ import JobVacancyFormPart1 from "./JobVacancyFormPart1";
 import JobVacancyFormPart2 from "./JobVacancyFormPart2";
 import Confirm from "./Confirm";
 import Success from "./Success";
-import axios from "axios";
 import Resources from "../../Resources";
 
 export class JobVacancyForm extends Component {

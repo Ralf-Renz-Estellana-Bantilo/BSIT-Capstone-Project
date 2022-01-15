@@ -45,7 +45,7 @@ export class Activities extends Component {
 						{employerFeedback.map((feedback) => {
 							if (
 								feedback.ApplicantID === applicantSession &&
-								feedback.IsDeleted === "false"
+								feedback.Is_Deleted !== "true"
 							) {
 								notificationLength += 1;
 							}
@@ -59,7 +59,7 @@ export class Activities extends Component {
 						{employerFeedback.map((feedback) => {
 							if (
 								feedback.ApplicantID === applicantSession &&
-								feedback.IsDeleted === "false"
+								feedback.Is_Deleted !== "true"
 							) {
 								return (
 									<div key={feedback.FeedbackID}>

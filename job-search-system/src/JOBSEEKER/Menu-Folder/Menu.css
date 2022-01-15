@@ -41,7 +41,7 @@
 	background-clip: content-box, border-box;
 	box-shadow: 2px 1000px 1px var(--main-background) inset;
 	width: 100%;
-	transition: 0.5s box-shadow;
+	transition: 0.5s all;
 }
 
 .bottom-container .logoutButton:hover {

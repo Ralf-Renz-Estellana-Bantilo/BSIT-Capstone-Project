@@ -39,7 +39,7 @@ export const createUser = (req, res) => {
 					console.log("Error:", err);
 				} else {
 					res.send("Values inserted...");
-					console.log("Successfully Inserted data");
+					// console.log("Successfully Inserted data");
 				}
 			}
 		);
@@ -155,7 +155,7 @@ export const changeAccountPicture = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send(result);
-				console.log("Successfully updated your profile");
+				// console.log("Successfully updated your profile");
 			}
 		}
 	);
@@ -172,7 +172,7 @@ export const account_deleteUserAccount = (req, res) => {
 				console.log("deleteAppliedJob:", err);
 			} else {
 				res.send(result);
-				console.log("account_deleteUserAccount");
+				// console.log("account_deleteUserAccount");
 			}
 		}
 	);
@@ -192,7 +192,7 @@ export const updateUserAccountBusinessProfile = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send(result);
-				console.log("Successfully updated your applied jobs profile");
+				// console.log("Successfully updated your applied jobs profile");
 			}
 		}
 	);

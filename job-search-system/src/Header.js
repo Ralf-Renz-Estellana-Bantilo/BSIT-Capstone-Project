@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import Logo from "./Images/Logo.png";
 import SearchIcon from "./Images/SearchIcon.png";
 import "./Header.css";
+
 export class Header extends Component {
 	render() {
 		let { First_Name, Last_Name, User_Image } = this.props.currentUser;
@@ -34,6 +34,9 @@ export class Header extends Component {
 								src={SearchIcon}
 								alt='Search'
 								className='search-icon-image'
+								onClick={() =>
+									this.props.history.push(`/${userType}/search`)
+								}
 							/>
 						</form>
 						{/* </Link> */}

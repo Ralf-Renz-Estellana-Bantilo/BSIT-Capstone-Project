@@ -92,7 +92,7 @@ export const addEmployerFeedBack = (req, res) => {
 	const message = req.body.message;
 
 	db.query(
-		"INSERT INTO employer_feedback (FeedbackID, ApplicantID,  CompanyID, JobID, Company_Image, Company_Name, Job_Title, Company_Address, Minutes, Hour, Day, Month, Year, Date_Replied, Application_Status, Status, Type, Message ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+		"INSERT INTO employer_feedback (FeedbackID, ApplicantID,  CompanyID, JobID, Company_Image, Company_Name, Job_Title, Company_Address, Minutes, Hour, Day, Month, Year, Date_Replied, Application_Status, Status, Type, Message, Is_Deleted ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'false')",
 		[
 			feedbackID,
 			applicantID,
@@ -118,7 +118,7 @@ export const addEmployerFeedBack = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send("Job Posted Successfully...");
-				console.log("Successfully Added a Feedback");
+				// console.log("Successfully Added a Feedback");
 			}
 		}
 	);
@@ -135,7 +135,7 @@ export const updateNotificationStatus = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send(result);
-				console.log("Successfully updated the notification Status");
+				// console.log("Successfully updated the notification Status");
 			}
 		}
 	);
@@ -152,7 +152,7 @@ export const account_deleteFeedback = (req, res) => {
 				console.log("deleteAppliedJob:", err);
 			} else {
 				res.send(result);
-				console.log("account_deleteApplicant");
+				// console.log("account_deleteApplicant");
 			}
 		}
 	);
@@ -170,7 +170,7 @@ export const changeEmployerFeedbackPicture = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send(result);
-				console.log("Successfully updated your company picture");
+				// console.log("Successfully updated your company picture");
 			}
 		}
 	);
@@ -181,14 +181,14 @@ export const deleteApplicantNotification = (req, res) => {
 	const applicantID = req.body.applicantID;
 
 	db.query(
-		"UPDATE employer_feedback SET IsDeleted='true' WHERE JobID=? AND ApplicantID=?",
+		"UPDATE employer_feedback SET Is_Deleted='true' WHERE JobID=? AND ApplicantID=?",
 		[jobID, applicantID],
 		(err, result) => {
 			if (err) {
 				console.log("Error:", err);
 			} else {
 				res.send(result);
-				console.log("Successfully deleted applicant notification");
+				// console.log("Successfully deleted applicant notification");
 			}
 		}
 	);
@@ -207,7 +207,7 @@ export const updateFeedbackBusinessProfile = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send(result);
-				console.log("Successfully updated your feedback profile");
+				// console.log("Successfully updated your feedback profile");
 			}
 		}
 	);
@@ -224,7 +224,7 @@ export const account_deleteEmployerFeedback = (req, res) => {
 				console.log("account_deleteEmployerFeedback:", err);
 			} else {
 				res.send(result);
-				console.log("account_deleteEmployerFeedback");
+				// console.log("account_deleteEmployerFeedback");
 			}
 		}
 	);

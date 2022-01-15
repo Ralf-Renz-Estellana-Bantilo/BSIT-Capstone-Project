@@ -145,6 +145,7 @@ export class Profile extends Component {
 						}
 					})}
 				</div>
+				<div style={{ marginBottom: "20px" }}></div>
 			</>
 		);
 	}

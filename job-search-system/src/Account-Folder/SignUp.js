@@ -7,7 +7,6 @@ import Eye from "../Images/Eye.png";
 import LeftArrow from "../Images/LeftArrow.png";
 import "./Login.css";
 import AuthIndication from "./AuthIndication";
-import Axios from "axios";
 
 export class SignUp extends Component {
 	state = {
@@ -160,7 +159,6 @@ export class SignUp extends Component {
 			firstName,
 			middleName,
 			lastName,
-			role,
 			sex,
 			username,
 			password,

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Emp_Navbar from "../Emp_Navbar";
 import Emp_Gap from "../Emp_Gap";
-import axios from "axios";
 import "./Emp_Applicant.css";
 import { withRouter } from "react-router-dom";
 import Emp_Job_Applicants from "./Emp_Job_Applicants";
@@ -97,7 +96,6 @@ export class Emp_Applicant extends Component {
 				<Emp_Navbar
 					isSidebarOpen={this.props.isSidebarOpen}
 					toggleSidebar={this.props.toggleSidebar}
-					handleLogout={this.props.handleLogout}
 					currentUser={currentUser}
 					company={company}
 					setCurrentUser={this.props.setCurrentUser}

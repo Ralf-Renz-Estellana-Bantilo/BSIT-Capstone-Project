@@ -37,7 +37,6 @@ export class App extends Component {
 		this.state = {
 			infos: [],
 			showAddTask: [],
-			isLogin: [],
 			isSignUp: [],
 			activePage: [],
 			scrollPosition: [],
@@ -79,7 +78,6 @@ export class App extends Component {
 		this.setState({
 			infos: [],
 			showAddTask: [false],
-			isLogin: false,
 			isSignUp: false,
 			activePage: "home",
 			scrollPosition: 0,
@@ -193,9 +191,9 @@ export class App extends Component {
 				.post("http://localhost:2000/api/get-applicantID", {
 					userID: sessionUser,
 				})
-				.then(async (response) => {
+				.then((response) => {
 					if (response.data.length === 1) {
-						await this.setState({
+						this.setState({
 							applicantID: response.data[0].ApplicantID,
 						});
 					}
@@ -383,18 +381,6 @@ export class App extends Component {
 
 	onTogglePostForm = () => {
 		this.setState({ showAddTask: !this.state.showAddTask });
-	};
-
-	handleLogin = async () => {
-		await this.setState({
-			isLogin: true,
-		});
-	};
-
-	handleLogout = () => {
-		this.setState({
-			isLogin: false,
-		});
 	};
 
 	showWelcomWindowOn = () => {
@@ -635,9 +621,9 @@ export class App extends Component {
 							role: user.Role,
 							homeAddress: "",
 							sex: user.Sex,
-							bMonth: 0,
-							bDay: 0,
-							bYear: 0,
+							bMonth: null,
+							bDay: null,
+							bYear: null,
 							contactNumber: "",
 							email: "",
 							civilStatus: "0",
@@ -697,8 +683,8 @@ export class App extends Component {
 			Last_Name: Resources.formatName(user.Last_Name),
 			Home_Address: null,
 			Sex: user.Sex,
-			B_Month: 0,
-			B_Day: 0,
+			B_Month: null,
+			B_Day: null,
 			B_Year: null,
 			Contact_Number: null,
 			Email_Address: null,
@@ -1434,7 +1420,6 @@ export class App extends Component {
 							path='/login'
 							component={() => (
 								<Login
-									isLogin={this.state.isLogin}
 									showWelcomWindow={this.state.showWelcomWindow}
 									user={this.state.user}
 									userType={this.state.userType}
@@ -1442,7 +1427,6 @@ export class App extends Component {
 									infos={this.state.infos}
 									appliedJobs={this.state.appliedJobs}
 									darkTheme={this.state.darkTheme}
-									handleLogin={this.handleLogin}
 									showWelcomWindowOn={this.showWelcomWindowOn}
 									showWelcomWindowOff={this.showWelcomWindowOff}
 									setUserType={this.setUserType}
@@ -1583,7 +1567,6 @@ export class App extends Component {
 									applicants={this.state.applicants}
 									handleChangePage={this.handleChangePage}
 									setCurrentUser={this.setCurrentUser}
-									handleLogout={this.handleLogout}
 									resetScroll={this.resetScroll}
 									setEmployerFeedBack={this.setEmployerFeedBack}
 									setTheme={this.setTheme}
@@ -1697,7 +1680,6 @@ export class App extends Component {
 									darkTheme={this.state.darkTheme}
 									toggleSidebar={this.toggleSidebar}
 									handleChangePage={this.handleChangePage}
-									handleLogout={this.handleLogout}
 									setCurrentUser={this.setCurrentUser}
 									getJobApplicantsByCompany={
 										this.getJobApplicantsByCompany
@@ -1718,7 +1700,6 @@ export class App extends Component {
 									applicants={this.state.applicants}
 									employerFeedback={this.state.employerFeedback}
 									setCurrentUser={this.setCurrentUser}
-									handleLogout={this.handleLogout}
 									getJobApplicantsByCompany={
 										this.getJobApplicantsByCompany
 									}
@@ -1743,7 +1724,6 @@ export class App extends Component {
 									darkTheme={this.state.darkTheme}
 									onAddPost={this.addPost}
 									toggle={this.handleToggle}
-									handleLogout={this.handleLogout}
 									setCurrentUser={this.setCurrentUser}
 									getJobApplicantsByCompany={
 										this.getJobApplicantsByCompany
@@ -1774,7 +1754,6 @@ export class App extends Component {
 									isDeleted={this.state.isDeleted}
 									setCurrentUser={this.setCurrentUser}
 									setCompanyID={this.setCompanyID}
-									handleLogout={this.handleLogout}
 									setApplicantID={this.setApplicantID}
 									setJobID={this.setJobID}
 									getJobApplicantsByCompany={
@@ -1798,7 +1777,6 @@ export class App extends Component {
 									company={this.state.company}
 									darkTheme={this.state.darkTheme}
 									currentUser={this.state.currentUser}
-									handleLogout={this.handleLogout}
 									setCurrentUser={this.setCurrentUser}
 									getJobApplicantsByCompany={
 										this.getJobApplicantsByCompany
@@ -1816,7 +1794,6 @@ export class App extends Component {
 									company={this.state.company}
 									darkTheme={this.state.darkTheme}
 									currentUser={this.state.currentUser}
-									handleLogout={this.handleLogout}
 									setCurrentUser={this.setCurrentUser}
 									getJobApplicantsByCompany={
 										this.getJobApplicantsByCompany
@@ -1859,10 +1836,7 @@ export class App extends Component {
 						<Route
 							path='*'
 							render={() => (
-								<UnknownPage
-									activePage={this.state.activePage}
-									isLogin={this.state.isLogin}
-								/>
+								<UnknownPage activePage={this.state.activePage} />
 							)}
 						/>
 					</Switch>

@@ -58,14 +58,13 @@ export class Emp_BusinessProfile extends Component {
 
 	render() {
 		const { currentUser, darkTheme, employerFeedback } = this.props;
-		const { messagedApplicants, timeElapsed, prevJobs } = this.state;
+		const { messagedApplicants } = this.state;
 		return (
 			<div>
 				<Emp_Gap />
 				<Emp_Navbar
 					isSidebarOpen={this.props.isSidebarOpen}
 					toggleSidebar={this.props.toggleSidebar}
-					handleLogout={this.props.handleLogout}
 					currentUser={currentUser}
 					company={this.props.company}
 					setCurrentUser={this.props.setCurrentUser}

@@ -46,7 +46,7 @@ export const createCompanyData = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send("Values inserted...");
-				console.log("Successfully Inserted data");
+				// console.log("Successfully Inserted data");
 			}
 		}
 	);
@@ -83,7 +83,7 @@ export const createCompanyDataAdmin = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send("Values inserted...");
-				console.log("Successfully Inserted data");
+				// console.log("Successfully Inserted data");
 			}
 		}
 	);
@@ -152,7 +152,7 @@ export const insertCompanyData = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send(result);
-				console.log("Successfully updated the data");
+				// console.log("Successfully updated the data");
 			}
 		}
 	);
@@ -186,7 +186,7 @@ export const changeCompanyPicture = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send(result);
-				console.log("Successfully updated your company picture");
+				// console.log("Successfully updated your company picture");
 			}
 		}
 	);
@@ -219,7 +219,7 @@ export const updateCompanyBusinessProfile = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send(result);
-				console.log("Successfully updated your company picture");
+				// console.log("Successfully updated your company picture");
 			}
 		}
 	);
@@ -233,7 +233,7 @@ export const account_deleteCompany = (req, res) => {
 			console.log("account_deleteCompany:", err);
 		} else {
 			res.send(result);
-			console.log("account_deleteCompany");
+			// console.log("account_deleteCompany");
 		}
 	});
 };

@@ -93,7 +93,6 @@ const Emp_Job_Applicant_Data = ({
 				Status: "New",
 				Type: "feedback",
 				Message: text,
-				IsDeleted: "false",
 			};
 
 			await addEmployerFeedBack(feedback);

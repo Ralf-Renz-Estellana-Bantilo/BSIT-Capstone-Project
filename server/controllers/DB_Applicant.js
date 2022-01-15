@@ -52,7 +52,7 @@ export const createApplicantData = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send("Values inserted...");
-				console.log("Successfully Inserted Applicant Data");
+				// console.log("Successfully Inserted Applicant Data");
 			}
 		}
 	);

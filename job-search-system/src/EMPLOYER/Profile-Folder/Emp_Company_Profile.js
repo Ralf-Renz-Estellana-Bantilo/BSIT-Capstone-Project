@@ -149,7 +149,6 @@ export class Emp_Company_Profile extends Component {
 			zone,
 			barangay,
 			contactNumber,
-			emailAddress,
 			companyName,
 			companyDescription,
 			prevState_firstName,

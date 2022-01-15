@@ -5,7 +5,6 @@ import "./Emp_Dashboard.css";
 import Emp_Navbar from "../Emp_Navbar";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
-import Footer from "../../JOBSEEKER/Home-Folder/Footer";
 import Resources from "../../Resources";
 
 export class Emp_Dashboard extends Component {
@@ -218,7 +217,7 @@ export class Emp_Dashboard extends Component {
 	};
 
 	render() {
-		const { currentUser, jobApplicants, applicants, company } = this.props;
+		const { currentUser, applicants, company } = this.props;
 		const { jobApplicantLength, activeJobPost } = this.state;
 		const barangays = Resources.getBarangay();
 
@@ -351,7 +350,6 @@ export class Emp_Dashboard extends Component {
 				<Emp_Navbar
 					isSidebarOpen={this.props.isSidebarOpen}
 					toggleSidebar={this.props.toggleSidebar}
-					handleLogout={this.props.handleLogout}
 					currentUser={currentUser}
 					company={company}
 					setCurrentUser={this.props.setCurrentUser}

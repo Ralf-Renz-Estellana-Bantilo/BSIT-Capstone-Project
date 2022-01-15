@@ -31,77 +31,95 @@ export class Emp_DP extends Component {
 		e.preventDefault();
 		const { fileData } = this.state;
 		const companySession = sessionStorage.getItem("CompanyID");
+		const date =
+			new Date().getMonth() +
+			1 +
+			"_" +
+			new Date().getDate() +
+			"_" +
+			new Date().getFullYear();
+		const newFileName = date + "_" + fileData.name;
 
-		const data = new FormData();
-		data.append("image", fileData);
-		await fetch("http://localhost:2000/api/upload-image", {
-			method: "POST",
-			body: data,
-		})
-			.then(async (result) => {
-				console.log("The File has been Uploaded...");
-				await this.props.changeCompanyProfile(
-					fileData.name,
-					companySession
-				);
-			})
-			.catch((error) => {
-				console.log("Multer Error!", error);
+		if (fileData.size > 2000000) {
+			alert("File too large (2mb limit) ! Please try again!");
+			this.setState({
+				file: null,
+				fileData: null,
 			});
+		} else {
+			const data = new FormData();
+			data.append("image", fileData);
+			await fetch("http://localhost:2000/api/upload-image", {
+				method: "POST",
+				body: data,
+			})
+				.then(async (result) => {
+					console.log("The File has been Uploaded...");
+					await this.props.changeCompanyProfile(
+						newFileName,
+						companySession
+					);
+				})
+				.catch((error) => {
+					console.log("Multer Error!", error);
+				});
 
-		await fetch("http://localhost:2000/api/upload-image-admin", {
-			method: "POST",
-			body: data,
-		})
-			.then(async (result) => {
-				console.log("The File has been Uploaded to the Administrator...");
+			await fetch("http://localhost:2000/api/upload-image-admin", {
+				method: "POST",
+				body: data,
 			})
-			.catch((error) => {
-				console.log("Multer Error!", error);
-			});
+				.then(async (result) => {
+					console.log(
+						"The File has been Uploaded to the Administrator..."
+					);
+				})
+				.catch((error) => {
+					console.log("Multer Error!", error);
+				});
 
-		await axios
-			.put("http://localhost:2000/api/update-company-picture", {
-				image: fileData.name,
-				companyID: companySession,
-			})
-			.then((response) => {
-				console.log(response);
-			});
+			await axios
+				.put("http://localhost:2000/api/update-company-picture", {
+					image: newFileName,
+					companyID: companySession,
+				})
+				.then((response) => {
+					console.log(response);
+				});
 
-		// update applied jobs table
-		await axios
-			.put("http://localhost:2000/api/update-applied-job-picture", {
-				image: fileData.name,
-				companyID: companySession,
-			})
-			.then((response) => {
-				console.log(response);
-			});
+			// update applied jobs table
+			await axios
+				.put("http://localhost:2000/api/update-applied-job-picture", {
+					image: newFileName,
+					companyID: companySession,
+				})
+				.then((response) => {
+					console.log(response);
+				});
 
-		// update job posts table
-		await axios
-			.put("http://localhost:2000/api/update-jobPost-picture", {
-				image: fileData.name,
-				companyID: companySession,
-			})
-			.then((response) => {
-				console.log(response);
-			});
+			// update job posts table
+			await axios
+				.put("http://localhost:2000/api/update-jobPost-picture", {
+					image: newFileName,
+					companyID: companySession,
+				})
+				.then((response) => {
+					console.log(response);
+				});
 
-		// update employer feedback table
-		await axios
-			.put("http://localhost:2000/api/update-employer-feedback-picture", {
-				image: fileData.name,
-				companyID: companySession,
-			})
-			.then((response) => {
-				console.log(response);
-			});
+			// update employer feedback table
+			await axios
+				.put("http://localhost:2000/api/update-employer-feedback-picture", {
+					image: newFileName,
+					companyID: companySession,
+				})
+				.then((response) => {
+					console.log(response);
+				});
+		}
 	};
 
 	render() {
-		const { currentUser, company } = this.props;
+		const { company } = this.props;
 		return (
 			<div className='profile-container'>
 				<div className='dp'>
@@ -143,16 +161,22 @@ export class Emp_DP extends Component {
 						""
 					)}
 
-					<div className='camera'>
+					<div
+						className='camera'
+						title={
+							this.state.toggleChooser
+								? "Toggle File Picker Off"
+								: "Toggle File Picker On"
+						}
+						onClick={() => {
+							this.setState({
+								toggleChooser: !this.state.toggleChooser,
+							});
+						}}>
 						<img
 							src={CameraIcon}
 							alt='Edit Profile'
-							title='Edit Profile Picture'
-							onClick={() => {
-								this.setState({
-									toggleChooser: !this.state.toggleChooser,
-								});
-							}}
+							// title='Edit Profile Picture'
 						/>
 					</div>
 				</div>
@@ -169,6 +193,7 @@ export class Emp_DP extends Component {
 							type='file'
 							name='updatePic'
 							onChange={(e) => this.handleFileChange(e)}
+							accept='image/jpeg, image/png'
 						/>
 						<div className='img-holder'>
 							<img

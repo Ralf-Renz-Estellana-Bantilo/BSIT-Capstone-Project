@@ -68,7 +68,7 @@ export const addJobApplicants = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send("Successfully Added a candidate");
-				console.log("Successfully Added a candidate to the database");
+				// console.log("Successfully Added a candidate to the database");
 			}
 		}
 	);
@@ -129,7 +129,7 @@ export const deleteJobApplicants = (req, res) => {
 				console.log("deleteCompanyPost:", err);
 			} else {
 				res.send(result);
-				console.log("Job Applicant data has been cleaned");
+				// console.log("Job Applicant data has been cleaned");
 			}
 		}
 	);
@@ -147,7 +147,7 @@ export const deleteJobApplicant = (req, res) => {
 				console.log("deleteCompanyPost:", err);
 			} else {
 				res.send(result);
-				console.log("Job Applicant data has been cleaned");
+				// console.log("Job Applicant data has been cleaned");
 			}
 		}
 	);
@@ -164,7 +164,7 @@ export const account_deleteJobApplicants = (req, res) => {
 				console.log("deleteAppliedJob:", err);
 			} else {
 				res.send(result);
-				console.log("account_deleteJobApplicants");
+				// console.log("account_deleteJobApplicants");
 			}
 		}
 	);
@@ -184,7 +184,7 @@ export const updateCandidateStatus = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send(result);
-				console.log("Successfully updateD Candidate Status");
+				// console.log("Successfully updateD Candidate Status");
 			}
 		}
 	);
@@ -202,7 +202,7 @@ export const updateJobApplicantStatus = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send(result);
-				console.log("Successfully updated the job applicant  Status");
+				// console.log("Successfully updated the job applicant  Status");
 			}
 		}
 	);
@@ -219,7 +219,7 @@ export const account_deleteEmployer = (req, res) => {
 				console.log("account_deleteJobApplicants:", err);
 			} else {
 				res.send(result);
-				console.log("account_deleteJobApplicants");
+				// console.log("account_deleteJobApplicants");
 			}
 		}
 	);

@@ -117,10 +117,10 @@ export class Navbar extends Component {
 						</div>
 					</Link>
 
-					<Link to='/jobseeker/notification'>
-						<div
-							className='img-wrapper'
-							onClick={this.refreshNotifications}>
+					<Link
+						to='/jobseeker/notification'
+						onClick={this.refreshNotifications}>
+						<div className='img-wrapper'>
 							{countNewNotif === 0 ? (
 								""
 							) : (

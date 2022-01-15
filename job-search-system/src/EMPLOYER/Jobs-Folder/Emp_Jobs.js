@@ -59,7 +59,6 @@ export class Emp_Jobs extends Component {
 				<Emp_Navbar
 					isSidebarOpen={this.props.isSidebarOpen}
 					toggleSidebar={this.props.toggleSidebar}
-					handleLogout={this.props.handleLogout}
 					currentUser={currentUser}
 					company={company}
 					setCurrentUser={this.props.setCurrentUser}

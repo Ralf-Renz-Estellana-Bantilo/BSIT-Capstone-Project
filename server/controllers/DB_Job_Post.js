@@ -75,7 +75,7 @@ export const createJobPost = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send("Job Posted Successfully...");
-				console.log("Successfully Inserted data");
+				// console.log("Successfully Inserted data");
 			}
 		}
 	);
@@ -122,7 +122,7 @@ export const deleteCompanyPost = (req, res) => {
 			console.log("deleteCompanyPost:", err);
 		} else {
 			res.send(result);
-			console.log("Successfully deleted a post");
+			// console.log("Successfully deleted a post");
 		}
 	});
 };
@@ -139,7 +139,7 @@ export const changeJobPostPicture = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send(result);
-				console.log("Successfully updated your company picture");
+				// console.log("Successfully updated your company picture");
 			}
 		}
 	);
@@ -176,7 +176,7 @@ export const updateJobPost = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send(result);
-				console.log("Successfully updated your job post");
+				// console.log("Successfully updated your job post");
 			}
 		}
 	);
@@ -193,7 +193,7 @@ export const updateActiveStatus = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send(result);
-				console.log("Successfully updated the Active Status");
+				// console.log("Successfully updated the Active Status");
 			}
 		}
 	);
@@ -212,7 +212,7 @@ export const updateJobPostBusinessProfile = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send(result);
-				console.log("Successfully updated your job post business profile");
+				// console.log("Successfully updated your job post business profile");
 			}
 		}
 	);
@@ -229,7 +229,7 @@ export const account_deleteJobPosts = (req, res) => {
 				console.log("account_deleteJobPosts:", err);
 			} else {
 				res.send(result);
-				console.log("account_deleteJobPosts");
+				// console.log("account_deleteJobPosts");
 			}
 		}
 	);

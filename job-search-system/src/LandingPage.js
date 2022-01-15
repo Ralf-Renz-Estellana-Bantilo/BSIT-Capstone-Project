@@ -33,7 +33,7 @@ export class LandingPage extends Component {
 									? { filter: "brightness(1)" }
 									: { filter: "brightness(0.1)" }
 							}
-							onClick={this.props.setTheme}
+							onDoubleClick={this.props.setTheme}
 						/>
 					</div>
 					<div className='home-page-content'>

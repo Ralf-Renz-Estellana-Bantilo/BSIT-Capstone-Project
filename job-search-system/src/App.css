@@ -1,10 +1,7 @@
-::-webkit-scrollbar {
-	width: 10px;
-}
-
 /* width */
 ::-webkit-scrollbar {
 	width: 10px;
+	display: none;
 }
 
 /* Track */
@@ -24,25 +21,6 @@
 ::-webkit-scrollbar-thumb:active {
 	background: #00b2ff;
 }
-
-/* Variables */
-/* :root {
-	--main-background: #121212;
-	--main-background2: #131313;
-	--main-backgroundIndex: #0f0f0f;
-	--nav-background: #242526;
-	--dark-primary: #1c1c1c;
-	--dark-primary-hover: #1f1f1f;
-	--dark-secondary: #2d2d2d;
-	--accent-main: white;
-	--accent1: #e4e4e4;
-	--accent2: #949494;
-	--border1: #4d4d4d;
-	--light-blue: #00b2ff;
-	--dark-blue: #006aff;
-	--orange: #ff7b00;
-	--reddish: #ff004c;
-} */
 
 .app-dark {
 	font-family: "Poppins";

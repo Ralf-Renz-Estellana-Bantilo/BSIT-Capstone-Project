@@ -4,3 +4,6 @@
 
 * Delete Job Applicants
    - add a delete functionality to it
+
+* Login Page
+   - add a logout indication

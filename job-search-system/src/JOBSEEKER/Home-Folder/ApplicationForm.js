@@ -362,7 +362,6 @@ export class ApplicationForm extends Component {
 			educationalAttainment,
 			resume,
 			post,
-			seeMore,
 			height,
 		} = this.state;
 

@@ -63,7 +63,7 @@
 	height: 35px;
 	width: 100%;
 	transition: 0.25s;
-	font-size: 14px;
+	font-size: 13px;
 }
 
 .dashboard-search-input img {
@@ -74,6 +74,7 @@
 	cursor: pointer;
 	z-index: 1;
 	position: absolute;
+	opacity: 1;
 	right: 10px;
 }
 

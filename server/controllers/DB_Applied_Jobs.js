@@ -64,7 +64,7 @@ export const handleAppliedJobs = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send("Job Posted Successfully...");
-				console.log("Successfully Applied for a Job");
+				// console.log("Successfully Applied for a Job");
 			}
 		}
 	);
@@ -97,7 +97,7 @@ export const deleteAppliedJob = (req, res) => {
 				console.log("deleteAppliedJob:", err);
 			} else {
 				res.send(result);
-				console.log("Applied Job data has been cleaned");
+				// console.log("Applied Job data has been cleaned");
 			}
 		}
 	);
@@ -114,7 +114,7 @@ export const account_deleteAppliedJob = (req, res) => {
 				console.log("deleteAppliedJob:", err);
 			} else {
 				res.send(result);
-				console.log("account_deleteAppliedJob");
+				// console.log("account_deleteAppliedJob");
 			}
 		}
 	);
@@ -132,7 +132,7 @@ export const changeAppliedJobPicture = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send(result);
-				console.log("Successfully updated your company picture");
+				// console.log("Successfully updated your company picture");
 			}
 		}
 	);
@@ -169,7 +169,7 @@ export const updateAppliedJob = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send(result);
-				console.log("Successfully updated your applied job");
+				// console.log("Successfully updated your applied job");
 			}
 		}
 	);
@@ -188,7 +188,7 @@ export const updateAppliedJobsBusinessProfile = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send(result);
-				console.log("Successfully updated your applied jobs profile");
+				// console.log("Successfully updated your applied jobs profile");
 			}
 		}
 	);
@@ -205,7 +205,7 @@ export const account_deleteAppliedJobs = (req, res) => {
 				console.log("account_deleteAppliedJobs:", err);
 			} else {
 				res.send(result);
-				console.log("account_deleteAppliedJobs");
+				// console.log("account_deleteAppliedJobs");
 			}
 		}
 	);

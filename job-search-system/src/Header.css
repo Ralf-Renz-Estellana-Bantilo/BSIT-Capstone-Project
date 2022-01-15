@@ -1,7 +1,5 @@
 .header-container {
 	width: 100%;
-	/* background-color: #000000; */
-	/* padding: 0 10px; */
 	position: fixed;
 	height: 69px;
 	top: 0;
@@ -14,11 +12,7 @@
 header {
 	background-color: black;
 	padding: 0 10px;
-	/* position: fixed; */
 	width: 800px;
-	/* height: 69px; */
-	/* top: 0; */
-	/* left: 0; */
 	z-index: 100;
 	display: flex;
 	justify-content: space-between;
@@ -66,7 +60,6 @@ header {
 
 .search-icon-image {
 	height: 30px;
-	/* background-color: rgb(39, 39, 39); */
 	padding: 4px;
 	border-radius: 50px;
 	margin: auto 0;
@@ -75,12 +68,6 @@ header {
 	position: absolute;
 	right: 10px;
 }
-
-/* 
-.search-bar input:focus {
-	width: 100%;
-	transition: 0.25s;
-} */
 
 .profile-name {
 	display: none;

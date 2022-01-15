@@ -35,7 +35,6 @@ export class Login extends Component {
 		const usernameInput = this.state.usernameInput;
 		const passwordInput = this.state.passwordInput;
 
-		const { user } = this.props;
 		const role = this.state.role;
 
 		try {
@@ -96,7 +95,6 @@ export class Login extends Component {
 			isLoggedin: true,
 		});
 
-		this.props.handleLogin();
 		this.props.showWelcomWindowOn();
 
 		localStorage.setItem("darkTheme", true);
@@ -241,6 +239,9 @@ export class Login extends Component {
 												? { filter: "brightness(1)" }
 												: { filter: "brightness(0.3)" }
 										}
+										disabled={
+											this.props.showWelcomWindow && "disable"
+										}
 									/>
 								</div>
 								<input
@@ -254,6 +255,7 @@ export class Login extends Component {
 											isValid: true,
 										});
 									}}
+									disabled={this.props.showWelcomWindow && "disable"}
 								/>
 							</div>
 						</div>

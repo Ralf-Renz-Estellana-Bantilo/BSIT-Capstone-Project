@@ -6,7 +6,6 @@ import PostContent from "./PostContent";
 import { Link } from "react-router-dom";
 import TimeStamp from "../../TimeStamp";
 import Modal from "./Modal";
-import axios from "axios";
 
 export class Post extends Component {
 	constructor() {
@@ -49,7 +48,6 @@ export class Post extends Component {
 
 	render() {
 		const { info, darkTheme, numApplicants } = this.props;
-		const { timeStamp } = this.props.info;
 
 		let filteredCandidate = [];
 

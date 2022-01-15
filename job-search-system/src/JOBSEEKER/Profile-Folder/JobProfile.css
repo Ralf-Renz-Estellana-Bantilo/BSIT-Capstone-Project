@@ -5,7 +5,8 @@
 	margin: 20px auto 20px auto;
 	padding: 2px 10px;
 	position: relative;
-	box-shadow: 1px 1px 4px black;
+	/* box-shadow: 1px 1px 4px black; */
+	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
 	overflow: hidden;
 	background-color: var(--dark-primary);
 }
@@ -193,14 +194,36 @@
 	/* background-color: var(--accent1); */
 }
 
-@media only screen and (max-width: 700px) {
+.job-profile-container .badge {
+	background-color: red;
+	width: 20px;
+	height: 20px;
+	border-radius: 30px;
+	position: absolute;
+	right: 1px;
+	top: 5px;
+	z-index: 99;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 3px solid var(--nav-background);
+	transition: 0.5s border;
+}
+
+.job-profile-container .badge p {
+	color: white;
+	font-size: 11px;
+	text-align: center;
+}
+
+@media only screen and (max-width: 800px) {
 	.job-profile-container {
 		border-radius: 0;
 		border: none;
 	}
 }
 
-@media only screen and (min-width: 700px) {
+@media only screen and (min-width: 800px) {
 	.job-profile-container .basic-info .basic-info-field {
 		flex-direction: row;
 	}
