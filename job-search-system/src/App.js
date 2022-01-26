@@ -19,16 +19,16 @@ import SignUp from "./Account-Folder/SignUp";
 import LandingPage from "./LandingPage";
 import UnknownPage from "./Account-Folder/UnknownPage";
 import SearchEngine from "./SearchEngine";
-import Emp_Dashboard from "./EMPLOYER/Dashboard-Folder/Emp_Dashboard";
-import Emp_BusinessProfile from "./EMPLOYER/Profile-Folder/Emp_BusinessProfile";
-import Emp_Jobs from "./EMPLOYER/Jobs-Folder/Emp_Jobs";
-import Emp_Applicant from "./EMPLOYER/Applicants-Folder/Emp_Applicant";
-import Emp_Setting from "./EMPLOYER/Settings-Folder/Emp_Setting";
-import Emp_Account from "./EMPLOYER/Account-Folder/Emp_Account";
+import Emp_Dashboard from "./EMPLOYER/Dashboard-Folder/EmpDashboard";
+import Emp_BusinessProfile from "./EMPLOYER/Profile-Folder/EmpBusinessProfile";
+import Emp_Jobs from "./EMPLOYER/Jobs-Folder/EmpJobs";
+import Emp_Applicant from "./EMPLOYER/Applicants-Folder/EmpApplicant";
+import Emp_Setting from "./EMPLOYER/Settings-Folder/EmpSetting";
+import Emp_Account from "./EMPLOYER/Account-Folder/EmpAccount";
 import axios from "axios";
 import shortid from "shortid";
-import Emp_Job_Applicant_Data from "./EMPLOYER/Applicants-Folder/Emp_Job_Applicant_Data";
-import Hiree_Information from "./EMPLOYER/Hiree_Information";
+import Emp_Job_Applicant_Data from "./EMPLOYER/Applicants-Folder/EmpJobApplicantData";
+import Hiree_Information from "./EMPLOYER/HireeInformation";
 import Resources from "./Resources";
 
 export class App extends Component {

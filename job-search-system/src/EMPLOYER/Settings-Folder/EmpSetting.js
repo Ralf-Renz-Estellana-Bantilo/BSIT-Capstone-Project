@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Emp_Navbar from "../Emp_Navbar";
-import Emp_Gap from "../Emp_Gap";
+import Emp_Navbar from "../EmpNavbar";
+import Emp_Gap from "../EmpGap";
 import { withRouter } from "react-router-dom";
 import Accordion from "../../JOBSEEKER/Menu-Folder/Accordion";
 import Accordion2 from "../../JOBSEEKER/Menu-Folder/Accordion2";

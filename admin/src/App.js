@@ -8,6 +8,7 @@ import Applicants from "./Applicant-Folder/Applicants";
 import Companies from "./Company-Folder/Companies";
 import Settings from "./Settings-Folder/Settings";
 import LoginAdmin from "./LoginAdmin";
+import shortid from "shortid";
 
 export default function App() {
 	const [jobPosts, setJobPosts] = useState([]);
@@ -16,10 +17,12 @@ export default function App() {
 	const [companiesData, setCompaniesData] = useState([]);
 	const [applicantsData, setApplicantsData] = useState([]);
 	const [jobApplicants, setJobApplicants] = useState([]);
+
 	const [activePage, setActivePage] = useState("Dashboard");
 
 	// Admin Data
 	const [admin, setAdmin] = useState([]);
+	const [adminPosts, setAdminPosts] = useState([]);
 
 	// Preview --------
 	const [postPreview, setPostPreview] = useState(null);
@@ -36,17 +39,19 @@ export default function App() {
 	const [applicantSearch, setApplicantSearch] = useState("");
 	const [companySearch, setCompanySearch] = useState("");
 
-	useEffect(() => {
-		axios.get("http://localhost:2000/api/read-jobPost").then((response) => {
-			if (response) {
-				setJobPosts(response.data);
-			} else {
-				console.log("Error fetching information...");
-			}
-		});
+	useEffect(async () => {
+		await axios
+			.get("http://localhost:2000/api/read-jobPost")
+			.then((response) => {
+				if (response) {
+					setJobPosts(response.data);
+				} else {
+					console.log("Error fetching information...");
+				}
+			});
 
 		// Applicant Database Table ----------
-		axios
+		await axios
 			.get("http://localhost:2000/api/read-applicant-data")
 			.then((response) => {
 				if (response) {
@@ -57,7 +62,7 @@ export default function App() {
 			});
 
 		// User_Account Database Table ----------
-		axios
+		await axios
 			.get("http://localhost:2000/api/read-user-employer")
 			.then((response) => {
 				if (response) {
@@ -68,7 +73,7 @@ export default function App() {
 			});
 
 		// Applicant Database Table ----------
-		axios
+		await axios
 			.get("http://localhost:2000/api/read-applicant-data")
 			.then((response) => {
 				if (response) {
@@ -79,17 +84,41 @@ export default function App() {
 			});
 
 		// Fetching Companies
-		axios.get("http://localhost:2000/api/read-companies").then((response) => {
-			if (response) {
-				setCompaniesData(response.data);
-			} else {
-				console.log("Error fetching information...");
-			}
-		});
+		await axios
+			.get("http://localhost:2000/api/read-companies")
+			.then((response) => {
+				if (response) {
+					setCompaniesData(response.data);
+				} else {
+					console.log("Error fetching information...");
+				}
+			});
+
+		// Fetching Job Applicants
+		await axios
+			.get("http://localhost:2000/api/read-company-applicants")
+			.then((response) => {
+				if (response) {
+					setJobApplicants(response.data);
+				} else {
+					console.log("Error fetching information...");
+				}
+			});
+
+		// Fetching Admin Posts
+		await axios
+			.get("http://localhost:2000/api/admin/read-posts")
+			.then((response) => {
+				if (response) {
+					setAdminPosts(response.data);
+				} else {
+					console.log("Error fetching information...");
+				}
+			});
 
 		const sessionUser = sessionStorage.getItem("UserID");
 		if (sessionUser) {
-			axios
+			await axios
 				.post("http://localhost:2000/api/fetchSession", {
 					userID: sessionUser,
 				})
@@ -108,15 +137,24 @@ export default function App() {
 	const addPost = async (post) => {
 		setJobPosts((posts) => [...posts, post]);
 
+		const id = shortid.generate();
+
+		const generatedUsername = generateID();
+		const generatedPassword = id;
+		const userID = sessionStorage.getItem("UserID");
+		const generatedUserID = id;
+
+		const employerName = `${post.Employer_First_Name} ${post.Employer_Middle_Name} ${post.Employer_Last_Name}`;
+
 		await axios
 			.post("http://localhost:2000/api/create-company-admin", {
-				userID: sessionStorage.getItem("UserID"),
+				userID: generatedUserID,
 				companyID: post.CompanyID,
 				companyName: post.Company_Name,
 				street: post.Street,
 				zone: post.Zone,
 				barangay: post.Barangay,
-				employerName: post.Employer_Name,
+				employerName: employerName,
 				contactNumber: post.Contact_Number,
 				companyDescription: post.Company_Description,
 				companyImage: post.Company_Image,
@@ -146,12 +184,41 @@ export default function App() {
 				qualifications: post.Job_Qualifications,
 				requirements: post.Job_Requirements,
 				description: post.Job_Description,
-				employerName: post.Employer_Name,
+				employerName: employerName,
 				companyImage: post.Company_Image,
 				status: post.Active_Status,
 			})
 			.then(() => {
 				console.log("Successfully Posted a Job Vacancy...");
+			});
+
+		await axios
+			.post("http://localhost:2000/api/create-user", {
+				userID: generatedUserID,
+				firstName: post.Employer_First_Name,
+				middleName: post.Employer_Middle_Name,
+				lastName: post.Employer_Last_Name,
+				sex: "Male",
+				role: "Employer",
+				username: generatedUsername,
+				password: generatedPassword,
+				userImage: "DefaultUserMale",
+			})
+			.then(() => {
+				// console.log("Successfully Registered...");
+			});
+
+		await axios
+			.post("http://localhost:2000/api/admin/add-post", {
+				adminID: userID,
+				companyID: post.CompanyID,
+				jobID: post.JobID,
+				companyName: post.Company_Name,
+				username: generatedUsername,
+				password: generatedPassword,
+			})
+			.then(() => {
+				// console.log("Successfully Registered...");
 			});
 
 		const data = new FormData();
@@ -160,7 +227,7 @@ export default function App() {
 			method: "POST",
 			body: data,
 		})
-			.then(async (result) => {
+			.then((result) => {
 				console.log("The File has been Uploaded...");
 			})
 			.catch((error) => {
@@ -171,12 +238,29 @@ export default function App() {
 			method: "POST",
 			body: data,
 		})
-			.then(async (result) => {
+			.then((result) => {
 				console.log("The File has been Uploaded to the Administrator...");
 			})
 			.catch((error) => {
 				console.log("Multer Error!", error);
 			});
+	};
+
+	const generateID = () => {
+		const num1 = Math.floor(Math.random() * 10);
+		const num2 = Math.floor(Math.random() * 10);
+		const num3 = Math.floor(Math.random() * 10);
+		const num4 = Math.floor(Math.random() * 10);
+		const num5 = Math.floor(Math.random() * 10);
+		const num6 = Math.floor(Math.random() * 10);
+
+		const currentYear = new Date().getFullYear();
+		const convertedYear = `${currentYear}`;
+		const first2digit = convertedYear[2] + convertedYear[3];
+
+		const id = first2digit + num1 + num2 + num3 + num4 + num5 + num6;
+
+		return id;
 	};
 
 	return (
@@ -206,6 +290,7 @@ export default function App() {
 								setJobApplicants={setJobApplicants}
 								setJobSeekers={setJobSeekers}
 								setAdmin={setAdmin}
+								setAdminPosts={setAdminPosts}
 							/>
 						}
 					/>
@@ -238,6 +323,7 @@ export default function App() {
 								setSort={setSort}
 								setJobPostSearch={setJobPostSearch}
 								setAdmin={setAdmin}
+								setAdminPosts={setAdminPosts}
 							/>
 						}
 					/>
@@ -261,6 +347,7 @@ export default function App() {
 								setApplicantPreview={setApplicantPreview}
 								setApplicantSearch={setApplicantSearch}
 								setAdmin={setAdmin}
+								setAdminPosts={setAdminPosts}
 							/>
 						}
 					/>
@@ -285,6 +372,7 @@ export default function App() {
 								setCompanyPreview={setCompanyPreview}
 								setCompanySearch={setCompanySearch}
 								setAdmin={setAdmin}
+								setAdminPosts={setAdminPosts}
 							/>
 						}
 					/>
@@ -294,6 +382,9 @@ export default function App() {
 						element={
 							<Settings
 								admin={admin}
+								adminPosts={adminPosts}
+								jobPosts={jobPosts}
+								jobApplicants={jobApplicants}
 								activePage={activePage}
 								setActivePage={setActivePage}
 								setJobPosts={setJobPosts}
@@ -303,6 +394,7 @@ export default function App() {
 								setJobApplicants={setJobApplicants}
 								setJobSeekers={setJobSeekers}
 								setAdmin={setAdmin}
+								setAdminPosts={setAdminPosts}
 							/>
 						}
 					/>

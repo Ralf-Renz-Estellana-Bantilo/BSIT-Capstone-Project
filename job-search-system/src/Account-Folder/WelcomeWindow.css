@@ -44,7 +44,7 @@
 	font-weight: 600;
 }
 
-.welcome-container .welcome-container-content p {
+.welcome-container .welcome-container-content span {
 	padding: 0;
 	color: var(--accent2);
 	font-size: 14px;

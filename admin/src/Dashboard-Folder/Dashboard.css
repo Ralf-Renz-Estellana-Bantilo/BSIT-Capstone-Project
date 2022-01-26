@@ -22,6 +22,8 @@
 
 .main-panel-container {
 	padding: 10px 20px;
+	/* height: 84vh; */
+	/* overflow-y: scroll; */
 }
 
 .dashboard-main-panel {

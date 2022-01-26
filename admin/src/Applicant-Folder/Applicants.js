@@ -23,6 +23,7 @@ const Applicants = ({
 	setApplicantSearch,
 	admin,
 	setAdmin,
+	setAdminPosts,
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
 	const navigate = useNavigate();
@@ -107,6 +108,7 @@ const Applicants = ({
 							setCompaniesData={setCompaniesData}
 							setJobApplicants={setJobApplicants}
 							setJobSeekers={setJobSeekers}
+							setAdminPosts={setAdminPosts}
 							setSidebarOpen={setSidebarOpen}
 						/>
 					</div>
@@ -116,6 +118,7 @@ const Applicants = ({
 				<div className='panel-container'>
 					<Navbar
 						isSidebarOpen={isSidebarOpen}
+						activePage={activePage}
 						text={applicantSearch}
 						admin={admin}
 						setAdmin={setAdmin}

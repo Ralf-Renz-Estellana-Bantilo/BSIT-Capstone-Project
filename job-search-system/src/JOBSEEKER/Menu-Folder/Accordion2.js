@@ -5,6 +5,15 @@ import { Link } from "react-router-dom";
 const Accordion2 = ({ setTheme, darkTheme }) => {
 	const [isActive, setIsActive] = useState(false);
 
+	const userTypeSession = sessionStorage.getItem("UserType");
+	let userType = "";
+
+	if (userTypeSession === "Job Seeker") {
+		userType = "jobseeker";
+	} else if (userTypeSession === "Employer") {
+		userType = "employer";
+	}
+
 	return (
 		<div className='accordion-item'>
 			<div
@@ -42,8 +51,12 @@ const Accordion2 = ({ setTheme, darkTheme }) => {
 								<span className='slider'></span>
 							</label>
 						</div>
-						<button>Settings</button>
-						<button>Terms and Condition</button>
+						<Link to={`/${userType}/menu/settings`}>
+							<button>Privacy Policy</button>
+						</Link>
+						<Link to={`/${userType}/menu/terms-and-condition`}>
+							<button>Terms and Condition</button>
+						</Link>
 					</div>
 				</div>
 			)}

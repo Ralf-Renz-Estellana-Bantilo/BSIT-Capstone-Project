@@ -60,12 +60,8 @@ export class Dp extends Component {
 					method: "POST",
 					body: data,
 				})
-					.then(async (result) => {
+					.then((result) => {
 						console.log("The File has been Uploaded...");
-						await this.props.changeCurrentUserProfile(
-							newFileName,
-							this.props.currentUser.UserID
-						);
 					})
 					.catch((error) => {
 						console.log("Multer Error!", error);
@@ -98,15 +94,18 @@ export class Dp extends Component {
 						image: newFileName,
 						userID: sessionStorage.getItem("UserID"),
 					})
-					.then((response) => {
+					.then(async (response) => {
 						console.log(response);
+						await this.props.changeCurrentUserProfile(
+							newFileName,
+							this.props.currentUser.UserID
+						);
+						this.setState({
+							profileImg: file,
+							toggleChooser: false,
+							file: null,
+						});
 					});
-
-				this.setState({
-					profileImg: file,
-					toggleChooser: false,
-					file: null,
-				});
 			} catch (error) {
 				alert(error);
 			}

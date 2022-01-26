@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
+import About from "./About";
+import Account from "./Account";
+import PrivacyPolicy from "./PrivacyPolicy";
+import TermsAndConditions from "./TermsAndConditions";
 
 const Settings = ({
 	activePage,
@@ -13,9 +17,17 @@ const Settings = ({
 	setJobSeekers,
 	setCompaniesData,
 	admin,
+	adminPosts,
 	setAdmin,
+	jobPosts,
+	jobApplicants,
+	setAdminPosts,
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
+	const [activeLink, handleChangeLink] = useState("Account");
+
+	const [activeAccountPanel, setActiveAccountPanel] = useState("Job Posts");
+
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -42,6 +54,7 @@ const Settings = ({
 							setCompaniesData={setCompaniesData}
 							setJobApplicants={setJobApplicants}
 							setJobSeekers={setJobSeekers}
+							setAdminPosts={setAdminPosts}
 							setSidebarOpen={setSidebarOpen}
 						/>
 					</div>
@@ -50,13 +63,39 @@ const Settings = ({
 				)}
 				<div className='panel-container'>
 					<Navbar
-						setSidebarOpen={setSidebarOpen}
-						admin={admin}
 						isSidebarOpen={isSidebarOpen}
+						activePage={activePage}
+						admin={admin}
 						setAdmin={setAdmin}
+						setSidebarOpen={setSidebarOpen}
+						handleChangeLink={handleChangeLink}
 					/>
 
-					<div className='main-panel-container'></div>
+					<div
+						className='main-panel-container'
+						style={
+							activeLink !== "Account"
+								? { height: "85vh", overflowY: "scroll" }
+								: {}
+						}>
+						<div className='menu-container'>
+							{activeLink === "About" ? (
+								<About />
+							) : activeLink === "Terms" ? (
+								<TermsAndConditions />
+							) : activeLink === "Privacy" ? (
+								<PrivacyPolicy />
+							) : (
+								<Account
+									activeAccountPanel={activeAccountPanel}
+									setActiveAccountPanel={setActiveAccountPanel}
+									jobPosts={jobPosts}
+									adminPosts={adminPosts}
+									jobApplicants={jobApplicants}
+								/>
+							)}
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

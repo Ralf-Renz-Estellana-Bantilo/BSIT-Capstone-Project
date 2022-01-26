@@ -4,7 +4,7 @@ import LocationIcon from "../Images/LocationIcon.png";
 import { Link } from "react-router-dom";
 import TimeStamp from "../TimeStamp";
 import PostContent from "../JOBSEEKER/Home-Folder/PostContent";
-import "./Emp_Post.css";
+import "./EmpPost.css";
 import Modal from "../JOBSEEKER/Home-Folder/Modal";
 import axios from "axios";
 

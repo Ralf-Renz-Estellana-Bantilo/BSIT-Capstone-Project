@@ -6,7 +6,7 @@ import Post from "./JOBSEEKER/Home-Folder/Post";
 import LightLoadingSearch from "./Images/LightLoadingSearch.gif";
 import LoadingSearch2 from "./Images/LoadingSearch2.gif";
 
-import Search_Applicants from "./EMPLOYER/Applicants-Folder/Search_Applicants";
+import SearchApplicants from "./EMPLOYER/Applicants-Folder/SearchApplicants";
 
 export class SearchEngine extends Component {
 	constructor() {
@@ -304,7 +304,7 @@ export class SearchEngine extends Component {
 									) {
 										return (
 											<div key={applicant.ApplicantID}>
-												<Search_Applicants
+												<SearchApplicants
 													applicant={applicant}
 													setHiree={this.props.setHiree}
 													employerFeedback={employerFeedback}

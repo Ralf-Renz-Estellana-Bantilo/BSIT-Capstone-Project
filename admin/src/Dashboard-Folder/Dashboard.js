@@ -22,6 +22,7 @@ const Dashboard = ({
 	setCompaniesData,
 	admin,
 	setAdmin,
+	setAdminPosts,
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
 	const navigate = useNavigate();
@@ -81,6 +82,7 @@ const Dashboard = ({
 							setCompaniesData={setCompaniesData}
 							setJobApplicants={setJobApplicants}
 							setJobSeekers={setJobSeekers}
+							setAdminPosts={setAdminPosts}
 							setSidebarOpen={setSidebarOpen}
 						/>
 					</div>
@@ -90,6 +92,7 @@ const Dashboard = ({
 
 				<div className='panel-container'>
 					<Navbar
+						activePage={activePage}
 						setSidebarOpen={setSidebarOpen}
 						isSidebarOpen={isSidebarOpen}
 						admin={admin}
@@ -101,7 +104,7 @@ const Dashboard = ({
 							<div className='dashboard-update-cards'>
 								<div className='update-card'>
 									<div className='card-text'>
-										<p>Total number of Active Job Vacancies</p>
+										<p>Total number of Active Job Posts</p>
 										<h2>{activePosts.length}</h2>
 									</div>
 									<div className='card-icon'>

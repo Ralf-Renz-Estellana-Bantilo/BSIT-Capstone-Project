@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import UpdatedResume from "../../Images/UpdatedResume.svg";
-import Emp_Gap from "../Emp_Gap";
-import "./Emp_Dashboard.css";
-import Emp_Navbar from "../Emp_Navbar";
+import EmpGap from "../EmpGap";
+import "./EmpDashboard.css";
+import EmpNavbar from "../EmpNavbar";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
 import Resources from "../../Resources";
@@ -257,6 +257,36 @@ export class Emp_Dashboard extends Component {
 			}
 		}
 
+		let hour = new Date().getHours();
+		let mins = new Date().getMinutes();
+		let ampm = "AM";
+
+		if (hour > 12) {
+			hour = hour - 12;
+			ampm = "PM";
+		}
+		if (mins < 10) {
+			mins = "0" + mins;
+		}
+
+		let greetings = "";
+		const currentHour = new Date().getHours();
+		if (currentHour >= 4 && currentHour < 11) {
+			greetings = "Good Morning";
+		} else if (currentHour >= 11 && currentHour < 13) {
+			greetings = "Good Noon";
+		} else if (currentHour >= 13 && currentHour < 18) {
+			greetings = "Good Afternoon";
+		} else if (currentHour >= 18 && currentHour <= 24) {
+			greetings = "Good Evening";
+		} else if (currentHour == 1 && currentHour < 4) {
+			greetings = "Good Evening";
+		} else {
+			greetings = "Hi";
+		}
+
+		const now = hour + ":" + mins + " " + ampm;
+
 		return (
 			<div className='dashboard-container'>
 				{company.companyName === "" ||
@@ -346,8 +376,8 @@ export class Emp_Dashboard extends Component {
 					""
 				)}
 
-				<Emp_Gap />
-				<Emp_Navbar
+				<EmpGap />
+				<EmpNavbar
 					isSidebarOpen={this.props.isSidebarOpen}
 					toggleSidebar={this.props.toggleSidebar}
 					currentUser={currentUser}
@@ -360,8 +390,14 @@ export class Emp_Dashboard extends Component {
 
 				<div className='dashboard-welcome-container'>
 					<div className='dashboard-welcome-text'>
-						<h3>{`Hi ${currentUser.First_Name} ${currentUser.Last_Name}, Welcome to the Dashboard...`}</h3>
-						<p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+						<h3>{`${greetings} ${currentUser.First_Name} ${currentUser.Last_Name}, Welcome to the Dashboard!`}</h3>
+						<p>
+							Here are the updates that we got for you as of {now},{" "}
+							{`${
+								this.state.month
+							} ${new Date().getDate()}, ${new Date().getFullYear()}`}
+							.
+						</p>
 					</div>
 					<div className='dashboard-welcome-content'>
 						<div className='page-logo-container'>
@@ -369,12 +405,13 @@ export class Emp_Dashboard extends Component {
 							<img
 								src={UpdatedResume}
 								alt='Illustration'
-								style={{ height: "100px" }}
+								style={{ height: "110px" }}
 							/>
 						</div>
 						<div className='dashboard-welcome-illustration-text'>
 							<h3>
-								Lorem ipsum dolor sit amet consectetur adipisicing.
+								Start searching for applicants who fit your job
+								requirements!
 							</h3>
 							<p>
 								Lorem ipsum dolor sit amet consectetur, adipisicing

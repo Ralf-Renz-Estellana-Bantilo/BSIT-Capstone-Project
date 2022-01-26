@@ -111,9 +111,9 @@ export class About extends Component {
 								<p className='about-owner-email'>
 									ralfrenzbantilo853@gmail.com
 								</p>
-								<button className='about-owner-button'>
+								{/* <button className='about-owner-button'>
 									See More Details
-								</button>
+								</button> */}
 							</div>
 						</div>
 						<div className='outside-link-card'>
@@ -133,9 +133,9 @@ export class About extends Component {
 								<p className='about-owner-email'>
 									piolonava01@gmail.com
 								</p>
-								<button className='about-owner-button'>
+								{/* <button className='about-owner-button'>
 									See More Details
-								</button>
+								</button> */}
 							</div>
 						</div>
 					</div>

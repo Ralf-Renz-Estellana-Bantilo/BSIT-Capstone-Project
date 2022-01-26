@@ -79,7 +79,7 @@ export class Login extends Component {
 					}
 				});
 		} catch (error) {
-			console.log("Login", error);
+			console.log(error);
 		}
 	};
 

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import Emp_Navbar from "../Emp_Navbar";
-import Emp_Gap from "../Emp_Gap";
+import EmpNavbar from "../EmpNavbar";
+import EmpGap from "../EmpGap";
 import { withRouter } from "react-router-dom";
-import Emp_DP from "./Emp_DP";
-import Emp_Company_Profile from "./Emp_Company_Profile";
+import EmpDP from "./EmpDP";
+import EmpCompanyProfile from "./EmpCompanyProfile";
 import TimeStamp from "../../TimeStamp";
-import "./Emp_BusinessProfile.css";
+import "./EmpBusinessProfile.css";
 
 export class Emp_BusinessProfile extends Component {
 	state = {
@@ -61,8 +61,8 @@ export class Emp_BusinessProfile extends Component {
 		const { messagedApplicants } = this.state;
 		return (
 			<div>
-				<Emp_Gap />
-				<Emp_Navbar
+				<EmpGap />
+				<EmpNavbar
 					isSidebarOpen={this.props.isSidebarOpen}
 					toggleSidebar={this.props.toggleSidebar}
 					currentUser={currentUser}
@@ -72,12 +72,12 @@ export class Emp_BusinessProfile extends Component {
 					panel='Business Profile'
 					darkTheme={this.props.darkTheme}
 				/>
-				<Emp_DP
+				<EmpDP
 					company={this.props.company}
 					currentUser={currentUser}
 					changeCompanyProfile={this.props.changeCompanyProfile}
 				/>
-				<Emp_Company_Profile
+				<EmpCompanyProfile
 					company={this.props.company}
 					currentUser={currentUser}
 					darkTheme={this.props.darkTheme}

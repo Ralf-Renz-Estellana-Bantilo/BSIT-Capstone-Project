@@ -175,7 +175,7 @@ export class Feed extends Component {
 					})}
 				</div>
 
-				{count === 0 && posts.length > 0 && location.length !== 0 && (
+				{count === 0 && posts.length > 0 && location.length !== 0 ? (
 					<p
 						style={{
 							textAlign: "center",
@@ -186,6 +186,19 @@ export class Feed extends Component {
 						}}>
 						No Posts Available in this Barangay!
 					</p>
+				) : count === 0 ? (
+					<p
+						style={{
+							textAlign: "center",
+							padding: "10px",
+							backgroundColor: "red",
+							marginTop: "6px",
+							fontSize: "12px",
+						}}>
+						No posts to show!
+					</p>
+				) : (
+					""
 				)}
 
 				{posts.length === 0 && (

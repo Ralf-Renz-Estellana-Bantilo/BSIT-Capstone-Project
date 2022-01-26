@@ -542,6 +542,7 @@ class AdminResources {
 					"Kitchen porter",
 					"Resort representative",
 					"Restaurant manager",
+					"Service Crew",
 					"Tour manager",
 					"Tourist guide",
 					"Tourist information centre assistant",
@@ -779,7 +780,7 @@ class AdminResources {
 				jobs: [
 					"Air traffic controller",
 					"Airport baggage handler",
-					"Bus or coach driver",
+					"Bus driver",
 					"Courier",
 					"Driving examiner",
 					"Driving instructor",
@@ -793,7 +794,7 @@ class AdminResources {
 					"Postal delivery worker",
 					"Road transport manager",
 					"Taxi driver",
-					"Train driver",
+					"Truck driver",
 					"Warehouse operative",
 				],
 			},
@@ -992,6 +993,372 @@ class AdminResources {
 				lastDay: 31,
 				month: 12,
 				year: 2024,
+			},
+			// 2025 -----
+			{
+				lastDay: 31,
+				month: 1,
+				year: 2025,
+			},
+			{
+				lastDay: 28,
+				month: 2,
+				year: 2025,
+			},
+			{
+				lastDay: 31,
+				month: 3,
+				year: 2025,
+			},
+			{
+				lastDay: 30,
+				month: 4,
+				year: 2025,
+			},
+			{
+				lastDay: 31,
+				month: 5,
+				year: 2025,
+			},
+			{
+				lastDay: 30,
+				month: 6,
+				year: 2025,
+			},
+			{
+				lastDay: 31,
+				month: 7,
+				year: 2025,
+			},
+			{
+				lastDay: 31,
+				month: 8,
+				year: 2025,
+			},
+			{
+				lastDay: 30,
+				month: 9,
+				year: 2025,
+			},
+			{
+				lastDay: 31,
+				month: 10,
+				year: 2025,
+			},
+			{
+				lastDay: 30,
+				month: 11,
+				year: 2025,
+			},
+			{
+				lastDay: 31,
+				month: 12,
+				year: 2025,
+			},
+			// 2026 -----
+			{
+				lastDay: 31,
+				month: 1,
+				year: 2026,
+			},
+			{
+				lastDay: 28,
+				month: 2,
+				year: 2026,
+			},
+			{
+				lastDay: 31,
+				month: 3,
+				year: 2026,
+			},
+			{
+				lastDay: 30,
+				month: 4,
+				year: 2026,
+			},
+			{
+				lastDay: 31,
+				month: 5,
+				year: 2026,
+			},
+			{
+				lastDay: 30,
+				month: 6,
+				year: 2026,
+			},
+			{
+				lastDay: 31,
+				month: 7,
+				year: 2026,
+			},
+			{
+				lastDay: 31,
+				month: 8,
+				year: 2026,
+			},
+			{
+				lastDay: 30,
+				month: 9,
+				year: 2026,
+			},
+			{
+				lastDay: 31,
+				month: 10,
+				year: 2026,
+			},
+			{
+				lastDay: 30,
+				month: 11,
+				year: 2026,
+			},
+			{
+				lastDay: 31,
+				month: 12,
+				year: 2026,
+			},
+			// 2027 -----
+			{
+				lastDay: 31,
+				month: 1,
+				year: 2027,
+			},
+			{
+				lastDay: 28,
+				month: 2,
+				year: 2027,
+			},
+			{
+				lastDay: 31,
+				month: 3,
+				year: 2027,
+			},
+			{
+				lastDay: 30,
+				month: 4,
+				year: 2027,
+			},
+			{
+				lastDay: 31,
+				month: 5,
+				year: 2027,
+			},
+			{
+				lastDay: 30,
+				month: 6,
+				year: 2027,
+			},
+			{
+				lastDay: 31,
+				month: 7,
+				year: 2027,
+			},
+			{
+				lastDay: 31,
+				month: 8,
+				year: 2027,
+			},
+			{
+				lastDay: 30,
+				month: 9,
+				year: 2027,
+			},
+			{
+				lastDay: 31,
+				month: 10,
+				year: 2027,
+			},
+			{
+				lastDay: 30,
+				month: 11,
+				year: 2027,
+			},
+			{
+				lastDay: 31,
+				month: 12,
+				year: 2027,
+			},
+			// 2028 -----
+			{
+				lastDay: 31,
+				month: 1,
+				year: 2028,
+			},
+			{
+				lastDay: 29,
+				month: 2,
+				year: 2028,
+			},
+			{
+				lastDay: 31,
+				month: 3,
+				year: 2028,
+			},
+			{
+				lastDay: 30,
+				month: 4,
+				year: 2028,
+			},
+			{
+				lastDay: 31,
+				month: 5,
+				year: 2028,
+			},
+			{
+				lastDay: 30,
+				month: 6,
+				year: 2028,
+			},
+			{
+				lastDay: 31,
+				month: 7,
+				year: 2028,
+			},
+			{
+				lastDay: 31,
+				month: 8,
+				year: 2028,
+			},
+			{
+				lastDay: 30,
+				month: 9,
+				year: 2028,
+			},
+			{
+				lastDay: 31,
+				month: 10,
+				year: 2028,
+			},
+			{
+				lastDay: 30,
+				month: 11,
+				year: 2028,
+			},
+			{
+				lastDay: 31,
+				month: 12,
+				year: 2028,
+			},
+			// 2029 -----
+			{
+				lastDay: 31,
+				month: 1,
+				year: 2029,
+			},
+			{
+				lastDay: 28,
+				month: 2,
+				year: 2029,
+			},
+			{
+				lastDay: 31,
+				month: 3,
+				year: 2029,
+			},
+			{
+				lastDay: 30,
+				month: 4,
+				year: 2029,
+			},
+			{
+				lastDay: 31,
+				month: 5,
+				year: 2029,
+			},
+			{
+				lastDay: 30,
+				month: 6,
+				year: 2029,
+			},
+			{
+				lastDay: 31,
+				month: 7,
+				year: 2029,
+			},
+			{
+				lastDay: 31,
+				month: 8,
+				year: 2029,
+			},
+			{
+				lastDay: 30,
+				month: 9,
+				year: 2029,
+			},
+			{
+				lastDay: 31,
+				month: 10,
+				year: 2029,
+			},
+			{
+				lastDay: 30,
+				month: 11,
+				year: 2029,
+			},
+			{
+				lastDay: 31,
+				month: 12,
+				year: 2029,
+			},
+			// 2030 -----
+			{
+				lastDay: 31,
+				month: 1,
+				year: 2030,
+			},
+			{
+				lastDay: 28,
+				month: 2,
+				year: 2030,
+			},
+			{
+				lastDay: 31,
+				month: 3,
+				year: 2030,
+			},
+			{
+				lastDay: 30,
+				month: 4,
+				year: 2030,
+			},
+			{
+				lastDay: 31,
+				month: 5,
+				year: 2030,
+			},
+			{
+				lastDay: 30,
+				month: 6,
+				year: 2030,
+			},
+			{
+				lastDay: 31,
+				month: 7,
+				year: 2030,
+			},
+			{
+				lastDay: 31,
+				month: 8,
+				year: 2030,
+			},
+			{
+				lastDay: 30,
+				month: 9,
+				year: 2030,
+			},
+			{
+				lastDay: 31,
+				month: 10,
+				year: 2030,
+			},
+			{
+				lastDay: 30,
+				month: 11,
+				year: 2030,
+			},
+			{
+				lastDay: 31,
+				month: 12,
+				year: 2030,
 			},
 		];
 

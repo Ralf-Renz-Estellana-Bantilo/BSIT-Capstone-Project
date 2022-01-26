@@ -98,7 +98,6 @@ export class SignUp extends Component {
 						isValid: true,
 					});
 					this.props.toggleSignUp(true);
-					// this.insertUserToTheDatabase(signUpUser);
 					this.props.registerEmployer(signUpUser);
 				}
 			}

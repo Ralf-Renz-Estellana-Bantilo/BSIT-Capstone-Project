@@ -23,7 +23,6 @@
 }
 
 .app-dark {
-	font-family: "Poppins";
 	width: 800px;
 	margin: 0 auto;
 	transition: 0.5s background-color;
@@ -48,7 +47,6 @@
 }
 
 .app-light {
-	font-family: "Poppins";
 	transition: 0.5s background-color;
 	width: 800px;
 	margin: 0 auto;

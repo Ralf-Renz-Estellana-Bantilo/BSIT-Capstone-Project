@@ -49,17 +49,18 @@ export class AppliedJob extends Component {
 		}
 
 		return (
-			<Link to={`/jobseeker/${this.props.activePage}/application-form`}>
+			<Link
+				to={`/jobseeker/${this.props.activePage}/application-form`}
+				onClick={() => {
+					this.props.setCompanyID(JobID);
+				}}>
 				<div
 					className='job'
 					style={
 						darkTheme
 							? { backgroundColor: "#0f0f0f" }
 							: { backgroundColor: "white" }
-					}
-					onClick={() => {
-						this.props.setCompanyID(JobID);
-					}}>
+					}>
 					<div
 						className='job-status'
 						style={

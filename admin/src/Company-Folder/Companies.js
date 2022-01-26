@@ -25,6 +25,7 @@ const Companies = ({
 	setCompanySearch,
 	admin,
 	setAdmin,
+	setAdminPosts,
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
 	const [selectedPostPreview, setSelectedPostPreview] = useState(null);
@@ -79,6 +80,7 @@ const Companies = ({
 							setCompaniesData={setCompaniesData}
 							setJobApplicants={setJobApplicants}
 							setJobSeekers={setJobSeekers}
+							setAdminPosts={setAdminPosts}
 							setSidebarOpen={setSidebarOpen}
 						/>
 					</div>
@@ -87,6 +89,7 @@ const Companies = ({
 				)}
 				<div className='panel-container'>
 					<Navbar
+						activePage={activePage}
 						isSidebarOpen={isSidebarOpen}
 						text={companySearch}
 						admin={admin}
@@ -191,7 +194,7 @@ const Companies = ({
 									<div className='post-preview-panel'>
 										<div className='job-post-header'>
 											<h3>Company Detail Preview</h3>
-											{companyPreview !== null && <p>•••</p>}
+											{/* {companyPreview !== null && <p>•••</p>} */}
 										</div>
 										{companyPreview !== null ? (
 											<div className='company-detail-container'>

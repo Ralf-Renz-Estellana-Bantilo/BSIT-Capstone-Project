@@ -76,7 +76,7 @@ export class Emp_Job_Applicants extends Component {
 		this.props.openDeleteState();
 	};
 
-	componentDidMount = () => {
+	componentDidMount = async () => {
 		const height = this.divElement.clientHeight;
 		const titleHeight = this.titleElement.clientHeight;
 		this.setState({ height });
@@ -89,7 +89,7 @@ export class Emp_Job_Applicants extends Component {
 					jobApplicants[index].Candidate_Status === "Hired" &&
 					info.JobID === jobApplicants[index].JobID
 				) {
-					this.setState({ countHired: this.state.countHired + 1 });
+					await this.setState({ countHired: this.state.countHired + 1 });
 				}
 			}
 		} catch (error) {
@@ -116,6 +116,10 @@ export class Emp_Job_Applicants extends Component {
 			this.state;
 
 		let countApplicants = 0;
+		// let hiredApplicants = [];
+		// hiredApplicants = jobApplicants.filter(
+		// 	(jobApplicant) => jobApplicant.Candidate_Status === "Hired"
+		// );
 
 		return (
 			<>

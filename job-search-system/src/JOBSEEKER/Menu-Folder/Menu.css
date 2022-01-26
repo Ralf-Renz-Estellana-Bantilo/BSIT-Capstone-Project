@@ -67,6 +67,12 @@
 	padding-bottom: 5px;
 }
 
+.outside-link-content h3 {
+	font-weight: 600;
+	font-size: 16px;
+	color: var(--accent-main);
+}
+
 .outside-link-content p {
 	font-size: 15px;
 	color: var(--accent1);
@@ -78,6 +84,20 @@
 .outside-link-content p strong {
 	font-weight: 600;
 	color: var(--accent-main);
+}
+
+.outside-link-content p a {
+	color: var(--accent1);
+	text-decoration: underline;
+}
+
+.outside-link-content ul {
+	margin-left: 20px;
+}
+
+.outside-link-content ul li {
+	font-size: 13px;
+	color: var(--accent1);
 }
 
 .outside-link-cards {

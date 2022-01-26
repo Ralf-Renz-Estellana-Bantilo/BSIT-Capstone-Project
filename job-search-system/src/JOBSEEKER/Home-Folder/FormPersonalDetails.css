@@ -3,7 +3,6 @@
 	flex-direction: column;
 	width: 60%;
 	margin: 0 auto;
-	font-family: "Poppins";
 	margin-top: 10px;
 }
 
@@ -15,7 +14,6 @@ button {
 	font-size: 13px;
 	font-weight: 500;
 	border-radius: 10px;
-	font-family: "Poppins";
 	margin-bottom: 10px;
 }
 

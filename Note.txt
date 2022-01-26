@@ -7,3 +7,7 @@
 
 * Login Page
    - add a logout indication
+
+* Profile
+   - error uploading file to the administrator
+   - data doesn't match between the admin and the client

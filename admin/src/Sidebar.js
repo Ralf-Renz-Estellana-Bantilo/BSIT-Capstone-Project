@@ -18,6 +18,7 @@ const Sidebar = ({
 	setSidebarOpen,
 	setJobSeekers,
 	setCompaniesData,
+	setAdminPosts,
 }) => {
 	const navigate = useNavigate();
 
@@ -107,6 +108,28 @@ const Sidebar = ({
 
 	const handleSettings = () => {
 		navigate("/admin/settings");
+
+		// Fetching Job Applicants
+		axios
+			.get("http://localhost:2000/api/read-company-applicants")
+			.then((response) => {
+				if (response) {
+					setJobApplicants(response.data);
+				} else {
+					console.log("Error fetching information...");
+				}
+			});
+
+		// Fetching Admin Posts
+		axios
+			.get("http://localhost:2000/api/admin/read-posts")
+			.then((response) => {
+				if (response) {
+					setAdminPosts(response.data);
+				} else {
+					console.log("Error fetching information...");
+				}
+			});
 	};
 
 	return (
@@ -196,7 +219,7 @@ const Sidebar = ({
 							style={
 								activePage === "Applicants" ? { color: "white" } : {}
 							}>
-							APPLICANTS
+							JOB SEEKERS
 						</h3>
 					</div>
 				</div>

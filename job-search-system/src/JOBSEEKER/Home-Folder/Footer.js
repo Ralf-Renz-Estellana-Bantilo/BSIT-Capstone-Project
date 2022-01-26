@@ -1,6 +1,6 @@
 import "./Footer.css";
 
-const Footer = () => {
+export const Footer = () => {
 	return (
 		<footer>
 			<div className='footer-container'>

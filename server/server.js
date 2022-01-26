@@ -82,6 +82,10 @@ import {
 	updateFeedbackBusinessProfile,
 	updateNotificationStatus,
 } from "./controllers/DB_Employer_Feedback.js";
+import {
+	createAdminPost,
+	getAdminPosts,
+} from "./controllers/DB_Admin_Posts.js";
 
 const app = express();
 const PORT = 2000;
@@ -279,7 +283,11 @@ app.put(
 app.delete(
 	"/api/delete-employer-feedback-data/:id",
 	account_deleteEmployerFeedback
-); // ----------
+);
+
+// Admin Posts
+app.get("/api/admin/read-posts", getAdminPosts);
+app.post("/api/admin/add-post", createAdminPost);
 
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);

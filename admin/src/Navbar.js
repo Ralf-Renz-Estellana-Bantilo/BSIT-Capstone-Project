@@ -8,6 +8,7 @@ import CloseIcon from "./Images/CloseIcon.png";
 import CameraIcon from "./Images/CameraIcon.png";
 import "./Navbar.css";
 import Modal from "./Modal";
+import axios from "axios";
 
 const Navbar = ({
 	isSidebarOpen,
@@ -19,11 +20,13 @@ const Navbar = ({
 	setText,
 	admin,
 	setAdmin,
+	handleChangeLink,
 }) => {
 	const [isModalOpen, setModalOpen] = useState(false);
 	const [isProfileModalOpen, setProfileModalOpen] = useState(false);
 	const [toggleChooser, setToggleChooser] = useState(false);
 	const [file, setFile] = useState(null);
+	const [fileData, setFileData] = useState(null);
 
 	const [firstName, setFirstName] = useState("");
 	const [middleName, setMiddleName] = useState("");
@@ -32,12 +35,15 @@ const Navbar = ({
 	const [prevMiddleName, setPrevMiddleName] = useState("");
 	const [prevLastName, setPrevLastName] = useState("");
 
+	const [activeLink, setActiveLink] = useState("Account");
+
 	const onCloseModal = () => {
 		setModalOpen(false);
 	};
 
 	const onLogout = () => {
 		sessionStorage.clear();
+		localStorage.clear();
 		onCloseModal();
 	};
 
@@ -56,26 +62,81 @@ const Navbar = ({
 	const handleFileChange = (event) => {
 		try {
 			setFile(URL.createObjectURL(event.target.files[0]));
+			setFileData(event.target.files[0]);
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
-	const handleUpdateDP = () => {
-		setProfileModalOpen(false);
-		setToggleChooser(false);
+	const handleUpdateDP = async () => {
+		const date =
+			new Date().getMonth() +
+			1 +
+			"_" +
+			new Date().getDate() +
+			"_" +
+			new Date().getFullYear();
+
+		const newFileName = date + "_" + fileData.name;
+
+		if (fileData.size > 2000000) {
+			alert("File too large (2mb limit) ! Please try again!");
+		} else {
+			try {
+				const data = new FormData();
+				data.append("image", fileData);
+
+				await fetch("http://localhost:2000/api/upload-image-admin", {
+					method: "POST",
+					body: data,
+				})
+					.then(async (result) => {
+						// console.log(
+						// 	"The File has been Uploaded to the Administrator..."
+						// );
+					})
+					.catch((error) => {
+						console.log("Multer Error!", error);
+					});
+
+				await axios
+					.put("http://localhost:2000/api/update-user-profile", {
+						image: newFileName,
+						userID: sessionStorage.getItem("UserID"),
+					})
+					.then((response) => {
+						setAdmin({
+							...admin,
+							User_Image: newFileName,
+						});
+						setProfileModalOpen(false);
+						setToggleChooser(false);
+					});
+			} catch (error) {
+				alert(error);
+			}
+		}
 	};
 
 	const handleUpdateName = () => {
 		setProfileModalOpen(false);
+		setAdmin({
+			...admin,
+			First_Name: firstName,
+			Middle_Name: middleName,
+			Last_Name: lastName,
+		});
 
-		// this.setState((prevState) => ({
-		// 	infos: prevState.infos.map((info) =>
-		// 		info.JobID === targetCompany
-		// 			? Object.assign(info, { Is_Applied: true })
-		// 			: info
-		// 	),
-		// }));
+		axios
+			.put("http://localhost:2000/api/update-user-business-profile", {
+				firstName: firstName,
+				middleName: middleName,
+				lastName: lastName,
+				userID: sessionStorage.getItem("UserID"),
+			})
+			.then((response) => {
+				// console.log(response);
+			});
 	};
 
 	useEffect(() => {
@@ -251,6 +312,59 @@ const Navbar = ({
 								onChange={(e) => handleSearch(e)}
 							/>
 						</div>
+					) : panel === "Settings" ? (
+						<div className='search-container'>
+							<div className='menu-button-container'>
+								<p
+									style={
+										activeLink === "Account"
+											? { color: "#006aff", fontWeight: "600" }
+											: {}
+									}
+									onClick={() => {
+										setActiveLink("Account");
+										handleChangeLink("Account");
+									}}>
+									Account
+								</p>
+								<p
+									style={
+										activeLink === "About"
+											? { color: "#006aff", fontWeight: "600" }
+											: {}
+									}
+									onClick={() => {
+										setActiveLink("About");
+										handleChangeLink("About");
+									}}>
+									About Us
+								</p>
+								<p
+									style={
+										activeLink === "Privacy"
+											? { color: "#006aff", fontWeight: "600" }
+											: {}
+									}
+									onClick={() => {
+										setActiveLink("Privacy");
+										handleChangeLink("Privacy");
+									}}>
+									Privacy Policy
+								</p>
+								<p
+									style={
+										activeLink === "Terms"
+											? { color: "#006aff", fontWeight: "600" }
+											: {}
+									}
+									onClick={() => {
+										setActiveLink("Terms");
+										handleChangeLink("Terms");
+									}}>
+									Terms and Conditions
+								</p>
+							</div>
+						</div>
 					) : (
 						""
 					)}
@@ -311,7 +425,10 @@ Navbar.defaultProps = {
 	activePage: "whatever",
 	isJobPostPanelOpen: false,
 	setJobPostPanelOpen: function () {
-		console.log("Function");
+		// console.log("Function");
+	},
+	handleChangeLink: function () {
+		// console.log("Function");
 	},
 };
 

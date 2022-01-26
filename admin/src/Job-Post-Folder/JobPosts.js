@@ -37,6 +37,7 @@ const JobPosts = ({
 	setJobPostSearch,
 	admin,
 	setAdmin,
+	setAdminPosts,
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
 	const [isPopupMenuOpen, setIsPopupMenuOpen] = useState(false);
@@ -58,7 +59,9 @@ const JobPosts = ({
 	const [street, setStreet] = useState("");
 	const [zone, setZone] = useState("");
 	const [companyBarangay, setCompanyBarangay] = useState("");
-	const [employerName, setEmployerName] = useState("");
+	const [employerFirstName, setEmployerFirstName] = useState("");
+	const [employerMiddleName, setEmployerMiddleName] = useState("");
+	const [employerLastName, setEmployerLastName] = useState("");
 	const [contactNumber, setContactNumber] = useState("");
 	const [companyDescription, setCompanyDescription] = useState("");
 	const [imagePreview, setImagePreview] = useState(null);
@@ -86,40 +89,46 @@ const JobPosts = ({
 			"_" +
 			new Date().getFullYear();
 
-		const post = {
-			JobID: shortid.generate(),
-			CompanyID: shortid.generate(),
-			Minutes: new Date().getMinutes(),
-			Hour: new Date().getHours(),
-			Day: new Date().getDate(),
-			Month: new Date().getMonth() + 1,
-			Year: new Date().getFullYear(),
-			Date_Posted: new Date(),
-			Job_Title: jobTitle,
-			Category: jobCategory,
-			Required_Employees: noReqEmp,
-			Salary: salary,
-			Preferred_Sex: prefSex,
-			Job_Type: jobType,
-			Job_Qualifications: jobQualification,
-			Job_Requirements: jobRequirement,
-			Job_Description: jobDescription,
-			Company_Name: companyName,
-			Company_Address: `${street}, ${zone}, ${companyBarangay}`,
-			Street: street,
-			Zone: zone,
-			Barangay: companyBarangay,
-			Employer_Name: employerName,
-			Contact_Number: contactNumber,
-			Company_Description: companyDescription,
-			Company_Image: date + "_" + companyImage.name,
-			File: companyImage,
-			Active_Status: "Active",
-		};
-		setJobPostPanelOpen(false);
-		addPost(post);
+		if (companyImage.size > 2000000) {
+			alert("File too large (2mb limit) ! Please try again!");
+		} else {
+			const post = {
+				JobID: shortid.generate(),
+				CompanyID: shortid.generate(),
+				Minutes: new Date().getMinutes(),
+				Hour: new Date().getHours(),
+				Day: new Date().getDate(),
+				Month: new Date().getMonth() + 1,
+				Year: new Date().getFullYear(),
+				Date_Posted: new Date(),
+				Job_Title: jobTitle,
+				Category: jobCategory,
+				Required_Employees: noReqEmp,
+				Salary: salary,
+				Preferred_Sex: prefSex,
+				Job_Type: jobType,
+				Job_Qualifications: jobQualification,
+				Job_Requirements: jobRequirement,
+				Job_Description: jobDescription,
+				Company_Name: companyName,
+				Company_Address: `${street}, ${zone}, ${companyBarangay}`,
+				Street: street,
+				Zone: zone,
+				Barangay: companyBarangay,
+				Employer_First_Name: employerFirstName,
+				Employer_Middle_Name: employerMiddleName,
+				Employer_Last_Name: employerLastName,
+				Contact_Number: contactNumber,
+				Company_Description: companyDescription,
+				Company_Image: date + "_" + companyImage.name,
+				File: companyImage,
+				Active_Status: "Active",
+			};
+			setJobPostPanelOpen(false);
+			addPost(post);
 
-		clearInputEntries();
+			clearInputEntries();
+		}
 	};
 
 	const clearInputEntries = () => {
@@ -137,7 +146,9 @@ const JobPosts = ({
 		setStreet("");
 		setZone("");
 		setCompanyBarangay("");
-		setEmployerName("");
+		setEmployerFirstName("");
+		setEmployerMiddleName("");
+		setEmployerLastName("");
 		setContactNumber("");
 		setCompanyImage(null);
 		setImagePreview(null);
@@ -232,6 +243,7 @@ const JobPosts = ({
 				`${address}`.toLowerCase().includes(location.toLowerCase())
 			) {
 				countList += 1;
+				return null;
 			}
 		});
 	}
@@ -350,6 +362,7 @@ const JobPosts = ({
 							setCompaniesData={setCompaniesData}
 							setJobApplicants={setJobApplicants}
 							setJobSeekers={setJobSeekers}
+							setAdminPosts={setAdminPosts}
 							setSidebarOpen={setSidebarOpen}
 						/>
 					</div>
@@ -556,6 +569,43 @@ const JobPosts = ({
 													/>
 												</div>
 												<div className='post-field'>
+													<label>Employer's First Name:</label>
+													<input
+														type='text'
+														placeholder={`First Name`}
+														value={employerFirstName}
+														onChange={(e) =>
+															setEmployerFirstName(
+																e.target.value
+															)
+														}
+													/>
+												</div>
+												<div className='post-field'>
+													<label>Employer's Middle Name:</label>
+													<input
+														type='text'
+														placeholder={`Middle Name`}
+														value={employerMiddleName}
+														onChange={(e) =>
+															setEmployerMiddleName(
+																e.target.value
+															)
+														}
+													/>
+												</div>
+												<div className='post-field'>
+													<label>Employer's Last Name:</label>
+													<input
+														type='text'
+														placeholder={`Last Name`}
+														value={employerLastName}
+														onChange={(e) =>
+															setEmployerLastName(e.target.value)
+														}
+													/>
+												</div>
+												<div className='post-field'>
 													<label>Street:</label>
 													<input
 														type='text'
@@ -568,14 +618,32 @@ const JobPosts = ({
 												</div>
 												<div className='post-field'>
 													<label>Zone:</label>
-													<input
+													{/* <input
 														type='text'
 														placeholder='Address: (Zone)'
 														value={zone}
 														onChange={(e) =>
 															setZone(e.target.value)
 														}
-													/>
+													/> */}
+													<select
+														value={zone}
+														onChange={(e) =>
+															setZone(e.target.value)
+														}>
+														<option
+															disabled='disabled'
+															hidden='hidden'
+															value=''>
+															Select Zone
+														</option>
+														<option value='Zone 1'>Zone 1</option>
+														<option value='Zone 2'>Zone 2</option>
+														<option value='Zone 3'>Zone 3</option>
+														<option value='Zone 4'>Zone 4</option>
+														<option value='Zone 5'>Zone 5</option>
+														<option value='Zone 6'>Zone 6</option>
+													</select>
 												</div>
 												<div className='post-field'>
 													<label>Barangay:</label>
@@ -592,17 +660,6 @@ const JobPosts = ({
 														</option>
 														{barangay}
 													</select>
-												</div>
-												<div className='post-field'>
-													<label>Employer's Name:</label>
-													<input
-														type='text'
-														placeholder={`Enter Employer's Name`}
-														value={employerName}
-														onChange={(e) =>
-															setEmployerName(e.target.value)
-														}
-													/>
 												</div>
 												<div className='post-field'>
 													<label>Stablishment Contact No.:</label>
@@ -810,7 +867,7 @@ const JobPosts = ({
 										</div>
 
 										{post !== null ? (
-											<div>
+											<>
 												<div className='post-header'>
 													<div className='upperLeft-jobPost'>
 														<div className='account-profile-container'>
@@ -983,7 +1040,7 @@ const JobPosts = ({
 														</div>
 													</div>
 												</div>
-											</div>
+											</>
 										) : (
 											<p
 												style={{

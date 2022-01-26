@@ -18,110 +18,118 @@ const Accordion3 = ({ deleteCompanyPosts }) => {
 	const deleteJobSeekerAccount = async () => {
 		const userSession = sessionStorage.getItem("UserID");
 		const applicantSession = sessionStorage.getItem("ApplicantID");
-		console.log("userSession", userSession);
-		console.log("applicantSession", applicantSession);
 
-		// Delete User Account Data
-		await axios
-			.delete(`http://localhost:2000/api/delete-user-account/${userSession}`)
-			.then(async (response) => {
-				console.log("Job Applicants have been deleted");
-			});
+		try {
+			// Delete User Account Data
+			await axios
+				.delete(
+					`http://localhost:2000/api/delete-user-account/${userSession}`
+				)
+				.then(async (response) => {
+					// console.log("Job Applicants have been deleted");
+				});
 
-		// Delete Applicant Data
-		await axios
-			.delete(
-				`http://localhost:2000/api/delete-applicant/${applicantSession}`
-			)
-			.then(async (response) => {
-				console.log("Job Applicants have been deleted");
-			});
+			// Delete Applicant Data
+			await axios
+				.delete(
+					`http://localhost:2000/api/delete-applicant/${applicantSession}`
+				)
+				.then(async (response) => {
+					// console.log("Job Applicants have been deleted");
+				});
 
-		// Delete Job Applicant Data
-		await axios
-			.delete(
-				`http://localhost:2000/api/account-delete-job-applicant/${applicantSession}`
-			)
-			.then(async (response) => {
-				console.log("Job Applicants have been deleted");
-			});
+			// Delete Job Applicant Data
+			await axios
+				.delete(
+					`http://localhost:2000/api/account-delete-job-applicant/${applicantSession}`
+				)
+				.then(async (response) => {
+					// console.log("Job Applicants have been deleted");
+				});
 
-		// Delete Applied Jobs Data
-		await axios
-			.delete(
-				`http://localhost:2000/api/account-delete-applied-job/${applicantSession}`
-			)
-			.then(async (response) => {
-				console.log("Job Applicants have been deleted");
-			});
+			// Delete Applied Jobs Data
+			await axios
+				.delete(
+					`http://localhost:2000/api/account-delete-applied-job/${applicantSession}`
+				)
+				.then(async (response) => {
+					// console.log("Job Applicants have been deleted");
+				});
 
-		// Delete Employer Feedback Data
-		await axios
-			.delete(
-				`http://localhost:2000/api/delete-employer-feedback/${applicantSession}`
-			)
-			.then(async (response) => {
-				console.log("Employer Feedback have been deleted");
-			});
+			// Delete Employer Feedback Data
+			await axios
+				.delete(
+					`http://localhost:2000/api/delete-employer-feedback/${applicantSession}`
+				)
+				.then(async (response) => {
+					// console.log("Employer Feedback have been deleted");
+				});
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	const deleteEmployerAccount = async () => {
 		const userSession = sessionStorage.getItem("UserID");
 		const companySession = sessionStorage.getItem("CompanyID");
-		console.log("userSession", userSession);
-		console.log("companySession", companySession);
 
 		await deletePosts();
 
-		// Delete User Account Data
-		await axios
-			.delete(`http://localhost:2000/api/delete-user-account/${userSession}`)
-			.then(async (response) => {
-				console.log("User Account Data have been deleted");
-			});
+		try {
+			// Delete User Account Data
+			await axios
+				.delete(
+					`http://localhost:2000/api/delete-user-account/${userSession}`
+				)
+				.then(async (response) => {
+					console.log("User Account Data have been deleted");
+				});
 
-		// Delete Company Data
-		await axios
-			.delete(`http://localhost:2000/api/delete-company/${userSession}`)
-			.then(async (response) => {
-				console.log("Company Data have been deleted");
-			});
+			// Delete Company Data
+			await axios
+				.delete(`http://localhost:2000/api/delete-company/${userSession}`)
+				.then(async (response) => {
+					console.log("Company Data have been deleted");
+				});
 
-		// Delete Job Posts Data
-		await axios
-			.delete(
-				`http://localhost:2000/api/delete-company-jobPost/${companySession}`
-			)
-			.then(async (response) => {
-				console.log("Job Posts Data have been deleted");
-			});
+			// Delete Job Posts Data
+			await axios
+				.delete(
+					`http://localhost:2000/api/delete-company-jobPost/${companySession}`
+				)
+				.then(async (response) => {
+					console.log("Job Posts Data have been deleted");
+				});
 
-		// Delete Job Applicant Data
-		await axios
-			.delete(
-				`http://localhost:2000/api/delete-job-applicant-employer/${companySession}`
-			)
-			.then(async (response) => {
-				console.log("Job Applicant Data have been deleted");
-			});
+			// Delete Job Applicant Data
+			await axios
+				.delete(
+					`http://localhost:2000/api/delete-job-applicant-employer/${companySession}`
+				)
+				.then(async (response) => {
+					console.log("Job Applicant Data have been deleted");
+				});
 
-		// Delete Applied Jobs Data
-		await axios
-			.delete(
-				`http://localhost:2000/api/delete-applied-employer/${companySession}`
-			)
-			.then(async (response) => {
-				console.log("Applied Jobs Data have been deleted");
-			});
+			// Delete Applied Jobs Data
+			await axios
+				.delete(
+					`http://localhost:2000/api/delete-applied-employer/${companySession}`
+				)
+				.then(async (response) => {
+					console.log("Applied Jobs Data have been deleted");
+				});
 
-		// Delete Employer Feedback Data
-		await axios
-			.delete(
-				`http://localhost:2000/api/delete-employer-feedback-data/${companySession}`
-			)
-			.then(async (response) => {
-				console.log("Employer Feedback Data have been deleted");
-			});
+			// Delete Employer Feedback Data
+			await axios
+				.delete(
+					`http://localhost:2000/api/delete-employer-feedback-data/${companySession}`
+				)
+				.then(async (response) => {
+					console.log("Employer Feedback Data have been deleted");
+				});
+		} catch (error) {
+			console.log(error);
+		}
 
 		localStorage.clear();
 		sessionStorage.clear();

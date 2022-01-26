@@ -29,85 +29,92 @@ export class WelcomeWindow extends Component {
 	};
 
 	componentWillUnmount = async () => {
-		this.push(this.props.path);
-		const sessionUser = sessionStorage.getItem("UserID");
-		const applicantSession = sessionStorage.getItem("ApplicantID");
-		const companySession = sessionStorage.getItem("CompanyID");
+		try {
+			this.push(this.props.path);
+			const sessionUser = sessionStorage.getItem("UserID");
+			const applicantSession = sessionStorage.getItem("ApplicantID");
+			const companySession = sessionStorage.getItem("CompanyID");
 
-		if (applicantSession) {
-			// Fetching Job Posts Data
-			await axios
-				.get("http://localhost:2000/api/read-jobPost")
-				.then((response) => {
-					this.props.setJobPosts(response.data);
-				});
+			if (applicantSession) {
+				// Fetching Job Posts Data
+				await axios
+					.get("http://localhost:2000/api/read-jobPost")
+					.then((response) => {
+						this.props.setJobPosts(response.data);
+					});
 
-			// Fetching Job Applicant Data
-			await axios
-				.post("http://localhost:2000/api/read-applied-jobs", {
-					applicantID: applicantSession,
-				})
-				.then(async (response) => {
-					await this.props.getAppliedJobs(response.data);
-					await this.filterAppliedJobs(response.data);
-				});
-
-			// Fetching Employer Feedback Data
-			await axios
-				.post(
-					"http://localhost:2000/api/read-specific-applicant-notification",
-					{
+				// Fetching Job Applicant Data
+				await axios
+					.post("http://localhost:2000/api/read-applied-jobs", {
 						applicantID: applicantSession,
-					}
-				)
-				.then(async (response) => {
-					await this.props.setEmployerFeedBack(response.data);
-				});
-		}
+					})
+					.then(async (response) => {
+						await this.props.getAppliedJobs(response.data);
+						await this.filterAppliedJobs(response.data);
+					});
 
-		if (companySession) {
-			// Fetching Job Applicant Data ------------
-			await axios
-				.post("http://localhost:2000/api/read-job-applicant", {
-					companyID: companySession,
-				})
-				.then(async (response) => {
-					await this.props.getJobApplicantsByCompany(response.data);
-				});
+				// Fetching Employer Feedback Data
+				await axios
+					.post(
+						"http://localhost:2000/api/read-specific-applicant-notification",
+						{
+							applicantID: applicantSession,
+						}
+					)
+					.then(async (response) => {
+						await this.props.setEmployerFeedBack(response.data);
+					});
+			}
 
-			await axios
-				.post("http://localhost:2000/api/read-company", {
-					userID: sessionUser,
-				})
-				.then(async (response) => {
-					if (response.data.length === 1) {
-						await this.props.setCompany(response.data[0]);
-					} else {
-						console.log("Error fetching information...");
-					}
-				});
+			if (companySession) {
+				// Fetching Job Applicant Data ------------
+				await axios
+					.post("http://localhost:2000/api/read-job-applicant", {
+						companyID: companySession,
+					})
+					.then(async (response) => {
+						await this.props.getJobApplicantsByCompany(response.data);
+					});
 
-			// Fetching Job Posts Data
-			await axios
-				.post("http://localhost:2000/api/read-company-jobPost", {
-					companyID: companySession,
-				})
-				.then(async (response) => {
-					if (response) {
-						await this.props.setCompanyJobPosts(response.data);
-					} else {
-						console.log("Error fetching information...");
-					}
-				});
+				await axios
+					.post("http://localhost:2000/api/read-company", {
+						userID: sessionUser,
+					})
+					.then(async (response) => {
+						if (response.data.length === 1) {
+							await this.props.setCompany(response.data[0]);
+						} else {
+							console.log("Error fetching information...");
+						}
+					});
 
-			// Fetching Employer Feedback Data
-			await axios
-				.post("http://localhost:2000/api/read-specific-employer-feedback", {
-					companyID: companySession,
-				})
-				.then(async (response) => {
-					await this.props.setEmployerFeedBack(response.data);
-				});
+				// Fetching Job Posts Data
+				await axios
+					.post("http://localhost:2000/api/read-company-jobPost", {
+						companyID: companySession,
+					})
+					.then(async (response) => {
+						if (response) {
+							await this.props.setCompanyJobPosts(response.data);
+						} else {
+							console.log("Error fetching information...");
+						}
+					});
+
+				// Fetching Employer Feedback Data
+				await axios
+					.post(
+						"http://localhost:2000/api/read-specific-employer-feedback",
+						{
+							companyID: companySession,
+						}
+					)
+					.then(async (response) => {
+						await this.props.setEmployerFeedBack(response.data);
+					});
+			}
+		} catch (error) {
+			console.log(error);
 		}
 	};
 	render() {
@@ -119,15 +126,14 @@ export class WelcomeWindow extends Component {
 				<div className='welcome-container-content'>
 					<img src={this.props.roleGif} alt='Loading1 gif' />
 					<h3>Welcome {`${First_Name} ${Last_Name}`}</h3>
-					{/* <p>Initializing Components...</p> */}
-					<p>
+					<span>
 						{
 							<CountDown
 								method={this.props.method}
 								delay={this.props.delay}
 							/>
 						}
-					</p>
+					</span>
 				</div>
 			</div>
 		);

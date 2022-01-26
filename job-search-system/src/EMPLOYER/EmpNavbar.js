@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import SearchIcon from "../Images/SearchIcon.png";
 import MenuIconFilled from "../Images/MenuIconFilled.png";
 import Logout from "../Images/Logout.png";
-import "./Emp_Navbar.css";
+import "./EmpNavbar.css";
 import Modal from "../JOBSEEKER/Home-Folder/Modal";
 import Logo from "../Images/Logo.png";
 import DashboardIcon from "../Images/DashboardIcon.png";

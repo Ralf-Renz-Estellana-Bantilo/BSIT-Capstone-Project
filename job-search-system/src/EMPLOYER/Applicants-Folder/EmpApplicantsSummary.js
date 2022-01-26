@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./Emp_Applicants_Summary.css";
+import "./EmpApplicantsSummary.css";
 import CloseIcon from "../../Images/CloseIcon.png";
 import TimeStamp from "../../TimeStamp";
 import Resources from "../../Resources";

@@ -1,0 +1,19 @@
+.account-panel {
+	display: flex;
+	align-items: center;
+	/* justify-content: space-around; */
+	width: 100%;
+	column-gap: 20px;
+	padding: 10px;
+}
+
+.account-panel img {
+	filter: brightness(0.3);
+	height: 30px;
+}
+
+.account-panel h3 {
+	font-size: 15px;
+	font-weight: 600;
+	color: var(--dark-primary);
+}

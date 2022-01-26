@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import Emp_Navbar from "../Emp_Navbar";
-import Emp_Gap from "../Emp_Gap";
-import "./Emp_Applicant.css";
+import EmpNavbar from "../EmpNavbar";
+import EmpGap from "../EmpGap";
+import "./EmpApplicant.css";
 import { withRouter } from "react-router-dom";
-import Emp_Job_Applicants from "./Emp_Job_Applicants";
-import Emp_Applicants_Summary from "./Emp_Applicants_Summary";
+import EmpJobApplicants from "./EmpJobApplicants";
+import EmpApplicantsSummary from "./EmpApplicantsSummary";
 import Indication from "../../Indication";
 
-export class Emp_Applicant extends Component {
+export class EmpApplicant extends Component {
 	state = {
 		company: this.props.company,
 		infos: this.props.companyJobPost,
@@ -92,8 +92,8 @@ export class Emp_Applicant extends Component {
 
 		return (
 			<div>
-				<Emp_Gap />
-				<Emp_Navbar
+				<EmpGap />
+				<EmpNavbar
 					isSidebarOpen={this.props.isSidebarOpen}
 					toggleSidebar={this.props.toggleSidebar}
 					currentUser={currentUser}
@@ -119,7 +119,7 @@ export class Emp_Applicant extends Component {
 
 							return (
 								<div key={info.JobID}>
-									<Emp_Job_Applicants
+									<EmpJobApplicants
 										info={info}
 										jobApplicants={jobApplicants}
 										updateCandidateStatus={this.updateCandidateStatus}
@@ -149,7 +149,7 @@ export class Emp_Applicant extends Component {
 
 				{isSummaryOpen === true && (
 					<div className='summary'>
-						<Emp_Applicants_Summary
+						<EmpApplicantsSummary
 							candidates={candidates}
 							activeStatus={activeStatus}
 							jobTitle={jobTitle}
@@ -187,4 +187,4 @@ export class Emp_Applicant extends Component {
 	}
 }
 
-export default withRouter(Emp_Applicant);
+export default withRouter(EmpApplicant);

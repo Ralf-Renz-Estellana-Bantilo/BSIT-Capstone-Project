@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import LocationIcon from "../../Images/LocationIcon.png";
-import "./Search_Applicants.css";
+import "./SearchApplicants.css";
 import { withRouter } from "react-router-dom";
 
 export class Search_Applicants extends Component {

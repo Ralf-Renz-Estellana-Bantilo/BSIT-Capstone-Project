@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import LeftArrow from "../../Images/LeftArrow.png";
 import Modal from "../../JOBSEEKER/Home-Folder/Modal";
 import Resources from "../../Resources";
-import "./Emp_Job_Applicant_Data.css";
+import "./EmpJobApplicantData.css";
 
 const Emp_Job_Applicant_Data = ({
 	companyJobPost,

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import WorkPost from "./WorkPost";
 import WorkPostHeader from "./WorkPostHeader";
-import Emp_Navbar from "../Emp_Navbar";
+import EmpNavbar from "../EmpNavbar";
 import CloseIcon from "../../Images/CloseIcon.png";
-import Emp_Gap from "../Emp_Gap";
-import Emp_Post from "../Emp_Post";
-import "./Emp_Jobs.css";
+import EmpGap from "../EmpGap";
+import EmpPost from "../EmpPost";
+import "./EmpJobs.css";
 import { withRouter } from "react-router-dom";
 import Indication from "../../Indication";
 export class Emp_Jobs extends Component {
@@ -55,8 +55,8 @@ export class Emp_Jobs extends Component {
 
 		return (
 			<div>
-				<Emp_Gap />
-				<Emp_Navbar
+				<EmpGap />
+				<EmpNavbar
 					isSidebarOpen={this.props.isSidebarOpen}
 					toggleSidebar={this.props.toggleSidebar}
 					currentUser={currentUser}
@@ -107,7 +107,7 @@ export class Emp_Jobs extends Component {
 					{companyJobPost.map((companyJobPost) => {
 						return (
 							<div key={companyJobPost.JobID}>
-								<Emp_Post
+								<EmpPost
 									companyJobPost={companyJobPost}
 									currentUser={currentUser}
 									deleteEmployerPost={this.props.deleteEmployerPost}

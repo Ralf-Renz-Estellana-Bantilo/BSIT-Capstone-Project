@@ -40,14 +40,10 @@ const Accordion = () => {
 				<div className='accordion-content'>
 					<div className='accordion-content-button'>
 						<Link to={`/${userType}/menu/about`}>
-							<button onClick={() => setAboutModal(true)}>
-								About Job Search Catarman
-							</button>
+							<button>About Job Search Catarman</button>
 						</Link>
 						<Link to={`/${userType}/menu/contact`}>
-							<button onClick={() => setContactModal(true)}>
-								Contact Us
-							</button>
+							<button>Contact Us</button>
 						</Link>
 						<Link to={`/${userType}/menu/help`}>
 							<button>Help Center</button>

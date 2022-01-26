@@ -363,7 +363,7 @@ export class JobProfile extends Component {
 				<div className='job-profile-container'>
 					<h3>Job Seeker Profile</h3>
 					{preferredJob === null && (
-						<div className='badge'>
+						<div className='badge' onClick={this.handleToggleEditProfile}>
 							<p>!</p>
 						</div>
 					)}
@@ -377,7 +377,6 @@ export class JobProfile extends Component {
 								: "Edit Profile Details"
 						}
 						onClick={this.handleToggleEditProfile}
-						// style={{ opacity: this.state.visible ? "1" : ".3" }}
 						style={
 							darkTheme
 								? { filter: "brightness(1)" }
