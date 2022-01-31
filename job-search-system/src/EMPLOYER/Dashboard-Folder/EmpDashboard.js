@@ -60,79 +60,100 @@ export class Emp_Dashboard extends Component {
 			fileData,
 		} = this.state;
 
+		const date =
+			new Date().getMonth() +
+			1 +
+			"_" +
+			new Date().getDate() +
+			"_" +
+			new Date().getFullYear();
+
+		const newFileName = date + "_" + fileData.name;
 		const employerName = `${currentUser.First_Name} ${currentUser.Middle_Name} ${currentUser.Last_Name}`;
 
-		const data = new FormData();
-		data.append("image", fileData);
-
-		const companyData = {
-			Company_Name: comp_stablismentName,
-			Employer_Name: employerName,
-			Street: comp_street,
-			Zone: comp_zone,
-			Barangay: comp_barangay,
-			Contact_Number: comp_contactNumber,
-			Company_Description: comp_description,
-			Company_Image: fileData.name,
-			UserID: company.UserID,
-			CompanyID: company.CompanyID,
-		};
-
-		await this.closeModal();
-		await this.props.setCompany(companyData);
-
-		// Uploading the image to the ClientSide Storage
-		await fetch("http://localhost:2000/api/upload-image", {
-			method: "POST",
-			body: data,
-		})
-			.then(async (result) => {
-				console.log("The File has been Uploaded...");
-				await this.props.changeCompanyProfile(
-					fileData.name,
-					companySession
-				);
-			})
-			.catch((error) => {
-				console.log("Multer Error!", error);
-
+		try {
+			if (fileData.size > 2000000) {
+				alert("File too large (2mb limit) ! Please try again!");
 				this.setState({
-					isModalOpen: false,
+					fileData: null,
 				});
-			});
+			} else {
+				const data = new FormData();
+				data.append("image", fileData);
 
-		// Uploading the image to the Admin Storage
-		await fetch("http://localhost:2000/api/upload-image-admin", {
-			method: "POST",
-			body: data,
-		})
-			.then((result) => {
-				console.log("The File has been Uploaded to the Administrator...");
-			})
-			.catch((error) => {
-				console.log("Multer Error!", error);
-			});
+				const companyData = {
+					Company_Name: comp_stablismentName,
+					Employer_Name: employerName,
+					Street: comp_street,
+					Zone: comp_zone,
+					Barangay: comp_barangay,
+					Contact_Number: comp_contactNumber,
+					Company_Description: comp_description,
+					Company_Image: newFileName,
+					UserID: company.UserID,
+					CompanyID: company.CompanyID,
+				};
 
-		await axios
-			.put("http://localhost:2000/api/insertData-company", {
-				companyName: comp_stablismentName,
-				employerName: employerName,
-				street: comp_street,
-				zone: comp_zone,
-				barangay: comp_barangay,
-				contactNumber: comp_contactNumber,
-				companyDescription: comp_description,
-				companyImage: fileData.name,
-				userID: company.UserID,
-				companyID: company.CompanyID,
-			})
-			.then((response) => {
-				console.log(response);
+				// Uploading the image to the ClientSide Storage
+				await axios
+					.put("http://localhost:2000/api/insertData-company", {
+						companyName: comp_stablismentName,
+						employerName: employerName,
+						street: comp_street,
+						zone: comp_zone,
+						barangay: comp_barangay,
+						contactNumber: comp_contactNumber,
+						companyDescription: comp_description,
+						companyImage: newFileName,
+						userID: company.UserID,
+						companyID: company.CompanyID,
+					})
+					.then((response) => {
+						console.log(response);
 
-				this.setState({
-					isModalOpen: false,
-				});
-			});
+						this.setState({
+							isModalOpen: false,
+						});
+					});
+
+				await fetch("http://localhost:2000/api/upload-image", {
+					method: "POST",
+					body: data,
+				})
+					.then(async (result) => {
+						console.log("The File has been Uploaded...");
+						await this.props.changeCompanyProfile(
+							newFileName,
+							companySession
+						);
+					})
+					.catch((error) => {
+						console.log("Multer Error!", error);
+
+						this.setState({
+							isModalOpen: false,
+						});
+					});
+
+				// Uploading the image to the Admin Storage
+				await fetch("http://localhost:2000/api/upload-image-admin", {
+					method: "POST",
+					body: data,
+				})
+					.then(async (result) => {
+						this.closeModal();
+						await this.props.setCompany(companyData);
+						console.log(
+							"The File has been Uploaded to the Administrator..."
+						);
+					})
+					.catch((error) => {
+						console.log("Multer Error!", error);
+					});
+			}
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	redirectTo = (path) => {

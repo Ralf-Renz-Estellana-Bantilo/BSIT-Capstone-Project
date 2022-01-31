@@ -19,16 +19,16 @@ import SignUp from "./Account-Folder/SignUp";
 import LandingPage from "./LandingPage";
 import UnknownPage from "./Account-Folder/UnknownPage";
 import SearchEngine from "./SearchEngine";
-import Emp_Dashboard from "./EMPLOYER/Dashboard-Folder/EmpDashboard";
-import Emp_BusinessProfile from "./EMPLOYER/Profile-Folder/EmpBusinessProfile";
-import Emp_Jobs from "./EMPLOYER/Jobs-Folder/EmpJobs";
-import Emp_Applicant from "./EMPLOYER/Applicants-Folder/EmpApplicant";
-import Emp_Setting from "./EMPLOYER/Settings-Folder/EmpSetting";
-import Emp_Account from "./EMPLOYER/Account-Folder/EmpAccount";
+import EmpDashboard from "./EMPLOYER/Dashboard-Folder/EmpDashboard";
+import EmpBusinessProfile from "./EMPLOYER/Profile-Folder/EmpBusinessProfile";
+import EmpJobs from "./EMPLOYER/Jobs-Folder/EmpJobs";
+import EmpApplicant from "./EMPLOYER/Applicants-Folder/EmpApplicant";
+import EmpSetting from "./EMPLOYER/Settings-Folder/EmpSetting";
+import EmpAccount from "./EMPLOYER/Account-Folder/EmpAccount";
 import axios from "axios";
 import shortid from "shortid";
-import Emp_Job_Applicant_Data from "./EMPLOYER/Applicants-Folder/EmpJobApplicantData";
-import Hiree_Information from "./EMPLOYER/HireeInformation";
+import EmpJobApplicantData from "./EMPLOYER/Applicants-Folder/EmpJobApplicantData";
+import HireeInformation from "./EMPLOYER/HireeInformation";
 import Resources from "./Resources";
 
 export class App extends Component {
@@ -69,8 +69,8 @@ export class App extends Component {
 			numApplicants: [],
 			targetJobPost: null,
 
-			// system
-			darkTheme: true,
+			// system color theme
+			darkTheme: false,
 		};
 	}
 
@@ -107,10 +107,6 @@ export class App extends Component {
 		} else if (theme === "false") {
 			this.setState({
 				darkTheme: false,
-			});
-		} else {
-			this.setState({
-				darkTheme: true,
 			});
 		}
 
@@ -1670,7 +1666,7 @@ export class App extends Component {
 							exact
 							path={`/${userType}/dashboard`}
 							component={() => (
-								<Emp_Dashboard
+								<EmpDashboard
 									activePage={this.state.activePage}
 									company={this.state.company}
 									isSidebarOpen={this.state.isSidebarOpen}
@@ -1693,7 +1689,7 @@ export class App extends Component {
 							exact
 							path={`/${userType}/business-profile`}
 							component={() => (
-								<Emp_BusinessProfile
+								<EmpBusinessProfile
 									currentUser={this.state.currentUser}
 									darkTheme={this.state.darkTheme}
 									company={this.state.company}
@@ -1714,7 +1710,7 @@ export class App extends Component {
 							exact
 							path={`/${userType}/jobs`}
 							component={() => (
-								<Emp_Jobs
+								<EmpJobs
 									currentUser={this.state.currentUser}
 									targetJobPost={this.state.targetJobPost}
 									showAdd={this.state.showAddTask}
@@ -1742,7 +1738,7 @@ export class App extends Component {
 							exact
 							path={`/${userType}/applicants`}
 							component={() => (
-								<Emp_Applicant
+								<EmpApplicant
 									currentUser={this.state.currentUser}
 									jobApplicants={this.state.jobApplicants}
 									company={this.state.company}
@@ -1773,7 +1769,7 @@ export class App extends Component {
 							exact
 							path={`/${userType}/settings`}
 							component={() => (
-								<Emp_Setting
+								<EmpSetting
 									company={this.state.company}
 									darkTheme={this.state.darkTheme}
 									currentUser={this.state.currentUser}
@@ -1790,7 +1786,7 @@ export class App extends Component {
 							exact
 							path={`/${userType}/account`}
 							component={() => (
-								<Emp_Account
+								<EmpAccount
 									company={this.state.company}
 									darkTheme={this.state.darkTheme}
 									currentUser={this.state.currentUser}
@@ -1806,7 +1802,7 @@ export class App extends Component {
 							exact
 							path={`/${userType}/applicants/applicant-data`}
 							component={() => (
-								<Emp_Job_Applicant_Data
+								<EmpJobApplicantData
 									employerFeedback={this.state.employerFeedback}
 									jobApplicantData={this.state.jobApplicantData}
 									companyJobPost={this.state.companyJobPost}
@@ -1821,7 +1817,7 @@ export class App extends Component {
 							exact
 							path={`/${userType}/applicant-information`}
 							component={() => (
-								<Hiree_Information
+								<HireeInformation
 									hiree={this.state.hiree}
 									company={this.state.company}
 									employerMessage={this.state.employerMessage}

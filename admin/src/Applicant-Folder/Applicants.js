@@ -94,6 +94,8 @@ const Applicants = ({
 		});
 	}
 
+	jobSeekers.sort((a, b) => (a.Last_Name > b.Last_Name ? 1 : -1));
+
 	return (
 		<div className='applicants-container'>
 			<div className='content-wrapper'>
@@ -243,7 +245,7 @@ const Applicants = ({
 									})}
 
 									{countApplicant === 0 &&
-										applicantSearch.length !== 0 && (
+										applicantSearch.length === 0 && (
 											<p
 												style={{
 													textAlign: "center",

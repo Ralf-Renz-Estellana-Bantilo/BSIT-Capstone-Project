@@ -615,7 +615,7 @@ export class JobProfile extends Component {
 								</select>
 							</div>
 							<div className='field'>
-								<label>₱referred Salary:</label>
+								<label>Preferred Salary:</label>
 								<input
 									name='preferredSalary'
 									type='text'

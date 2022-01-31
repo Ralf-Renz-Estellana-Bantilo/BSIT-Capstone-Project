@@ -72,6 +72,16 @@ export const getEmployerUsers = (req, res) => {
 	);
 };
 
+export const getAdminUsers = (req, res) => {
+	db.query("SELECT * FROM user_account WHERE Role='Admin'", (err, result) => {
+		if (err) {
+			console.log(err);
+		} else {
+			res.send(result);
+		}
+	});
+};
+
 export const login = (req, res) => {
 	const username = req.body.username;
 	const password = req.body.password;
@@ -198,19 +208,23 @@ export const updateUserAccountBusinessProfile = (req, res) => {
 	);
 };
 
-export const loginAdmin = (req, res) => {
+export const updateUsernameAndPassword = (req, res) => {
 	const username = req.body.username;
 	const password = req.body.password;
+	const userID = req.body.userID;
 
-	db.query(
-		"SELECT * FROM user_account WHERE Role = 'Admin' AND Username = ? AND Password = ?",
-		[username, password],
-		(err, result) => {
-			if (err) {
-				res.send("Wrong Username/Password Combination...");
-			} else {
-				res.send(result);
+	bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
+		db.query(
+			"UPDATE user_account SET Username=?, Password=? WHERE UserID=?",
+			[username, hashedPassword, userID],
+			(err, result) => {
+				if (err) {
+					console.log("Error:", err);
+				} else {
+					res.send(result);
+					// console.log("Successfully updated your applied jobs profile");
+				}
 			}
-		}
-	);
+		);
+	});
 };

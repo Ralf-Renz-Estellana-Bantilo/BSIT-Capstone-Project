@@ -39,6 +39,8 @@ const AccountJobPosts = ({ jobPosts, jobApplicants, adminPosts }) => {
 		}
 	} catch (error) {}
 
+	let count = 0;
+
 	return (
 		<div className='post-preview-panel'>
 			<div className='job-post-header'>
@@ -192,13 +194,16 @@ const AccountJobPosts = ({ jobPosts, jobApplicants, adminPosts }) => {
 							for (let a = 0; a < adminPosts.length; a++) {
 								if (
 									adminPosts[a].CompanyID === jobPost.CompanyID &&
-									adminPosts[a].JobID === jobPost.JobID
+									adminPosts[a].JobID === jobPost.JobID &&
+									adminPosts[a].AdminID ===
+										sessionStorage.getItem("UserID")
 								) {
 									isAdminPost = true;
 								}
 							}
 
 							if (isAdminPost === true) {
+								count += 1;
 								return (
 									<div
 										className='job-post'
@@ -228,7 +233,7 @@ const AccountJobPosts = ({ jobPosts, jobApplicants, adminPosts }) => {
 						})}
 					</div>
 				)}
-				{adminPosts.length === 0 && (
+				{count === 0 && isPostPreview === false && (
 					<p
 						style={{
 							textAlign: "center",

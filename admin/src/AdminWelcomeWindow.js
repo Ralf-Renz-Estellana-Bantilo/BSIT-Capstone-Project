@@ -4,7 +4,7 @@ import "./AdminWelcomeWindow.css";
 import AdminCountDown from "./AdminCountDown";
 import { useNavigate } from "react-router-dom";
 
-const AdminWelcomeWindow = ({ method, delay, userID }) => {
+const AdminWelcomeWindow = ({ method, delay, userID, name }) => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -18,7 +18,7 @@ const AdminWelcomeWindow = ({ method, delay, userID }) => {
 			<div className='welcome-container-overlay'></div>
 			<div className='welcome-container-content'>
 				<img src={Loading} alt='Loading1 gif' />
-				<h3>Welcome Administrator</h3>
+				<h3>{`Welcome ${name}`}</h3>
 				{/* <p>Initializing Components...</p> */}
 				<p>{<AdminCountDown method={method} delay={delay} />}</p>
 			</div>

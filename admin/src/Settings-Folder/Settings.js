@@ -92,6 +92,7 @@ const Settings = ({
 									jobPosts={jobPosts}
 									adminPosts={adminPosts}
 									jobApplicants={jobApplicants}
+									admin={admin}
 								/>
 							)}
 						</div>

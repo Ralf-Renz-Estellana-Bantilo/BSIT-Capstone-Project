@@ -2,10 +2,20 @@ import axios from "axios";
 import React, { useState } from "react";
 import Modal from "../Home-Folder/Modal";
 import "./Accordion.css";
+import CloseIcon from "../../Images/CloseIcon.png";
+import Eye from "../../Images/Eye.png";
 
-const Accordion3 = ({ deleteCompanyPosts }) => {
+const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 	const [isActive, setIsActive] = useState(false);
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [step, setStep] = useState(0);
+	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+	const [currentUsername, setCurrentUsername] = useState("");
+	const [currentPassword, setCurrentPassword] = useState("");
+	const [newUsername, setNewUsername] = useState("");
+	const [newPassword, setNewPassword] = useState("");
+	const [confirmPassword, setConfirmPassword] = useState("");
 
 	const viewModal = () => {
 		setIsModalOpen(true);
@@ -141,6 +151,68 @@ const Accordion3 = ({ deleteCompanyPosts }) => {
 		await deleteCompanyPosts(companySession);
 	};
 
+	const verifyUser = (e) => {
+		e.preventDefault();
+
+		try {
+			const { Username, Password } = currentUser;
+			const userTypeSession = sessionStorage.getItem("UserType");
+
+			if (Username !== currentUsername) {
+				alert("Wrong entries! Please try again!");
+			} else {
+				axios
+					.post("http://localhost:2000/api/login", {
+						role: userTypeSession,
+						username: currentUsername,
+						password: currentPassword,
+					})
+					.then(async (response) => {
+						if (response.data.length === 1) {
+							setStep(2);
+							setIsPasswordVisible(false);
+						} else {
+							alert("Wrong password, Please try again!");
+						}
+					});
+			}
+		} catch (error) {}
+	};
+
+	const newUsernameAndPassword = (e) => {
+		e.preventDefault();
+
+		const userID = sessionStorage.getItem("UserID");
+
+		if (newUsername === "" || newPassword === "" || confirmPassword === "") {
+			alert("Invalid entries, Please try again!");
+		} else if (newPassword !== confirmPassword) {
+			alert("Password does not match!");
+		} else {
+			try {
+				axios
+					.put("http://localhost:2000/api/update-user-account", {
+						username: newUsername,
+						password: newPassword,
+						userID: userID,
+					})
+					.then(async (response) => {
+						setStep(0);
+						resetAllFields();
+						setUpdated();
+					});
+			} catch (error) {}
+		}
+	};
+
+	const resetAllFields = () => {
+		setCurrentUsername("");
+		setCurrentPassword("");
+		setNewUsername("");
+		setNewPassword("");
+		setConfirmPassword("");
+	};
+
 	const userTypeSession = sessionStorage.getItem("UserType");
 	let userType = "";
 	if (userTypeSession === "Job Seeker") {
@@ -167,7 +239,6 @@ const Accordion3 = ({ deleteCompanyPosts }) => {
 					</p>
 				</div>
 			</div>
-
 			{userType === "jobseeker" ? (
 				<div>
 					{isModalOpen === true && (
@@ -197,17 +268,168 @@ const Accordion3 = ({ deleteCompanyPosts }) => {
 					)}
 				</div>
 			)}
-
 			{isActive && (
 				<div className='accordion-content'>
 					<div className='accordion-content-button'>
-						<button className='accordionButton'>
+						<button
+							className='accordionButton'
+							onClick={() => setStep(1)}>
 							Change Username and Password
 						</button>
 						<button className='accordionButton' onClick={viewModal}>
 							Delete Account
 						</button>
 						{/* <button className='accordionButton'>Reboot Account</button> */}
+					</div>
+				</div>
+			)}
+			{step === 1 && (
+				<div className='modal-container'>
+					<div
+						className='overlay-style'
+						onClick={() => {
+							setStep(0);
+							resetAllFields();
+						}}></div>
+					<div className='verification-container'>
+						<img
+							className='close-icon'
+							src={CloseIcon}
+							alt='Close'
+							onClick={() => {
+								setStep(0);
+								resetAllFields();
+							}}
+						/>
+						<div className='verification-container-header'>
+							<h3>Verify Current User</h3>
+						</div>
+						<form
+							className='verification-container-form'
+							onSubmit={(e) => {
+								verifyUser(e);
+							}}>
+							<input
+								autoFocus
+								type='text'
+								placeholder='Current Username'
+								value={currentUsername}
+								onChange={(e) => setCurrentUsername(e.target.value)}
+							/>
+							<div className='password-input'>
+								<input
+									type={isPasswordVisible ? "text" : "password"}
+									placeholder='Current Password'
+									value={currentPassword}
+									onChange={(e) => setCurrentPassword(e.target.value)}
+								/>
+								<img
+									className='eye-icon'
+									style={
+										isPasswordVisible
+											? { filter: "brightness(0.3)" }
+											: { filter: "brightness(0.7)" }
+									}
+									src={Eye}
+									alt='Password Visible'
+									onClick={() => {
+										setIsPasswordVisible(!isPasswordVisible);
+									}}
+								/>
+							</div>
+							<button
+								onClick={(e) => {
+									verifyUser(e);
+								}}>
+								Continue
+							</button>
+						</form>
+						<div className='progress-indication'>
+							<div
+								className='circle'
+								style={{ backgroundColor: "#00b2ff" }}></div>
+							<div
+								className='circle'
+								style={{ backgroundColor: "grey" }}></div>
+						</div>
+					</div>
+				</div>
+			)}
+			{step === 2 && (
+				<div className='modal-container'>
+					<div
+						className='overlay-style'
+						onClick={() => {
+							setStep(0);
+							resetAllFields();
+						}}></div>
+					<div className='verification-container'>
+						<img
+							className='close-icon'
+							src={CloseIcon}
+							alt='Close'
+							onClick={() => {
+								setStep(0);
+								resetAllFields();
+							}}
+						/>
+						<div className='verification-container-header'>
+							<h3>Enter New Username & Password</h3>
+						</div>
+						<form
+							className='verification-container-form'
+							onSubmit={(e) => {
+								newUsernameAndPassword(e);
+							}}>
+							<input
+								autoFocus
+								type='text'
+								placeholder='New Username'
+								value={newUsername}
+								onChange={(e) => setNewUsername(e.target.value)}
+							/>
+							<div className='password-input'>
+								<input
+									type={isPasswordVisible ? "text" : "password"}
+									placeholder='New Password'
+									value={newPassword}
+									onChange={(e) => setNewPassword(e.target.value)}
+								/>
+								<img
+									className='eye-icon'
+									style={
+										isPasswordVisible
+											? { filter: "brightness(0.3)" }
+											: { filter: "brightness(0.7)" }
+									}
+									src={Eye}
+									alt='Password Visible'
+									onClick={() => {
+										setIsPasswordVisible(!isPasswordVisible);
+									}}
+								/>
+							</div>
+							<input
+								type='password'
+								placeholder='Confirm Password'
+								value={confirmPassword}
+								onChange={(e) => setConfirmPassword(e.target.value)}
+							/>
+							<button
+								onClick={(e) => {
+									newUsernameAndPassword(e);
+								}}>
+								Update
+							</button>
+						</form>
+						<div className='progress-indication'>
+							<div
+								className='circle'
+								style={{ backgroundColor: "grey" }}></div>
+							<div
+								className='circle'
+								style={{ backgroundColor: "#00b2ff" }}></div>
+						</div>
 					</div>
 				</div>
 			)}

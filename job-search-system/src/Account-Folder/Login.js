@@ -97,7 +97,7 @@ export class Login extends Component {
 
 		this.props.showWelcomWindowOn();
 
-		localStorage.setItem("darkTheme", true);
+		localStorage.setItem("darkTheme", false);
 	};
 
 	setNotLoggedin = () => {
@@ -132,10 +132,13 @@ export class Login extends Component {
 			holdString = "/jobseeker/home";
 		} else if (this.state.role === "Employer") {
 			holdString = "/employer/dashboard";
-		} else {
 		}
 
 		const { darkTheme } = this.props;
+
+		const randomNumber = Math.floor(Math.random() * 5);
+		const delayTime = randomNumber + 4;
+
 		return (
 			<div className='login-container'>
 				{this.props.showWelcomWindow === true && (
@@ -146,7 +149,7 @@ export class Login extends Component {
 								: Loading2Red
 						}
 						method={this.props.showWelcomWindowOff}
-						delay={4}
+						delay={delayTime}
 						currentUser={this.props.currentUser}
 						path={holdString}
 						getAppliedJobs={this.props.getAppliedJobs}

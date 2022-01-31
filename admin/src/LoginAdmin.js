@@ -14,6 +14,7 @@ const LoginAdmin = ({ setAdmin }) => {
 	const [userName, setUserName] = useState(null);
 	const [password, setPassword] = useState(null);
 	const [userID, setUserID] = useState(null);
+	const [name, setName] = useState(null);
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
@@ -21,7 +22,8 @@ const LoginAdmin = ({ setAdmin }) => {
 		try {
 			if (userName !== null && password !== null) {
 				await axios
-					.post("http://localhost:2000/api/login-admin", {
+					.post("http://localhost:2000/api/login", {
+						role: "Admin",
 						username: userName,
 						password: password,
 					})
@@ -30,6 +32,9 @@ const LoginAdmin = ({ setAdmin }) => {
 							setAdmin(response.data[0]);
 							setUserID(response.data[0].UserID);
 							setWelcomeOpen(true);
+							setName(
+								`${response.data[0].First_Name} ${response.data[0].Last_Name}`
+							);
 						} else {
 							setValid(false);
 						}
@@ -53,6 +58,7 @@ const LoginAdmin = ({ setAdmin }) => {
 					method={closeWelcome}
 					delay={5}
 					userID={userID}
+					name={name}
 				/>
 			)}
 			<div className='login-container'>

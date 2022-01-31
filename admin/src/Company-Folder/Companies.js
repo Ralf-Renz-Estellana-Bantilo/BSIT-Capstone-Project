@@ -66,6 +66,8 @@ const Companies = ({
 		});
 	}
 
+	companiesData.sort((a, b) => (a.Company_Name > b.Company_Name ? 1 : -1));
+
 	return (
 		<div className='companies-container'>
 			<div className='content-wrapper'>
@@ -173,7 +175,7 @@ const Companies = ({
 										}
 									})}
 
-									{countCompany === 0 && companySearch.length !== 0 && (
+									{countCompany === 0 && companySearch.length === 0 && (
 										<p
 											style={{
 												textAlign: "center",

@@ -73,3 +73,142 @@
 .toggle-container p {
 	color: white;
 }
+
+.verification-container {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: var(--dark-primary);
+	padding: 10px 10px 0px 10px;
+	z-index: 1000;
+	border-radius: 10px;
+	box-shadow: 2px 2px 5px black;
+	border: 1px solid var(--border1);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 270px;
+	animation-name: fadeIn;
+	animation-duration: 0.2s;
+}
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.verification-container-header {
+	/* border-bottom: 1px solid var(--border1); */
+	width: 90%;
+	margin: 0 auto;
+	position: relative;
+}
+
+.verification-container-header h3 {
+	text-align: center;
+	padding: 0;
+	color: var(--accent2);
+	font-weight: 600;
+	font-size: 13px;
+	width: 90%;
+	margin: 0 auto;
+}
+
+.verification-container .close-icon {
+	position: absolute;
+	height: 28px;
+	cursor: pointer;
+	top: 5px;
+	right: 7px;
+	z-index: 11;
+}
+
+.verification-container-form {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	margin: 0 auto;
+	row-gap: 10px;
+	margin-top: 10px;
+}
+
+.verification-container-form input {
+	outline: none;
+	border: 1px solid rgba(128, 128, 128, 0.726);
+	font-size: 13px;
+	padding: 5px 40px;
+	border-radius: 5px;
+	font-weight: 500;
+	text-align: center;
+	color: black;
+	transition: 0.1s linear;
+	margin-bottom: 5px;
+	/* animation-name: sample;
+	animation-duration: 0.6s;
+	position: relative; */
+}
+
+.verification-container-form input:focus {
+	border: 1px solid var(--dark-blue);
+}
+
+.password-input {
+	position: relative;
+}
+
+.password-input input {
+	width: 100%;
+}
+
+.password-input .eye-icon {
+	position: absolute;
+	right: 10px;
+	top: 6px;
+	width: 20px;
+	/* filter: brightness(0.2); */
+}
+
+.verification-container-form button {
+	color: var(--accent-main);
+	border: none;
+	border-radius: 50px;
+	padding: 5px 20px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: 0.25s;
+	font-weight: 600;
+
+	border: solid 3px transparent;
+	background-image: linear-gradient(
+			rgba(255, 255, 255, 0),
+			rgba(255, 255, 255, 0)
+		),
+		linear-gradient(-20deg, var(--light-blue), var(--dark-blue));
+	background-origin: border-box;
+	background-clip: content-box, border-box;
+	box-shadow: 2px 1000px 1px var(--nav-background) inset;
+}
+
+.verification-container-form button:hover {
+	box-shadow: none;
+	color: white;
+}
+
+.progress-indication {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	padding: 10px 6px;
+	width: 35px;
+}
+
+.progress-indication .circle {
+	height: 7px;
+	width: 7px;
+	border-radius: 50%;
+}

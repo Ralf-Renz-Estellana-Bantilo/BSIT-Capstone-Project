@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Emp_Navbar from "../EmpNavbar";
-import Emp_Gap from "../EmpGap";
+import EmpNavbar from "../EmpNavbar";
+import EmpGap from "../EmpGap";
 import { withRouter } from "react-router-dom";
 
 export class Emp_Account extends Component {
@@ -23,8 +23,8 @@ export class Emp_Account extends Component {
 		const { currentUser } = this.props;
 		return (
 			<div>
-				<Emp_Gap />
-				<Emp_Navbar
+				<EmpGap />
+				<EmpNavbar
 					isSidebarOpen={this.props.isSidebarOpen}
 					toggleSidebar={this.props.toggleSidebar}
 					currentUser={currentUser}

@@ -9,6 +9,7 @@ const AccountCompanies = ({ companies, adminPosts }) => {
 	const [companyData, setCompanyData] = useState([]);
 	const [companyInfo, setCompanyInfo] = useState(null);
 
+	let count = 0;
 	return (
 		<div className='post-preview-panel'>
 			<div className='job-post-header'>
@@ -61,13 +62,18 @@ const AccountCompanies = ({ companies, adminPosts }) => {
 							let companyCredentials = [];
 
 							for (let a = 0; a < adminPosts.length; a++) {
-								if (adminPosts[a].CompanyID === company.CompanyID) {
+								if (
+									adminPosts[a].CompanyID === company.CompanyID &&
+									adminPosts[a].AdminID ===
+										sessionStorage.getItem("UserID")
+								) {
 									isAdminPost = true;
 									companyCredentials = adminPosts[a];
 								}
 							}
 
 							if (isAdminPost === true) {
+								count += 1;
 								return (
 									<div
 										className='job-post'
@@ -112,6 +118,19 @@ const AccountCompanies = ({ companies, adminPosts }) => {
 							}
 						})}
 					</>
+				)}
+				{count === 0 && isCompanyPreview === false && (
+					<p
+						style={{
+							textAlign: "center",
+							padding: "10px",
+							backgroundColor: "red",
+							color: "white",
+							fontWeight: "500",
+							fontSize: "14px",
+						}}>
+						No Created Companies Yet!
+					</p>
 				)}
 			</div>
 		</div>

@@ -10,10 +10,20 @@ import Header from "../../Header";
 import Modal from "../Home-Folder/Modal";
 import { withRouter } from "react-router-dom";
 import Auth from "../../Auth";
+import Indication from "../../Indication";
 
 export class Menu extends Component {
 	state = {
 		isModalOpen: false,
+		isUpdated: false,
+	};
+
+	setUpdated = () => {
+		this.setState({ isUpdated: true });
+	};
+
+	closeUpdateState = () => {
+		this.setState({ isUpdated: false });
 	};
 
 	viewModal = () => {
@@ -70,6 +80,15 @@ export class Menu extends Component {
 				/>
 				<Gap />
 
+				{this.state.isUpdated === true && (
+					<Indication
+						type='primary'
+						text='Successfully Updated your Account'
+						method={this.closeUpdateState}
+						delay={3}
+					/>
+				)}
+
 				<h1
 					style={{
 						padding: "0",
@@ -89,7 +108,10 @@ export class Menu extends Component {
 								setTheme={this.props.setTheme}
 								darkTheme={this.props.darkTheme}
 							/>
-							<Accordion3 />
+							<Accordion3
+								currentUser={this.props.currentUser}
+								setUpdated={this.setUpdated}
+							/>
 						</div>
 					</div>
 

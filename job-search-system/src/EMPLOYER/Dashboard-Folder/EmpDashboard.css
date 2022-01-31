@@ -25,7 +25,8 @@
 	justify-content: center;
 	background-color: var(--dark-primary);
 	padding: 15px;
-	box-shadow: 1px 2px 5px black;
+	/* box-shadow: 1px 2px 5px black; */
+	box-shadow: 0 1px 3px #00000073;
 }
 
 .dashboard-welcome-illustration-img {
@@ -86,7 +87,8 @@
 	text-align: center;
 	overflow: hidden;
 	margin-bottom: 20px;
-	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.7);
+	/* box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.7); */
+	box-shadow: 0 1px 3px #00000073;
 	transition: 0.2s;
 }
 
@@ -104,7 +106,8 @@
 	color: var(--accent-main);
 	font-size: 40px;
 	margin: 10px 0;
-	text-shadow: 1px 2px 1px rgba(0, 0, 0, 0.5);
+	/* text-shadow: 1px 2px 1px rgba(0, 0, 0, 0.5); */
+	text-shadow: 0 1px 3px #00000073;
 }
 
 .dashboard-update-card-content p {
@@ -115,7 +118,8 @@
 
 .dashboard-update-card-link {
 	background: linear-gradient(180deg, var(--dark-blue), var(--light-blue));
-	box-shadow: 1px -2px 5px rgba(0, 0, 0, 0.5);
+	/* box-shadow: 1px -2px 5px rgba(0, 0, 0, 0.5); */
+	box-shadow: 0 -1px 3px #00000073;
 	cursor: pointer;
 	transition: 0.4s;
 }

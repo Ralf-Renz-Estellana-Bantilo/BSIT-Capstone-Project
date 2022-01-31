@@ -1,17 +1,83 @@
+import axios from "axios";
 import React, { useState } from "react";
+import shortid from "shortid";
+import AdminResources from "../AdminResources";
+import User from "../Images/User.png";
 import "./AccountCreateNewAdmin.css";
 
-const AccountCreateNewAdmin = () => {
+const AccountCreateNewAdmin = ({ admin, administrators }) => {
 	const [step, setStep] = useState(1);
-	const [username, setUsername] = useState("");
-	const [password, setPassword] = useState("");
+	const [username, setUsername] = useState(null);
+	const [password, setPassword] = useState(null);
 
-	const [firstName, setFirstName] = useState("");
-	const [middleName, setMiddleName] = useState("");
-	const [lastName, setLastName] = useState("");
-	const [newAdminUsername, setNewAdminUsername] = useState("");
-	const [newAdminPassword, setNewAdminPassword] = useState("");
-	const [confirmPassword, setConfirmPassword] = useState("");
+	const [firstName, setFirstName] = useState(null);
+	const [middleName, setMiddleName] = useState(null);
+	const [lastName, setLastName] = useState(null);
+	const [newAdminUsername, setNewAdminUsername] = useState(null);
+	const [newAdminPassword, setNewAdminPassword] = useState(null);
+	const [confirmPassword, setConfirmPassword] = useState(null);
+
+	const handleVerifyCurrentAdmin = () => {
+		const { Username } = admin;
+		try {
+			if (username === null || password === null) {
+				alert("Please input data!");
+			} else if (username !== Username) {
+				alert("Wrong entries! Please try again!");
+			} else {
+				axios
+					.post("http://localhost:2000/api/login", {
+						role: "Admin",
+						username: username,
+						password: password,
+					})
+					.then(async (response) => {
+						if (response.data.length === 1) {
+							alert("Admin Verified");
+							console.log(response);
+							setStep(2);
+						} else {
+							alert("Wrong entries! Please try again!");
+						}
+					});
+			}
+		} catch (error) {}
+	};
+
+	const handleCreateNewAdmin = async () => {
+		if (
+			firstName === null ||
+			middleName === null ||
+			lastName === null ||
+			lastName === null ||
+			newAdminUsername === null ||
+			newAdminPassword === null ||
+			confirmPassword === null
+		) {
+			alert("Please input data");
+		} else if (newAdminPassword !== confirmPassword) {
+			alert(`Password doesn't match`);
+		} else {
+			await axios
+				.post("http://localhost:2000/api/create-user", {
+					userID: shortid.generate(),
+					firstName: AdminResources.formatName(firstName),
+					middleName: AdminResources.formatName(middleName),
+					lastName: AdminResources.formatName(lastName),
+					sex: "Male",
+					role: "Admin",
+					username: newAdminUsername,
+					password: newAdminPassword,
+					userImage: "DefaultUserMale.png",
+				})
+				.then(() => {
+					setStep(1);
+				});
+		}
+	};
+
+	// Alphabetical Sorting
+	administrators.sort((a, b) => (a.Last_Name > b.Last_Name ? 1 : -1));
 
 	return (
 		<div className='post-preview-panel'>
@@ -19,7 +85,7 @@ const AccountCreateNewAdmin = () => {
 				<h3>Create New Administrator</h3>
 			</div>
 			<div className='new-admin-container'>
-				{step === 1 ? (
+				{step === 1 && (
 					<div className='new-admin'>
 						<div className='new-admin-header'>
 							<h3>Verify Current Administrator</h3>
@@ -28,7 +94,7 @@ const AccountCreateNewAdmin = () => {
 							className='new-admin-form'
 							onSubmit={(e) => {
 								e.preventDefault();
-								setStep(2);
+								handleVerifyCurrentAdmin();
 							}}>
 							<input
 								autoFocus
@@ -46,13 +112,32 @@ const AccountCreateNewAdmin = () => {
 							<button
 								onClick={(e) => {
 									e.preventDefault();
-									setStep(2);
+									handleVerifyCurrentAdmin();
 								}}>
 								Continue
 							</button>
 						</form>
+						{administrators.length > 1 && (
+							<div className='admin-list-container'>
+								{administrators.map((admin) => {
+									return (
+										<div className='admin-list'>
+											<div className='admin-list-img'>
+												<img
+													src={`../assets/${admin.User_Image}`}
+													alt='Administrator'
+												/>
+											</div>
+											<h3>{`${admin.Last_Name}, ${admin.First_Name} ${admin.Middle_Name}`}</h3>
+										</div>
+									);
+								})}
+							</div>
+						)}
 					</div>
-				) : (
+				)}
+
+				{step === 2 && (
 					<div className='new-admin'>
 						<div className='new-admin-header'>
 							<h3>Enter New Administrator's Credentials</h3>
@@ -61,9 +146,10 @@ const AccountCreateNewAdmin = () => {
 							className='new-admin-form'
 							onSubmit={(e) => {
 								e.preventDefault();
-								setStep(1);
+								handleCreateNewAdmin();
 							}}>
 							<input
+								autoFocus
 								type='text'
 								placeholder='First Name'
 								value={firstName}
@@ -103,7 +189,7 @@ const AccountCreateNewAdmin = () => {
 							<button
 								onClick={(e) => {
 									e.preventDefault();
-									setStep(1);
+									handleCreateNewAdmin();
 								}}>
 								Create Admin
 							</button>

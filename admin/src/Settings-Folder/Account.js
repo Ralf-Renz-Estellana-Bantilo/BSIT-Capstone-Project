@@ -16,8 +16,10 @@ const Account = ({
 	jobPosts,
 	jobApplicants,
 	adminPosts,
+	admin,
 }) => {
 	const [companies, setCompanies] = useState([]);
+	const [administrators, setAdministrators] = useState([]);
 
 	useEffect(() => {
 		axios.get("http://localhost:2000/api/read-companies").then((response) => {
@@ -27,6 +29,16 @@ const Account = ({
 				console.log("Error fetching information...");
 			}
 		});
+
+		axios
+			.get("http://localhost:2000/api/read-user-admin")
+			.then((response) => {
+				if (response) {
+					setAdministrators(response.data);
+				} else {
+					console.log("Error fetching information...");
+				}
+			});
 	}, []);
 
 	return (
@@ -106,7 +118,10 @@ const Account = ({
 						adminPosts={adminPosts}
 					/>
 				) : activeAccountPanel === "New Account" ? (
-					<AccountCreateNewAdmin />
+					<AccountCreateNewAdmin
+						admin={admin}
+						administrators={administrators}
+					/>
 				) : (
 					""
 				)}

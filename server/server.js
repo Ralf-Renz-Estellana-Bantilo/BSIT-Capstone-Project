@@ -7,12 +7,13 @@ import {
 	account_deleteUserAccount,
 	changeAccountPicture,
 	createUser,
+	getAdminUsers,
 	getEmployerUsers,
 	getJobSeekerUsers,
 	login,
-	loginAdmin,
 	retainUser,
 	updateUserAccountBusinessProfile,
+	updateUsernameAndPassword,
 } from "./controllers/DB_User_Account.js";
 import {
 	account_deleteApplicant,
@@ -188,11 +189,12 @@ app.post("/api/upload-pdf", uploadPDF.single("pdf"), (req, res) => {
 // User_Account Database Table ----------
 app.get("/api/read-user-jobseeker", getJobSeekerUsers);
 app.get("/api/read-user-employer", getEmployerUsers);
+app.get("/api/read-user-admin", getAdminUsers);
 app.post("/api/create-user", createUser);
 app.post("/api/login", login);
-app.post("/api/login-admin", loginAdmin);
 app.post("/api/fetchSession", retainUser);
 app.put("/api/update-user-profile", changeAccountPicture);
+app.put("/api/update-user-account", updateUsernameAndPassword);
 app.put("/api/update-user-business-profile", updateUserAccountBusinessProfile);
 app.delete("/api/delete-user-account/:id", account_deleteUserAccount);
 

@@ -30,6 +30,20 @@
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
+	animation-name: fadeIn;
+	animation-duration: 0.2s;
+}
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 0.5;
+	}
+	100% {
+		opacity: 1;
+	}
 }
 
 .welcome-container .welcome-container-content img {
