@@ -22,18 +22,20 @@ const Sidebar = ({
 }) => {
 	const navigate = useNavigate();
 
-	const handleDashboard = () => {
+	const handleDashboard = async () => {
 		navigate("/admin/dashboard");
-		axios.get("http://localhost:2000/api/read-jobPost").then((response) => {
-			if (response) {
-				setJobPosts(response.data);
-			} else {
-				console.log("Error fetching information...");
-			}
-		});
+		await axios
+			.get("http://localhost:2000/api/read-jobPost")
+			.then((response) => {
+				if (response) {
+					setJobPosts(response.data);
+				} else {
+					console.log("Error fetching information...");
+				}
+			});
 
 		// User_Account Database Table ----------
-		axios
+		await axios
 			.get("http://localhost:2000/api/read-user-employer")
 			.then((response) => {
 				if (response) {
@@ -44,7 +46,7 @@ const Sidebar = ({
 			});
 
 		// Applicant Database Table ----------
-		axios
+		await axios
 			.get("http://localhost:2000/api/read-applicant-data")
 			.then((response) => {
 				if (response) {
@@ -55,19 +57,21 @@ const Sidebar = ({
 			});
 	};
 
-	const handleJobPosts = () => {
+	const handleJobPosts = async () => {
 		navigate("/admin/job-posts");
 		// Fetching Job Posts
-		axios.get("http://localhost:2000/api/read-jobPost").then((response) => {
-			if (response) {
-				setJobPosts(response.data);
-			} else {
-				console.log("Error fetching information...");
-			}
-		});
+		await axios
+			.get("http://localhost:2000/api/read-jobPost")
+			.then((response) => {
+				if (response) {
+					setJobPosts(response.data);
+				} else {
+					console.log("Error fetching information...");
+				}
+			});
 
 		// Fetching Job Applicants
-		axios
+		await axios
 			.get("http://localhost:2000/api/read-company-applicants")
 			.then((response) => {
 				if (response) {
@@ -78,11 +82,11 @@ const Sidebar = ({
 			});
 	};
 
-	const handleApplicants = () => {
+	const handleApplicants = async () => {
 		navigate("/admin/applicants");
 
 		// Applicant Database Table ----------
-		axios
+		await axios
 			.get("http://localhost:2000/api/read-applicant-data")
 			.then((response) => {
 				if (response) {
@@ -93,24 +97,26 @@ const Sidebar = ({
 			});
 	};
 
-	const handleCompanies = () => {
+	const handleCompanies = async () => {
 		navigate("/admin/companies");
 
 		// Fetching Companies
-		axios.get("http://localhost:2000/api/read-companies").then((response) => {
-			if (response) {
-				setCompaniesData(response.data);
-			} else {
-				console.log("Error fetching information...");
-			}
-		});
+		await axios
+			.get("http://localhost:2000/api/read-companies")
+			.then((response) => {
+				if (response) {
+					setCompaniesData(response.data);
+				} else {
+					console.log("Error fetching information...");
+				}
+			});
 	};
 
-	const handleSettings = () => {
+	const handleSettings = async () => {
 		navigate("/admin/settings");
 
 		// Fetching Job Applicants
-		axios
+		await axios
 			.get("http://localhost:2000/api/read-company-applicants")
 			.then((response) => {
 				if (response) {
@@ -121,7 +127,7 @@ const Sidebar = ({
 			});
 
 		// Fetching Admin Posts
-		axios
+		await axios
 			.get("http://localhost:2000/api/admin/read-posts")
 			.then((response) => {
 				if (response) {

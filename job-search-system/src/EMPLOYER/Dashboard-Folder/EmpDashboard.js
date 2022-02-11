@@ -16,6 +16,10 @@ export class Emp_Dashboard extends Component {
 		comp_contactNumber: 0,
 		comp_description: "",
 		comp_image: null,
+		comp_acronym: null,
+		comp_type: null,
+		comp_workForce: null,
+		comp_emailAddress: null,
 		company: [],
 		companyJobPost: [],
 		isModalOpen: false,
@@ -23,6 +27,7 @@ export class Emp_Dashboard extends Component {
 		jobApplicantLength: 0,
 		month: "",
 		fileData: null,
+		hasAcronym: false,
 	};
 
 	handleChange = (event, fieldName) => {
@@ -58,6 +63,10 @@ export class Emp_Dashboard extends Component {
 			comp_contactNumber,
 			comp_description,
 			fileData,
+			comp_acronym,
+			comp_type,
+			comp_workForce,
+			comp_emailAddress,
 		} = this.state;
 
 		const date =
@@ -92,6 +101,10 @@ export class Emp_Dashboard extends Component {
 					Company_Image: newFileName,
 					UserID: company.UserID,
 					CompanyID: company.CompanyID,
+					Company_Acronym: comp_acronym,
+					Employer_Type: comp_type,
+					Work_Force: comp_workForce,
+					Email_Address: comp_emailAddress,
 				};
 
 				// Uploading the image to the ClientSide Storage
@@ -105,11 +118,15 @@ export class Emp_Dashboard extends Component {
 						contactNumber: comp_contactNumber,
 						companyDescription: comp_description,
 						companyImage: newFileName,
+						acronym: comp_acronym,
+						employerType: comp_type,
+						workForce: comp_workForce,
+						emailAddress: comp_emailAddress,
 						userID: company.UserID,
 						companyID: company.CompanyID,
 					})
 					.then((response) => {
-						console.log(response);
+						// console.log(response);
 
 						this.setState({
 							isModalOpen: false,
@@ -121,7 +138,7 @@ export class Emp_Dashboard extends Component {
 					body: data,
 				})
 					.then(async (result) => {
-						console.log("The File has been Uploaded...");
+						// console.log("The File has been Uploaded...");
 						await this.props.changeCompanyProfile(
 							newFileName,
 							companySession
@@ -143,9 +160,9 @@ export class Emp_Dashboard extends Component {
 					.then(async (result) => {
 						this.closeModal();
 						await this.props.setCompany(companyData);
-						console.log(
-							"The File has been Uploaded to the Administrator..."
-						);
+						// console.log(
+						// 	"The File has been Uploaded to the Administrator..."
+						// );
 					})
 					.catch((error) => {
 						console.log("Multer Error!", error);
@@ -163,6 +180,13 @@ export class Emp_Dashboard extends Component {
 	setMonth = (stringMonth) => {
 		this.setState({
 			month: stringMonth,
+		});
+	};
+
+	handleAcronym = async () => {
+		await this.setState({
+			comp_acronym: "(n/a)",
+			hasAcronym: !this.state.hasAcronym,
 		});
 	};
 
@@ -239,7 +263,7 @@ export class Emp_Dashboard extends Component {
 
 	render() {
 		const { currentUser, applicants, company } = this.props;
-		const { jobApplicantLength, activeJobPost } = this.state;
+		const { jobApplicantLength, activeJobPost, hasAcronym } = this.state;
 		const barangays = Resources.getBarangay();
 
 		let newApplicants = 0;
@@ -312,7 +336,6 @@ export class Emp_Dashboard extends Component {
 			<div className='dashboard-container'>
 				{company.companyName === "" ||
 				company.Company_Name === "" ||
-				company.companyName === null ||
 				company.Company_Name === null ? (
 					<div className='employer-register-company-container'>
 						<div className='employer-register-overlay' />
@@ -320,83 +343,182 @@ export class Emp_Dashboard extends Component {
 							className='register-form'
 							onSubmit={(e) => this.handleCreateCompanyData(e)}>
 							<h3 onClick={this.closeModal}>
-								Business Registration Form
+								Stablishment Registration Form
 							</h3>
-							<div className='register-field'>
-								<label>Business Stablishment Name:</label>
-								<input
-									autoFocus
-									type='text'
-									placeholder='Set Stablishment Name'
-									onChange={(e) =>
-										this.handleChange(e, "comp_stablismentName")
-									}
-								/>
+							<div className='register-fields'>
+								<div className='register-field'>
+									<label>Business Stablishment Name:</label>
+									<input
+										autoFocus
+										type='text'
+										placeholder='Set Stablishment Name'
+										onChange={(e) =>
+											this.handleChange(e, "comp_stablismentName")
+										}
+									/>
+								</div>
+								<div className='register-field'>
+									<label>Acronym/Abbreviation:</label>
+									<div className='acronym-container'>
+										<input
+											type='text'
+											placeholder='Set Stablishment Acronym/Abbreviation'
+											onChange={(e) =>
+												this.handleChange(e, "comp_acronym")
+											}
+										/>
+										<div className='acronym'>
+											<input
+												type='checkbox'
+												name='acronym'
+												checked={hasAcronym ? "hasAcronym" : ""}
+												onChange={this.handleAcronym}
+											/>
+											<label>(n/a)</label>
+										</div>
+									</div>
+								</div>
+								<div className='register-field'>
+									<label>Employer Type:</label>
+									<select
+										defaultValue=''
+										onChange={(e) =>
+											this.handleChange(e, "comp_type")
+										}>
+										<option
+											disabled='disabled'
+											hidden='hidden'
+											value=''>
+											Select Employer Type
+										</option>
+										<option value='Government'>Government</option>
+										<option value='Recruitment & Placement Agency'>
+											Recruitment & Placement Agency
+										</option>
+										<option value='Private'>Private</option>
+										<option value='Licenced Recruitment Agency (Overseas)'>
+											Licenced Recruitment Agency (Overseas)
+										</option>
+										<option value='DO 174-17. Subcontractor'>
+											DO 174-17. Subcontractor
+										</option>
+									</select>
+								</div>
+								<div className='register-field'>
+									<label>Total Work Force:</label>
+									<select
+										defaultValue=''
+										onChange={(e) =>
+											this.handleChange(e, "comp_workForce")
+										}>
+										<option
+											disabled='disabled'
+											hidden='hidden'
+											value=''>
+											Select Total Work Force
+										</option>
+										<option value='Micro (1-9)'>Micro (1-9)</option>
+										<option value='Small (10-99)'>
+											Small (10-99)
+										</option>
+										<option value='Medium (100-199)'>
+											Medium (100-199)
+										</option>
+										<option value='Large (200 and up)'>
+											Large (200 and up)
+										</option>
+									</select>
+								</div>
+								<div className='register-field'>
+									<label>Business Stablishment Location:</label>
+									<input
+										type='text'
+										placeholder='Input Street'
+										onChange={(e) =>
+											this.handleChange(e, "comp_street")
+										}
+										style={{ marginBottom: "2px" }}
+									/>
+									<select
+										defaultValue=''
+										onChange={(e) =>
+											this.handleChange(e, "comp_zone")
+										}>
+										<option
+											disabled='disabled'
+											hidden='hidden'
+											value=''>
+											Select Zone
+										</option>
+										<option value='Zone 1'>Zone 1</option>
+										<option value='Zone 2'>Zone 2</option>
+										<option value='Zone 3'>Zone 3</option>
+										<option value='Zone 4'>Zone 4</option>
+										<option value='Zone 5'>Zone 5</option>
+										<option value='Zone 6'>Zone 6</option>
+									</select>
+									<select
+										defaultValue=''
+										onChange={(e) =>
+											this.handleChange(e, "comp_barangay")
+										}>
+										<option
+											disabled='disabled'
+											hidden='hidden'
+											value=''>
+											Select Barangay
+										</option>
+										{barangayResources}
+									</select>
+								</div>
+								<div className='register-field'>
+									<label>Contact Number:</label>
+									<input
+										type='number'
+										placeholder='Enter Contact Number'
+										onChange={(e) =>
+											this.handleChange(e, "comp_contactNumber")
+										}
+									/>
+								</div>
+								<div className='register-field'>
+									<label>Email Address:</label>
+									<input
+										type='email'
+										placeholder='Enter Email Address'
+										onChange={(e) =>
+											this.handleChange(e, "comp_emailAddress")
+										}
+									/>
+								</div>
+								<div className='register-field'>
+									<label>Business Stablishment Description:</label>
+									<textarea
+										placeholder='Describe what your business does..'
+										onChange={(e) =>
+											this.handleChange(e, "comp_description")
+										}
+										rows='5'
+									/>
+								</div>
+								<div className='register-field'>
+									<label>Stablishment Photo:</label>
+									<input
+										type='file'
+										onChange={this.handleFileChange}
+										accept='image/jpeg, image/png'
+									/>
+								</div>
+								<button
+									onClick={(e) => this.handleCreateCompanyData(e)}>
+									Continue
+								</button>
 							</div>
-							<div className='register-field'>
-								<label>Business Stablishment Location:</label>
-								<input
-									type='text'
-									placeholder='Input Street'
-									onChange={(e) => this.handleChange(e, "comp_street")}
-								/>
-								<select
-									defaultValue=''
-									onChange={(e) => this.handleChange(e, "comp_zone")}>
-									<option disabled='disabled' hidden='hidden' value=''>
-										Select Zone
-									</option>
-									<option value='Zone 1'>Zone 1</option>
-									<option value='Zone 2'>Zone 2</option>
-									<option value='Zone 3'>Zone 3</option>
-									<option value='Zone 4'>Zone 4</option>
-									<option value='Zone 5'>Zone 5</option>
-									<option value='Zone 6'>Zone 6</option>
-								</select>
-								<select
-									defaultValue=''
-									onChange={(e) =>
-										this.handleChange(e, "comp_barangay")
-									}>
-									<option disabled='disabled' hidden='hidden' value=''>
-										Select Barangay
-									</option>
-									{barangayResources}
-								</select>
-							</div>
-							<div className='register-field'>
-								<label>Contact Number:</label>
-								<input
-									type='number'
-									placeholder='Enter Contact Number'
-									onChange={(e) =>
-										this.handleChange(e, "comp_contactNumber")
-									}
-								/>
-							</div>
-							<div className='register-field'>
-								<label>Business Stablishment Description:</label>
-								<textarea
-									placeholder='Describe what your business does..'
-									onChange={(e) =>
-										this.handleChange(e, "comp_description")
-									}
-									rows='5'
-								/>
-							</div>
-							<div className='register-field'>
-								<label>Stablishment Photo:</label>
-								<input type='file' onChange={this.handleFileChange} />
-							</div>
-							<button onClick={(e) => this.handleCreateCompanyData(e)}>
-								Continue
-							</button>
 						</form>
 					</div>
 				) : (
 					""
 				)}
-
 				<EmpGap />
 				<EmpNavbar
 					isSidebarOpen={this.props.isSidebarOpen}
@@ -407,8 +529,8 @@ export class Emp_Dashboard extends Component {
 					getJobApplicantsByCompany={this.props.getJobApplicantsByCompany}
 					panel='Dashboard'
 					darkTheme={this.props.darkTheme}
+					setApplicants={this.props.setApplicants}
 				/>
-
 				<div className='dashboard-welcome-container'>
 					<div className='dashboard-welcome-text'>
 						<h3>{`${greetings} ${currentUser.First_Name} ${currentUser.Last_Name}, Welcome to the Dashboard!`}</h3>
@@ -441,13 +563,12 @@ export class Emp_Dashboard extends Component {
 						</div>
 					</div>
 				</div>
-
 				<div className='dashboard-update-container'>
 					<h3>Daily Updates</h3>
 					<div className='dashboard-update-card-container'>
 						<div className='dashboard-update-card'>
 							<div className='dashboard-update-card-content'>
-								<h5>Available Applicants</h5>
+								<h5>Available Job Seekers</h5>
 								<h1>{numAvailableApplicants}</h1>
 								<p>
 									as of{" "}

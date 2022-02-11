@@ -1451,7 +1451,7 @@ class AdminResources {
 		}
 
 		if (currentDay < day) {
-			elapsedDay += 30; // problem -----
+			elapsedDay += lastDay; // problem -----
 			elapsedMonth -= 1;
 		}
 

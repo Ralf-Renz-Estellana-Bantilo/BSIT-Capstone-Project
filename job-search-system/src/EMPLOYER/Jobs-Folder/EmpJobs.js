@@ -50,7 +50,6 @@ export class Emp_Jobs extends Component {
 
 	render() {
 		const { currentUser, companyJobPost, company } = this.props;
-
 		const { targetJobPost } = this.state;
 
 		return (
@@ -113,7 +112,9 @@ export class Emp_Jobs extends Component {
 									deleteEmployerPost={this.props.deleteEmployerPost}
 									darkTheme={this.props.darkTheme}
 									toggle={this.props.toggle}
+									company={company}
 									setTargetJobPost={this.props.setTargetJobPost}
+									numApplicants={this.props.numApplicants}
 									toggleUpdateModal={this.toggleUpdateModal}
 									locatePost={this.locatePost}
 									isUpdateModalOpen={this.state.isUpdateModalOpen}

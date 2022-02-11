@@ -13,7 +13,7 @@ button {
 	border: none;
 	font-size: 13px;
 	font-weight: 500;
-	border-radius: 10px;
+	border-radius: 5px;
 	margin-bottom: 10px;
 }
 
@@ -28,7 +28,7 @@ button {
 	outline: none;
 	border: none;
 	margin-bottom: 10px;
-	border-radius: 10px;
+	border-radius: 5px;
 	padding: 5px 10px;
 	font-size: 12px;
 	font-weight: 500;

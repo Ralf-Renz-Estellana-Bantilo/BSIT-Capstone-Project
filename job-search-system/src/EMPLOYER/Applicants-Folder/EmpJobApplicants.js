@@ -116,10 +116,6 @@ export class Emp_Job_Applicants extends Component {
 			this.state;
 
 		let countApplicants = 0;
-		// let hiredApplicants = [];
-		// hiredApplicants = jobApplicants.filter(
-		// 	(jobApplicant) => jobApplicant.Candidate_Status === "Hired"
-		// );
 
 		return (
 			<>
@@ -172,9 +168,10 @@ export class Emp_Job_Applicants extends Component {
 								}}>
 								<h3>{`${info.Job_Title}`}</h3>
 								<p>
-									Req: <strong>{info.Required_Employees}</strong> |
-									Hired: <strong>{countHired}</strong> | Applied:{" "}
-									<strong>{countApplicants}</strong>
+									Vac. Count:{" "}
+									<strong>{info.Required_Employees}</strong> • Applied:{" "}
+									<strong>{countApplicants}</strong> • Hired:{" "}
+									<strong>{countHired}</strong>
 								</p>
 							</div>
 							<div className='job-post-content-right-container'>
@@ -207,10 +204,10 @@ export class Emp_Job_Applicants extends Component {
 						{jobApplicants.map((applicant) => {
 							let homeAddress = "";
 							if (applicant.JobID === info.JobID) {
-								homeAddress =
-									applicant.Home_Address.split(", ")[
-										applicant.Home_Address.split(", ").length - 1
-									];
+								// homeAddress =
+								// 	applicant.Home_Address.split(", ")[
+								// 		applicant.Home_Address.split(", ").length - 1
+								// 	];
 
 								return (
 									<div
@@ -219,6 +216,7 @@ export class Emp_Job_Applicants extends Component {
 												? "applicant-info-container-new"
 												: "applicant-info-container"
 										}
+										style={darkTheme ? {} : { borderBottom: "none" }}
 										key={applicant.id}>
 										<div className='applicant-info'>
 											<div
@@ -270,7 +268,7 @@ export class Emp_Job_Applicants extends Component {
 												<div className='applicant-name'>
 													<h3>{`${applicant.Last_Name}, ${applicant.First_Name}`}</h3>
 													<p>
-														{homeAddress} |{" "}
+														{applicant.Home_Address} •{" "}
 														{Resources.getCurrentAge(
 															applicant.B_Month,
 															applicant.B_Day,

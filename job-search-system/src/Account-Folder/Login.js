@@ -97,7 +97,7 @@ export class Login extends Component {
 
 		this.props.showWelcomWindowOn();
 
-		localStorage.setItem("darkTheme", false);
+		localStorage.setItem("darkTheme", true);
 	};
 
 	setNotLoggedin = () => {
@@ -124,6 +124,8 @@ export class Login extends Component {
 				role: "Job Seeker",
 			});
 		}
+
+		// this.props.onClosePostForm();
 	};
 
 	render() {

@@ -47,12 +47,18 @@ export class Post extends Component {
 	};
 
 	render() {
-		const { info, darkTheme, numApplicants } = this.props;
+		const { info, darkTheme, numApplicants, acronym } = this.props;
 
 		let filteredCandidate = [];
+		let filteredHiredCandidate = [];
 
 		filteredCandidate = numApplicants.filter(
 			(numApplicant) => numApplicant.JobID === info.JobID
+		);
+		filteredHiredCandidate = numApplicants.filter(
+			(numApplicant) =>
+				numApplicant.JobID === info.JobID &&
+				numApplicant.Candidate_Status === "Hired"
 		);
 
 		let address =
@@ -60,21 +66,38 @@ export class Post extends Component {
 				info.Company_Address.split(", ").length - 1
 			];
 
-		let finalSalary = "";
-		let jobSalary = info.Salary;
-		for (let a = 1; a <= jobSalary.length; a++) {
+		let finalMinSalary = "";
+		let finalMaxSalary = "";
+		let jobMinSalary = info.Minimum_Salary;
+		let jobMaxSalary = info.Maximum_Salary;
+		for (let a = 1; a <= jobMinSalary.length; a++) {
 			if (
-				jobSalary.length - a === 3 ||
-				jobSalary.length - a === 6 ||
-				jobSalary.length - a === 9 ||
-				jobSalary.length - a === 12 ||
-				jobSalary.length - a === 15 ||
-				jobSalary.length - a === 18 ||
-				jobSalary.length - a === 21
+				jobMinSalary.length - a === 3 ||
+				jobMinSalary.length - a === 6 ||
+				jobMinSalary.length - a === 9 ||
+				jobMinSalary.length - a === 12 ||
+				jobMinSalary.length - a === 15 ||
+				jobMinSalary.length - a === 18 ||
+				jobMinSalary.length - a === 21
 			) {
-				finalSalary += jobSalary[a - 1] + ",";
+				finalMinSalary += jobMinSalary[a - 1] + ",";
 			} else {
-				finalSalary += jobSalary[a - 1];
+				finalMinSalary += jobMinSalary[a - 1];
+			}
+		}
+		for (let a = 1; a <= jobMaxSalary.length; a++) {
+			if (
+				jobMaxSalary.length - a === 3 ||
+				jobMaxSalary.length - a === 6 ||
+				jobMaxSalary.length - a === 9 ||
+				jobMaxSalary.length - a === 12 ||
+				jobMaxSalary.length - a === 15 ||
+				jobMaxSalary.length - a === 18 ||
+				jobMaxSalary.length - a === 21
+			) {
+				finalMaxSalary += jobMaxSalary[a - 1] + ",";
+			} else {
+				finalMaxSalary += jobMaxSalary[a - 1];
 			}
 		}
 
@@ -88,7 +111,9 @@ export class Post extends Component {
 								onClick={() => {
 									this.props.setCompanyID(info.CompanyID);
 								}}>
-								<div className='account-profile'>
+								<div
+									className='account-profile'
+									title='View Establishment Details'>
 									<img
 										src={`../assets/${info.Company_Image}`}
 										alt='Stablishment'
@@ -97,7 +122,14 @@ export class Post extends Component {
 							</Link>
 
 							<div className='basic-info'>
-								<h2>{info.Company_Name}</h2>
+								{acronym !== "(n/a)" ? (
+									<h2 title={info.Company_Name}>
+										{acronym} <span>(shortened)</span>
+										{/* {acronym} <span>(acronym/abbreviation)</span> */}
+									</h2>
+								) : (
+									<h2>{info.Company_Name}</h2>
+								)}
 
 								<div className='date-address'>
 									<p title={`${info.Month}/${info.Day}/${info.Year}`}>
@@ -119,7 +151,9 @@ export class Post extends Component {
 													: { filter: "brightness(0.3)" }
 											}
 										/>
-										<p title={`${info.Company_Address}`}>{address}</p>
+										<p title={`${info.Company_Address}`}>
+											{address}, Catarman
+										</p>
 									</div>
 								</div>
 							</div>
@@ -162,27 +196,44 @@ export class Post extends Component {
 							<div className='post-detail-container'>
 								<div className='post-detail-group1'>
 									<div className='post-detail'>
-										<p>Salary:</p>
-										<h4>₱ {finalSalary}</h4>
+										<p>Salary Range:</p>
+										<h4>
+											₱ {finalMinSalary} - ₱ {finalMaxSalary}
+										</h4>
 									</div>
 									<div className='post-detail'>
-										<p>Job Type:</p>
+										<p>Nature of Work:</p>
 										<h4>{info.Job_Type}</h4>
 									</div>
 									<div className='post-detail'>
-										<p>Preferred Sex:</p>
+										<p>Preferred Gender:</p>
 										<h4>{info.Preferred_Sex}</h4>
+									</div>
+									<div className='post-detail'>
+										<p>Civil Status:</p>
+										<h4>{info.Civil_Status}</h4>
 									</div>
 								</div>
 
 								<div className='post-detail-group2'>
 									<div className='post-detail'>
-										<p>Required Employees:</p>
+										<p>Vacancy Count:</p>
 										<h4>{info.Required_Employees}</h4>
 									</div>
 									<div className='post-detail'>
-										<p>Applied Applicants:</p>
-										<h4>{filteredCandidate.length}</h4>
+										<p>Applied | Hired:</p>
+										<h4>
+											{filteredCandidate.length} •{" "}
+											{filteredHiredCandidate.length}
+										</h4>
+									</div>
+									<div className='post-detail'>
+										<p>Place of Work:</p>
+										<h4>
+											{info.Work_Place === info.Company_Address
+												? "Company Location"
+												: info.Work_Place}
+										</h4>
 									</div>
 									<div className='post-detail'>
 										<p>Job Vacancy Status:</p>
@@ -201,6 +252,7 @@ export class Post extends Component {
 								</div>
 							</div>
 						</div>
+
 						<PostContent info={info} showMore={this.state.showMore} />
 
 						<div className='post-btn'>

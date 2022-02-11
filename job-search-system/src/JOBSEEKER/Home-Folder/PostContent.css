@@ -47,13 +47,13 @@
 	display: flex;
 	border-bottom: 1px solid var(--border1);
 	align-items: center;
+	column-gap: 5px;
 }
 
 .post-detail p {
 	font-size: 12px;
 	flex: 2;
 	text-align: right;
-	margin-right: 5px;
 	color: var(--accent1);
 }
 

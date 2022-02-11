@@ -72,7 +72,7 @@
 	background-color: var(--border1);
 	color: var(--accent1);
 	border: none;
-	border-bottom: 1px solid grey;
+	border-bottom: 1px solid var(--border1);
 	margin: 0 1px;
 	font-size: 15px;
 	padding: 3px 0;

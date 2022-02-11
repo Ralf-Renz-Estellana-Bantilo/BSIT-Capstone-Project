@@ -59,6 +59,7 @@ export class Emp_BusinessProfile extends Component {
 	render() {
 		const { currentUser, darkTheme, employerFeedback } = this.props;
 		const { messagedApplicants } = this.state;
+
 		return (
 			<div>
 				<EmpGap />
@@ -82,6 +83,8 @@ export class Emp_BusinessProfile extends Component {
 					currentUser={currentUser}
 					darkTheme={this.props.darkTheme}
 					updateCompanyProfile={this.props.updateCompanyProfile}
+					toggleIndication={this.props.toggleIndication}
+					isIndicationOpen={this.props.isIndicationOpen}
 				/>
 
 				<div className='applied-jobs-container'>

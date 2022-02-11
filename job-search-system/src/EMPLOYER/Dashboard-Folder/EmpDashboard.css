@@ -80,7 +80,7 @@
 	display: flex;
 	flex-direction: column;
 	background-color: var(--dark-primary);
-	border-radius: 10px;
+	border-radius: 5px;
 	border-bottom: 1px solid var(--border1);
 	width: 70%;
 	margin: 0 auto;
@@ -157,10 +157,11 @@
 	background-color: var(--dark-primary);
 	padding: 10px;
 	z-index: 1000;
-	border-radius: 10px;
+	border-radius: 5px;
 	box-shadow: 2px 2px 5px black;
-	border: 1px solid var(--accent2);
+	border: 1px solid var(--border1);
 	width: 85%;
+	height: 90vh;
 }
 
 .register-form h3 {
@@ -200,26 +201,50 @@
 	color: var(--accent-main);
 }
 
+.register-fields {
+	display: flex;
+	flex-direction: column;
+	height: 81vh;
+	overflow-y: scroll;
+}
+
 .register-field {
 	display: flex;
 	flex-direction: column;
 	margin-bottom: 5px;
 }
 
+.register-field .acronym-container {
+	display: flex;
+	align-items: center;
+}
+
+.register-field .acronym-container input {
+	flex: 1;
+}
+
+.register-field .acronym-container .acronym {
+	margin-left: 10px;
+}
+
+.register-field .acronym-container .acronym label {
+	font-size: 13px;
+	color: var(--accent1);
+}
+
 .register-field label {
-	font-size: 15px;
+	font-size: 13px;
 	color: var(--accent1);
 }
 
 .register-field input,
 .register-field select,
 .register-field textarea {
-	font-size: 15px;
-	padding: 3px;
+	font-size: 13px;
 	outline: none;
-	padding: 5px 10px;
+	font-weight: 600;
+	padding: 5px 5px;
 	border-radius: 5px;
-	font-weight: 500;
 	text-align: center;
 	color: black;
 	background-color: white;

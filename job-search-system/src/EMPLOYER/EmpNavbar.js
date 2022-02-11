@@ -32,6 +32,14 @@ export class Emp_Navbar extends Component {
 		localStorage.clear();
 	};
 
+	handleDashboard = async () => {
+		await axios
+			.get("http://localhost:2000/api/read-applicant-data")
+			.then((response) => {
+				this.props.setApplicants(response.data);
+			});
+	};
+
 	handleApplicant = async () => {
 		const companySession = sessionStorage.getItem("CompanyID");
 
@@ -158,6 +166,7 @@ export class Emp_Navbar extends Component {
 								? { display: "" }
 								: { display: "none" }
 						}
+						onClick={this.toggleSidebar}
 					/>
 					<div
 						className='sidebar-container'
@@ -182,7 +191,8 @@ export class Emp_Navbar extends Component {
 								panel === "Dashboard"
 									? "category-panel-container-active"
 									: "category-panel-container"
-							}>
+							}
+							onClick={this.handleDashboard}>
 							<Link to='/employer/dashboard'>
 								<div className='category-icon'>
 									<img
@@ -314,5 +324,11 @@ export class Emp_Navbar extends Component {
 		);
 	}
 }
+
+Emp_Navbar.defaultProps = {
+	setApplicants: function () {
+		// console.log("Function");
+	},
+};
 
 export default withRouter(Emp_Navbar);

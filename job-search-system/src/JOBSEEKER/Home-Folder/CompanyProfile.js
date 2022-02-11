@@ -7,12 +7,8 @@ import axios from "axios";
 
 export class CompanyProfile extends Component {
 	state = {
-		imageURL: "",
-		employerName: "",
-		companyName: "",
-		contactNumber: "",
+		company: [],
 		companyAddress: "",
-		description: "",
 	};
 
 	filterObject = async () => {
@@ -20,14 +16,10 @@ export class CompanyProfile extends Component {
 			.post("http://localhost:2000/api/read-company-details", {
 				companyID: this.props.targetCompany,
 			})
-			.then(async (response) => {
+			.then((response) => {
 				if (response.data.length === 1) {
-					await this.setState({
-						imageURL: response.data[0].Company_Image,
-						employerName: response.data[0].Employer_Name,
-						companyName: response.data[0].Company_Name,
-						contactNumber: response.data[0].Contact_Number,
-						description: response.data[0].Company_Description,
+					this.setState({
+						company: response.data[0],
 						companyAddress: `${response.data[0].Street}, ${response.data[0].Zone}, ${response.data[0].Barangay}`,
 					});
 				} else {
@@ -47,14 +39,7 @@ export class CompanyProfile extends Component {
 	}
 
 	render() {
-		const {
-			imageURL,
-			employerName,
-			companyName,
-			contactNumber,
-			description,
-			companyAddress,
-		} = this.state;
+		const { company, companyAddress } = this.state;
 		const { darkTheme } = this.props;
 		return (
 			<div className='company-profile-container'>
@@ -79,11 +64,11 @@ export class CompanyProfile extends Component {
 					<div className='company-header'>
 						<div className='company-logo'>
 							<img
-								src={`../../assets/${imageURL}`}
+								src={`../../assets/${company.Company_Image}`}
 								alt='Company Photo'
 							/>
 						</div>
-						<h3>{companyName}</h3>
+						<h3>{company.Company_Name}</h3>
 					</div>
 
 					<div className='company-details'>
@@ -92,7 +77,7 @@ export class CompanyProfile extends Component {
 								<h4>Employer:</h4>
 							</div>
 							<div className='detail-right'>
-								<p>{employerName}</p>
+								<p>{company.Employer_Name}</p>
 							</div>
 						</div>
 						<div className='details-container'>
@@ -100,7 +85,31 @@ export class CompanyProfile extends Component {
 								<h4>Company Address:</h4>
 							</div>
 							<div className='detail-right'>
-								<p>{companyAddress}</p>
+								<p>{companyAddress}, Catarman, N. Samar</p>
+							</div>
+						</div>
+						<div className='details-container'>
+							<div className='detail-left'>
+								<h4>Acronym/Abbreviation:</h4>
+							</div>
+							<div className='detail-right'>
+								<p>{company.Company_Acronym}</p>
+							</div>
+						</div>
+						<div className='details-container'>
+							<div className='detail-left'>
+								<h4>Employer Type:</h4>
+							</div>
+							<div className='detail-right'>
+								<p>{company.Employer_Type}</p>
+							</div>
+						</div>
+						<div className='details-container'>
+							<div className='detail-left'>
+								<h4>Total Work Force:</h4>
+							</div>
+							<div className='detail-right'>
+								<p>{company.Work_Force}</p>
 							</div>
 						</div>
 						<div className='details-container'>
@@ -108,15 +117,25 @@ export class CompanyProfile extends Component {
 								<h4>Contact Number:</h4>
 							</div>
 							<div className='detail-right'>
-								<p>{contactNumber}</p>
+								<p>{company.Contact_Number}</p>
+							</div>
+						</div>
+						<div className='details-container'>
+							<div className='detail-left'>
+								<h4>Email Address:</h4>
+							</div>
+							<div className='detail-right'>
+								<p>{company.Email_Address}</p>
 							</div>
 						</div>
 						<div className='details-container'>
 							<div className='detail-left'>
 								<h4>Business Description:</h4>
 							</div>
-							<div className='detail-right'>
-								<p>{description}</p>
+							<div
+								className='detail-right'
+								style={{ textAlign: "justify" }}>
+								<p>{company.Company_Description}</p>
 							</div>
 						</div>
 					</div>

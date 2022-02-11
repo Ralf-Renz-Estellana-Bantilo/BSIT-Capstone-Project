@@ -33,8 +33,11 @@ export const createJobPost = (req, res) => {
 	const companyAddress = req.body.companyAddress;
 	const jobTitle = req.body.jobTitle;
 	const category = req.body.category;
+	const placeOfWork = req.body.placeOfWork;
 	const reqNoEmp = req.body.reqNoEmp;
-	const salary = req.body.salary;
+	const minSalary = req.body.minSalary;
+	const maxSalary = req.body.maxSalary;
+	const civilStatus = req.body.civilStatus;
 	const jobType = req.body.jobType;
 	const prefSex = req.body.prefSex;
 	const qualifications = req.body.qualifications;
@@ -42,10 +45,14 @@ export const createJobPost = (req, res) => {
 	const description = req.body.description;
 	const employerName = req.body.employerName;
 	const companyImage = req.body.companyImage;
+	const contactPersonName = req.body.contactPersonName;
+	const contactPersonPosition = req.body.contactPersonPosition;
+	const contactPersonNumber = req.body.contactPersonNumber;
+	const contactPersonEmail = req.body.contactPersonEmail;
 	const status = req.body.status;
 
 	db.query(
-		"INSERT INTO job_posts (JobID, CompanyID, Company_Name, Minutes, Hour, Day, Month, Year, Date_Posted, Company_Address, Job_Title, Category, Required_Employees, Salary, Job_Type, Preferred_Sex,Active_Status, Job_Qualifications, Job_Requirements, Job_Description, Employer_Name, Company_Image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+		"INSERT INTO job_posts (JobID, CompanyID, Company_Name, Minutes, Hour, Day, Month, Year, Date_Posted, Company_Address, Job_Title, Category, Work_Place, Required_Employees, Minimum_Salary, Maximum_Salary, Civil_Status, Job_Type, Preferred_Sex, Active_Status, Job_Qualifications, Job_Requirements, Job_Description, Employer_Name, Company_Image, Contact_Person_Name, Contact_Person_Position, Contact_Person_Number,Contact_Person_Email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 		[
 			jobID,
 			companyID,
@@ -59,8 +66,11 @@ export const createJobPost = (req, res) => {
 			companyAddress,
 			jobTitle,
 			category,
+			placeOfWork,
 			reqNoEmp,
-			salary,
+			minSalary,
+			maxSalary,
+			civilStatus,
 			jobType,
 			prefSex,
 			status,
@@ -69,6 +79,10 @@ export const createJobPost = (req, res) => {
 			description,
 			employerName,
 			companyImage,
+			contactPersonName,
+			contactPersonPosition,
+			contactPersonNumber,
+			contactPersonEmail,
 		],
 		(err, result) => {
 			if (err) {
@@ -150,25 +164,39 @@ export const updateJobPost = (req, res) => {
 	const jobTitle = req.body.jobTitle;
 	const category = req.body.category;
 	const reqNoEmp = req.body.reqNoEmp;
-	const salary = req.body.salary;
+	const minSalary = req.body.minSalary;
+	const maxSalary = req.body.maxSalary;
+	const civilStatus = req.body.civilStatus;
+	const placeOfWork = req.body.placeOfWork;
 	const jobType = req.body.jobType;
 	const prefSex = req.body.prefSex;
 	const qualifications = req.body.qualifications;
 	const requirements = req.body.requirements;
 	const description = req.body.description;
+	const contactPersonName = req.body.contactPersonName;
+	const contactPersonPosition = req.body.contactPersonPosition;
+	const contactPersonNumber = req.body.contactPersonNumber;
+	const contactPersonEmail = req.body.contactPersonEmail;
 
 	db.query(
-		"UPDATE job_posts SET Job_Title=?, Category=?, Required_Employees=?, Salary=?, Job_Type=?, Preferred_Sex=?, Job_Qualifications=?, Job_Requirements=?, Job_Description=? WHERE JobID=?",
+		"UPDATE job_posts SET Job_Title=?, Category=?, Required_Employees=?, Minimum_Salary=?, Maximum_Salary=?, Civil_Status=?, Work_Place=?, Job_Type=?, Preferred_Sex=?, Job_Qualifications=?, Job_Requirements=?, Job_Description=?, Contact_Person_Name=?, Contact_Person_Position=?, Contact_Person_Number=?, Contact_Person_Email=? WHERE JobID=?",
 		[
 			jobTitle,
 			category,
 			reqNoEmp,
-			salary,
+			minSalary,
+			maxSalary,
+			civilStatus,
+			placeOfWork,
 			jobType,
 			prefSex,
 			qualifications,
 			requirements,
 			description,
+			contactPersonName,
+			contactPersonPosition,
+			contactPersonNumber,
+			contactPersonEmail,
 			jobID,
 		],
 		(err, result) => {

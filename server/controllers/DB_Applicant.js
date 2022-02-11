@@ -25,9 +25,12 @@ export const createApplicantData = (req, res) => {
 	const civilStatus = req.body.civilStatus;
 	const educationalAttainment = req.body.educationalAttainment;
 	const hiringStatus = req.body.hiringStatus;
+	const day = new Date().getDate();
+	const month = new Date().getMonth() + 1;
+	const year = new Date().getFullYear();
 
 	db.query(
-		"INSERT INTO applicant (UserID, ApplicantID, First_Name, Middle_Name, Last_Name, Role, Sex, Home_Address, User_Image, Email_Address, Contact_Number, B_Month, B_Day, B_Year, Civil_Status, Educ_Attainment, Hiring_Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+		"INSERT INTO applicant (UserID, ApplicantID, First_Name, Middle_Name, Last_Name, Role, Sex, Home_Address, User_Image, Email_Address, Contact_Number, B_Month, B_Day, B_Year, Civil_Status, Educ_Attainment, Hiring_Status, Reg_Day, Reg_Month, Reg_Year) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 		[
 			userID,
 			applicantID,
@@ -46,6 +49,9 @@ export const createApplicantData = (req, res) => {
 			civilStatus,
 			educationalAttainment,
 			hiringStatus,
+			day,
+			month,
+			year,
 		],
 		(err, result) => {
 			if (err) {
@@ -120,13 +126,18 @@ export const updateJobProfile = (req, res) => {
 	const educationalAttainment = req.body.educationalAttainment;
 	const preferredJob = req.body.preferredJob;
 	const preferredCategory = req.body.preferredCategory;
-	const preferredSalary = req.body.preferredSalary;
+	const preferredSalaryMin = req.body.preferredSalaryMin;
+	const preferredSalaryMax = req.body.preferredSalaryMax;
 	const interest = req.body.interest;
 	const goodAt = req.body.goodAt;
 	const credentials = req.body.credentials;
+	const disability = req.body.disability;
+	const employmentStatus = req.body.employmentStatus;
+	const employmentType = req.body.employmentType;
+	const resume = req.body.resume;
 
 	db.query(
-		"UPDATE applicant SET First_Name=?, Middle_Name=?, Last_Name=?, Email_Address=?, B_Month=?, B_Day=?, B_Year=?, Sex=?, Contact_Number=?,Home_Address=?, Civil_Status=?, Educ_Attainment=?, Preferred_Job=?, Preferred_Category=?, Preferred_Salary=?, Interested_In=?, Good_At=?, Credentials=? WHERE UserID=?",
+		"UPDATE applicant SET First_Name=?, Middle_Name=?, Last_Name=?, Email_Address=?, B_Month=?, B_Day=?, B_Year=?, Sex=?, Contact_Number=?,Home_Address=?, Civil_Status=?, Educ_Attainment=?, Preferred_Job=?, Preferred_Category=?, Minimum_Salary=?, Maximum_Salary=?, My_Resume=?, Interested_In=?, Good_At=?, Credentials=?, Disability=?, Employment_Status=?, Employment_Type=? WHERE UserID=?",
 		[
 			firstName,
 			middleName,
@@ -142,10 +153,15 @@ export const updateJobProfile = (req, res) => {
 			educationalAttainment,
 			preferredJob,
 			preferredCategory,
-			preferredSalary,
+			preferredSalaryMin,
+			preferredSalaryMax,
+			resume,
 			interest,
 			goodAt,
 			credentials,
+			disability,
+			employmentStatus,
+			employmentType,
 			userID,
 		],
 		(err, result) => {

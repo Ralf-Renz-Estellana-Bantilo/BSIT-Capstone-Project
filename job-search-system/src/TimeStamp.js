@@ -4,6 +4,7 @@ export class TimeStamp {
 	constructor() {
 		this.time = "";
 	}
+
 	setTimeStamp = (min, hour, day, month, year) => {
 		const lastDayOfTheMonth = Resources.getLastDayOfTheMonth();
 		let lastDay = 0;
@@ -63,31 +64,31 @@ export class TimeStamp {
 		}
 
 		if (elapsedYear !== 0) {
-			if (elapsedYear === 1) {
-				return (time = elapsedYear + " yr ago");
-			}
-			return (time = elapsedYear + " yrs ago");
+			// if (elapsedYear === 1) {
+			// 	return (time = elapsedYear + "y ago");
+			// }
+			return (time = elapsedYear + "y ago");
 		} else if (elapsedMonth !== 0) {
-			if (elapsedMonth === 1) {
-				return (time = elapsedMonth + " month ago");
-			}
-			return (time = elapsedMonth + " months ago");
+			// if (elapsedMonth === 1) {
+			// 	return (time = elapsedMonth + " month ago");
+			// }
+			return (time = elapsedMonth + "m ago");
 		} else if (elapsedDay !== 0) {
-			if (elapsedDay === 1) {
-				return (time = "Yesterday");
-				// return (time = elapsedDay + " day ago");
-			}
-			return (time = elapsedDay + " days ago");
+			// if (elapsedDay === 1) {
+			// 	// return (time = "Yesterday");
+			// 	return (time = elapsedDay + " day ago");
+			// }
+			return (time = elapsedDay + "d ago");
 		} else if (elapsedHour !== 0) {
-			if (elapsedHour === 1) {
-				return (time = elapsedHour + " hr ago");
-			}
-			return (time = elapsedHour + " hrs ago");
+			// if (elapsedHour === 1) {
+			// 	return (time = elapsedHour + " hr ago");
+			// }
+			return (time = elapsedHour + "h ago");
 		} else if (elapsedMinute !== 0) {
-			if (elapsedMinute === 1) {
-				return (time = elapsedMinute + " min ago");
-			}
-			return (time = elapsedMinute + " mins ago");
+			// if (elapsedMinute === 1) {
+			// 	return (time = elapsedMinute + " min ago");
+			// }
+			return (time = elapsedMinute + "m ago");
 		}
 
 		return time;

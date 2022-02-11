@@ -7,16 +7,10 @@ export class JobVacancyFormPart2 extends Component {
 	constructor() {
 		super();
 		this.state = {
-			file: ReactSilver,
 			isNotValid: true,
+			hasContactPerson: false,
 		};
 	}
-
-	handleFileChange = (event) => {
-		this.setState({
-			file: URL.createObjectURL(event.target.files[0]),
-		});
-	};
 
 	continue = (e) => {
 		const { values } = this.props;
@@ -50,11 +44,27 @@ export class JobVacancyFormPart2 extends Component {
 
 	componentDidMount() {
 		window.scrollTo(0, 0);
+
+		const { contactPersonName } = this.props.values;
+
+		if (contactPersonName) {
+			this.setState({
+				hasContactPerson: true,
+			});
+		}
 	}
 
 	render() {
-		window.scrollTo(0, 0);
-		const { handleChange, company } = this.props;
+		const { hasContactPerson } = this.state;
+		const {
+			contactPersonName,
+			contactPersonPosition,
+			contactPersonNumber,
+			contactPersonEmail,
+		} = this.props.values;
+
+		const { company, handleChange } = this.props;
+
 		return (
 			<div className='pd-text-fields'>
 				{this.state.isNotValid === false ? (
@@ -70,17 +80,17 @@ export class JobVacancyFormPart2 extends Component {
 				<form className='post-input-container'>
 					<h3>--- Employer Form ---</h3>
 					<div className='post-fields'>
-						<div className='post-field'>
-							<label>Employer's Name:</label>
-							<input
-								disabled='disabled'
-								type='text'
-								placeholder='Employer Name'
-								onChange={handleChange("employerName")}
-								defaultValue={company.Employer_Name}
-							/>
-						</div>
-						<div className='post-field-group-emp'>
+						<div className='post-field-wrapper'>
+							<div className='post-field'>
+								<label>Employer's Name:</label>
+								<input
+									disabled='disabled'
+									type='text'
+									placeholder='Employer Name'
+									onChange={handleChange("employerName")}
+									defaultValue={company.Employer_Name}
+								/>
+							</div>
 							<div className='post-field'>
 								<label>Stablishment Contact No.:</label>
 								<input
@@ -92,36 +102,106 @@ export class JobVacancyFormPart2 extends Component {
 								/>
 							</div>
 						</div>
-						{/* <div className='post-field-group-emp'>
+						<div className='post-field-wrapper'>
 							<div className='post-field'>
 								<label>Email Address:</label>
 								<input
 									disabled='disabled'
 									type='email'
 									placeholder='Email Address'
-									// onChange={handleChange("emailAddress")}
-									// defaultValue={company.Contact_Number}
+									onChange={handleChange("emailAddress")}
+									defaultValue={company.Email_Address}
 								/>
 							</div>
-						</div> */}
-						<div className='post-field'>
-							<label>Complete Business Location:</label>
-							<input
-								disabled='disabled'
-								type='text'
-								placeholder='Address: (street, barangay, municipality, province)'
-								onChange={handleChange("address")}
-								defaultValue={`${company.Street}, ${company.Zone}, ${company.Barangay}`}
-							/>
-						</div>
-						{/* <div className='post-field'>
-							<label>Stablishment Photo:</label>
-							<input type='file' onChange={this.handleFileChange} />
-							<div className='photo-panel'>
-								<img src={this.state.file} alt='Actual Stablishment' />
+							<div className='post-field'>
+								<label>Complete Establishment Location:</label>
+								<input
+									disabled='disabled'
+									type='text'
+									placeholder='Address: (street, barangay, municipality, province)'
+									onChange={handleChange("address")}
+									defaultValue={`${company.Street}, ${company.Zone}, ${company.Barangay}`}
+								/>
 							</div>
-						</div> */}
-
+						</div>
+						<h3>
+							---{" "}
+							<input
+								type='checkbox'
+								name='contactPerson'
+								checked={hasContactPerson ? "checked" : ""}
+								onChange={() =>
+									this.setState({
+										hasContactPerson: !hasContactPerson,
+									})
+								}
+							/>{" "}
+							Contact Person (if there's any) ---
+						</h3>
+						<div className='post-field-wrapper'>
+							<div className='post-field'>
+								<label>Contact Person (Full Name):</label>
+								<input
+									type='text'
+									placeholder='Full name'
+									disabled={hasContactPerson ? "" : "disabled"}
+									onChange={handleChange("contactPersonName")}
+									value={contactPersonName}
+									style={
+										hasContactPerson
+											? { opacity: "1" }
+											: { opacity: "0.8" }
+									}
+								/>
+							</div>
+							<div className='post-field'>
+								<label>Position:</label>
+								<input
+									type='text'
+									placeholder='Position'
+									disabled={hasContactPerson ? "" : "disabled"}
+									onChange={handleChange("contactPersonPosition")}
+									value={contactPersonPosition}
+									style={
+										hasContactPerson
+											? { opacity: "1" }
+											: { opacity: "0.8" }
+									}
+								/>
+							</div>
+						</div>
+						<div className='post-field-wrapper'>
+							<div className='post-field'>
+								<label>Contact Number:</label>
+								<input
+									type='text'
+									placeholder='Contact Number'
+									disabled={hasContactPerson ? "" : "disabled"}
+									onChange={handleChange("contactPersonNumber")}
+									value={contactPersonNumber}
+									style={
+										hasContactPerson
+											? { opacity: "1" }
+											: { opacity: "0.8" }
+									}
+								/>
+							</div>
+							<div className='post-field'>
+								<label>Email Address:</label>
+								<input
+									type='text'
+									placeholder='Email Address'
+									disabled={hasContactPerson ? "" : "disabled"}
+									onChange={handleChange("contactPersonEmail")}
+									value={contactPersonEmail}
+									style={
+										hasContactPerson
+											? { opacity: "1" }
+											: { opacity: "0.8" }
+									}
+								/>
+							</div>
+						</div>
 						<div className='post-field'>
 							<button className='next' onClick={this.continue}>
 								Next
@@ -130,7 +210,6 @@ export class JobVacancyFormPart2 extends Component {
 								Back
 							</button>
 						</div>
-
 						<div className='warning'>
 							<p>
 								Note: These data are based on your Business Information

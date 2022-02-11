@@ -1,0 +1,22 @@
+.confirm-text-fields .form-fields {
+	display: flex;
+	justify-content: space-between;
+	column-gap: 10px;
+}
+
+.confirm-text-fields .form-fields .form {
+	flex: 1;
+}
+
+.form-fields .form a {
+	text-decoration: underline;
+	color: var(--accent1);
+	font-size: 13px;
+	font-weight: 500;
+}
+
+@media only screen and (max-width: 800px) {
+	.confirm-text-fields .form-fields {
+		flex-direction: column;
+	}
+}

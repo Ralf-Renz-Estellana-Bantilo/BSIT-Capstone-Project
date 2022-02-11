@@ -64,9 +64,14 @@ export class WelcomeWindow extends Component {
 					.then(async (response) => {
 						await this.props.setEmployerFeedBack(response.data);
 					});
-			}
 
-			if (companySession) {
+				// Fetching Company Data
+				await axios
+					.get("http://localhost:2000/api/read-companies")
+					.then(async (response) => {
+						await this.props.setCompany(response.data);
+					});
+			} else if (companySession) {
 				// Fetching Job Applicant Data ------------
 				await axios
 					.post("http://localhost:2000/api/read-job-applicant", {

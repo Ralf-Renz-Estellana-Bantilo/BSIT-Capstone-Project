@@ -24,12 +24,14 @@ export class Success extends Component {
 	};
 
 	render() {
+		const { targetJobPost } = this.props;
 		return (
 			<>
-				{this.props.targetJobPost.JobID !== undefined ? (
+				{targetJobPost ? (
 					<Indication
 						type='primary'
-						text='Job Post Successfully Updated!'
+						text='Updating Job Post... Please wait...'
+						// text='Job Post Successfully Updated!'
 						method={this.update}
 						delay={3}
 						module='employer'
@@ -37,7 +39,7 @@ export class Success extends Component {
 				) : (
 					<Indication
 						type='primary'
-						text='Processing Job Post... Please wait...'
+						text='Posting Job Post... Please wait...'
 						method={this.toggleView}
 						delay={3}
 						module='employer'

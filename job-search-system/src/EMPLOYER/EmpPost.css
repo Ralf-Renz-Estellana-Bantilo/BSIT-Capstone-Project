@@ -1,7 +1,7 @@
 .post-container {
 	border-bottom: 1px solid var(--border1);
 	margin-top: 15px;
-	border-radius: 10px;
+	border-radius: 5px;
 	background-color: var(--nav-background);
 	width: 100%;
 }

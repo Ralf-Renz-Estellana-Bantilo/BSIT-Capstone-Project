@@ -77,7 +77,8 @@ export class SearchEngine extends Component {
 	render() {
 		const previousPage = localStorage.getItem("previousPage");
 		const activePage = localStorage.getItem("activePage");
-		const { infos, applicants, employerFeedback, darkTheme } = this.props;
+		const { infos, applicants, employerFeedback, darkTheme, company } =
+			this.props;
 		const applicantSession = sessionStorage.getItem("ApplicantID");
 		const companySession = sessionStorage.getItem("CompanyID");
 
@@ -183,6 +184,13 @@ export class SearchEngine extends Component {
 								})}
 								<p className='results'>{`Finding results for "${this.state.text}" | found ${count}`}</p>
 								{infos.map((info) => {
+									let acronym = "";
+									company.map((comp) => {
+										if (comp.CompanyID === info.CompanyID) {
+											acronym = comp.Company_Acronym;
+											return null;
+										}
+									});
 									if (
 										(`${info.Job_Title}`
 											.toLowerCase()
@@ -227,6 +235,7 @@ export class SearchEngine extends Component {
 												key={info.JobID}>
 												<Post
 													info={info}
+													acronym={acronym}
 													onDelete={this.deletePost}
 													toggleCompanyProfile={
 														this.toggleCompanyProfile

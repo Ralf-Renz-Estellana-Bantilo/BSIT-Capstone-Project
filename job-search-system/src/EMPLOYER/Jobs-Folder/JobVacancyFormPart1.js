@@ -13,15 +13,18 @@ export class JobVacancyFormPart1 extends Component {
 		const { values } = this.props;
 
 		if (
-			values.jobTitle !== undefined &&
-			values.jobCategory !== undefined &&
-			values.noReqEmp !== undefined &&
-			values.salary !== undefined &&
-			values.prefSex !== undefined &&
-			values.jobType !== undefined &&
-			values.jobQualification !== undefined &&
-			values.jobRequirement !== undefined &&
-			values.jobDescription !== undefined
+			values.jobTitle !== "" &&
+			values.jobCategory !== "" &&
+			values.placeOfWork !== "" &&
+			values.noReqEmp !== "" &&
+			values.minSalary !== "" &&
+			values.maxSalary !== "" &&
+			values.prefSex !== "" &&
+			values.civilStatus !== "" &&
+			values.jobType !== "" &&
+			values.jobQualification !== "" &&
+			values.jobRequirement !== "" &&
+			values.jobDescription !== ""
 		) {
 			this.closeIsNotValid();
 			this.props.nextStep();
@@ -47,7 +50,7 @@ export class JobVacancyFormPart1 extends Component {
 	}
 
 	render() {
-		const { values, handleChange } = this.props;
+		const { values, handleChange, isCurrentAddress } = this.props;
 
 		const categories = Resources.getCategories();
 		const jobTitles = Resources.getCategoriesWithDescription();
@@ -98,10 +101,6 @@ export class JobVacancyFormPart1 extends Component {
 					<div className='post-fields'>
 						<div className='post-field'>
 							<label>Job Title:</label>
-							{/* <input
-								placeholder='Job Title'
-								list='jobTitleList'
-							/> */}
 							<input
 								list='jobLists'
 								value={values.jobTitle}
@@ -116,69 +115,136 @@ export class JobVacancyFormPart1 extends Component {
 							<select
 								name='Job Category'
 								onChange={handleChange("jobCategory")}
-								value={values.jobCategory}>
+								defaultValue={values.jobCategory}>
 								<option disabled='disabled' hidden='hidden' value=''>
 									Select Job Category
 								</option>
 								{categoryResources}
 							</select>
 						</div>
+						<div className='post-field'>
+							<div className='place-of-work-container'>
+								<label>
+									Place of Work:{" "}
+									<div className='place-of-work-check'>
+										({" "}
+										<input
+											type='checkbox'
+											name='placeOfWork'
+											checked={
+												isCurrentAddress === true
+													? "checked"
+													: values.address === values.placeOfWork
+													? "checked"
+													: ""
+											}
+											onChange={this.props.handleChangePlaceOfWork}
+										/>
+										<label style={{ paddingLeft: "5px" }}>
+											Company Location
+										</label>{" "}
+										)
+									</div>
+								</label>
+							</div>
+							<input
+								type='text'
+								placeholder='Place of Work'
+								onChange={handleChange("placeOfWork")}
+								value={values.placeOfWork}
+							/>
+						</div>
 						<div className='post-field-group'>
 							<div className='post-field'>
-								<label>No. of Employees:</label>
+								<label>Vacancy Count:</label>
 								<input
 									type='number'
-									placeholder='No. of Employees'
+									placeholder='Vacancy Count'
 									onChange={handleChange("noReqEmp")}
 									value={values.noReqEmp}
 								/>
 							</div>
 							<div className='post-field'>
-								<label>Salary:</label>
-								<input
-									type='number'
-									placeholder='₱ ----'
-									onChange={handleChange("salary")}
-									value={values.salary}
-								/>
+								<label>Gender:</label>
+								<select
+									name='Preferred Sex'
+									onChange={handleChange("prefSex")}
+									defaultValue={values.prefSex}>
+									<option disabled='disabled' hidden='hidden' value=''>
+										Select Gender
+									</option>
+									<option value='Male'>Male</option>
+									<option value='Female'>Female</option>
+									<option value='Male/Female'>Male/Female</option>
+									<option value='Gay'>Gay</option>
+									<option value='Lesbian'>Lesbian</option>
+								</select>
 							</div>
 						</div>
 
 						<div className='post-field-group'>
 							<div className='post-field'>
-								<label>Preferred Sex:</label>
+								<label>Civil Status:</label>
 								<select
-									name='Preferred Sex'
-									onChange={handleChange("prefSex")}
-									value={values.prefSex}>
+									name='Civil Status'
+									onChange={handleChange("civilStatus")}
+									defaultValue={values.civilStatus}>
 									<option disabled='disabled' hidden='hidden' value=''>
-										Preferred Sex
+										Select Civil Status
 									</option>
-									<option value='Male'>Male</option>
-									<option value='Female'>Female</option>
-									<option value='Male/Female'>Male/Female</option>
+									<option value='Not Specified'>Not Specified</option>
+									<option value='Single'>Single</option>
+									<option value='Married'>Married</option>
+									<option value='Widowed'>Widowed</option>
+									<option value='Separated'>Separated</option>
+									<option value='Live-in'>Live-in</option>
 								</select>
 							</div>
 							<div className='post-field'>
-								<label>Job Type:</label>
+								<label>Nature of Work:</label>
 								<select
-									name='Job Type'
+									name='Nature of Work'
 									onChange={handleChange("jobType")}
-									value={values.jobType}>
+									defaultValue={values.jobType}>
 									<option disabled='disabled' hidden='hidden' value=''>
-										Select Job Type
+										Select Nature of Work
 									</option>
 									<option value='Full-time'>Full-time</option>
 									<option value='Part-time'>Part-time</option>
-									<option value='Contract'>Contract</option>
-									<option value='Urgent Hiring'>Urgent Hiring</option>
-									<option value='Temporary'>Temporary</option>
-									<option value='Seasonal'>Seasonal</option>
+									<option value='Contractual'>Contractual</option>
+									<option value='Project-based'>Project-based</option>
+									<option value='Work from home'>
+										Work from home
+									</option>
 									<option value='Freelance'>Freelance</option>
-									<option value='Intern'>Intern</option>
+									<option value='Internship/OJT'>
+										Internship/OJT
+									</option>
 								</select>
 							</div>
 						</div>
+
+						<div className='post-field-group'>
+							<div className='post-field'>
+								<label>Minimum Salary:</label>
+								<input
+									type='number'
+									placeholder='Minimum Salary'
+									onChange={handleChange("minSalary")}
+									value={values.minSalary}
+								/>
+							</div>
+							<div className='post-field'>
+								<label>Maximum Salary:</label>
+								<input
+									type='number'
+									placeholder='Maximum Salary'
+									onChange={handleChange("maxSalary")}
+									value={values.maxSalary}
+								/>
+							</div>
+						</div>
+
 						<div className='job-qualification'>
 							<h4>Job Qualifications</h4>
 							<textarea

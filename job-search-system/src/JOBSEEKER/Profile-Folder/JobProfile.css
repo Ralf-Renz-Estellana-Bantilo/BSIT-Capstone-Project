@@ -1,6 +1,6 @@
 .job-profile-container {
 	width: 100%;
-	border-radius: 10px;
+	border-radius: 5px;
 	border-bottom: 1px solid var(--border1);
 	margin: 20px auto 20px auto;
 	padding: 2px 10px;
@@ -54,7 +54,6 @@
 	border-bottom: 1px solid var(--border1);
 	box-shadow: 1px 1px 4px black;
 	background-color: white;
-	/* background-color: var(--dark-primary); */
 }
 
 .job-profile-container textarea {
@@ -111,7 +110,7 @@
 	flex-direction: column;
 	padding: 0 20px;
 	width: 95%;
-	border-radius: 10px;
+	border-radius: 5px;
 	border: 1px solid var(--border1);
 	margin: 10px auto;
 	background-color: var(--dark-secondary);
@@ -164,7 +163,7 @@
 
 .profession-info {
 	width: 95%;
-	border-radius: 10px;
+	border-radius: 5px;
 	border: 1px solid var(--border1);
 	margin: 10px auto;
 	padding: 2px 20px;
@@ -216,6 +215,22 @@
 	text-align: center;
 }
 
+.employment-type-field-container {
+	display: flex;
+	justify-content: space-between;
+	column-gap: 10px;
+}
+
+.employment-type-field-container input,
+.employment-type-field-container select {
+	width: 100%;
+}
+
+.employment-type-field-container .checkbox-fields .checkbox-field label {
+	font-weight: 600;
+	padding-left: 5px;
+}
+
 @media only screen and (max-width: 800px) {
 	.job-profile-container {
 		border-radius: 0;
@@ -227,7 +242,6 @@
 	.job-profile-container .basic-info .basic-info-field {
 		flex-direction: row;
 	}
-
 	.job-profile-container .basic-info .basic-info-field .field {
 		flex: 1;
 		padding: 0 5px;

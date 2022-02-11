@@ -343,8 +343,41 @@ const Emp_Job_Applicant_Data = ({
 						<p>{jobApplicantData.Contact_Number}</p>
 					</div>
 					<div className='form'>
+						<label>Birthday (mm/dd/yyyy)</label>
+						<p>
+							{jobApplicantData.B_Month < 10
+								? `0${jobApplicantData.B_Month}`
+								: jobApplicantData.B_Month}
+							-
+							{jobApplicantData.B_Day < 10
+								? `0${jobApplicantData.B_Day}`
+								: jobApplicantData.B_Day}
+							-{jobApplicantData.B_Year}
+						</p>
+					</div>
+					<div className='form'>
 						<label>Civil Status</label>
 						<p>{jobApplicantData.Civil_Status}</p>
+					</div>
+					<div className='form'>
+						<label>Disability</label>
+						<p>
+							{jobApplicantData.Disability === null
+								? "Disability Not Specified"
+								: jobApplicantData.Disability}
+						</p>
+					</div>
+					<div className='form'>
+						<label>Employment Status/Type</label>
+						<p>
+							{jobApplicantData.Employment_Status === null
+								? "Status Not Specified"
+								: jobApplicantData.Employment_Status}{" "}
+							|{" "}
+							{jobApplicantData.Employment_Type === null
+								? "Type Not Specified"
+								: jobApplicantData.Employment_Type}
+						</p>
 					</div>
 					<div className='form'>
 						<label>Educational Attainment</label>
@@ -353,7 +386,11 @@ const Emp_Job_Applicant_Data = ({
 					<div className='form'>
 						<label>Resume</label>
 						{!jobApplicantData.Resume ? (
-							<p className='resume-data'>n/a</p>
+							<p
+								className='resume-data'
+								style={{ textDecoration: "none" }}>
+								No attached file
+							</p>
 						) : (
 							<Link
 								to={`/pdf/${jobApplicantData.Resume}`}

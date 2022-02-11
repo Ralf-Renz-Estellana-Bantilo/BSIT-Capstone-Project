@@ -17,6 +17,7 @@ header {
 	display: flex;
 	justify-content: space-between;
 	margin: 0 auto;
+	height: 69px;
 }
 
 .header-left {

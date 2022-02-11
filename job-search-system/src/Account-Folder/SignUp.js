@@ -23,7 +23,6 @@ export class SignUp extends Component {
 		isModalOpen: false,
 		isValid: true,
 		isPasswordMatch: true,
-		isSignUp: false,
 	};
 
 	viewModal = (e) => {

@@ -10,9 +10,7 @@ import Indication from "../../Indication";
 export class EmpApplicant extends Component {
 	state = {
 		company: this.props.company,
-		infos: this.props.companyJobPost,
 		numberOfApplicants: 0,
-		jobApplicants: [],
 		scrollPosition: 0,
 		isSummaryOpen: false,
 		candidates: [],
@@ -98,7 +96,6 @@ export class EmpApplicant extends Component {
 					toggleSidebar={this.props.toggleSidebar}
 					currentUser={currentUser}
 					company={company}
-					setCurrentUser={this.props.setCurrentUser}
 					getJobApplicantsByCompany={this.props.getJobApplicantsByCompany}
 					panel='Applicants'
 					darkTheme={this.props.darkTheme}

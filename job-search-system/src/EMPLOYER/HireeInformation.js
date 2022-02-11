@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import LeftArrow from "../Images/LeftArrow.png";
 import Modal from "../JOBSEEKER/Home-Folder/Modal";
 import Resources from "../Resources";
+import "./HireeInformation.css";
 
 export class Hiree_Information extends Component {
 	state = {
@@ -80,6 +81,41 @@ export class Hiree_Information extends Component {
 			userType = "employer";
 		}
 
+		let finalMinSalary = "";
+		let finalMaxSalary = "";
+		let jobMinSalary = hiree.Minimum_Salary;
+		let jobMaxSalary = hiree.Maximum_Salary;
+		for (let a = 1; a <= jobMinSalary.length; a++) {
+			if (
+				jobMinSalary.length - a === 3 ||
+				jobMinSalary.length - a === 6 ||
+				jobMinSalary.length - a === 9 ||
+				jobMinSalary.length - a === 12 ||
+				jobMinSalary.length - a === 15 ||
+				jobMinSalary.length - a === 18 ||
+				jobMinSalary.length - a === 21
+			) {
+				finalMinSalary += jobMinSalary[a - 1] + ",";
+			} else {
+				finalMinSalary += jobMinSalary[a - 1];
+			}
+		}
+		for (let a = 1; a <= jobMaxSalary.length; a++) {
+			if (
+				jobMaxSalary.length - a === 3 ||
+				jobMaxSalary.length - a === 6 ||
+				jobMaxSalary.length - a === 9 ||
+				jobMaxSalary.length - a === 12 ||
+				jobMaxSalary.length - a === 15 ||
+				jobMaxSalary.length - a === 18 ||
+				jobMaxSalary.length - a === 21
+			) {
+				finalMaxSalary += jobMaxSalary[a - 1] + ",";
+			} else {
+				finalMaxSalary += jobMaxSalary[a - 1];
+			}
+		}
+
 		return (
 			<div className='hiree-info-container'>
 				{this.state.isModalOpen ? (
@@ -136,7 +172,7 @@ export class Hiree_Information extends Component {
 							hiree.B_Day,
 							hiree.B_Year
 						)}{" "}
-						| {hiree.Sex}
+						• {hiree.Sex}
 					</p>
 					{hiree.Hiring_Status === "Active" ? (
 						<p
@@ -167,37 +203,89 @@ export class Hiree_Information extends Component {
 				</div>
 
 				<div className='confirm-text-fields'>
-					<div className='form'>
-						<label>Preferred Job</label>
-						<p>{employerMessage.Job_Title}</p>
+					<div className='form-fields'>
+						<div className='form'>
+							<label>Preferred Job</label>
+							<p>{employerMessage.Job_Title}</p>
+						</div>
+						<div className='form'>
+							<label>Preferred Category</label>
+							<p>{hiree.Preferred_Category}</p>
+						</div>
 					</div>
-					<div className='form'>
-						<label>Preferred Category</label>
-						<p>{hiree.Preferred_Category}</p>
+					<div className='form-fields'>
+						<div className='form'>
+							<label>Preferred Salary</label>
+							<p>
+								₱ {finalMinSalary} - ₱ {finalMaxSalary}
+							</p>
+						</div>
+						<div className='form'>
+							<label>Home Address</label>
+							<p>{hiree.Home_Address}</p>
+						</div>
 					</div>
-					<div className='form'>
-						<label>Preferred Salary</label>
-						<p>{hiree.Preferred_Salary}</p>
+					<div className='form-fields'>
+						<div className='form'>
+							<label>Contact Number</label>
+							<p>{hiree.Contact_Number}</p>
+						</div>
+						<div className='form'>
+							<label>Email Address</label>
+							<p>{hiree.Email_Address}</p>
+						</div>
 					</div>
-					<div className='form'>
-						<label>Home Address</label>
-						<p>{hiree.Home_Address}</p>
+					<div className='form-fields'>
+						<div className='form'>
+							<label>Birthday (mm-dd-yyyy)</label>
+							<p>
+								{hiree.B_Month < 10
+									? `0${hiree.B_Month}`
+									: hiree.B_Month}
+								-{hiree.B_Day < 10 ? `0${hiree.B_Day}` : hiree.B_Day}-
+								{hiree.B_Year}
+							</p>
+						</div>
+						<div className='form'>
+							<label>Civil Status</label>
+							<p>{hiree.Civil_Status}</p>
+						</div>
 					</div>
-					<div className='form'>
-						<label>Contact Number</label>
-						<p>{hiree.Contact_Number}</p>
+					<div className='form-fields'>
+						<div className='form'>
+							<label>Disability</label>
+							<p>{hiree.Disability}</p>
+						</div>
+						<div className='form'>
+							<label>Employment Status/Type</label>
+							<p>
+								{hiree.Employment_Status} | {hiree.Employment_Type}
+							</p>
+						</div>
 					</div>
-					<div className='form'>
-						<label>Email Address</label>
-						<p>{hiree.Email_Address}</p>
-					</div>
-					<div className='form'>
-						<label>Civil Status</label>
-						<p>{hiree.Civil_Status}</p>
-					</div>
-					<div className='form'>
-						<label>Educational Attainment</label>
-						<p>{hiree.Educ_Attainment}</p>
+					<div className='form-fields'>
+						<div className='form'>
+							<label>Educational Attainment</label>
+							<p>{hiree.Educ_Attainment}</p>
+						</div>
+						<div className='form'>
+							<label>Resume</label>
+							{/* <p>
+								{hiree.My_Resume === null
+									? "No attached resume"
+									: hiree.My_Resume}
+							</p> */}
+							{!hiree.My_Resume ? (
+								<p className='resume-data'>No attached file</p>
+							) : (
+								<Link
+									to={`/pdf/${hiree.My_Resume}`}
+									target='_blank'
+									download>
+									{hiree.My_Resume}
+								</Link>
+							)}
+						</div>
 					</div>
 					<div className='form'>
 						<label>Interested In</label>

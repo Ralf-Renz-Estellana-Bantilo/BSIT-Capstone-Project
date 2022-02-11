@@ -60,6 +60,7 @@ export class App extends Component {
 
 			// Employer Portion
 			isSidebarOpen: false,
+			isIndicationOpen: false,
 			companyJobPost: [],
 			employerFeedback: [],
 			company: [],
@@ -70,7 +71,7 @@ export class App extends Component {
 			targetJobPost: null,
 
 			// system color theme
-			darkTheme: false,
+			darkTheme: true,
 		};
 	}
 
@@ -220,6 +221,15 @@ export class App extends Component {
 							employerFeedback: response.data,
 						});
 					});
+
+				// Fetching Company Data
+				await axios
+					.get("http://localhost:2000/api/read-companies")
+					.then((response) => {
+						this.setState({
+							company: response.data,
+						});
+					});
 			}
 
 			// Determine whether or not the applicant is applied or not
@@ -320,8 +330,11 @@ export class App extends Component {
 					companyAddress: post.Company_Address,
 					jobTitle: post.Job_Title,
 					category: post.Category,
+					placeOfWork: post.Work_Place,
 					reqNoEmp: post.Required_Employees,
-					salary: post.Salary,
+					minSalary: post.Minimum_Salary,
+					maxSalary: post.Maximum_Salary,
+					civilStatus: post.Civil_Status,
 					jobType: post.Job_Type,
 					prefSex: post.Preferred_Sex,
 					qualifications: post.Job_Qualifications,
@@ -329,6 +342,11 @@ export class App extends Component {
 					description: post.Job_Description,
 					employerName: post.Employer_Name,
 					companyImage: post.Company_Image,
+					emailAddress: post.Email_Address,
+					contactPersonName: post.Contact_Person_Name,
+					contactPersonPosition: post.Contact_Person_Position,
+					contactPersonNumber: post.Contact_Person_Number,
+					contactPersonEmail: post.Contact_Person_Email,
 					status: post.Active_Status,
 				})
 				.then(() => {
@@ -543,15 +561,15 @@ export class App extends Component {
 							middleName: Resources.formatName(user.Middle_Name),
 							lastName: Resources.formatName(user.Last_Name),
 							role: user.Role,
-							homeAddress: "",
+							homeAddress: null,
 							sex: user.Sex,
-							bMonth: "",
-							bDay: "",
-							bYear: "",
-							contactNumber: "",
-							email: "",
-							civilStatus: "",
-							educationalAttainment: "",
+							bMonth: null,
+							bDay: null,
+							bYear: null,
+							contactNumber: null,
+							email: null,
+							civilStatus: null,
+							educationalAttainment: null,
 							username: user.Username,
 							password: user.Password,
 							userImage: "DefaultUserMale.png",
@@ -585,15 +603,15 @@ export class App extends Component {
 					lastName: Resources.formatName(user.Last_Name),
 					role: user.Role,
 					sex: user.Sex,
-					homeAddress: "",
+					homeAddress: null,
 					userImage: "DefaultUserMale.png",
-					emailAddress: "",
-					contactNumber: "",
+					emailAddress: null,
+					contactNumber: null,
 					bMonth: null,
 					bDay: null,
 					bYear: null,
-					civilStatus: "",
-					educationalAttainment: "",
+					civilStatus: null,
+					educationalAttainment: null,
 					hiringStatus: "Inactive",
 				})
 				.then(() => {
@@ -611,19 +629,19 @@ export class App extends Component {
 						...userData.jobSeeker,
 						{
 							id: user.UserID,
-							firstName: user.First_Name,
-							middleName: user.Middle_Name,
-							lastName: user.Last_Name,
+							firstName: Resources.formatName(user.First_Name),
+							middleName: Resources.formatName(user.Middle_Name),
+							lastName: Resources.formatName(user.Last_Name),
 							role: user.Role,
-							homeAddress: "",
+							homeAddress: null,
 							sex: user.Sex,
 							bMonth: null,
 							bDay: null,
 							bYear: null,
-							contactNumber: "",
-							email: "",
-							civilStatus: "0",
-							educationalAttainment: "",
+							contactNumber: null,
+							email: null,
+							civilStatus: null,
+							educationalAttainment: null,
 							username: user.Username,
 							password: user.Password,
 							userImage: "DefaultUserFemale.png",
@@ -635,9 +653,9 @@ export class App extends Component {
 			await axios
 				.post("http://localhost:2000/api/create-user", {
 					userID: user.UserID,
-					firstName: user.First_Name,
-					middleName: user.Middle_Name,
-					lastName: user.Last_Name,
+					firstName: Resources.formatName(user.First_Name),
+					middleName: Resources.formatName(user.Middle_Name),
+					lastName: Resources.formatName(user.Last_Name),
 					sex: user.Sex,
 					role: user.Role,
 					username: user.Username,
@@ -652,20 +670,20 @@ export class App extends Component {
 				.post("http://localhost:2000/api/create-applicant-data", {
 					userID: user.UserID,
 					applicantID: shortid.generate(),
-					firstName: user.First_Name,
-					middleName: user.Middle_Name,
-					lastName: user.Last_Name,
+					firstName: Resources.formatName(user.First_Name),
+					middleName: Resources.formatName(user.Middle_Name),
+					lastName: Resources.formatName(user.Last_Name),
 					role: user.Role,
 					sex: user.Sex,
-					homeAddress: "",
+					homeAddress: null,
 					userImage: "DefaultUserFemale.png",
-					emailAddress: "",
-					contactNumber: "",
-					bMonth: 1,
-					bDay: 11,
-					bYear: 2000,
-					civilStatus: "",
-					educationalAttainment: "",
+					emailAddress: null,
+					contactNumber: null,
+					bMonth: null,
+					bDay: null,
+					bYear: null,
+					civilStatus: null,
+					educationalAttainment: null,
 					hiringStatus: "Inactive",
 				})
 				.then(() => {
@@ -831,6 +849,9 @@ export class App extends Component {
 					dateApplied: new Date(),
 					candidateStatus: "Not hired yet",
 					resume: applicant.resume,
+					disability: applicant.disability,
+					employmentStatus: applicant.employmentStatus,
+					employmentType: applicant.employmentType,
 				})
 				.then(() => {
 					// console.log("Successfully Added a Job Application!");
@@ -1160,7 +1181,7 @@ export class App extends Component {
 
 	resetTargetJobPost = () => {
 		this.setState({
-			targetJobPost: {},
+			targetJobPost: null,
 		});
 	};
 
@@ -1173,13 +1194,20 @@ export class App extends Component {
 							Job_Title: jobPost.Job_Title,
 							Category: jobPost.Category,
 							Required_Employees: jobPost.Required_Employees,
-							Salary: jobPost.Salary,
+							Minimum_Salary: jobPost.Minimum_Salary,
+							Maximum_Salary: jobPost.Maximum_Salary,
+							Civil_Status: jobPost.Civil_Status,
+							Work_Place: jobPost.Work_Place,
 							Job_Type: jobPost.Job_Type,
 							Preferred_Sex: jobPost.Preferred_Sex,
 							Job_Qualifications: jobPost.Job_Qualifications,
 							Job_Requirements: jobPost.Job_Requirements,
 							Job_Description: jobPost.Job_Description,
 							Employer_Name: jobPost.Employer_Name,
+							Contact_Person_Name: jobPost.Contact_Person_Name,
+							Contact_Person_Position: jobPost.Contact_Person_Position,
+							Contact_Person_Number: jobPost.Contact_Person_Number,
+							Contact_Person_Email: jobPost.Contact_Person_Email,
 					  })
 					: info
 			),
@@ -1191,13 +1219,20 @@ export class App extends Component {
 							Job_Title: jobPost.Job_Title,
 							Category: jobPost.Category,
 							Required_Employees: jobPost.Required_Employees,
-							Salary: jobPost.Salary,
+							Minimum_Salary: jobPost.Minimum_Salary,
+							Maximum_Salary: jobPost.Maximum_Salary,
+							Civil_Status: jobPost.Civil_Status,
+							Work_Place: jobPost.Work_Place,
 							Job_Type: jobPost.Job_Type,
 							Preferred_Sex: jobPost.Preferred_Sex,
 							Job_Qualifications: jobPost.Job_Qualifications,
 							Job_Requirements: jobPost.Job_Requirements,
 							Job_Description: jobPost.Job_Description,
 							Employer_Name: jobPost.Employer_Name,
+							Contact_Person_Name: jobPost.Contact_Person_Name,
+							Contact_Person_Position: jobPost.Contact_Person_Position,
+							Contact_Person_Number: jobPost.Contact_Person_Number,
+							Contact_Person_Email: jobPost.Contact_Person_Email,
 					  })
 					: companyJobPost
 			),
@@ -1209,16 +1244,23 @@ export class App extends Component {
 				jobTitle: jobPost.Job_Title,
 				category: jobPost.Category,
 				reqNoEmp: jobPost.Required_Employees,
-				salary: jobPost.Salary,
+				minSalary: jobPost.Minimum_Salary,
+				maxSalary: jobPost.Maximum_Salary,
+				civilStatus: jobPost.Civil_Status,
+				placeOfWork: jobPost.Work_Place,
 				jobType: jobPost.Job_Type,
 				prefSex: jobPost.Preferred_Sex,
 				qualifications: jobPost.Job_Qualifications,
 				requirements: jobPost.Job_Requirements,
 				description: jobPost.Job_Description,
+				contactPersonName: jobPost.Contact_Person_Name,
+				contactPersonPosition: jobPost.Contact_Person_Position,
+				contactPersonNumber: jobPost.Contact_Person_Number,
+				contactPersonEmail: jobPost.Contact_Person_Email,
 				jobID: jobPost.JobID,
 			})
 			.then((response) => {
-				// console.log(response);
+				// console.log("Successfully updated the job post data");
 			});
 
 		await axios
@@ -1235,7 +1277,7 @@ export class App extends Component {
 				jobID: jobPost.JobID,
 			})
 			.then((response) => {
-				// console.log(response);
+				// console.log("Successfully updated the applied job data");
 			});
 	};
 
@@ -1268,7 +1310,7 @@ export class App extends Component {
 			});
 	};
 
-	updateCompanyProfile = (newValue) => {
+	updateCompanyProfile = async (newValue) => {
 		this.setState((prevState) => ({
 			company: {
 				UserID: newValue.userID,
@@ -1281,6 +1323,10 @@ export class App extends Component {
 				Company_Name: newValue.companyName,
 				Company_Description: newValue.companyDescription,
 				Company_Image: newValue.companyImage,
+				Email_Address: newValue.emailAddress,
+				Company_Acronym: newValue.acronym,
+				Employer_Type: newValue.employerType,
+				Work_Force: newValue.workForce,
 			},
 
 			companyJobPost: prevState.companyJobPost.map((companyPost) =>
@@ -1311,7 +1357,7 @@ export class App extends Component {
 		}));
 
 		// User Account Database Table -----------
-		axios
+		await axios
 			.put("http://localhost:2000/api/update-user-business-profile", {
 				firstName: newValue.firstName,
 				middleName: newValue.middleName,
@@ -1323,7 +1369,7 @@ export class App extends Component {
 			});
 
 		// Company Database Table -----------
-		axios
+		await axios
 			.put("http://localhost:2000/api/update-company-business-profile", {
 				employerName: `${newValue.firstName} ${newValue.middleName} ${newValue.lastName}`,
 				street: newValue.street,
@@ -1332,6 +1378,10 @@ export class App extends Component {
 				contactNumber: newValue.contactNumber,
 				companyName: newValue.companyName,
 				companyDescription: newValue.companyDescription,
+				acronym: newValue.acronym,
+				employerType: newValue.employerType,
+				workForce: newValue.workForce,
+				emailAddress: newValue.emailAddress,
 				companyID: newValue.companyID,
 			})
 			.then((response) => {
@@ -1339,7 +1389,7 @@ export class App extends Component {
 			});
 
 		// Job Posts Database Table -----------
-		axios
+		await axios
 			.put("http://localhost:2000/api/update-jobPost-business-profile", {
 				companyName: newValue.companyName,
 				companyAddress: `${newValue.street}, ${newValue.zone}, ${newValue.barangay}`,
@@ -1350,7 +1400,7 @@ export class App extends Component {
 			});
 
 		// Applied Jobs Database Table -----------
-		axios
+		await axios
 			.put(
 				"http://localhost:2000/api/update-applied-jobs-business-profile",
 				{
@@ -1364,7 +1414,7 @@ export class App extends Component {
 			});
 
 		// Employer Feedback Database Table -----------
-		axios
+		await axios
 			.put(
 				"http://localhost:2000/api/update-employer-feedback-business-profile",
 				{
@@ -1373,9 +1423,9 @@ export class App extends Component {
 					companyID: newValue.companyID,
 				}
 			)
-			.then((response) => {
-				// console.log(response);
-			});
+			.then((response) => {});
+
+		this.toggleIndication();
 	};
 
 	setTheme = async () => {
@@ -1390,6 +1440,12 @@ export class App extends Component {
 		}
 	};
 
+	toggleIndication = () => {
+		this.setState({
+			isIndicationOpen: !this.state.isIndicationOpen,
+		});
+	};
+
 	render() {
 		const { darkTheme } = this.state;
 		const userTypeSession = sessionStorage.getItem("UserType");
@@ -1398,7 +1454,8 @@ export class App extends Component {
 		if (darkTheme) {
 			document.body.style.backgroundColor = "#0f0f0f";
 		} else {
-			document.body.style.backgroundColor = "#c4c4c4";
+			document.body.style.backgroundColor = "#cfcfcf";
+			// document.body.style.backgroundColor = "#c4c4c4";
 		}
 
 		if (userTypeSession === "Job Seeker") {
@@ -1417,7 +1474,6 @@ export class App extends Component {
 							component={() => (
 								<Login
 									showWelcomWindow={this.state.showWelcomWindow}
-									user={this.state.user}
 									userType={this.state.userType}
 									currentUser={this.state.currentUser}
 									infos={this.state.infos}
@@ -1451,7 +1507,6 @@ export class App extends Component {
 									registerJobSeeker={this.registerJobSeeker}
 									registerEmployer={this.registerEmployer}
 									toggleSignUp={this.toggleSignUp}
-									setUserType={this.setUserType}
 								/>
 							)}
 						/>
@@ -1475,7 +1530,7 @@ export class App extends Component {
 									activePage={this.state.activePage}
 									infos={this.state.infos}
 									userData={this.state.userData}
-									badge={this.state.employerFeedback.length}
+									// badge={this.state.employerFeedback.length}
 									employerFeedback={this.state.employerFeedback}
 									applicants={this.state.applicants}
 									numApplicants={this.state.numApplicants}
@@ -1485,6 +1540,7 @@ export class App extends Component {
 									currentUser={this.state.currentUser}
 									isDeleted={this.state.isDeleted}
 									appliedJobs={this.state.appliedJobs}
+									company={this.state.company}
 									setEmployerFeedBack={this.setEmployerFeedBack}
 									onDelete={this.deletePost}
 									handleChangePage={this.handleChangePage}
@@ -1492,7 +1548,7 @@ export class App extends Component {
 									setCompanyID={this.setCompanyID}
 									closeHasApplied={this.closeHasApplied}
 									closeDeleteState={this.closeDeleteState}
-									setCurrentUser={this.setCurrentUser}
+									// setCurrentUser={this.setCurrentUser}
 								/>
 							)}
 						/>
@@ -1502,22 +1558,22 @@ export class App extends Component {
 							render={() => (
 								<Profile
 									activePage={this.state.activePage}
-									showAdd={this.state.showAddTask}
+									// showAdd={this.state.showAddTask}
 									infos={this.state.infos}
 									darkTheme={this.state.darkTheme}
-									targetCompany={this.state.targetCompany}
+									// targetCompany={this.state.targetCompany}
 									appliedJobs={this.state.appliedJobs}
 									userData={this.state.userData}
 									user={this.state.user}
 									applicants={this.state.applicants}
-									badge={this.state.employerFeedback.length}
+									// badge={this.state.employerFeedback.length}
 									employerFeedback={this.state.employerFeedback}
 									currentUser={this.state.currentUser}
-									onAddPost={this.addPost}
-									onAdd={this.onTogglePostForm}
+									// onAddPost={this.addPost}
+									// onAdd={this.onTogglePostForm}
 									handleChangePage={this.handleChangePage}
 									setCompanyID={this.setCompanyID}
-									setCurrentUser={this.setCurrentUser}
+									// setCurrentUser={this.setCurrentUser}
 									setApplicants={this.setApplicants}
 									setEmployerFeedBack={this.setEmployerFeedBack}
 									changeCurrentUserProfile={
@@ -1537,10 +1593,10 @@ export class App extends Component {
 									currentUser={this.state.currentUser}
 									darkTheme={this.state.darkTheme}
 									employerFeedback={this.state.employerFeedback}
-									badge={this.state.employerFeedback.length}
+									// badge={this.state.employerFeedback.length}
 									applicants={this.state.applicants}
 									handleChangePage={this.handleChangePage}
-									setCurrentUser={this.setCurrentUser}
+									// setCurrentUser={this.setCurrentUser}
 									updateNotificationStatus={
 										this.updateNotificationStatus
 									}
@@ -1558,7 +1614,7 @@ export class App extends Component {
 									activePage={this.state.activePage}
 									darkTheme={this.state.darkTheme}
 									currentUser={this.state.currentUser}
-									badge={this.state.employerFeedback.length}
+									// badge={this.state.employerFeedback.length}
 									employerFeedback={this.state.employerFeedback}
 									applicants={this.state.applicants}
 									handleChangePage={this.handleChangePage}
@@ -1576,7 +1632,7 @@ export class App extends Component {
 							path={`/${userType}/${this.state.activePage}/company-profile`}
 							render={() => (
 								<CompanyProfile
-									infos={this.state.infos}
+									// infos={this.state.infos}
 									targetCompany={this.state.targetCompany}
 									activePage={this.state.activePage}
 									darkTheme={this.state.darkTheme}
@@ -1588,15 +1644,16 @@ export class App extends Component {
 							path={`/${userType}/${this.state.activePage}/application-form`}
 							render={() => (
 								<ApplicationForm
-									user={this.state.user}
+									// user={this.state.user}
 									infos={this.state.infos}
-									jobApplicants={this.state.jobApplicants}
+									// jobApplicants={this.state.jobApplicants}
 									darkTheme={this.state.darkTheme}
 									targetCompany={this.state.targetCompany}
 									activePage={this.state.activePage}
 									currentUser={this.state.currentUser}
-									applicants={this.state.applicants}
+									// applicants={this.state.applicants}
 									employerFeedback={this.state.employerFeedback}
+									numApplicants={this.state.numApplicants}
 									handleChange={this.handleChange}
 									handleApplication={this.handleApplication}
 									addJobApplicants={this.addJobApplicants}
@@ -1614,15 +1671,16 @@ export class App extends Component {
 									infos={this.state.infos}
 									employerFeedback={this.state.employerFeedback}
 									numApplicants={this.state.numApplicants}
-									hasApplied={this.state.hasApplied}
+									// hasApplied={this.state.hasApplied}
 									isDeleted={this.state.isDeleted}
 									applicants={this.state.applicants}
 									darkTheme={this.state.darkTheme}
+									company={this.state.company}
 									handleChangePage={this.handleChangePage}
 									onDelete={this.deletePost}
 									setCompanyID={this.setCompanyID}
-									closeHasApplied={this.closeHasApplied}
-									closeDeleteState={this.closeDeleteState}
+									// closeHasApplied={this.closeHasApplied}
+									// closeDeleteState={this.closeDeleteState}
 									setHiree={this.setHiree}
 									setEmployerMessage={this.setEmployerMessage}
 								/>
@@ -1667,21 +1725,22 @@ export class App extends Component {
 							path={`/${userType}/dashboard`}
 							component={() => (
 								<EmpDashboard
-									activePage={this.state.activePage}
+									// activePage={this.state.activePage}
 									company={this.state.company}
 									isSidebarOpen={this.state.isSidebarOpen}
 									currentUser={this.state.currentUser}
-									jobApplicants={this.state.jobApplicants}
+									// jobApplicants={this.state.jobApplicants}
 									applicants={this.state.applicants}
 									darkTheme={this.state.darkTheme}
 									toggleSidebar={this.toggleSidebar}
-									handleChangePage={this.handleChangePage}
+									// handleChangePage={this.handleChangePage}
 									setCurrentUser={this.setCurrentUser}
 									getJobApplicantsByCompany={
 										this.getJobApplicantsByCompany
 									}
 									changeCompanyProfile={this.changeCompanyProfile}
 									setCompany={this.setCompany}
+									setApplicants={this.setApplicants}
 								/>
 							)}
 						/>
@@ -1703,6 +1762,8 @@ export class App extends Component {
 									setEmployerMessage={this.setEmployerMessage}
 									changeCompanyProfile={this.changeCompanyProfile}
 									updateCompanyProfile={this.updateCompanyProfile}
+									toggleIndication={this.toggleIndication}
+									isIndicationOpen={this.state.isIndicationOpen}
 								/>
 							)}
 						/>
@@ -1717,6 +1778,7 @@ export class App extends Component {
 									isDeleted={this.state.isDeleted}
 									company={this.state.company}
 									companyJobPost={this.state.companyJobPost}
+									numApplicants={this.state.numApplicants}
 									darkTheme={this.state.darkTheme}
 									onAddPost={this.addPost}
 									toggle={this.handleToggle}
@@ -1743,13 +1805,13 @@ export class App extends Component {
 									jobApplicants={this.state.jobApplicants}
 									company={this.state.company}
 									companyJobPost={this.state.companyJobPost}
-									user={this.state.user}
+									// user={this.state.user}
 									infos={this.state.infos}
-									targetCompany={this.state.targetCompany}
+									// targetCompany={this.state.targetCompany}
 									darkTheme={this.state.darkTheme}
 									isDeleted={this.state.isDeleted}
 									setCurrentUser={this.setCurrentUser}
-									setCompanyID={this.setCompanyID}
+									// setCompanyID={this.setCompanyID}
 									setApplicantID={this.setApplicantID}
 									setJobID={this.setJobID}
 									getJobApplicantsByCompany={
@@ -1782,7 +1844,7 @@ export class App extends Component {
 								/>
 							)}
 						/>
-						<Route
+						{/* <Route
 							exact
 							path={`/${userType}/account`}
 							component={() => (
@@ -1796,7 +1858,7 @@ export class App extends Component {
 									}
 								/>
 							)}
-						/>
+						/> */}
 
 						<Route
 							exact
@@ -1822,7 +1884,7 @@ export class App extends Component {
 									company={this.state.company}
 									employerMessage={this.state.employerMessage}
 									darkTheme={this.state.darkTheme}
-									employerFeedback={this.state.employerFeedback}
+									// employerFeedback={this.state.employerFeedback}
 									addEmployerFeedBack={this.addEmployerFeedBack}
 								/>
 							)}

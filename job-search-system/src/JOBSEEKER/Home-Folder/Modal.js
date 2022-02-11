@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import "./Modal.css";
 import CloseIcon from "../../Images/CloseIcon.png";
 
@@ -30,9 +30,10 @@ export class Modal extends Component {
 						<button
 							className='modal-button-send'
 							onClick={(e) => {
+								this.props.history.push(this.props.path);
 								this.props.confirm(e);
 							}}>
-							<Link to={this.props.path}>{this.props.confirmText}</Link>
+							{this.props.confirmText}
 						</button>
 					</div>
 				</div>
@@ -45,4 +46,4 @@ Modal.defaultProps = {
 	path: "/jobseeker/home",
 };
 
-export default Modal;
+export default withRouter(Modal);

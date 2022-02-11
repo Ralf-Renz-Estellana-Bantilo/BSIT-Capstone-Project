@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import LocationIcon from "../../Images/LocationIcon.png";
 import "./SearchApplicants.css";
 import { withRouter } from "react-router-dom";
+import Resources from "../../Resources";
 
 export class Search_Applicants extends Component {
 	constructor() {
@@ -54,6 +55,43 @@ export class Search_Applicants extends Component {
 				}
 			}
 		}
+
+		let finalMinSalary = "";
+		let finalMaxSalary = "";
+
+		let jobMinSalary = `${applicant.Minimum_Salary}`;
+		let jobMaxSalary = `${applicant.Maximum_Salary}`;
+		for (let a = 1; a <= jobMinSalary.length; a++) {
+			if (
+				jobMinSalary.length - a === 3 ||
+				jobMinSalary.length - a === 6 ||
+				jobMinSalary.length - a === 9 ||
+				jobMinSalary.length - a === 12 ||
+				jobMinSalary.length - a === 15 ||
+				jobMinSalary.length - a === 18 ||
+				jobMinSalary.length - a === 21
+			) {
+				finalMinSalary += jobMinSalary[a - 1] + ",";
+			} else {
+				finalMinSalary += jobMinSalary[a - 1];
+			}
+		}
+		for (let a = 1; a <= jobMaxSalary.length; a++) {
+			if (
+				jobMaxSalary.length - a === 3 ||
+				jobMaxSalary.length - a === 6 ||
+				jobMaxSalary.length - a === 9 ||
+				jobMaxSalary.length - a === 12 ||
+				jobMaxSalary.length - a === 15 ||
+				jobMaxSalary.length - a === 18 ||
+				jobMaxSalary.length - a === 21
+			) {
+				finalMaxSalary += jobMaxSalary[a - 1] + ",";
+			} else {
+				finalMaxSalary += jobMaxSalary[a - 1];
+			}
+		}
+
 		return (
 			<div>
 				<div className='search-applicant-container'>
@@ -68,7 +106,7 @@ export class Search_Applicants extends Component {
 							</div>
 
 							<div className='search-applicant-basic-info'>
-								<h2>{`${applicant.First_Name} ${applicant.Middle_Name} ${applicant.Last_Name}`}</h2>
+								<h2>{`${applicant.First_Name} ${applicant.Last_Name}`}</h2>
 
 								<div className='search-applicant-address'>
 									<div className='address'>
@@ -105,18 +143,30 @@ export class Search_Applicants extends Component {
 									<h4>{applicant.Email_Address}</h4>
 								</div>
 								<div className='post-detail'>
-									<p>Preferred Salary:</p>
-									<h4>{applicant.Preferred_Salary}</h4>
+									<p>Preferred Salary Range:</p>
+									<h4>
+										₱ {finalMinSalary} - ₱ {finalMaxSalary}
+									</h4>
 								</div>
 							</div>
 							<div className='post-detail-group2'>
 								<div className='post-detail'>
-									<p>Sex:</p>
+									<p>Gender:</p>
 									<h4>{applicant.Sex}</h4>
 								</div>
-								<div className='post-detail'>
+								{/* <div className='post-detail'>
 									<p>Civil Status:</p>
 									<h4>{applicant.Civil_Status}</h4>
+								</div> */}
+								<div className='post-detail'>
+									<p>Age:</p>
+									<h4>
+										{Resources.getCurrentAge(
+											applicant.B_Month,
+											applicant.B_Day,
+											applicant.B_Year
+										)}
+									</h4>
 								</div>
 								<div className='post-detail'>
 									<p>Hiring Status:</p>
@@ -124,7 +174,11 @@ export class Search_Applicants extends Component {
 										<div
 											className='active-circle'
 											style={{ backgroundColor: "#00ff40" }}></div>
-										<h4>{applicant.Hiring_Status}</h4>
+										<h4>
+											{applicant.Hiring_Status === "Active"
+												? "Available"
+												: "Unavailble"}
+										</h4>
 									</div>
 								</div>
 							</div>

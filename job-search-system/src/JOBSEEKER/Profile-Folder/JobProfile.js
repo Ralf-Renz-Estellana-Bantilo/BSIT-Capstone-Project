@@ -25,7 +25,10 @@ export class JobProfile extends Component {
 			educationalAttainment: "",
 			preferredJob: "",
 			preferredCategory: "",
-			preferredSalary: "",
+			preferredSalaryMin: "",
+			preferredSalaryMax: "",
+			resume: null,
+			fileData: null,
 			interest: "",
 			goodAt: "",
 			credentials: "",
@@ -47,6 +50,11 @@ export class JobProfile extends Component {
 			prevState_interest: "",
 			prevState_goodAt: "",
 			prevState_credentials: "",
+
+			// newly added fields
+			disability: "",
+			employmentStatus: "",
+			employmentType: "",
 		};
 	}
 
@@ -54,10 +62,34 @@ export class JobProfile extends Component {
 		this.setState({ visible: !this.state.visible });
 	};
 
-	handleChange = (event, fieldName) => {
+	handleChange = (e, fieldName) => {
 		this.setState({
-			[fieldName]: event.target.value,
+			[fieldName]: e.target.value,
 		});
+
+		const jobTitles = Resources.getCategoriesWithDescription();
+		for (let a = 0; a < jobTitles.length; a++) {
+			for (let b = 0; b < jobTitles[a].jobs.length; b++) {
+				if (jobTitles[a].jobs[b] === e.target.value) {
+					this.setState({
+						preferredCategory: jobTitles[a].category,
+					});
+				}
+			}
+		}
+	};
+
+	handleFileChange = (event) => {
+		try {
+			this.setState({
+				fileData: event.target.files[0],
+				resume: event.target.files[0].name,
+			});
+		} catch (error) {
+			this.setState({
+				file: null,
+			});
+		}
 	};
 
 	toggleIndication = async () => {
@@ -70,9 +102,9 @@ export class JobProfile extends Component {
 		const { applicants } = this.props;
 		const userSession = sessionStorage.getItem("UserID");
 
-		await applicants.map(async (applicant) => {
+		await applicants.map((applicant) => {
 			if (applicant.UserID === userSession) {
-				await this.setState({
+				this.setState({
 					firstName: applicant.First_Name,
 					middleName: applicant.Middle_Name,
 					lastName: applicant.Last_Name,
@@ -87,10 +119,15 @@ export class JobProfile extends Component {
 					educationalAttainment: applicant.Educ_Attainment,
 					preferredJob: applicant.Preferred_Job,
 					preferredCategory: applicant.Preferred_Category,
-					preferredSalary: applicant.Preferred_Salary,
+					preferredSalaryMin: applicant.Minimum_Salary,
+					preferredSalaryMax: applicant.Maximum_Salary,
 					interest: applicant.Interested_In,
+					resume: applicant.My_Resume,
 					goodAt: applicant.Good_At,
 					credentials: applicant.Credentials,
+					disability: applicant.Disability,
+					employmentStatus: applicant.Employment_Status,
+					employmentType: applicant.Employment_Type,
 
 					// -----
 					prevState_firstName: applicant.First_Name,
@@ -111,132 +148,190 @@ export class JobProfile extends Component {
 					prevState_interest: applicant.Interested_In,
 					prevState_goodAt: applicant.Good_At,
 					prevState_credentials: applicant.Credentials,
+					prevState_disability: applicant.Disability,
+					prevState_employmentStatus: applicant.Employment_Status,
+					prevState_employmentType: applicant.Employment_Type,
 				});
 			}
 		});
 	};
 
 	updateApplicantData = async () => {
-		const {
-			firstName,
-			middleName,
-			lastName,
-			sex,
-			contactNumber,
-			email,
-			bMonth,
-			bDay,
-			bYear,
-			address,
-			civilStatus,
-			educationalAttainment,
-			preferredJob,
-			preferredCategory,
-			preferredSalary,
-			interest,
-			goodAt,
-			credentials,
-		} = this.state;
-		if (
-			firstName === "" ||
-			middleName === "" ||
-			lastName === "" ||
-			sex === "" ||
-			contactNumber === "" ||
-			email === "" ||
-			address === "" ||
-			bMonth === "" ||
-			bDay === "" ||
-			bYear === "" ||
-			civilStatus === "" ||
-			educationalAttainment === "" ||
-			preferredJob === "" ||
-			preferredCategory === "" ||
-			preferredSalary === "" ||
-			interest === "" ||
-			goodAt === "" ||
-			credentials === ""
-		) {
-			alert("Please fill up all the fields");
-		} else {
-			await axios
-				.put("http://localhost:2000/api/update-appplicant-data", {
+		try {
+			const {
+				firstName,
+				middleName,
+				lastName,
+				sex,
+				contactNumber,
+				email,
+				bMonth,
+				bDay,
+				bYear,
+				address,
+				civilStatus,
+				educationalAttainment,
+				preferredJob,
+				preferredCategory,
+				preferredSalaryMin,
+				preferredSalaryMax,
+				interest,
+				resume,
+				goodAt,
+				credentials,
+				disability,
+				employmentStatus,
+				employmentType,
+				fileData,
+			} = this.state;
+
+			const date =
+				new Date().getMonth() +
+				1 +
+				"_" +
+				new Date().getDate() +
+				"_" +
+				new Date().getFullYear();
+
+			let newFileName = "";
+			if (fileData !== null) {
+				newFileName = date + "_" + fileData.name;
+			}
+
+			if (
+				firstName === "" ||
+				middleName === "" ||
+				lastName === "" ||
+				sex === "" ||
+				contactNumber === "" ||
+				email === "" ||
+				address === "" ||
+				bMonth === "" ||
+				bDay === "" ||
+				bYear === "" ||
+				civilStatus === "" ||
+				educationalAttainment === "" ||
+				preferredJob === "" ||
+				preferredCategory === "" ||
+				preferredSalaryMin === "" ||
+				preferredSalaryMax === "" ||
+				interest === "" ||
+				goodAt === "" ||
+				credentials === "" ||
+				disability === "" ||
+				employmentStatus === "" ||
+				employmentType === ""
+			) {
+				alert("Please fill up all the fields");
+			} else {
+				await axios
+					.put("http://localhost:2000/api/update-appplicant-data", {
+						firstName: Resources.formatName(firstName),
+						middleName: Resources.formatName(middleName),
+						lastName: Resources.formatName(lastName),
+						email: email,
+						bMonth: parseInt(bMonth),
+						bDay: parseInt(bDay),
+						bYear: parseInt(bYear),
+						sex: sex,
+						contactNumber: contactNumber,
+						address: address,
+						civilStatus: civilStatus,
+						educationalAttainment: educationalAttainment,
+						preferredJob: preferredJob,
+						preferredCategory: preferredCategory,
+						preferredSalaryMin: preferredSalaryMin,
+						preferredSalaryMax: preferredSalaryMax,
+						resume: newFileName,
+						interest: interest,
+						goodAt: goodAt,
+						credentials: credentials,
+						disability: disability,
+						employmentStatus: employmentStatus,
+						employmentType: employmentType,
+						userID: sessionStorage.getItem("UserID"),
+					})
+					.then((response) => {
+						console.log("Job Profile has been Updated");
+						this.handleToggleEditProfile();
+						this.toggleIndication();
+
+						const user = {
+							First_Name: firstName,
+							Middle_Name: middleName,
+							Last_Name: lastName,
+							Home_Address: address,
+							Sex: sex,
+							B_Month: parseInt(bMonth),
+							B_Day: parseInt(bDay),
+							B_Year: parseInt(bYear),
+							Contact_Number: contactNumber,
+							Email_Address: email,
+							Civil_Status: civilStatus,
+							Educ_Attainment: educationalAttainment,
+							Preferred_Job: preferredJob,
+							Preferred_Category: preferredCategory,
+							Minimum_Salary: preferredSalaryMin,
+							Maximum_Salary: preferredSalaryMax,
+							Interested_In: interest,
+							My_Resume: newFileName,
+							Good_At: goodAt,
+							Credentials: credentials,
+							Disability: disability,
+							Employment_Status: employmentStatus,
+							Employment_Type: employmentType,
+							UserID: sessionStorage.getItem("UserID"),
+							ApplicantID: sessionStorage.getItem("ApplicantID"),
+						};
+
+						this.props.updateApplicantData(user);
+						// console.log(user);
+					});
+
+				if (fileData !== null) {
+					const data = new FormData();
+					data.append("pdf", fileData);
+					await fetch("http://localhost:2000/api/upload-pdf", {
+						method: "POST",
+						body: data,
+					})
+						.then((result) => {
+							console.log("The PDF File has been Uploaded...");
+						})
+						.catch((error) => {
+							console.log("Multer Error!", error);
+						});
+				}
+
+				this.setState({
 					firstName: Resources.formatName(firstName),
 					middleName: Resources.formatName(middleName),
 					lastName: Resources.formatName(lastName),
-					email: email,
-					bMonth: parseInt(bMonth),
-					bDay: parseInt(bDay),
-					bYear: parseInt(bYear),
-					sex: sex,
-					contactNumber: contactNumber,
-					address: address,
-					civilStatus: civilStatus,
-					educationalAttainment: educationalAttainment,
-					preferredJob: preferredJob,
-					preferredCategory: preferredCategory,
-					preferredSalary: preferredSalary,
-					interest: interest,
-					goodAt: goodAt,
-					credentials: credentials,
-					userID: sessionStorage.getItem("UserID"),
-				})
-				.then((response) => {
-					console.log("Job Profile has been Updated");
-					this.handleToggleEditProfile();
-					this.toggleIndication();
+					resume: newFileName,
+					fileData: null,
 
-					const user = {
-						First_Name: firstName,
-						Middle_Name: middleName,
-						Last_Name: lastName,
-						Home_Address: address,
-						Sex: sex,
-						B_Month: parseInt(bMonth),
-						B_Day: parseInt(bDay),
-						B_Year: parseInt(bYear),
-						Contact_Number: contactNumber,
-						Email_Address: email,
-						Civil_Status: civilStatus,
-						Educ_Attainment: educationalAttainment,
-						Preferred_Job: preferredJob,
-						Preferred_Category: preferredCategory,
-						Preferred_Salary: preferredSalary,
-						Interested_In: interest,
-						Good_At: goodAt,
-						Credentials: credentials,
-						UserID: sessionStorage.getItem("UserID"),
-						ApplicantID: sessionStorage.getItem("ApplicantID"),
-					};
-
-					this.props.updateApplicantData(user);
-					// console.log(user);
+					prevState_firstName: Resources.formatName(firstName),
+					prevState_middleName: Resources.formatName(middleName),
+					prevState_lastName: Resources.formatName(lastName),
+					prevState_email: email,
+					prevState_bMonth: parseInt(bMonth),
+					prevState_bDay: parseInt(bDay),
+					prevState_bYear: parseInt(bYear),
+					prevState_sex: sex,
+					prevState_contactNumber: contactNumber,
+					prevState_address: address,
+					prevState_civilStatus: civilStatus,
+					prevState_educationalAttainment: educationalAttainment,
+					prevState_preferredJob: preferredJob,
+					prevState_preferredCategory: preferredCategory,
+					prevState_preferredSalary: preferredSalaryMin,
+					prevState_interest: interest,
+					prevState_goodAt: goodAt,
+					prevState_credentials: credentials,
 				});
-
-			this.setState({
-				firstName: Resources.formatName(firstName),
-				middleName: Resources.formatName(middleName),
-				lastName: Resources.formatName(lastName),
-
-				prevState_firstName: Resources.formatName(firstName),
-				prevState_middleName: Resources.formatName(middleName),
-				prevState_lastName: Resources.formatName(lastName),
-				prevState_email: email,
-				prevState_bMonth: parseInt(bMonth),
-				prevState_bDay: parseInt(bDay),
-				prevState_bYear: parseInt(bYear),
-				prevState_sex: sex,
-				prevState_contactNumber: contactNumber,
-				prevState_address: address,
-				prevState_civilStatus: civilStatus,
-				prevState_educationalAttainment: educationalAttainment,
-				prevState_preferredJob: preferredJob,
-				prevState_preferredCategory: preferredCategory,
-				prevState_preferredSalary: preferredSalary,
-				prevState_interest: interest,
-				prevState_goodAt: goodAt,
-				prevState_credentials: credentials,
-			});
+			}
+		} catch (error) {
+			alert(error);
 		}
 	};
 
@@ -296,7 +391,9 @@ export class JobProfile extends Component {
 			educationalAttainment,
 			preferredJob,
 			preferredCategory,
-			preferredSalary,
+			preferredSalaryMin,
+			preferredSalaryMax,
+			resume,
 			interest,
 			goodAt,
 			credentials,
@@ -319,6 +416,13 @@ export class JobProfile extends Component {
 			prevState_goodAt,
 			prevState_credentials,
 			isIndicationOpen,
+
+			disability,
+			employmentStatus,
+			employmentType,
+			prevState_disability,
+			prevState_employmentStatus,
+			prevState_employmentType,
 		} = this.state;
 
 		const { darkTheme } = this.props;
@@ -340,13 +444,40 @@ export class JobProfile extends Component {
 			prevState_educationalAttainment === educationalAttainment &&
 			prevState_preferredJob === preferredJob &&
 			prevState_preferredCategory === preferredCategory &&
-			prevState_preferredSalary === preferredSalary &&
+			prevState_preferredSalary === preferredSalaryMin &&
 			prevState_interest === interest &&
 			prevState_goodAt === goodAt &&
-			prevState_credentials === credentials
+			prevState_credentials === credentials &&
+			prevState_disability === disability &&
+			prevState_employmentStatus === employmentStatus &&
+			prevState_employmentType === employmentType
 		) {
 			isUpdateButtonEnable = false;
 		}
+
+		const jobTitles = Resources.getCategoriesWithDescription();
+
+		let arrayJobs = [];
+		let arrayCategories = [];
+
+		for (let a = 0; a < jobTitles.length; a++) {
+			let categoryName = jobTitles[a].category;
+			for (let b = 0; b < jobTitles[a].jobs.length; b++) {
+				arrayJobs.push(jobTitles[a].jobs[b]);
+				arrayCategories.push(categoryName);
+			}
+		}
+
+		let count = -1;
+
+		let jobTitleSmartHints = arrayJobs.map((jobTitle) => {
+			count += 1;
+			return (
+				<option key={jobTitle} value={jobTitle}>
+					{arrayCategories[count]}
+				</option>
+			);
+		});
 
 		return (
 			<>
@@ -388,7 +519,7 @@ export class JobProfile extends Component {
 						<div
 							className='basic-info'
 							style={{ display: this.state.visible ? "" : "none" }}>
-							<h3>Basic Information</h3>
+							<h3>Personal Information</h3>
 							<div className='basic-info-field'>
 								<div className='field'>
 									<label>First Name:</label>
@@ -500,7 +631,7 @@ export class JobProfile extends Component {
 								</div>
 
 								<div className='field'>
-									<label>Sex:</label>
+									<label>Gender:</label>
 									<select
 										name='sex'
 										value={sex}
@@ -511,14 +642,15 @@ export class JobProfile extends Component {
 											disabled='disabled'
 											hidden='hidden'
 											value=''>
-											Select Sex
+											Select Gender
 										</option>
 										<option value='Male'>Male</option>
 										<option value='Female'>Female</option>
+										<option value='Gay'>Gay</option>
+										<option value='Lesbian'>Lesbian</option>
 									</select>
 								</div>
 							</div>
-
 							<div className='basic-info-field'>
 								<div className='field'>
 									<label>Contact No.:</label>
@@ -537,7 +669,7 @@ export class JobProfile extends Component {
 									<input
 										name='address'
 										type='text'
-										placeholder='Enter Home Address'
+										placeholder='(Street/Village, Barangay, Municipality)'
 										value={address}
 										onChange={(event) => {
 											this.handleChange(event, "address");
@@ -545,7 +677,6 @@ export class JobProfile extends Component {
 									/>
 								</div>
 							</div>
-
 							<div className='basic-info-field'>
 								<div className='field'>
 									<label>Civil Status:</label>
@@ -564,6 +695,9 @@ export class JobProfile extends Component {
 										</option>
 										<option value='Single'>Single</option>
 										<option value='Married'>Married</option>
+										<option value='Widowed'>Widowed</option>
+										<option value='Separated'>Separated</option>
+										<option value='Live-in'>Live-in</option>
 									</select>
 								</div>
 								<div className='field'>
@@ -582,50 +716,179 @@ export class JobProfile extends Component {
 									/>
 								</div>
 							</div>
+							<div className='basic-info-field'>
+								<div className='field'>
+									<label>Disability:</label>
+									<select
+										name='disability'
+										placeholder='Enter Civil Status'
+										value={disability}
+										onChange={(event) => {
+											this.handleChange(event, "disability");
+										}}>
+										<option
+											disabled='disabled'
+											hidden='hidden'
+											value=''>
+											Select Disability
+										</option>
+										<option value='None'>None</option>
+										<option value='Visual'>Visual</option>
+										<option value='Hearing'>Hearing</option>
+										<option value='Speech'>Speech</option>
+										<option value='Physical'>Physical</option>
+										<option value='Others'>Others</option>
+									</select>
+								</div>
+								<div className='field'>
+									<label>Employment Type:</label>
+									<div className='employment-type-field-container'>
+										<select
+											name='employmentStatus'
+											value={employmentStatus}
+											onChange={(event) => {
+												this.handleChange(
+													event,
+													"employmentStatus"
+												);
+											}}>
+											<option
+												disabled='disabled'
+												hidden='hidden'
+												value=''>
+												Select Status
+											</option>
+											<option value='Employed'>Employed</option>
+											<option value='Unemployed'>Unemployed</option>
+										</select>
+										<select
+											name='employmentType'
+											value={employmentType}
+											onChange={(event) => {
+												this.handleChange(event, "employmentType");
+											}}>
+											<option
+												disabled='disabled'
+												hidden='hidden'
+												value=''>
+												Select Type
+											</option>
+											{employmentStatus === "Employed" ? (
+												<>
+													<option value='Wage Employed'>
+														Wage Employed
+													</option>
+													<option value='Self Employed'>
+														Self Employed
+													</option>
+												</>
+											) : (
+												<>
+													<option value='Not Specified'>
+														Not Specified
+													</option>
+													<option value='Fresh Graduate'>
+														Fresh Graduate
+													</option>
+													<option value='Finished Contract'>
+														Finished Contract
+													</option>
+													<option value='Resigned'>
+														Resigned
+													</option>
+													<option value='Retired'>Retired</option>
+													{/* <option value='Others'>Others</option> */}
+												</>
+											)}
+										</select>
+									</div>
+								</div>
+							</div>
 						</div>
 
 						<div
-							className='profession-info'
+							className='basic-info'
 							style={{ display: visible ? "" : "none" }}>
-							<h3>Profession</h3>
-							<div className='field'>
-								<label>Preferred Job/s:</label>
-								<input
-									name='preferredJob'
-									type='text'
-									value={preferredJob}
-									placeholder='Enter Preferred Job/s'
-									onChange={(event) => {
-										this.handleChange(event, "preferredJob");
-									}}
-								/>
+							<h3>Job Preference</h3>
+							<div className='basic-info-field'>
+								<div className='field'>
+									<label>Preferred Job/s:</label>
+									<input
+										name='preferredJob'
+										list='jobLists'
+										type='text'
+										value={preferredJob}
+										placeholder='Enter Preferred Job/s'
+										onChange={(event) => {
+											this.handleChange(event, "preferredJob");
+										}}
+									/>
+									<datalist id='jobLists'>
+										{jobTitleSmartHints}
+									</datalist>
+								</div>
+								<div className='field'>
+									<label>Preferred Category:</label>
+									<select
+										name='Job Category'
+										value={preferredCategory}
+										onChange={(event) => {
+											this.handleChange(event, "preferredCategory");
+										}}
+										style={{ width: "100%" }}>
+										<option
+											disabled='disabled'
+											hidden='hidden'
+											value=''>
+											Select Job Category
+										</option>
+										{categoryResources}
+									</select>
+								</div>
 							</div>
-							<div className='field'>
-								<label>Preferred Category:</label>
-								<select
-									name='Job Category'
-									value={preferredCategory}
-									onChange={(event) => {
-										this.handleChange(event, "preferredCategory");
-									}}>
-									<option disabled='disabled' hidden='hidden' value=''>
-										Select Job Category
-									</option>
-									{categoryResources}
-								</select>
+							<div className='basic-info-field'>
+								<div className='field'>
+									<label>Preferred Salary Range:</label>
+
+									<div className='employment-type-field-container'>
+										<label>min:</label>
+										<input
+											name='preferredSalaryMin'
+											type='number'
+											placeholder='Min. Salary'
+											value={preferredSalaryMin}
+											onChange={(event) => {
+												this.handleChange(
+													event,
+													"preferredSalaryMin"
+												);
+											}}
+										/>
+										<label>max:</label>
+										<input
+											name='preferredSalaryMax'
+											type='number'
+											placeholder='Max. Salary'
+											value={preferredSalaryMax}
+											onChange={(event) => {
+												this.handleChange(
+													event,
+													"preferredSalaryMax"
+												);
+											}}
+										/>
+									</div>
+								</div>
+								<div className='field'>
+									<label>Resume (if necessary): {resume}</label>
+									<input
+										name='preferredSalary'
+										type='file'
+										onChange={this.handleFileChange}
+									/>
+								</div>
 							</div>
-							<div className='field'>
-								<label>Preferred Salary:</label>
-								<input
-									name='preferredSalary'
-									type='text'
-									placeholder='Enter your Preferred Salary'
-									value={preferredSalary}
-									onChange={(event) => {
-										this.handleChange(event, "preferredSalary");
-									}}
-								/>
-							</div>
+
 							<div className='field'>
 								<label>Interested in:</label>
 								<textarea

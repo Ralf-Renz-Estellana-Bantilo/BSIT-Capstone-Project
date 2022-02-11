@@ -27,9 +27,12 @@ export const createCompanyData = (req, res) => {
 	const contactNumber = req.body.contactNumber;
 	const companyDescription = req.body.companyDescription;
 	const companyImage = req.body.companyImage;
+	const day = new Date().getDate();
+	const month = new Date().getMonth() + 1;
+	const year = new Date().getFullYear();
 
 	db.query(
-		"INSERT INTO company (UserID, CompanyID, Company_Name, Street, Zone, Barangay, Contact_Number, Company_Description, Company_Image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+		"INSERT INTO company (UserID, CompanyID, Company_Name, Street, Zone, Barangay, Contact_Number, Company_Description, Company_Image, Reg_Day, Reg_Month, Reg_Year) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 		[
 			userID,
 			companyID,
@@ -40,6 +43,9 @@ export const createCompanyData = (req, res) => {
 			contactNumber,
 			companyDescription,
 			companyImage,
+			day,
+			month,
+			year,
 		],
 		(err, result) => {
 			if (err) {
@@ -132,9 +138,13 @@ export const insertCompanyData = (req, res) => {
 	const companyImage = req.body.companyImage;
 	const userID = req.body.userID;
 	const companyID = req.body.companyID;
+	const acronym = req.body.acronym;
+	const employerType = req.body.employerType;
+	const workForce = req.body.workForce;
+	const emailAddress = req.body.emailAddress;
 
 	db.query(
-		"UPDATE company SET Company_Name=?, Employer_Name=?, Street=?, Zone=?, Barangay=?, Contact_Number=?, Company_Description=?, Company_Image=? WHERE UserID=? AND CompanyID=?",
+		"UPDATE company SET Company_Name=?, Employer_Name=?, Street=?, Zone=?, Barangay=?, Contact_Number=?, Company_Description=?, Company_Image=?, Company_Acronym=?, Employer_Type=?, Work_Force=?, Email_Address=? WHERE UserID=? AND CompanyID=?",
 		[
 			companyName,
 			employerName,
@@ -144,6 +154,10 @@ export const insertCompanyData = (req, res) => {
 			contactNumber,
 			companyDescription,
 			companyImage,
+			acronym,
+			employerType,
+			workForce,
+			emailAddress,
 			userID,
 			companyID,
 		],
@@ -201,9 +215,13 @@ export const updateCompanyBusinessProfile = (req, res) => {
 	const contactNumber = req.body.contactNumber;
 	const companyName = req.body.companyName;
 	const companyDescription = req.body.companyDescription;
+	const emailAddress = req.body.emailAddress;
+	const acronym = req.body.acronym;
+	const employerType = req.body.employerType;
+	const workForce = req.body.workForce;
 
 	db.query(
-		"UPDATE company SET Employer_Name=?, Street=?, Zone=?, Barangay=?, Contact_Number=?, Company_Name=?, Company_Description=? WHERE CompanyID=?",
+		"UPDATE company SET Employer_Name=?, Street=?, Zone=?, Barangay=?, Contact_Number=?, Company_Name=?, Company_Description=?, Company_Acronym=?, Employer_Type=?, Work_Force=?, Email_Address=? WHERE CompanyID=?",
 		[
 			employerName,
 			street,
@@ -212,6 +230,10 @@ export const updateCompanyBusinessProfile = (req, res) => {
 			contactNumber,
 			companyName,
 			companyDescription,
+			acronym,
+			employerType,
+			workForce,
+			emailAddress,
 			companyID,
 		],
 		(err, result) => {
@@ -219,7 +241,7 @@ export const updateCompanyBusinessProfile = (req, res) => {
 				console.log("Error:", err);
 			} else {
 				res.send(result);
-				// console.log("Successfully updated your company picture");
+				// console.log("Successfully updated your company profile");
 			}
 		}
 	);

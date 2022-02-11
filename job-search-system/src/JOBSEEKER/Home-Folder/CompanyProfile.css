@@ -6,8 +6,7 @@
 
 .company-profile-container a .back-icon-container {
 	z-index: 3;
-	width: 30px;
-	height: 30px;
+	width: 25px;
 	border-radius: 30px;
 	position: fixed;
 	display: flex;
@@ -34,7 +33,7 @@
 .company-logo {
 	width: 250px;
 	height: 180px;
-	border-radius: 10px;
+	border-radius: 5px;
 	overflow: hidden;
 	margin: 0 auto;
 	box-shadow: 0px 2px 5px rgb(10, 10, 10);
@@ -68,7 +67,7 @@
 
 .details-container {
 	display: flex;
-	margin: 10px 0;
+	margin: 5px 0;
 }
 
 .detail-left {
@@ -106,7 +105,7 @@
 
 .back-icon {
 	position: fixed;
-	height: 35px;
+	height: 25px;
 	opacity: 0.8;
 	transition: 0.1s;
 	cursor: pointer;

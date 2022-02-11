@@ -11,3 +11,13 @@
 * Profile
    - error uploading file to the administrator
    - data doesn't match between the admin and the client
+
+* Highest Educational Attainment
+   - Elementary Undergraduate
+   - Elementary Graduate
+   - Junior High School Undergraduate
+   - Junior High School Undergraduate
+   - Senior High School Graduate
+   - Senior High School Graduate
+   - College Undergraduate
+   - College Graduate

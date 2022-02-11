@@ -108,7 +108,7 @@ export class Emp_Applicants_Summary extends Component {
 									  }
 									: {}
 							}>
-							Meet
+							Interview
 						</button>
 						<button
 							onClick={() => this.handleChangeActiveButton("Declined")}

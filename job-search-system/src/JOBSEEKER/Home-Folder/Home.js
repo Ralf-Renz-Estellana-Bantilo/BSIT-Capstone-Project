@@ -96,6 +96,7 @@ export class Home extends Component {
 						<Feed
 							onDelete={this.props.onDelete}
 							infos={this.props.infos}
+							company={this.props.company}
 							scrollPosition={this.props.scrollPosition}
 							handleScroll={this.props.handleScroll}
 							setCompanyID={this.props.setCompanyID}

@@ -22,7 +22,7 @@
 }
 
 .job-title-header a img {
-	height: 35px;
+	height: 25px;
 }
 
 .applicant-data-container .job-title {
@@ -32,8 +32,18 @@
 }
 
 .job-title h1 {
-	font-size: 17px;
+	font-size: 16px;
+	font-weight: 600;
 	color: var(--accent-main);
+	width: 80%;
+	margin: 0 auto;
+}
+
+.job-title p {
+	font-size: 14px;
+	color: var(--accent2);
+	width: 80%;
+	margin: 0 auto;
 }
 
 .applicant-dp .applicant-profile {

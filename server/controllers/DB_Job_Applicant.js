@@ -33,9 +33,12 @@ export const addJobApplicants = (req, res) => {
 	const year = req.body.year;
 	const dateApplied = req.body.dateApplied;
 	const candidateStatus = req.body.candidateStatus;
+	const disability = req.body.disability;
+	const employmentStatus = req.body.employmentStatus;
+	const employmentType = req.body.employmentType;
 
 	db.query(
-		"INSERT INTO job_applicants (JobID, CompanyID, ApplicantID, Job_Title, First_Name, Middle_Name, Last_Name, Home_Address, Sex, B_Month, B_Day, B_Year, Contact_Number, Email_Address, Civil_Status, Educ_Attainment, Resume, User_Image, Minutes, Hour, Day, Month, Year, Date_Applied, Candidate_Status, Status ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'New')",
+		"INSERT INTO job_applicants (JobID, CompanyID, ApplicantID, Job_Title, First_Name, Middle_Name, Last_Name, Home_Address, Sex, B_Month, B_Day, B_Year, Contact_Number, Email_Address, Civil_Status, Educ_Attainment, Resume, User_Image, Minutes, Hour, Day, Month, Year, Date_Applied, Candidate_Status, Status, Disability, Employment_Status, Employment_Type ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'New', ?, ?, ?)",
 		[
 			jobID,
 			companyID,
@@ -62,6 +65,9 @@ export const addJobApplicants = (req, res) => {
 			year,
 			dateApplied,
 			candidateStatus,
+			disability,
+			employmentStatus,
+			employmentType,
 		],
 		(err, result) => {
 			if (err) {

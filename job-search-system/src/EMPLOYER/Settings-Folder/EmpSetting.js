@@ -42,7 +42,7 @@ export class Emp_Setting extends Component {
 					toggleSidebar={this.props.toggleSidebar}
 					currentUser={currentUser}
 					company={this.props.company}
-					setCurrentUser={this.props.setCurrentUser}
+					// setCurrentUser={this.props.setCurrentUser}
 					getJobApplicantsByCompany={this.props.getJobApplicantsByCompany}
 					panel='Menu'
 					darkTheme={this.props.darkTheme}

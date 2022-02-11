@@ -155,7 +155,7 @@ export class LandingPage extends Component {
 							<h2>Are you looking for skilled applicants?</h2>
 							<p>
 								Start searching for applicants who fit your job
-								requirement...
+								requirements
 							</p>
 						</div>
 						<div className='page-cards'>

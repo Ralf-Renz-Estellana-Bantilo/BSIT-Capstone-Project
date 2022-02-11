@@ -1,0 +1,41 @@
+.profession-info-field {
+	display: flex;
+	flex-direction: row;
+}
+
+.profession-info-field .field {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 10px;
+	flex: 1;
+	padding: 0 5px;
+}
+
+.acronym-container {
+	display: flex;
+	align-items: center;
+}
+
+.acronym-container input {
+	flex: 1;
+}
+
+.acronym-container .acronym {
+	margin-left: 10px;
+}
+
+.acronym-container .acronym label {
+	font-size: 13px;
+	color: var(--accent1);
+}
+
+@media only screen and (max-width: 800px) {
+	.profession-info-field {
+		flex-direction: column;
+	}
+
+	.profession-info-field .field {
+		flex: 0;
+		padding: 0;
+	}
+}

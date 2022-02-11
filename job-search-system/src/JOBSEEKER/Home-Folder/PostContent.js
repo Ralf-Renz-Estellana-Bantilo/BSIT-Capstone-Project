@@ -21,6 +21,10 @@ export class PostContent extends Component {
 			Job_Requirements,
 			Job_Description,
 			Employer_Name,
+			Contact_Person_Name,
+			Contact_Person_Position,
+			Contact_Person_Number,
+			Contact_Person_Email,
 		} = this.props.info;
 		const { showMore } = this.props;
 		const { height } = this.state;
@@ -47,8 +51,29 @@ export class PostContent extends Component {
 							<h3>--- Job Description ---</h3>
 							<p>{Job_Description}</p>
 						</div>
-
-						<h2>Employer's Name: {Employer_Name}</h2>
+						{Contact_Person_Name === null ? (
+							<h2 style={{ marginBottom: "10px" }}>
+								Employer's Name: {Employer_Name}
+							</h2>
+						) : (
+							<>
+								<div className='job-qualification-portion'>
+									<h3>--- Contact Person ---</h3>
+								</div>
+								<h2 style={{ marginTop: "0px" }}>
+									Full Name: <u>{Contact_Person_Name}</u>
+								</h2>
+								<h2 style={{ marginTop: "0px" }}>
+									Position: <u>{Contact_Person_Position}</u>
+								</h2>
+								<h2 style={{ marginTop: "0px" }}>
+									Contact Number: <u>{Contact_Person_Number}</u>
+								</h2>
+								<h2 style={{ marginTop: "0px", marginBottom: "10px" }}>
+									Email Address: <u>{Contact_Person_Email}</u>
+								</h2>
+							</>
+						)}
 					</div>
 				</div>
 			</div>

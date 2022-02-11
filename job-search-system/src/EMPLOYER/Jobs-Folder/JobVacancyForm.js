@@ -8,18 +8,31 @@ import Resources from "../../Resources";
 export class JobVacancyForm extends Component {
 	state = {
 		step: 1,
+		isCurrentAddress: false,
+
+		// job vacancy form
 		jobTitle: "",
 		jobCategory: "",
 		noReqEmp: "",
-		salary: "",
+		minSalary: "",
+		maxSalary: "",
 		prefSex: "",
+		civilStatus: "",
 		jobType: "",
 		jobQualification: "",
 		jobRequirement: "",
 		jobDescription: "",
-		employerName: "",
-		contactNo: "",
-		address: "",
+		placeOfWork: "",
+
+		// employer form
+		employerName: null,
+		contactNo: null,
+		address: null,
+		emailAddress: null,
+		contactPersonName: null,
+		contactPersonPosition: null,
+		contactPersonNumber: null,
+		contactPersonEmail: null,
 
 		jobPost: {},
 		company: [],
@@ -60,6 +73,23 @@ export class JobVacancyForm extends Component {
 		this.props.toggle();
 	};
 
+	handleChangePlaceOfWork = async () => {
+		const { isCurrentAddress, address } = this.state;
+		await this.setState({
+			isCurrentAddress: !isCurrentAddress,
+		});
+
+		if (!isCurrentAddress) {
+			await this.setState({
+				placeOfWork: address,
+			});
+		} else {
+			await this.setState({
+				placeOfWork: "",
+			});
+		}
+	};
+
 	viewPost = (post) => {
 		this.props.onAddPost(post);
 	};
@@ -70,7 +100,7 @@ export class JobVacancyForm extends Component {
 		});
 	};
 
-	componentDidMount = async () => {
+	componentDidMount = () => {
 		const { targetJobPost, company } = this.props;
 
 		if (targetJobPost) {
@@ -78,21 +108,31 @@ export class JobVacancyForm extends Component {
 				jobTitle: targetJobPost.Job_Title,
 				jobCategory: targetJobPost.Category,
 				noReqEmp: targetJobPost.Required_Employees,
-				salary: targetJobPost.Salary,
+				minSalary: targetJobPost.Minimum_Salary,
+				maxSalary: targetJobPost.Maximum_Salary,
 				prefSex: targetJobPost.Preferred_Sex,
+				civilStatus: targetJobPost.Civil_Status,
 				jobType: targetJobPost.Job_Type,
 				jobQualification: targetJobPost.Job_Qualifications,
 				jobRequirement: targetJobPost.Job_Requirements,
 				jobDescription: targetJobPost.Job_Description,
 				employerName: company.Employer_Name,
 				contactNo: company.Contact_Number,
-				address: `${company.Street}, ${company.Zone}, ${company.Barangay}`,
+				// address: `${company.Street}, ${company.Zone}, ${company.Barangay}`,
+				address: targetJobPost.Company_Address,
+				placeOfWork: targetJobPost.Work_Place,
+				contactPersonName: targetJobPost.Contact_Person_Name,
+				contactPersonPosition: targetJobPost.Contact_Person_Position,
+				contactPersonNumber: targetJobPost.Contact_Person_Number,
+				contactPersonEmail: targetJobPost.Contact_Person_Email,
 			});
 		} else {
 			this.setState({
 				employerName: company.Employer_Name,
 				contactNo: company.Contact_Number,
 				address: `${company.Street}, ${company.Zone}, ${company.Barangay}`,
+				placeOfWork: `${company.Street}, ${company.Zone}, ${company.Barangay}`,
+				emailAddress: company.Email_Address,
 			});
 		}
 	};
@@ -104,31 +144,48 @@ export class JobVacancyForm extends Component {
 			jobTitle,
 			jobCategory,
 			noReqEmp,
-			salary,
+			minSalary,
+			maxSalary,
 			prefSex,
 			jobType,
 			jobQualification,
 			jobRequirement,
 			jobDescription,
+			placeOfWork,
 			employerName,
 			contactNo,
-			website,
 			address,
+			civilStatus,
+			emailAddress,
+			contactPersonName,
+			contactPersonPosition,
+			contactPersonNumber,
+			contactPersonEmail,
+			isCurrentAddress,
 		} = this.state;
+
 		const values = {
 			jobTitle,
 			jobCategory,
 			noReqEmp,
-			salary,
+			minSalary,
+			maxSalary,
 			prefSex,
 			jobType,
 			jobQualification,
 			jobRequirement,
 			jobDescription,
+			placeOfWork,
 			employerName,
 			contactNo,
-			website,
 			address,
+			civilStatus,
+			emailAddress,
+			contactPersonName,
+			contactPersonPosition,
+			contactPersonNumber,
+			contactPersonEmail,
+			isCurrentAddress,
 		};
 
 		switch (step) {
@@ -137,7 +194,9 @@ export class JobVacancyForm extends Component {
 					<JobVacancyFormPart1
 						nextStep={this.nextStep}
 						handleChange={this.handleChange}
+						handleChangePlaceOfWork={this.handleChangePlaceOfWork}
 						values={values}
+						isCurrentAddress={isCurrentAddress}
 						targetJobPost={this.props.targetJobPost}
 					/>
 				);

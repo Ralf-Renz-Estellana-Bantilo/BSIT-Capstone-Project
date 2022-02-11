@@ -35,6 +35,11 @@ export class ApplicationForm extends Component {
 		applicants: [],
 		height: 0,
 		targetDeleteJobID: null,
+
+		// newly added fields
+		disability: "",
+		employmentStatus: "",
+		employmentType: "",
 	};
 
 	filterObject = () => {
@@ -54,8 +59,10 @@ export class ApplicationForm extends Component {
 						Job_Title: info.Job_Title,
 						Category: info.Category,
 						Required_Employees: info.Required_Employees,
-						Salary: info.Salary,
+						Minimum_Salary: info.Minimum_Salary,
+						Maximum_Salary: info.Maximum_Salary,
 						Job_Type: info.Job_Type,
+						Civil_Status: info.Civil_Status,
 						Preferred_Sex: info.Preferred_Sex,
 						Job_Qualifications: info.Job_Qualifications,
 						Job_Requirements: info.Job_Requirements,
@@ -63,6 +70,11 @@ export class ApplicationForm extends Component {
 						Employer_Name: info.Employer_Name,
 						Company_Image: info.Company_Image,
 						Active_Status: info.Active_Status,
+						Work_Place: info.Work_Place,
+						Contact_Person_Name: info.Contact_Person_Name,
+						Contact_Person_Position: info.Contact_Person_Position,
+						Contact_Person_Number: info.Contact_Person_Number,
+						Contact_Person_Email: info.Contact_Person_Email,
 					},
 					targetDeleteJobID: info.JobID,
 				});
@@ -89,7 +101,23 @@ export class ApplicationForm extends Component {
 			fileData,
 			userImage,
 			post,
+			disability,
+			employmentStatus,
+			employmentType,
 		} = this.state;
+
+		const date =
+			new Date().getMonth() +
+			1 +
+			"_" +
+			new Date().getDate() +
+			"_" +
+			new Date().getFullYear();
+
+		let newFileName = "";
+		if (fileData !== null) {
+			newFileName = date + "_" + fileData.name;
+		}
 
 		const applicantData = {
 			jobID: post.JobID,
@@ -108,8 +136,11 @@ export class ApplicationForm extends Component {
 			email: email,
 			civilStatus: civilStatus,
 			educationalAttainment: educationalAttainment,
-			resume: resume,
+			resume: newFileName,
 			userImage: userImage,
+			disability: disability,
+			employmentStatus: employmentStatus,
+			employmentType: employmentType,
 			min: new Date().getMinutes(),
 			hour: new Date().getHours(),
 			day: new Date().getDate(),
@@ -118,26 +149,38 @@ export class ApplicationForm extends Component {
 			fileData: fileData,
 		};
 
-		await this.props.addJobApplicants(applicantData);
-		await this.props.handleApplication(this.props.targetCompany);
+		if (fileData !== null) {
+			if (fileData.size > 2000000) {
+				alert("File too large (2mb limit) ! Please try again!");
+				this.setState({
+					fileData: null,
+				});
+			} else {
+				await this.props.addJobApplicants(applicantData);
+				await this.props.handleApplication(this.props.targetCompany);
 
-		try {
-			if (this.state.fileData !== null) {
-				const data = new FormData();
-				data.append("pdf", this.state.fileData);
-				await fetch("http://localhost:2000/api/upload-pdf", {
-					method: "POST",
-					body: data,
-				})
-					.then((result) => {
-						console.log("The PDF File has been Uploaded...");
-					})
-					.catch((error) => {
-						console.log("Multer Error!", error);
-					});
+				try {
+					if (fileData !== null) {
+						const data = new FormData();
+						data.append("pdf", fileData);
+						await fetch("http://localhost:2000/api/upload-pdf", {
+							method: "POST",
+							body: data,
+						})
+							.then((result) => {
+								console.log("The PDF File has been Uploaded...");
+							})
+							.catch((error) => {
+								console.log("Multer Error!", error);
+							});
+					}
+				} catch (error) {
+					console.log("Application Form:", error);
+				}
 			}
-		} catch (error) {
-			console.log("Application Form:", error);
+		} else {
+			await this.props.addJobApplicants(applicantData);
+			await this.props.handleApplication(this.props.targetCompany);
 		}
 	};
 
@@ -298,6 +341,9 @@ export class ApplicationForm extends Component {
 							educationalAttainment: response.data[0].Educ_Attainment,
 							userImage: response.data[0].User_Image,
 							resume: response.data[0].Resume,
+							disability: response.data[0].Disability,
+							employmentStatus: response.data[0].Employment_Status,
+							employmentType: response.data[0].Employment_Type,
 						});
 					}
 				});
@@ -319,6 +365,9 @@ export class ApplicationForm extends Component {
 						email: applicant.Email_Address,
 						civilStatus: applicant.Civil_Status,
 						educationalAttainment: applicant.Educ_Attainment,
+						disability: applicant.Disability,
+						employmentStatus: applicant.Employment_Status,
+						employmentType: applicant.Employment_Type,
 						userImage: this.props.currentUser.User_Image,
 					});
 				}
@@ -346,7 +395,8 @@ export class ApplicationForm extends Component {
 			);
 		});
 
-		const { activePage, darkTheme, employerFeedback } = this.props;
+		const { activePage, darkTheme, employerFeedback, numApplicants } =
+			this.props;
 		const {
 			lastName,
 			firstName,
@@ -363,7 +413,19 @@ export class ApplicationForm extends Component {
 			resume,
 			post,
 			height,
+			disability,
+			employmentStatus,
+			employmentType,
 		} = this.state;
+
+		let filteredCandidate = numApplicants.filter(
+			(numApplicant) => numApplicant.JobID === post.JobID
+		);
+		let filteredHiredCandidate = numApplicants.filter(
+			(numApplicant) =>
+				numApplicant.JobID === post.JobID &&
+				numApplicant.Candidate_Status === "Hired"
+		);
 
 		let applicationStatus = "";
 		// feedback checking
@@ -384,21 +446,39 @@ export class ApplicationForm extends Component {
 			applicationStatus = "Closed";
 		}
 
-		let finalSalary = "";
-		let jobSalary = String(post.Salary);
-		for (let a = 1; a <= jobSalary.length; a++) {
+		let finalMinSalary = "";
+		let finalMaxSalary = "";
+
+		let jobMinSalary = `${post.Minimum_Salary}`;
+		let jobMaxSalary = `${post.Maximum_Salary}`;
+		for (let a = 1; a <= jobMinSalary.length; a++) {
 			if (
-				jobSalary.length - a === 3 ||
-				jobSalary.length - a === 6 ||
-				jobSalary.length - a === 9 ||
-				jobSalary.length - a === 12 ||
-				jobSalary.length - a === 15 ||
-				jobSalary.length - a === 18 ||
-				jobSalary.length - a === 21
+				jobMinSalary.length - a === 3 ||
+				jobMinSalary.length - a === 6 ||
+				jobMinSalary.length - a === 9 ||
+				jobMinSalary.length - a === 12 ||
+				jobMinSalary.length - a === 15 ||
+				jobMinSalary.length - a === 18 ||
+				jobMinSalary.length - a === 21
 			) {
-				finalSalary += jobSalary[a - 1] + ",";
+				finalMinSalary += jobMinSalary[a - 1] + ",";
 			} else {
-				finalSalary += jobSalary[a - 1];
+				finalMinSalary += jobMinSalary[a - 1];
+			}
+		}
+		for (let a = 1; a <= jobMaxSalary.length; a++) {
+			if (
+				jobMaxSalary.length - a === 3 ||
+				jobMaxSalary.length - a === 6 ||
+				jobMaxSalary.length - a === 9 ||
+				jobMaxSalary.length - a === 12 ||
+				jobMaxSalary.length - a === 15 ||
+				jobMaxSalary.length - a === 18 ||
+				jobMaxSalary.length - a === 21
+			) {
+				finalMaxSalary += jobMaxSalary[a - 1] + ",";
+			} else {
+				finalMaxSalary += jobMaxSalary[a - 1];
 			}
 		}
 
@@ -473,6 +553,10 @@ export class ApplicationForm extends Component {
 
 								<div className='apply-detail-container'>
 									<div className='apply-detail'>
+										<p>Job Category:</p>
+										<h4>{post.Category}</h4>
+									</div>
+									<div className='apply-detail'>
 										<p>Date Posted:</p>
 										<h4>
 											{TimeStamp.setTimeStamp(
@@ -486,26 +570,44 @@ export class ApplicationForm extends Component {
 									</div>
 									<div className='apply-detail'>
 										<p>Company Address :</p>
-										<h4>{post.Company_Address}</h4>
+										<h4>{post.Company_Address}, Catarman</h4>
 									</div>
 									<div className='apply-detail'>
-										<p>Job Category:</p>
-										<h4>{post.Category}</h4>
+										<p>Place of Work :</p>
+										<h4>
+											{post.Work_Place === post.Company_Address
+												? "Company Location"
+												: post.Work_Place}
+										</h4>
 									</div>
+
 									<div className='apply-detail'>
-										<p>Required No. of Employees:</p>
+										<p>Vacancy Count:</p>
 										<h4>{post.Required_Employees}</h4>
 									</div>
 									<div className='apply-detail'>
-										<p>Salary:</p>
-										<h4>₱ {finalSalary}</h4>
+										<p>Applied | Hired:</p>
+										<h4>
+											{filteredCandidate.length} •{" "}
+											{filteredHiredCandidate.length}
+										</h4>
 									</div>
 									<div className='apply-detail'>
-										<p>Job Type:</p>
+										<p>Salary Range:</p>
+										<h4>
+											₱ {finalMinSalary} - ₱ {finalMaxSalary}
+										</h4>
+									</div>
+									<div className='apply-detail'>
+										<p>Nature of Work:</p>
 										<h4>{post.Job_Type}</h4>
 									</div>
 									<div className='apply-detail'>
-										<p>Preferred Sex:</p>
+										<p>Civil Status:</p>
+										<h4>{post.Civil_Status}</h4>
+									</div>
+									<div className='apply-detail'>
+										<p>Preferred Gender:</p>
 										<h4>{post.Preferred_Sex}</h4>
 									</div>
 									<div className='apply-detail'>
@@ -549,7 +651,37 @@ export class ApplicationForm extends Component {
 										<p>{post.Job_Description}</p>
 									</div>
 
-									<h2>Employer's Name: {post.Employer_Name}</h2>
+									{/* <h2>Employer's Name: {post.Employer_Name}</h2> */}
+									{post.Contact_Person_Name === null ? (
+										<h2 style={{ marginBottom: "10px" }}>
+											Employer's Name: {post.Employer_Name}
+										</h2>
+									) : (
+										<>
+											<div className='job-qualification-portion'>
+												<h3>--- Contact Person ---</h3>
+											</div>
+											<h2 style={{ marginTop: "0px" }}>
+												Full Name: <u>{post.Contact_Person_Name}</u>
+											</h2>
+											<h2 style={{ marginTop: "0px" }}>
+												Position:{" "}
+												<u>{post.Contact_Person_Position}</u>
+											</h2>
+											<h2 style={{ marginTop: "0px" }}>
+												Contact Number:{" "}
+												<u>{post.Contact_Person_Number}</u>
+											</h2>
+											<h2
+												style={{
+													marginTop: "0px",
+													marginBottom: "10px",
+												}}>
+												Email Address:{" "}
+												<u>{post.Contact_Person_Email}</u>
+											</h2>
+										</>
+									)}
 								</div>
 							</div>
 						</div>
@@ -637,7 +769,7 @@ export class ApplicationForm extends Component {
 							</div>
 							<div className='status-group'>
 								<div className='field'>
-									<label>Sex: </label>
+									<label>Gender: </label>
 									<select
 										value={sex}
 										onChange={(e) => {
@@ -646,11 +778,16 @@ export class ApplicationForm extends Component {
 										disabled={
 											`${activePage}` === "profile" && "disable"
 										}>
-										<option disabled='disabled' hidden='hidden'>
-											Select Sex
+										<option
+											disabled='disabled'
+											hidden='hidden'
+											value=''>
+											Select Gender
 										</option>
 										<option value='Male'>Male</option>
 										<option value='Female'>Female</option>
+										<option value='Gay'>Gay</option>
+										<option value='Lesbian'>Lesbian</option>
 									</select>
 								</div>
 								<div className='field'>
@@ -668,6 +805,9 @@ export class ApplicationForm extends Component {
 										</option>
 										<option value='Single'>Single</option>
 										<option value='Married'>Married</option>
+										<option value='Widowed'>Widowed</option>
+										<option value='Separated'>Separated</option>
+										<option value='Live-in'>Live-in</option>
 									</select>
 								</div>
 							</div>
@@ -770,6 +910,96 @@ export class ApplicationForm extends Component {
 									/>
 								</div>
 							</div>
+							<div className='group-field'>
+								<div className='field'>
+									<label>Disability: </label>
+									<select
+										value={disability}
+										onChange={(e) => {
+											this.handleChange(e, "disability");
+										}}
+										disabled={
+											`${activePage}` === "profile" && "disable"
+										}>
+										<option
+											disabled='disabled'
+											hidden='hidden'
+											value=''>
+											Select Disability
+										</option>
+										<option value='None'>None</option>
+										<option value='Visual'>Visual</option>
+										<option value='Hearing'>Hearing</option>
+										<option value='Speech'>Speech</option>
+										<option value='Physical'>Physical</option>
+										<option value='Others'>Others</option>
+									</select>
+								</div>
+								<div className='field'>
+									<label>Employment Status/Type: </label>
+									<div className='employment-status-fields'>
+										<select
+											value={employmentStatus}
+											onChange={(e) => {
+												this.handleChange(e, "employmentStatus");
+											}}
+											disabled={
+												`${activePage}` === "profile" && "disable"
+											}>
+											<option
+												disabled='disabled'
+												hidden='hidden'
+												value=''>
+												Select Status
+											</option>
+											<option value='Employed'>Employed</option>
+											<option value='Unemployed'>Unemployed</option>
+										</select>
+										<select
+											value={employmentType}
+											onChange={(e) => {
+												this.handleChange(e, "employmentType");
+											}}
+											disabled={
+												`${activePage}` === "profile" && "disable"
+											}>
+											<option
+												disabled='disabled'
+												hidden='hidden'
+												value=''>
+												Select Type
+											</option>
+											{employmentStatus === "Employed" ? (
+												<>
+													<option value='Wage Employed'>
+														Wage Employed
+													</option>
+													<option value='Self Employed'>
+														Self Employed
+													</option>
+												</>
+											) : (
+												<>
+													<option value='Not Specified'>
+														Not Specified
+													</option>
+													<option value='Fresh Graduate'>
+														Fresh Graduate
+													</option>
+													<option value='Finished Contract'>
+														Finished Contract
+													</option>
+													<option value='Resigned'>
+														Resigned
+													</option>
+													<option value='Retired'>Retired</option>
+													{/* <option value='Others'>Others</option> */}
+												</>
+											)}
+										</select>
+									</div>
+								</div>
+							</div>
 							<div className='field'>
 								<label>Educational Attainment: </label>
 								<input
@@ -785,7 +1015,7 @@ export class ApplicationForm extends Component {
 							<div className='field'>
 								<label>
 									{`${activePage}` === "profile"
-										? "Attached File:"
+										? "Resume:"
 										: "Attach your resume here (if necessary):"}
 								</label>
 

@@ -73,7 +73,54 @@ export class Emp_Post extends Component {
 	};
 
 	render() {
-		const { companyJobPost, darkTheme } = this.props;
+		const { companyJobPost, darkTheme, numApplicants, company } = this.props;
+
+		let filteredCandidate = [];
+		let filteredHiredCandidate = [];
+
+		filteredCandidate = numApplicants.filter(
+			(numApplicant) => numApplicant.JobID === companyJobPost.JobID
+		);
+		filteredHiredCandidate = numApplicants.filter(
+			(numApplicant) =>
+				numApplicant.JobID === companyJobPost.JobID &&
+				numApplicant.Candidate_Status === "Hired"
+		);
+
+		let finalMinSalary = "";
+		let finalMaxSalary = "";
+		let jobMinSalary = companyJobPost.Minimum_Salary;
+		let jobMaxSalary = companyJobPost.Maximum_Salary;
+		for (let a = 1; a <= jobMinSalary.length; a++) {
+			if (
+				jobMinSalary.length - a === 3 ||
+				jobMinSalary.length - a === 6 ||
+				jobMinSalary.length - a === 9 ||
+				jobMinSalary.length - a === 12 ||
+				jobMinSalary.length - a === 15 ||
+				jobMinSalary.length - a === 18 ||
+				jobMinSalary.length - a === 21
+			) {
+				finalMinSalary += jobMinSalary[a - 1] + ",";
+			} else {
+				finalMinSalary += jobMinSalary[a - 1];
+			}
+		}
+		for (let a = 1; a <= jobMaxSalary.length; a++) {
+			if (
+				jobMaxSalary.length - a === 3 ||
+				jobMaxSalary.length - a === 6 ||
+				jobMaxSalary.length - a === 9 ||
+				jobMaxSalary.length - a === 12 ||
+				jobMaxSalary.length - a === 15 ||
+				jobMaxSalary.length - a === 18 ||
+				jobMaxSalary.length - a === 21
+			) {
+				finalMaxSalary += jobMaxSalary[a - 1] + ",";
+			} else {
+				finalMaxSalary += jobMaxSalary[a - 1];
+			}
+		}
 
 		return (
 			<div className='post-container'>
@@ -90,7 +137,13 @@ export class Emp_Post extends Component {
 
 						<div className='basic-info'>
 							<Link to='/employer/business-profile'>
-								<h2>{companyJobPost.Company_Name}</h2>
+								{company.Company_Acronym !== "(n/a)" ? (
+									<h2 title={companyJobPost.Company_Name}>
+										{company.Company_Acronym} <span>(shortened)</span>
+									</h2>
+								) : (
+									<h2>{companyJobPost.Company_Name}</h2>
+								)}
 							</Link>
 
 							<div className='date-address'>
@@ -151,31 +204,50 @@ export class Emp_Post extends Component {
 				<div className='post-body'>
 					<div className='post-basic-content'>
 						<h3 className='job-title'>{companyJobPost.Job_Title}</h3>
+						<p className='job-category'>({companyJobPost.Category})</p>
 
 						<div className='post-detail-container'>
 							<div className='post-detail-group1'>
 								<div className='post-detail'>
-									<p>Job Category:</p>
-									<h4>{companyJobPost.Category}</h4>
+									<p>Salary Range:</p>
+									<h4>
+										₱ {finalMinSalary} - ₱ {finalMaxSalary}
+									</h4>
 								</div>
 								<div className='post-detail'>
-									<p>Required Employees:</p>
-									<h4>{companyJobPost.Required_Employees}</h4>
+									<p>Nature of Work:</p>
+									<h4>{companyJobPost.Job_Type}</h4>
 								</div>
 								<div className='post-detail'>
-									<p>Salary:</p>
-									<h4>₱ {companyJobPost.Salary}</h4>
+									<p>Preferred Gender:</p>
+									<h4>{companyJobPost.Preferred_Sex}</h4>
+								</div>
+								<div className='post-detail'>
+									<p>Civil Status:</p>
+									<h4>{companyJobPost.Civil_Status}</h4>
 								</div>
 							</div>
 
 							<div className='post-detail-group2'>
 								<div className='post-detail'>
-									<p>Job Type:</p>
-									<h4>{companyJobPost.Job_Type}</h4>
+									<p>Vacancy Count:</p>
+									<h4>{companyJobPost.Required_Employees}</h4>
 								</div>
 								<div className='post-detail'>
-									<p>Preferred Sex:</p>
-									<h4>{companyJobPost.Preferred_Sex}</h4>
+									<p>Applied | Hired:</p>
+									<h4>
+										{filteredCandidate.length} •{" "}
+										{filteredHiredCandidate.length}
+									</h4>
+								</div>
+								<div className='post-detail'>
+									<p>Place of Work:</p>
+									<h4>
+										{companyJobPost.Work_Place ===
+										companyJobPost.Company_Address
+											? "Company Location"
+											: companyJobPost.Work_Place}
+									</h4>
 								</div>
 								<div className='post-detail'>
 									<p>Job Vacancy Status:</p>
@@ -185,12 +257,8 @@ export class Emp_Post extends Component {
 											style={
 												this.props.companyJobPost.Active_Status ===
 												"Active"
-													? {
-															backgroundColor: "#00ff40",
-													  }
-													: {
-															backgroundColor: "#ff0000",
-													  }
+													? { backgroundColor: "#00ff40" }
+													: { backgroundColor: "#ff0000" }
 											}></div>
 										<h4>{companyJobPost.Active_Status}</h4>
 									</div>
@@ -198,6 +266,7 @@ export class Emp_Post extends Component {
 							</div>
 						</div>
 					</div>
+
 					<PostContent
 						info={companyJobPost}
 						showMore={this.state.showMore}

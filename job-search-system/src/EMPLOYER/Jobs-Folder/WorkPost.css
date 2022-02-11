@@ -7,7 +7,7 @@
 
 .post-input-container {
 	/* background-color: var(--dark-secondary); */
-	border-bottom: 1px solid grey;
+	border-bottom: 1px solid var(--border1);
 }
 
 .post-input-container h3 {

@@ -62,7 +62,7 @@ export class Feed extends Component {
 	}
 
 	render() {
-		const { infos, applicants, appliedJobs, appliedJobsFeedback } =
+		const { infos, applicants, appliedJobs, appliedJobsFeedback, company } =
 			this.props;
 		const { filter, location, preferredCategory } = this.state;
 
@@ -147,6 +147,14 @@ export class Feed extends Component {
 							}
 						}
 
+						let acronym = "";
+						company.map((comp) => {
+							if (comp.CompanyID === info.CompanyID) {
+								acronym = comp.Company_Acronym;
+								return null;
+							}
+						});
+
 						if (
 							`${address}`
 								.toLowerCase()
@@ -160,6 +168,7 @@ export class Feed extends Component {
 								<div key={info.JobID}>
 									<Post
 										info={info}
+										acronym={acronym}
 										activePage={this.props.activePage}
 										onDelete={this.deletePost}
 										toggleCompanyProfile={this.toggleCompanyProfile}
