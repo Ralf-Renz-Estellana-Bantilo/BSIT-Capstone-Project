@@ -80,8 +80,8 @@ export class Message extends Component {
 			<div className='message-container'>
 				<h4>
 					{convertStatus === "Potential Employer"
-						? "Job Offer"
-						: "Feedback"}
+						? "JOB OFFER"
+						: "FEEDBACK"}
 				</h4>
 				<div className='message-header'>
 					<div
@@ -186,7 +186,7 @@ export class Message extends Component {
 					<p>You can't reply to this message!</p>
 					{/* <p>Chat system is not supported by this system!</p> */}
 				</div>
-				<Footer />
+				{/* <Footer /> */}
 			</div>
 		);
 	}

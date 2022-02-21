@@ -97,7 +97,7 @@ export class Login extends Component {
 
 		this.props.showWelcomWindowOn();
 
-		localStorage.setItem("darkTheme", true);
+		localStorage.setItem("darkTheme", false);
 	};
 
 	setNotLoggedin = () => {
@@ -138,9 +138,6 @@ export class Login extends Component {
 
 		const { darkTheme } = this.props;
 
-		const randomNumber = Math.floor(Math.random() * 5);
-		const delayTime = randomNumber + 4;
-
 		return (
 			<div className='login-container'>
 				{this.props.showWelcomWindow === true && (
@@ -151,7 +148,7 @@ export class Login extends Component {
 								: Loading2Red
 						}
 						method={this.props.showWelcomWindowOff}
-						delay={delayTime}
+						delay={4}
 						currentUser={this.props.currentUser}
 						path={holdString}
 						getAppliedJobs={this.props.getAppliedJobs}
@@ -253,7 +250,7 @@ export class Login extends Component {
 									autoFocus
 									autoComplete={"off"}
 									type='text'
-									placeholder='Email'
+									placeholder='Username'
 									onChange={(e) => {
 										this.setState({
 											usernameInput: e.target.value,

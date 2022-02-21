@@ -63,6 +63,14 @@ export class SearchEngine extends Component {
 		window.scrollTo(0, prevScroll);
 
 		localStorage.setItem("isSearchOpen", true);
+
+		const userTypeSession = sessionStorage.getItem("UserType");
+		let userType = "";
+		if (userTypeSession === "Job Seeker") {
+			document.title = "Job Seeker | Job Search Catarman";
+		} else {
+			document.title = "Employer | Job Search Catarman";
+		}
 	};
 
 	componentWillUnmount = async () => {

@@ -72,14 +72,13 @@ const Navbar = ({
 		const date =
 			new Date().getMonth() +
 			1 +
-			"_" +
+			"" +
 			new Date().getDate() +
-			"_" +
 			new Date().getFullYear();
 
 		const newFileName = date + "_" + fileData.name;
 
-		if (fileData.size > 2000000) {
+		if (fileData.size > 2090000) {
 			alert("File too large (2mb limit) ! Please try again!");
 		} else {
 			try {

@@ -13,9 +13,11 @@
 .confirm-text-fields h3 {
 	color: var(--accent-main);
 	text-align: center;
-	font-size: 14px;
+	font-size: 16px;
 	font-weight: 600;
+	text-decoration: underline;
 	padding-top: 20px;
+	margin-bottom: 10px;
 }
 
 .confirm-text-fields .form {

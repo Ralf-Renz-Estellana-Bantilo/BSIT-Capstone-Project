@@ -6,6 +6,7 @@ import LocationIcon from "../Images/LocationIcon.png";
 import AdminResources from "../AdminResources";
 import "./Applicants.css";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Applicants = ({
 	activePage,
@@ -169,78 +170,86 @@ const Applicants = ({
 													`${applicantSearch}`.toLowerCase()
 												)
 										) {
-											let selectedApplicant = "";
-											if (applicant) {
-												if (
-													applicant.ApplicantID ===
-													jobSeeker.ApplicantID
-												) {
-													selectedApplicant =
-														applicant.ApplicantID;
+											if (jobSeeker.Preferred_Job !== null) {
+												let selectedApplicant = "";
+												if (applicant) {
+													if (
+														applicant.ApplicantID ===
+														jobSeeker.ApplicantID
+													) {
+														selectedApplicant =
+															applicant.ApplicantID;
+													}
 												}
-											}
-											return (
-												<div
-													className={
-														jobSeeker.ApplicantID ===
-														selectedApplicant
-															? "selected-job-post"
-															: "job-post"
-													}
-													style={
-														jobSeeker.Hiring_Status === "Active"
-															? {
-																	borderLeft:
-																		"5px solid #00ff40",
-															  }
-															: { borderLeft: "5px solid red" }
-													}
-													onClick={() => {
-														// setApplicant(jobSeeker);
-														setApplicantPreview(jobSeeker);
-													}}>
-													<div className='upperLeft-info'>
-														<div
-															className='account-profile'
-															style={{
-																height: "50px",
-																width: "50px",
-															}}>
-															<img
-																src={`../assets/${jobSeeker.User_Image}`}
-																alt='Job Seeker'
-															/>
-														</div>
-														<div className='basic-info'>
-															<h2>
-																{jobSeeker.Last_Name},{" "}
-																{jobSeeker.First_Name}{" "}
-																{jobSeeker.Middle_Name[0]}.
-															</h2>
+												return (
+													<div
+														className={
+															jobSeeker.ApplicantID ===
+															selectedApplicant
+																? "selected-job-post"
+																: "job-post"
+														}
+														style={
+															jobSeeker.Hiring_Status ===
+															"Active"
+																? {
+																		borderLeft:
+																			"5px solid #00ff40",
+																  }
+																: {
+																		borderLeft:
+																			"5px solid red",
+																  }
+														}
+														onClick={() => {
+															// setApplicant(jobSeeker);
+															setApplicantPreview(jobSeeker);
+														}}>
+														<div className='upperLeft-info'>
+															<div
+																className='account-profile'
+																style={{
+																	height: "50px",
+																	width: "50px",
+																}}>
+																<img
+																	src={`../assets/${jobSeeker.User_Image}`}
+																	alt='Job Seeker'
+																/>
+															</div>
+															<div className='basic-info'>
+																<h2>
+																	{jobSeeker.Last_Name},{" "}
+																	{jobSeeker.First_Name}{" "}
+																	{jobSeeker.Middle_Name[0]}.
+																</h2>
 
-															<div className='date-address'>
-																<p>
-																	•{" "}
-																	{AdminResources.getCurrentAge(
-																		jobSeeker.B_Month,
-																		jobSeeker.B_Day,
-																		jobSeeker.B_Year
-																	)}
-																</p>
-																<div className='address'>
-																	<img
-																		src={LocationIcon}
-																		alt='Location Icon'
-																	/>
+																<div className='date-address'>
 																	<p>
-																		{jobSeeker.Home_Address}
+																		•{" "}
+																		{AdminResources.getCurrentAge(
+																			jobSeeker.B_Month,
+																			jobSeeker.B_Day,
+																			jobSeeker.B_Year
+																		)}
 																	</p>
+																	<div className='address'>
+																		<img
+																			src={LocationIcon}
+																			alt='Location Icon'
+																		/>
+																		<p>
+																			{
+																				jobSeeker.Home_Address
+																			}
+																		</p>
+																	</div>
 																</div>
 															</div>
 														</div>
 													</div>
-												</div>
-											);
+												);
+											}
 										}
 									})}
 
@@ -355,6 +364,17 @@ const Applicants = ({
 														<span>{applicant.Civil_Status}</span>
 													</p>
 													<p>
+														Disability:{" "}
+														<span>{applicant.Disability}</span>
+													</p>
+													<p>
+														Employment Status/Type:{" "}
+														<span>
+															{applicant.Employment_Status} |{" "}
+															{applicant.Employment_Type}
+														</span>
+													</p>
+													<p>
 														Educational Attainment:{" "}
 														<span>
 															{applicant.Educ_Attainment}
@@ -373,11 +393,19 @@ const Applicants = ({
 														</span>
 													</p>
 													<p>
-														Preferred Salary:{" "}
+														Preferred Salary Range:{" "}
 														<span>
-															{applicant.Preferred_Salary}
+															₱{" "}
+															{AdminResources.formatMoney(
+																applicant.Minimum_Salary
+															)}{" "}
+															- ₱{" "}
+															{AdminResources.formatMoney(
+																applicant.Maximum_Salary
+															)}
 														</span>
 													</p>
+
 													<div className='profession-info'>
 														<h4>Interested in:</h4>
 														<p>{applicant.Interested_In}</p>

@@ -100,6 +100,15 @@ export class JobVacancyForm extends Component {
 		});
 	};
 
+	handleResetContactPerson = () => {
+		this.setState({
+			contactPersonName: null,
+			contactPersonPosition: null,
+			contactPersonNumber: null,
+			contactPersonEmail: null,
+		});
+	};
+
 	componentDidMount = () => {
 		const { targetJobPost, company } = this.props;
 
@@ -207,6 +216,7 @@ export class JobVacancyForm extends Component {
 						nextStep={this.nextStep}
 						prevStep={this.prevStep}
 						handleChange={this.handleChange}
+						handleResetContactPerson={this.handleResetContactPerson}
 						values={values}
 						company={this.props.company}
 						targetJobPost={this.props.targetJobPost}

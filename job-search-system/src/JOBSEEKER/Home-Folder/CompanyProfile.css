@@ -1,5 +1,4 @@
 .company-profile-container {
-	/* padding: 10px; */
 	height: 100vh;
 	background-color: var(--dark-primary);
 }
@@ -20,13 +19,17 @@
 	text-align: center;
 	padding: 10px 0;
 	background-color: var(--dark-primary);
+	position: relative;
+	animation-name: showFromTop;
+	animation-duration: 0.5s;
 }
 
 .company-profile-content h1 {
 	color: var(--accent-main);
-	font-size: 15px;
-	padding-top: 5px;
+	font-size: 16px;
 	font-weight: 600;
+	text-decoration: underline;
+	padding-top: 5px;
 	margin-bottom: 20px;
 }
 
@@ -36,7 +39,7 @@
 	border-radius: 5px;
 	overflow: hidden;
 	margin: 0 auto;
-	box-shadow: 0px 2px 5px rgb(10, 10, 10);
+	box-shadow: 0px 2px 2px rgb(10, 10, 10);
 }
 
 .company-logo img {

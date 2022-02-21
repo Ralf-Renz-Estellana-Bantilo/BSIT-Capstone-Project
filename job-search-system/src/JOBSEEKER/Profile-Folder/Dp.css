@@ -24,7 +24,7 @@
 	overflow: hidden;
 	margin: 0 auto;
 	position: relative;
-	box-shadow: 0px 2px 8px rgb(0, 0, 0);
+	box-shadow: 0px 2px 5px rgb(0, 0, 0);
 }
 
 .profile-container .profile-picture img {
@@ -67,7 +67,7 @@
 }
 
 .file-picker {
-	border-radius: 7px;
+	border-radius: 5px;
 	padding: 10px;
 	text-align: center;
 	outline: none;
@@ -163,25 +163,12 @@
 	object-fit: cover;
 }
 
-.close-preview {
-	/* text-align: right;
+.image-preview .close-preview {
 	cursor: pointer;
-	position: absolute;
-	top: 0;
-	right: 0;
-	transform: scaleY(0.7);
-	font-size: 23px;
-	color: rgba(255, 0, 0, 0.7);
-	padding: 9px 15px;
-	font-weight: 600; */
 	height: 30px;
 	position: absolute;
 	right: 12px;
 	top: 15px;
-}
-
-.close-preview:hover {
-	color: red;
 }
 
 .image-preview-title {

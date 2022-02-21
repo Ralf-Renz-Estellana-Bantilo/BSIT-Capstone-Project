@@ -72,16 +72,15 @@ export class Emp_Dashboard extends Component {
 		const date =
 			new Date().getMonth() +
 			1 +
-			"_" +
+			"" +
 			new Date().getDate() +
-			"_" +
 			new Date().getFullYear();
 
 		const newFileName = date + "_" + fileData.name;
 		const employerName = `${currentUser.First_Name} ${currentUser.Middle_Name} ${currentUser.Last_Name}`;
 
 		try {
-			if (fileData.size > 2000000) {
+			if (fileData.size > 2090000) {
 				alert("File too large (2mb limit) ! Please try again!");
 				this.setState({
 					fileData: null,
@@ -343,15 +342,15 @@ export class Emp_Dashboard extends Component {
 							className='register-form'
 							onSubmit={(e) => this.handleCreateCompanyData(e)}>
 							<h3 onClick={this.closeModal}>
-								Stablishment Registration Form
+								Establishment Registration Form
 							</h3>
 							<div className='register-fields'>
 								<div className='register-field'>
-									<label>Business Stablishment Name:</label>
+									<label>Business Establishment Name:</label>
 									<input
 										autoFocus
 										type='text'
-										placeholder='Set Stablishment Name'
+										placeholder='Set Establishment Name'
 										onChange={(e) =>
 											this.handleChange(e, "comp_stablismentName")
 										}
@@ -362,7 +361,7 @@ export class Emp_Dashboard extends Component {
 									<div className='acronym-container'>
 										<input
 											type='text'
-											placeholder='Set Stablishment Acronym/Abbreviation'
+											placeholder='Set Establishment Acronym/Abbreviation'
 											onChange={(e) =>
 												this.handleChange(e, "comp_acronym")
 											}
@@ -371,7 +370,7 @@ export class Emp_Dashboard extends Component {
 											<input
 												type='checkbox'
 												name='acronym'
-												checked={hasAcronym ? "hasAcronym" : ""}
+												checked={hasAcronym ? "checked" : ""}
 												onChange={this.handleAcronym}
 											/>
 											<label>(n/a)</label>
@@ -430,7 +429,7 @@ export class Emp_Dashboard extends Component {
 									</select>
 								</div>
 								<div className='register-field'>
-									<label>Business Stablishment Location:</label>
+									<label>Business Establishment Location:</label>
 									<input
 										type='text'
 										placeholder='Input Street'
@@ -492,7 +491,7 @@ export class Emp_Dashboard extends Component {
 									/>
 								</div>
 								<div className='register-field'>
-									<label>Business Stablishment Description:</label>
+									<label>Business Establishment Description:</label>
 									<textarea
 										placeholder='Describe what your business does..'
 										onChange={(e) =>
@@ -502,7 +501,7 @@ export class Emp_Dashboard extends Component {
 									/>
 								</div>
 								<div className='register-field'>
-									<label>Stablishment Photo:</label>
+									<label>Establishment Photo:</label>
 									<input
 										type='file'
 										onChange={this.handleFileChange}
@@ -556,10 +555,10 @@ export class Emp_Dashboard extends Component {
 								Start searching for applicants who fit your job
 								requirements!
 							</h3>
-							<p>
+							{/* <p>
 								Lorem ipsum dolor sit amet consectetur, adipisicing
 								elit. Aspernatur atque est enim, ut deserunt beatae.
-							</p>
+							</p> */}
 						</div>
 					</div>
 				</div>
@@ -585,7 +584,7 @@ export class Emp_Dashboard extends Component {
 						</div>
 						<div className='dashboard-update-card'>
 							<div className='dashboard-update-card-content'>
-								<h5>Unpreviewed Job Applicants</h5>
+								<h5>Unread Job Applications</h5>
 								<h1>{newApplicants}</h1>
 								<p>
 									as of{" "}

@@ -81,41 +81,6 @@ export class Hiree_Information extends Component {
 			userType = "employer";
 		}
 
-		let finalMinSalary = "";
-		let finalMaxSalary = "";
-		let jobMinSalary = hiree.Minimum_Salary;
-		let jobMaxSalary = hiree.Maximum_Salary;
-		for (let a = 1; a <= jobMinSalary.length; a++) {
-			if (
-				jobMinSalary.length - a === 3 ||
-				jobMinSalary.length - a === 6 ||
-				jobMinSalary.length - a === 9 ||
-				jobMinSalary.length - a === 12 ||
-				jobMinSalary.length - a === 15 ||
-				jobMinSalary.length - a === 18 ||
-				jobMinSalary.length - a === 21
-			) {
-				finalMinSalary += jobMinSalary[a - 1] + ",";
-			} else {
-				finalMinSalary += jobMinSalary[a - 1];
-			}
-		}
-		for (let a = 1; a <= jobMaxSalary.length; a++) {
-			if (
-				jobMaxSalary.length - a === 3 ||
-				jobMaxSalary.length - a === 6 ||
-				jobMaxSalary.length - a === 9 ||
-				jobMaxSalary.length - a === 12 ||
-				jobMaxSalary.length - a === 15 ||
-				jobMaxSalary.length - a === 18 ||
-				jobMaxSalary.length - a === 21
-			) {
-				finalMaxSalary += jobMaxSalary[a - 1] + ",";
-			} else {
-				finalMaxSalary += jobMaxSalary[a - 1];
-			}
-		}
-
 		return (
 			<div className='hiree-info-container'>
 				{this.state.isModalOpen ? (
@@ -150,8 +115,16 @@ export class Hiree_Information extends Component {
 							alt='Back'
 							style={
 								darkTheme
-									? { filter: "brightness(1)", height: "35px" }
-									: { filter: "brightness(0.3)", height: "35px" }
+									? {
+											filter: "brightness(1)",
+											height: "25px",
+											marginLeft: "10px",
+									  }
+									: {
+											filter: "brightness(0.3)",
+											height: "25px",
+											marginLeft: "10px",
+									  }
 							}
 						/>
 					</Link>
@@ -205,7 +178,7 @@ export class Hiree_Information extends Component {
 				<div className='confirm-text-fields'>
 					<div className='form-fields'>
 						<div className='form'>
-							<label>Preferred Job</label>
+							<label>Preferred Job/s</label>
 							<p>{employerMessage.Job_Title}</p>
 						</div>
 						<div className='form'>
@@ -215,9 +188,10 @@ export class Hiree_Information extends Component {
 					</div>
 					<div className='form-fields'>
 						<div className='form'>
-							<label>Preferred Salary</label>
+							<label>Preferred Salary Range</label>
 							<p>
-								₱ {finalMinSalary} - ₱ {finalMaxSalary}
+								₱ {Resources.formatMoney(hiree.Minimum_Salary)} - ₱{" "}
+								{Resources.formatMoney(hiree.Maximum_Salary)}
 							</p>
 						</div>
 						<div className='form'>
@@ -288,7 +262,7 @@ export class Hiree_Information extends Component {
 						</div>
 					</div>
 					<div className='form'>
-						<label>Interested In</label>
+						<label>Interests</label>
 						<p className='desc'>{hiree.Interested_In}</p>
 					</div>
 					<div className='form'>

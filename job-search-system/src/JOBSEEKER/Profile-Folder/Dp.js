@@ -37,16 +37,13 @@ export class Dp extends Component {
 		const date =
 			new Date().getMonth() +
 			1 +
-			"_" +
+			"" +
 			new Date().getDate() +
-			"_" +
 			new Date().getFullYear();
 
 		const newFileName = date + "_" + fileData.name;
 
-		console.log(fileData);
-
-		if (fileData.size > 2000000) {
+		if (fileData.size > 2090000) {
 			alert("File too large (2mb limit) ! Please try again!");
 			this.setState({
 				file: null,
@@ -61,7 +58,7 @@ export class Dp extends Component {
 					body: data,
 				})
 					.then((result) => {
-						console.log("The File has been Uploaded...");
+						// console.log("The File has been Uploaded...");
 					})
 					.catch((error) => {
 						console.log("Multer Error!", error);
@@ -72,9 +69,9 @@ export class Dp extends Component {
 					body: data,
 				})
 					.then(async (result) => {
-						console.log(
-							"The File has been Uploaded to the Administrator..."
-						);
+						// console.log(
+						// 	"The File has been Uploaded to the Administrator..."
+						// );
 					})
 					.catch((error) => {
 						console.log("Multer Error!", error);
@@ -86,7 +83,7 @@ export class Dp extends Component {
 						userID: sessionStorage.getItem("UserID"),
 					})
 					.then((response) => {
-						console.log(response);
+						// console.log(response);
 					});
 
 				await axios
@@ -95,7 +92,7 @@ export class Dp extends Component {
 						userID: sessionStorage.getItem("UserID"),
 					})
 					.then(async (response) => {
-						console.log(response);
+						// console.log(response);
 						await this.props.changeCurrentUserProfile(
 							newFileName,
 							this.props.currentUser.UserID

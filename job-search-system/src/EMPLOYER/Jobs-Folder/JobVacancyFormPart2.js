@@ -78,7 +78,7 @@ export class JobVacancyFormPart2 extends Component {
 					<div></div>
 				)}
 				<form className='post-input-container'>
-					<h3>--- Employer Form ---</h3>
+					<h3>EMPLOYER FORM</h3>
 					<div className='post-fields'>
 						<div className='post-field-wrapper'>
 							<div className='post-field'>
@@ -92,7 +92,7 @@ export class JobVacancyFormPart2 extends Component {
 								/>
 							</div>
 							<div className='post-field'>
-								<label>Stablishment Contact No.:</label>
+								<label>Establishment Contact No.:</label>
 								<input
 									disabled='disabled'
 									type='text'
@@ -125,18 +125,20 @@ export class JobVacancyFormPart2 extends Component {
 							</div>
 						</div>
 						<h3>
-							---{" "}
 							<input
 								type='checkbox'
 								name='contactPerson'
 								checked={hasContactPerson ? "checked" : ""}
-								onChange={() =>
-									this.setState({
+								onChange={async () => {
+									await this.setState({
 										hasContactPerson: !hasContactPerson,
-									})
-								}
+									});
+									if (hasContactPerson === true) {
+										this.props.handleResetContactPerson();
+									}
+								}}
 							/>{" "}
-							Contact Person (if there's any) ---
+							CONTACT PERSON (if there's any)
 						</h3>
 						<div className='post-field-wrapper'>
 							<div className='post-field'>
@@ -174,7 +176,7 @@ export class JobVacancyFormPart2 extends Component {
 							<div className='post-field'>
 								<label>Contact Number:</label>
 								<input
-									type='text'
+									type='number'
 									placeholder='Contact Number'
 									disabled={hasContactPerson ? "" : "disabled"}
 									onChange={handleChange("contactPersonNumber")}
@@ -189,7 +191,7 @@ export class JobVacancyFormPart2 extends Component {
 							<div className='post-field'>
 								<label>Email Address:</label>
 								<input
-									type='text'
+									type='email'
 									placeholder='Email Address'
 									disabled={hasContactPerson ? "" : "disabled"}
 									onChange={handleChange("contactPersonEmail")}

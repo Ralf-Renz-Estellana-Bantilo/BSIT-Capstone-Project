@@ -1461,31 +1461,31 @@ class AdminResources {
 		}
 
 		if (elapsedYear !== 0) {
-			if (elapsedYear === 1) {
-				return (time = elapsedYear + " yr ago");
-			}
-			return (time = elapsedYear + " yrs ago");
+			// if (elapsedYear === 1) {
+			// 	return (time = elapsedYear + "yr ago");
+			// }
+			return (time = elapsedYear + "y ago");
 		} else if (elapsedMonth !== 0) {
-			if (elapsedMonth === 1) {
-				return (time = elapsedMonth + " month ago");
-			}
-			return (time = elapsedMonth + " months ago");
+			// if (elapsedMonth === 1) {
+			// 	return (time = elapsedMonth + "m ago");
+			// }
+			return (time = elapsedMonth + "m ago");
 		} else if (elapsedDay !== 0) {
-			if (elapsedDay === 1) {
-				return (time = "Yesterday");
-				// return (time = elapsedDay + " day ago");
-			}
-			return (time = elapsedDay + " days ago");
+			// if (elapsedDay === 1) {
+			// 	return (time = "Yesterday");
+			// 	// return (time = elapsedDay + "d ago");
+			// }
+			return (time = elapsedDay + "d ago");
 		} else if (elapsedHour !== 0) {
-			if (elapsedHour === 1) {
-				return (time = elapsedHour + " hr ago");
-			}
-			return (time = elapsedHour + " hrs ago");
+			// if (elapsedHour === 1) {
+			// 	return (time = elapsedHour + "h ago");
+			// }
+			return (time = elapsedHour + "h ago");
 		} else if (elapsedMinute !== 0) {
-			if (elapsedMinute === 1) {
-				return (time = elapsedMinute + " min ago");
-			}
-			return (time = elapsedMinute + " mins ago");
+			// if (elapsedMinute === 1) {
+			// 	return (time = elapsedMinute + "m ago");
+			// }
+			return (time = elapsedMinute + "m ago");
 		}
 
 		return time;
@@ -1527,6 +1527,27 @@ class AdminResources {
 		}
 
 		return holdOutput;
+	};
+
+	formatMoney = (salary) => {
+		let formatedSalary = "";
+		for (let a = 1; a <= salary.length; a++) {
+			if (
+				salary.length - a === 3 ||
+				salary.length - a === 6 ||
+				salary.length - a === 9 ||
+				salary.length - a === 12 ||
+				salary.length - a === 15 ||
+				salary.length - a === 18 ||
+				salary.length - a === 21
+			) {
+				formatedSalary += salary[a - 1] + ",";
+			} else {
+				formatedSalary += salary[a - 1];
+			}
+		}
+
+		return formatedSalary;
 	};
 }
 

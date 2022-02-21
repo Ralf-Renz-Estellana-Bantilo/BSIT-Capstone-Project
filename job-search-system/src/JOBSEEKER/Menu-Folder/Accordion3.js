@@ -73,9 +73,11 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 				)
 				.then(async (response) => {
 					// console.log("Employer Feedback have been deleted");
+					sessionStorage.clear();
+					localStorage.clear();
 				});
 		} catch (error) {
-			console.log(error);
+			alert(error);
 		}
 	};
 
@@ -92,14 +94,14 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 					`http://localhost:2000/api/delete-user-account/${userSession}`
 				)
 				.then(async (response) => {
-					console.log("User Account Data have been deleted");
+					// console.log("User Account Data have been deleted");
 				});
 
 			// Delete Company Data
 			await axios
 				.delete(`http://localhost:2000/api/delete-company/${userSession}`)
 				.then(async (response) => {
-					console.log("Company Data have been deleted");
+					// console.log("Company Data have been deleted");
 				});
 
 			// Delete Job Posts Data
@@ -108,7 +110,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 					`http://localhost:2000/api/delete-company-jobPost/${companySession}`
 				)
 				.then(async (response) => {
-					console.log("Job Posts Data have been deleted");
+					// console.log("Job Posts Data have been deleted");
 				});
 
 			// Delete Job Applicant Data
@@ -117,7 +119,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 					`http://localhost:2000/api/delete-job-applicant-employer/${companySession}`
 				)
 				.then(async (response) => {
-					console.log("Job Applicant Data have been deleted");
+					// console.log("Job Applicant Data have been deleted");
 				});
 
 			// Delete Applied Jobs Data
@@ -126,7 +128,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 					`http://localhost:2000/api/delete-applied-employer/${companySession}`
 				)
 				.then(async (response) => {
-					console.log("Applied Jobs Data have been deleted");
+					// console.log("Applied Jobs Data have been deleted");
 				});
 
 			// Delete Employer Feedback Data
@@ -135,10 +137,12 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 					`http://localhost:2000/api/delete-employer-feedback-data/${companySession}`
 				)
 				.then(async (response) => {
-					console.log("Employer Feedback Data have been deleted");
+					// console.log("Employer Feedback Data have been deleted");
+					sessionStorage.clear();
+					localStorage.clear();
 				});
 		} catch (error) {
-			console.log(error);
+			alert(error);
 		}
 
 		localStorage.clear();

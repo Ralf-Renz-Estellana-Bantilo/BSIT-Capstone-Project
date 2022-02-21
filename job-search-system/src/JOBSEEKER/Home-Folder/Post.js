@@ -6,6 +6,7 @@ import PostContent from "./PostContent";
 import { Link } from "react-router-dom";
 import TimeStamp from "../../TimeStamp";
 import Modal from "./Modal";
+import Resources from "../../Resources";
 
 export class Post extends Component {
 	constructor() {
@@ -66,45 +67,14 @@ export class Post extends Component {
 				info.Company_Address.split(", ").length - 1
 			];
 
-		let finalMinSalary = "";
-		let finalMaxSalary = "";
-		let jobMinSalary = info.Minimum_Salary;
-		let jobMaxSalary = info.Maximum_Salary;
-		for (let a = 1; a <= jobMinSalary.length; a++) {
-			if (
-				jobMinSalary.length - a === 3 ||
-				jobMinSalary.length - a === 6 ||
-				jobMinSalary.length - a === 9 ||
-				jobMinSalary.length - a === 12 ||
-				jobMinSalary.length - a === 15 ||
-				jobMinSalary.length - a === 18 ||
-				jobMinSalary.length - a === 21
-			) {
-				finalMinSalary += jobMinSalary[a - 1] + ",";
-			} else {
-				finalMinSalary += jobMinSalary[a - 1];
-			}
-		}
-		for (let a = 1; a <= jobMaxSalary.length; a++) {
-			if (
-				jobMaxSalary.length - a === 3 ||
-				jobMaxSalary.length - a === 6 ||
-				jobMaxSalary.length - a === 9 ||
-				jobMaxSalary.length - a === 12 ||
-				jobMaxSalary.length - a === 15 ||
-				jobMaxSalary.length - a === 18 ||
-				jobMaxSalary.length - a === 21
-			) {
-				finalMaxSalary += jobMaxSalary[a - 1] + ",";
-			} else {
-				finalMaxSalary += jobMaxSalary[a - 1];
-			}
-		}
-
 		return (
 			<>
 				<div className='post-container'>
-					<div className='post-header'>
+					<div
+						className='post-header'
+						style={
+							darkTheme ? { borderBottom: "1px solid #4d4d4d" } : {}
+						}>
 						<div className='upperLeft-info'>
 							<Link
 								to={`/jobseeker/${this.props.activePage}/company-profile`}
@@ -116,7 +86,7 @@ export class Post extends Component {
 									title='View Establishment Details'>
 									<img
 										src={`../assets/${info.Company_Image}`}
-										alt='Stablishment'
+										alt='Establishment'
 									/>
 								</div>
 							</Link>
@@ -198,7 +168,9 @@ export class Post extends Component {
 									<div className='post-detail'>
 										<p>Salary Range:</p>
 										<h4>
-											₱ {finalMinSalary} - ₱ {finalMaxSalary}
+											₱ {Resources.formatMoney(info.Minimum_Salary)}{" "}
+											- ₱{" "}
+											{Resources.formatMoney(info.Maximum_Salary)}
 										</h4>
 									</div>
 									<div className='post-detail'>

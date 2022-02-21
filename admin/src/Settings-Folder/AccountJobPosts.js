@@ -45,7 +45,7 @@ const AccountJobPosts = ({ jobPosts, jobApplicants, adminPosts }) => {
 		<div className='post-preview-panel'>
 			<div className='job-post-header'>
 				<h3>{isPostPreview ? "Job Post Preview" : "Job Posts"}</h3>
-				{isPostPreview ? <p title='More Options...'>•••</p> : ""}
+				{/* {isPostPreview ? <p title='More Options...'>•••</p> : ""} */}
 			</div>
 			<div className='job-posts'>
 				{isPostPreview ? (
@@ -57,7 +57,7 @@ const AccountJobPosts = ({ jobPosts, jobApplicants, adminPosts }) => {
 										<div className='account-profile'>
 											<img
 												src={`../assets/${post.Company_Image}`}
-												alt='Stablishment'
+												alt='Establishment'
 											/>
 										</div>
 										<div className='basic-info'>
@@ -105,7 +105,16 @@ const AccountJobPosts = ({ jobPosts, jobApplicants, adminPosts }) => {
 												<div className='post-detail-group1'>
 													<div className='post-detail'>
 														<p>Salary:</p>
-														<h4>₱ {finalSalary}</h4>
+														<h4>
+															₱{" "}
+															{AdminResources.formatMoney(
+																post.Minimum_Salary
+															)}{" "}
+															- ₱{" "}
+															{AdminResources.formatMoney(
+																post.Maximum_Salary
+															)}
+														</h4>
 													</div>
 													<div className='post-detail'>
 														<p>Req. Employees:</p>

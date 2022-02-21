@@ -8,12 +8,14 @@ import EmpPost from "../EmpPost";
 import "./EmpJobs.css";
 import { withRouter } from "react-router-dom";
 import Indication from "../../Indication";
+import Modal from "../../JOBSEEKER/Home-Folder/Modal";
 export class Emp_Jobs extends Component {
 	constructor() {
 		super();
 		this.state = {
 			isUpdateModalOpen: false,
 			targetJobPost: [],
+			isCloseIndication: false,
 		};
 	}
 
@@ -48,6 +50,21 @@ export class Emp_Jobs extends Component {
 		});
 	};
 
+	toggleCloseJob = () => {
+		this.setState({
+			isCloseIndication: false,
+		});
+	};
+
+	handleCloseJobPost = async () => {
+		const { targetJobPost } = this.state;
+		const { updateJobPostStatus } = this.props;
+		await updateJobPostStatus(targetJobPost.JobID);
+
+		await this.toggleCloseJob();
+		await this.props.toggleClosePost();
+	};
+
 	render() {
 		const { currentUser, companyJobPost, company } = this.props;
 		const { targetJobPost } = this.state;
@@ -69,11 +86,35 @@ export class Emp_Jobs extends Component {
 				{this.props.isDeleted === true && (
 					<Indication
 						type='secondary'
-						text='Post has been deleted!'
+						text='JOB POST HAS BEEN DELETED!'
 						method={this.props.closeDeleteState}
 						delay={3}
 						module='employer'
 					/>
+				)}
+
+				{this.props.isCloseIndication && (
+					<Indication
+						type='secondary'
+						text='JOB POST HAS BEEN CLOSED!'
+						method={this.props.toggleClosePost}
+						delay={3}
+						module='employer'
+					/>
+				)}
+
+				{this.state.isCloseIndication ? (
+					<Modal
+						headText='Close Post Confirmation'
+						modalText={`Are you sure you want to close ${targetJobPost.Job_Title}?`}
+						confirmText='Yes'
+						closeText='No'
+						close={this.toggleCloseJob}
+						confirm={this.handleCloseJobPost}
+						path='/employer/jobs'
+					/>
+				) : (
+					""
 				)}
 
 				<WorkPostHeader
@@ -140,7 +181,10 @@ export class Emp_Jobs extends Component {
 
 				{this.state.isUpdateModalOpen && (
 					<div className='modal-container'>
-						<div className='overlay-style' />
+						<div
+							className='overlay-style'
+							onClick={() => this.toggleUpdateModal(false)}
+						/>
 						<div className='modal-style'>
 							<div className='modal-header'>
 								<h3 className='modal-sub-text'>Update Confirmation</h3>
@@ -157,14 +201,15 @@ export class Emp_Jobs extends Component {
 							<div className='modal-buttons'>
 								<button
 									className='modal-button-back'
-									onClick={() =>
-										this.props.updateJobPostStatus(
-											targetJobPost.JobID
-										)
-									}>
+									style={{ width: "130px" }}
+									onClick={() => {
+										this.toggleUpdateModal(false);
+										this.setState({ isCloseIndication: true });
+									}}>
 									Close Job Post
 								</button>
 								<button
+									style={{ width: "130px" }}
 									className='modal-button-send'
 									onClick={this.updateContent}>
 									Update Content

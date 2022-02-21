@@ -29,6 +29,8 @@
 .dashboard-main-panel {
 	display: flex;
 	flex-direction: column;
+	height: 85vh;
+	overflow-y: scroll;
 }
 
 .dashboard-update-cards {
@@ -55,13 +57,13 @@
 }
 
 .update-card .card-text p {
-	font-size: 13px;
+	font-size: 14px;
 	font-weight: 500;
 	color: var(--accent1);
 }
 
 .update-card .card-text h2 {
-	font-size: 21px;
+	font-size: 17px;
 	color: var(--accent1);
 }
 
@@ -133,6 +135,7 @@
 	font-weight: 500;
 	font-size: 14px;
 	padding: 5px;
+	flex: 5;
 }
 
 .table-post .post-number {
@@ -140,13 +143,15 @@
 	/* padding: 5px 15px; */
 	width: 40px;
 	display: flex;
-	justify-content: center;
+	justify-content: right;
+	padding-right: 10px;
 	align-items: center;
+	flex: 1;
 }
 
 .table-post .post-number h3 {
 	font-weight: 700;
-	font-size: 17px;
+	font-size: 15px;
 	color: var(--accent1);
 }
 

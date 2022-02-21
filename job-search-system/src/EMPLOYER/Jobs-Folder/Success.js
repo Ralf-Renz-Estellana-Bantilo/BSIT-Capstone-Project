@@ -30,17 +30,18 @@ export class Success extends Component {
 				{targetJobPost ? (
 					<Indication
 						type='primary'
-						text='Updating Job Post... Please wait...'
-						// text='Job Post Successfully Updated!'
+						text='UPDATING JOB POST... PLEASE WAIT...'
 						method={this.update}
+						isVisible={true}
 						delay={3}
 						module='employer'
 					/>
 				) : (
 					<Indication
 						type='primary'
-						text='Posting Job Post... Please wait...'
+						text='PROCESSING YOUR JOB POST... PLEASE WAIT...'
 						method={this.toggleView}
+						isVisible={true}
 						delay={3}
 						module='employer'
 					/>

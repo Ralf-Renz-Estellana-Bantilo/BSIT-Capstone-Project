@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import CountDownSignUp from "./JOBSEEKER/Home-Folder/CountDownSignUp";
+import Load from "./Images/Load.gif";
 
 export class Indication extends Component {
 	render() {
@@ -9,7 +10,7 @@ export class Indication extends Component {
 				style={
 					this.props.module === "jobseeker"
 						? { position: "fixed", zIndex: "99", top: "122px" }
-						: { position: "fixed", zIndex: "99", top: "70px" }
+						: { position: "fixed", zIndex: "99", top: "69px" }
 				}>
 				<div
 					className='indication'
@@ -24,7 +25,13 @@ export class Indication extends Component {
 										"linear-gradient(20deg, #ff7b00, #ff004c)",
 							  }
 					}>
-					<div>
+					<div
+						style={{
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "center",
+							position: "relative",
+						}}>
 						{this.props.text}
 						{
 							<CountDownSignUp
@@ -32,6 +39,17 @@ export class Indication extends Component {
 								delay={this.props.delay}
 							/>
 						}
+						{this.props.isVisible && (
+							<img
+								src={Load}
+								alt='Loading state'
+								style={{
+									height: "30px",
+									position: "absolute",
+									right: "10px",
+								}}
+							/>
+						)}
 					</div>
 				</div>
 			</div>
@@ -41,6 +59,7 @@ export class Indication extends Component {
 
 Indication.defaultProps = {
 	module: "jobseeker",
+	isVisible: false,
 };
 
 export default Indication;

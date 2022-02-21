@@ -76,7 +76,7 @@ export class Home extends Component {
 				{this.props.hasApplied === true && (
 					<Indication
 						type='primary'
-						text='Your job application has been sent'
+						text='YOUR JOB APPLICATION HAS BEEN SENT!'
 						method={this.closeHasApplied}
 						delay={3}
 					/>
@@ -85,7 +85,7 @@ export class Home extends Component {
 				{this.props.isDeleted === true && (
 					<Indication
 						type='secondary'
-						text='Post has been temporarily hidden from feed!'
+						text='POST HAS BEEN TEMPORARILY HIDDEN FROM FEED!'
 						method={this.closeDeleteState}
 						delay={3}
 					/>

@@ -14,6 +14,7 @@
 	box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.445);
 	z-index: 9;
 	transition: 0.5s background-color;
+	border-bottom: 1px solid var(--border1);
 }
 
 .accordion-title div {
@@ -28,9 +29,9 @@
 	position: relative;
 	top: -15px;
 	border-radius: 5px;
-	/* box-shadow: 0px 1px 5px black; */
 	box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.445);
 	transition: 0.5s background-color;
+	border-bottom: 1px solid var(--border1);
 }
 
 .accordion-content .accordion-content-button {
@@ -89,16 +90,18 @@
 	flex-direction: column;
 	align-items: center;
 	width: 270px;
-	animation-name: fadeIn;
-	animation-duration: 0.2s;
+	animation-name: popup;
+	animation-duration: 0.3s;
 }
 
-@keyframes fadeIn {
+@keyframes popup {
 	0% {
 		opacity: 0;
+		top: 80%;
 	}
 	100% {
 		opacity: 1;
+		top: 50%;
 	}
 }
 

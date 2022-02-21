@@ -20,7 +20,7 @@ export class Emp_Setting extends Component {
 		this.setState({ isUpdated: false });
 	};
 
-	componentDidMount = async () => {
+	componentDidMount = () => {
 		const session = sessionStorage.getItem("UserID");
 
 		if (!session) {
@@ -33,25 +33,34 @@ export class Emp_Setting extends Component {
 	};
 
 	render() {
-		const { currentUser } = this.props;
+		const {
+			currentUser,
+			isSidebarOpen,
+			toggleSidebar,
+			company,
+			getJobApplicantsByCompany,
+			darkTheme,
+			setTheme,
+			deleteCompanyPosts,
+		} = this.props;
 		return (
 			<div>
 				<Emp_Gap />
 				<Emp_Navbar
-					isSidebarOpen={this.props.isSidebarOpen}
-					toggleSidebar={this.props.toggleSidebar}
+					isSidebarOpen={isSidebarOpen}
+					toggleSidebar={toggleSidebar}
 					currentUser={currentUser}
-					company={this.props.company}
+					company={company}
 					// setCurrentUser={this.props.setCurrentUser}
-					getJobApplicantsByCompany={this.props.getJobApplicantsByCompany}
+					getJobApplicantsByCompany={getJobApplicantsByCompany}
 					panel='Menu'
-					darkTheme={this.props.darkTheme}
+					darkTheme={darkTheme}
 				/>
 
 				{this.state.isUpdated === true && (
 					<Indication
 						type='primary'
-						text='Successfully Updated your Account!'
+						text='SUCCESSFULLY UPDATED YOUR ACCOUNT!'
 						method={this.closeUpdateState}
 						delay={3}
 						module='employer'
@@ -60,12 +69,9 @@ export class Emp_Setting extends Component {
 
 				<div className='accordion'>
 					<Accordion />
-					<Accordion2
-						setTheme={this.props.setTheme}
-						darkTheme={this.props.darkTheme}
-					/>
+					<Accordion2 setTheme={setTheme} darkTheme={darkTheme} />
 					<Accordion3
-						deleteCompanyPosts={this.props.deleteCompanyPosts}
+						deleteCompanyPosts={deleteCompanyPosts}
 						currentUser={currentUser}
 						setUpdated={this.setUpdated}
 					/>

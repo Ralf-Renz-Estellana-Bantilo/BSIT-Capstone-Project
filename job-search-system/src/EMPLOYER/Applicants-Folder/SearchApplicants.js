@@ -56,42 +56,6 @@ export class Search_Applicants extends Component {
 			}
 		}
 
-		let finalMinSalary = "";
-		let finalMaxSalary = "";
-
-		let jobMinSalary = `${applicant.Minimum_Salary}`;
-		let jobMaxSalary = `${applicant.Maximum_Salary}`;
-		for (let a = 1; a <= jobMinSalary.length; a++) {
-			if (
-				jobMinSalary.length - a === 3 ||
-				jobMinSalary.length - a === 6 ||
-				jobMinSalary.length - a === 9 ||
-				jobMinSalary.length - a === 12 ||
-				jobMinSalary.length - a === 15 ||
-				jobMinSalary.length - a === 18 ||
-				jobMinSalary.length - a === 21
-			) {
-				finalMinSalary += jobMinSalary[a - 1] + ",";
-			} else {
-				finalMinSalary += jobMinSalary[a - 1];
-			}
-		}
-		for (let a = 1; a <= jobMaxSalary.length; a++) {
-			if (
-				jobMaxSalary.length - a === 3 ||
-				jobMaxSalary.length - a === 6 ||
-				jobMaxSalary.length - a === 9 ||
-				jobMaxSalary.length - a === 12 ||
-				jobMaxSalary.length - a === 15 ||
-				jobMaxSalary.length - a === 18 ||
-				jobMaxSalary.length - a === 21
-			) {
-				finalMaxSalary += jobMaxSalary[a - 1] + ",";
-			} else {
-				finalMaxSalary += jobMaxSalary[a - 1];
-			}
-		}
-
 		return (
 			<div>
 				<div className='search-applicant-container'>
@@ -145,7 +109,10 @@ export class Search_Applicants extends Component {
 								<div className='post-detail'>
 									<p>Preferred Salary Range:</p>
 									<h4>
-										₱ {finalMinSalary} - ₱ {finalMaxSalary}
+										₱{" "}
+										{Resources.formatMoney(applicant.Minimum_Salary)}{" "}
+										- ₱{" "}
+										{Resources.formatMoney(applicant.Maximum_Salary)}
 									</h4>
 								</div>
 							</div>

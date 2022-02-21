@@ -59,6 +59,9 @@ const Companies = ({
 					.includes(`${companySearch}`.toLowerCase()) ||
 				`${company.Barangay}`
 					.toLowerCase()
+					.includes(`${companySearch}`.toLowerCase()) ||
+				`${company.Company_Acronym}`
+					.toLowerCase()
 					.includes(`${companySearch}`.toLowerCase())
 			) {
 				countCompany += 1;
@@ -120,58 +123,79 @@ const Companies = ({
 												) ||
 											`${company.Barangay}`
 												.toLowerCase()
+												.includes(
+													`${companySearch}`.toLowerCase()
+												) ||
+											`${company.Company_Acronym}`
+												.toLowerCase()
 												.includes(`${companySearch}`.toLowerCase())
 										) {
-											let selectedCompany = "";
-											if (companyPreview) {
-												if (
-													companyPreview.CompanyID ===
-													company.CompanyID
-												) {
-													selectedCompany =
-														companyPreview.CompanyID;
-												}
-											}
-											return (
-												<div
-													className={
-														company.CompanyID === selectedCompany
-															? "selected-job-post"
-															: "job-post"
+											if (company.Employer_Name !== null) {
+												let selectedCompany = "";
+												if (companyPreview) {
+													if (
+														companyPreview.CompanyID ===
+														company.CompanyID
+													) {
+														selectedCompany =
+															companyPreview.CompanyID;
 													}
-													style={{ border: "none" }}
-													onClick={() => {
-														setCompanyPreview(company);
-														setFrameNumber(1);
-													}}>
-													<div className='upperLeft-info'>
-														<div
-															className='account-profile'
-															style={{
-																height: "50px",
-																width: "50px",
-															}}>
-															<img
-																src={`../assets/${company.Company_Image}`}
-																alt='Company'
-															/>
-														</div>
-														<div className='basic-info'>
-															<h2>{company.Company_Name}</h2>
+												}
+												return (
+													<div
+														className={
+															company.CompanyID ===
+															selectedCompany
+																? "selected-job-post"
+																: "job-post"
+														}
+														style={{ border: "none" }}
+														onClick={() => {
+															setCompanyPreview(company);
+															setFrameNumber(1);
+														}}>
+														<div className='upperLeft-info'>
+															<div
+																className='account-profile'
+																style={{
+																	height: "50px",
+																	width: "50px",
+																}}>
+																<img
+																	src={`../assets/${company.Company_Image}`}
+																	alt='Company'
+																/>
+															</div>
+															<div className='basic-info'>
+																{company.Company_Acronym !==
+																"(n/a)" ? (
+																	<h2
+																		title={
+																			company.Company_Name
+																		}>
+																		{company.Company_Acronym}{" "}
+																		<span>(shortened)</span>
+																	</h2>
+																) : (
+																	<h2>
+																		{company.Company_Name}
+																	</h2>
+																)}
 
-															<div className='date-address'>
-																<div className='address'>
-																	<img
-																		src={LocationIcon}
-																		alt='Location Icon'
-																	/>
-																	<p>{company.Barangay}</p>
+																<div className='date-address'>
+																	<div className='address'>
+																		<img
+																			src={LocationIcon}
+																			alt='Location Icon'
+																		/>
+																		<p>{company.Barangay}</p>
+																	</div>
 																</div>
 															</div>
 														</div>
 													</div>
-												</div>
-											);
+												);
+											}
 										}
 									})}
 
@@ -225,13 +249,38 @@ const Companies = ({
 															<span>
 																{companyPreview.Street},{" "}
 																{companyPreview.Zone},{" "}
-																{companyPreview.Barangay}
+																{companyPreview.Barangay},
+																Catarman
+															</span>
+														</p>
+														<p>
+															Acronym/Abbreviation:{" "}
+															<span>
+																{companyPreview.Company_Acronym}
+															</span>
+														</p>
+														<p>
+															Employer Type:{" "}
+															<span>
+																{companyPreview.Employer_Type}
+															</span>
+														</p>
+														<p>
+															Work Force:{" "}
+															<span>
+																{companyPreview.Work_Force}
 															</span>
 														</p>
 														<p>
 															Contact Number:{" "}
 															<span>
 																{companyPreview.Contact_Number}
+															</span>
+														</p>
+														<p>
+															Email Address:{" "}
+															<span>
+																{companyPreview.Email_Address}
 															</span>
 														</p>
 														<div className='profession-info'>
@@ -327,7 +376,7 @@ const Companies = ({
 													<div className='account-profile'>
 														<img
 															src={`../assets/${selectedPostPreview.Company_Image}`}
-															alt='Stablishment'
+															alt='Establishment'
 														/>
 													</div>
 													<div className='basic-info'>
@@ -385,9 +434,13 @@ const Companies = ({
 																	<p>Salary:</p>
 																	<h4>
 																		₱{" "}
-																		{
-																			selectedPostPreview.Salary
-																		}
+																		{AdminResources.formatMoney(
+																			selectedPostPreview.Minimum_Salary
+																		)}{" "}
+																		- ₱{" "}
+																		{AdminResources.formatMoney(
+																			selectedPostPreview.Maximum_Salary
+																		)}
 																	</h4>
 																</div>
 																<div className='post-detail'>

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./Confirm.css";
 import shortid from "shortid";
+import Resources from "../../Resources";
 
 export class Confirm extends Component {
 	constructor() {
@@ -193,45 +194,10 @@ export class Confirm extends Component {
 			targetJobPost,
 		} = this.props;
 
-		let finalMinSalary = "";
-		let finalMaxSalary = "";
-		let jobMinSalary = minSalary;
-		let jobMaxSalary = maxSalary;
-		for (let a = 1; a <= jobMinSalary.length; a++) {
-			if (
-				jobMinSalary.length - a === 3 ||
-				jobMinSalary.length - a === 6 ||
-				jobMinSalary.length - a === 9 ||
-				jobMinSalary.length - a === 12 ||
-				jobMinSalary.length - a === 15 ||
-				jobMinSalary.length - a === 18 ||
-				jobMinSalary.length - a === 21
-			) {
-				finalMinSalary += jobMinSalary[a - 1] + ",";
-			} else {
-				finalMinSalary += jobMinSalary[a - 1];
-			}
-		}
-		for (let a = 1; a <= jobMaxSalary.length; a++) {
-			if (
-				jobMaxSalary.length - a === 3 ||
-				jobMaxSalary.length - a === 6 ||
-				jobMaxSalary.length - a === 9 ||
-				jobMaxSalary.length - a === 12 ||
-				jobMaxSalary.length - a === 15 ||
-				jobMaxSalary.length - a === 18 ||
-				jobMaxSalary.length - a === 21
-			) {
-				finalMaxSalary += jobMaxSalary[a - 1] + ",";
-			} else {
-				finalMaxSalary += jobMaxSalary[a - 1];
-			}
-		}
-
 		return (
 			<div className='confirm-container'>
 				<div className='confirm-text-fields'>
-					<h3>--- Job Vacancy Preview ---</h3>
+					<h3>JOB VACANCY PREVIEW</h3>
 					<div className='form-fields'>
 						<div className='form'>
 							<label>Job Title</label>
@@ -260,7 +226,8 @@ export class Confirm extends Component {
 						<div className='form'>
 							<label>Salary Range</label>
 							<p>
-								₱ {finalMinSalary} - ₱ {finalMaxSalary}
+								₱ {Resources.formatMoney(minSalary)} - ₱{" "}
+								{Resources.formatMoney(maxSalary)}
 							</p>
 						</div>
 						<div className='form'>
@@ -290,22 +257,22 @@ export class Confirm extends Component {
 						<label>Job Descriptions</label>
 						<p className='desc'>{jobDescription}</p>
 					</div>
-					{/* <div className='form-fields'>
+					<div className='form-fields'>
 						<div className='form'>
 							<label>Employer's Name</label>
 							<p>{employerName}</p>
 						</div>
-						<div className='form'>
+						{/* <div className='form'>
 							<label>Establishment Contact Number</label>
 							<p>{contactNo}</p>
-						</div>
+						</div> */}
 					</div>
-					<div className='form'>
+					{/* <div className='form'>
 						<label>Complete Address</label>
 						<p>{address}</p>
 					</div> */}
 					{/* contact person */}
-					{contactPersonName !== null && (
+					{contactPersonName && (
 						<>
 							<div className='form'>
 								<label>Contact Person (Full Name)</label>

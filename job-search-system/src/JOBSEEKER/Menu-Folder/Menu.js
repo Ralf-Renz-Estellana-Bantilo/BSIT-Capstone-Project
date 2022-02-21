@@ -83,7 +83,7 @@ export class Menu extends Component {
 				{this.state.isUpdated === true && (
 					<Indication
 						type='primary'
-						text='Successfully Updated your Account'
+						text='SUCCESSFULLY UPDATED YOUR ACCOUNT!'
 						method={this.closeUpdateState}
 						delay={3}
 					/>

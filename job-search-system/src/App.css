@@ -1,25 +1,25 @@
 /* width */
 ::-webkit-scrollbar {
-	width: 10px;
+	width: 15px;
 	display: none;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
 	box-shadow: inset 0 0 5px grey;
-	border-radius: 10px;
+	/* border-radius: 5px; */
 	background-color: rgba(128, 128, 128, 0.2);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-	background: red;
-	border-radius: 10px;
+	background: #00b2ff;
+	/* border-radius: 5px; */
 }
 
-/* Handle on hover */
+/* Handle on press */
 ::-webkit-scrollbar-thumb:active {
-	background: #00b2ff;
+	background: #ff004c;
 }
 
 .app-dark {

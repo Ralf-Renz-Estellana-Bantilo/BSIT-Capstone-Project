@@ -97,9 +97,15 @@ app.use(express.json());
 const date =
 	new Date().getMonth() +
 	1 +
-	"_" +
+	"" +
 	new Date().getDate() +
-	"_" +
+	new Date().getFullYear();
+
+const datePDF =
+	new Date().getMonth() +
+	1 +
+	"" +
+	new Date().getDate() +
 	new Date().getFullYear();
 
 const imageFileStorageEngine = multer.diskStorage({
@@ -125,21 +131,21 @@ const pdfFileStorageEngine = multer.diskStorage({
 		callback(null, "../job-search-system/public/pdf");
 	},
 	filename: (req, file, callback) => {
-		callback(null, date + "_" + file.originalname);
+		callback(null, datePDF + "_" + file.originalname);
 	},
 });
 
 const uploadImage = multer({
 	storage: imageFileStorageEngine,
-	limits: { fileSize: 2000000 },
+	limits: { fileSize: 2090000 },
 });
 const uploadImageAdmin = multer({
 	storage: adminImageFileStorageEngine,
-	limits: { fileSize: 2000000 },
+	limits: { fileSize: 2090000 },
 });
 const uploadPDF = multer({
 	storage: pdfFileStorageEngine,
-	limits: { fileSize: 2000000 },
+	limits: { fileSize: 2090000 },
 });
 
 const db = mysql.createConnection({

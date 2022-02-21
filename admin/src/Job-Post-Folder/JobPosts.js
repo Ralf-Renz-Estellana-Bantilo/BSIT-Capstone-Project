@@ -4,8 +4,8 @@ import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
 import "./JobPosts.css";
 import DeleteIcon from "../Images/DeleteIcon.png";
+import CloseIcon from "../Images/CloseIcon.png";
 import LocationIcon from "../Images/LocationIcon.png";
-import User from "../Images/User.png";
 import PopupMenuJobPost from "../PopupMenuJobPost";
 import { useNavigate } from "react-router-dom";
 import Modal from "../Modal";
@@ -41,32 +41,47 @@ const JobPosts = ({
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
 	const [isPopupMenuOpen, setIsPopupMenuOpen] = useState(false);
+	const [isJobPostOptionOpen, setIsJobPostOptionOpen] = useState(false);
 	const [isJobPostPanelOpen, setJobPostPanelOpen] = useState(false);
 	const [previewID, setPreviewID] = useState(null);
 	const [previewDeleteCompany, setPreviewDeleteCompany] = useState(null);
 
 	// States for Posting a Job
-	const [jobTitle, setJobTitle] = useState("");
+	const [jobTitle, setJobTitle] = useState(null);
 	const [jobCategory, setJobCategory] = useState("");
-	const [noReqEmp, setNoReqEmp] = useState("");
-	const [salary, setSalary] = useState("");
+	const [noReqEmp, setNoReqEmp] = useState(null);
+	const [minSalary, setMinSalary] = useState(null);
+	const [maxSalary, setMaxSalary] = useState(null);
+	const [civilStatus, setCivilStatus] = useState("");
+	const [placeOfWork, setPlaceOfWork] = useState(null);
 	const [prefSex, setPrefSex] = useState("");
 	const [jobType, setJobType] = useState("");
-	const [jobQualification, setJobQualification] = useState("");
-	const [jobRequirement, setJobRequirement] = useState("");
-	const [jobDescription, setJobDescription] = useState("");
-	const [companyName, setCompanyName] = useState("");
-	const [street, setStreet] = useState("");
+	const [jobQualification, setJobQualification] = useState(null);
+	const [jobRequirement, setJobRequirement] = useState(null);
+	const [jobDescription, setJobDescription] = useState(null);
+	const [companyName, setCompanyName] = useState(null);
+	const [companyAcronym, setCompanyAcronym] = useState("");
+	const [employerType, setEmployerType] = useState("");
+	const [workForce, setWorkForce] = useState("");
+	const [street, setStreet] = useState(null);
 	const [zone, setZone] = useState("");
 	const [companyBarangay, setCompanyBarangay] = useState("");
-	const [employerFirstName, setEmployerFirstName] = useState("");
-	const [employerMiddleName, setEmployerMiddleName] = useState("");
-	const [employerLastName, setEmployerLastName] = useState("");
-	const [contactNumber, setContactNumber] = useState("");
-	const [companyDescription, setCompanyDescription] = useState("");
+	const [employerFirstName, setEmployerFirstName] = useState(null);
+	const [employerMiddleName, setEmployerMiddleName] = useState(null);
+	const [employerLastName, setEmployerLastName] = useState(null);
+	const [contactNumber, setContactNumber] = useState(null);
+	const [emailAddress, setEmailAddress] = useState(null);
+	const [companyDescription, setCompanyDescription] = useState(null);
 	const [imagePreview, setImagePreview] = useState(null);
 	const [companyImage, setCompanyImage] = useState(null);
+	const [contactPersonName, setContactPersonName] = useState(null);
+	const [contactPersonPosition, setContactPersonPosition] = useState(null);
+	const [contactPersonNumber, setContactPersonNumber] = useState(null);
+	const [contactPersonEmail, setContactPersonEmail] = useState(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
+
+	const [hasAcronym, setHasAcronym] = useState(true);
+	const [hasContactPerson, setHasContactPerson] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -84,50 +99,103 @@ const JobPosts = ({
 		const date =
 			new Date().getMonth() +
 			1 +
-			"_" +
+			"" +
 			new Date().getDate() +
-			"_" +
 			new Date().getFullYear();
 
-		if (companyImage.size > 2000000) {
-			alert("File too large (2mb limit) ! Please try again!");
+		if (
+			jobTitle === null ||
+			jobCategory === "" ||
+			placeOfWork === null ||
+			noReqEmp === null ||
+			minSalary === null ||
+			maxSalary === null ||
+			prefSex === "" ||
+			civilStatus === "" ||
+			jobType === "" ||
+			jobQualification === null ||
+			jobRequirement === null ||
+			jobDescription === null ||
+			companyName === null ||
+			// companyAcronym === null ||
+			employerType === "" ||
+			workForce === "" ||
+			street === null ||
+			zone === "" ||
+			companyBarangay === "" ||
+			employerFirstName === null ||
+			employerMiddleName === null ||
+			employerLastName === null ||
+			contactNumber === null ||
+			emailAddress === null ||
+			companyDescription === null ||
+			companyImage === null
+			// contactPersonName === null &&
+			// contactPersonPosition === null &&
+			// contactPersonNumber === null &&
+			// contactPersonEmail === null
+		) {
+			alert("Make sure to fill-in all the fields!");
 		} else {
-			const post = {
-				JobID: shortid.generate(),
-				CompanyID: shortid.generate(),
-				Minutes: new Date().getMinutes(),
-				Hour: new Date().getHours(),
-				Day: new Date().getDate(),
-				Month: new Date().getMonth() + 1,
-				Year: new Date().getFullYear(),
-				Date_Posted: new Date(),
-				Job_Title: jobTitle,
-				Category: jobCategory,
-				Required_Employees: noReqEmp,
-				Salary: salary,
-				Preferred_Sex: prefSex,
-				Job_Type: jobType,
-				Job_Qualifications: jobQualification,
-				Job_Requirements: jobRequirement,
-				Job_Description: jobDescription,
-				Company_Name: companyName,
-				Company_Address: `${street}, ${zone}, ${companyBarangay}`,
-				Street: street,
-				Zone: zone,
-				Barangay: companyBarangay,
-				Employer_First_Name: employerFirstName,
-				Employer_Middle_Name: employerMiddleName,
-				Employer_Last_Name: employerLastName,
-				Contact_Number: contactNumber,
-				Company_Description: companyDescription,
-				Company_Image: date + "_" + companyImage.name,
-				File: companyImage,
-				Active_Status: "Active",
-			};
-			setJobPostPanelOpen(false);
-			addPost(post);
+			console.log(hasAcronym);
+			let holdAcronym = "";
+			if (hasAcronym) {
+				holdAcronym = "(n/a)";
+			} else {
+				holdAcronym = hasAcronym;
+			}
 
-			clearInputEntries();
+			if (companyImage.size > 2090000) {
+				alert("File too large (2mb limit) ! Please try again!");
+			} else {
+				const post = {
+					JobID: shortid.generate(),
+					CompanyID: shortid.generate(),
+					Minutes: new Date().getMinutes(),
+					Hour: new Date().getHours(),
+					Day: new Date().getDate(),
+					Month: new Date().getMonth() + 1,
+					Year: new Date().getFullYear(),
+					Date_Posted: new Date(),
+					Job_Title: jobTitle,
+					Category: jobCategory,
+					Required_Employees: noReqEmp,
+					Minimum_Salary: minSalary,
+					Maximum_Salary: maxSalary,
+					Civil_Status: civilStatus,
+					Work_Place: placeOfWork,
+					Preferred_Sex: prefSex,
+					Job_Type: jobType,
+					Job_Qualifications: jobQualification,
+					Job_Requirements: jobRequirement,
+					Job_Description: jobDescription,
+					Company_Name: companyName,
+					Company_Acronym: holdAcronym,
+					Employer_Type: employerType,
+					Work_Force: workForce,
+					Company_Address: `${street}, ${zone}, ${companyBarangay}`,
+					Street: street,
+					Zone: zone,
+					Barangay: companyBarangay,
+					Employer_First_Name: employerFirstName,
+					Employer_Middle_Name: employerMiddleName,
+					Employer_Last_Name: employerLastName,
+					Employer_Name: `${employerFirstName} ${employerMiddleName} ${employerLastName}`,
+					Contact_Number: contactNumber,
+					Email_Address: emailAddress,
+					Company_Description: companyDescription,
+					Company_Image: date + "_" + companyImage.name,
+					File: companyImage,
+					Contact_Person_Name: contactPersonName,
+					Contact_Person_Position: contactPersonPosition,
+					Contact_Person_Number: contactPersonNumber,
+					Contact_Person_Email: contactPersonEmail,
+					Active_Status: "Active",
+				};
+				setJobPostPanelOpen(false);
+				addPost(post);
+				clearInputEntries();
+			}
 		}
 	};
 
@@ -136,7 +204,8 @@ const JobPosts = ({
 		setJobTitle("");
 		setJobCategory("");
 		setNoReqEmp("");
-		setSalary("");
+		setMinSalary("");
+		setMaxSalary("");
 		setPrefSex("");
 		setJobType("");
 		setJobQualification("");
@@ -166,42 +235,56 @@ const JobPosts = ({
 	};
 
 	const handleDeletePost = async () => {
-		await axios
-			.delete(`http://localhost:2000/api/delete-jobPost/${previewID}`)
-			.then(async (response) => {
-				console.log("Post has been deleted");
-				setIsModalOpen(false);
+		// await axios
+		// 	.delete(`http://localhost:2000/api/delete-jobPost/${post.JobID}`)
+		// 	.then(async (response) => {
+		// 		setIsModalOpen(false);
+		// 	});
+		// await axios
+		// 	.delete(
+		// 		`http://localhost:2000/api/delete-job-applicants/${post.JobID}`
+		// 	)
+		// 	.then(async (response) => {});
+		// await axios
+		// 	.delete(`http://localhost:2000/api/delete-applied-job/${post.JobID}`)
+		// 	.then(async (response) => {
+		// 		let posts = jobPosts;
+		// 		let index = posts.findIndex((x) => x.JobID === post.JobID);
+		// 		posts.splice(index, 1);
+		// 		await setJobPosts(posts);
+		// 		// await setPostPreview(null);
+		// 		await setIsJobPostOptionOpen(false);
+		// 		alert("Job Post has been deleted!");
+		// 	});
+	};
 
-				let posts = jobPosts;
-				let index = posts.findIndex((x) => x.JobID === previewID);
-				posts.splice(index, 1);
+	const handleClosePost = () => {
+		setJobPosts(
+			jobPosts.map((jobPost) =>
+				jobPost.JobID === post.JobID
+					? { ...jobPost, Active_Status: "Closed" }
+					: jobPost
+			)
+		);
+		setPostPreview({ ...post, Active_Status: "Closed" });
+		setIsJobPostOptionOpen(false);
 
-				await setJobPosts(posts);
-				await setPostPreview(null);
-			});
-		await axios
-			.delete(`http://localhost:2000/api/delete-job-applicants/${previewID}`)
-			.then(async (response) => {
-				console.log("Job Applicants have been deleted");
-			});
-		await axios
-			.delete(`http://localhost:2000/api/delete-applied-job/${previewID}`)
-			.then(async (response) => {
-				console.log("Applied Job has been deleted");
+		// Fetching Job Post Data
+		axios
+			.put("http://localhost:2000/api/update-jobPost-active-status", {
+				jobID: post.JobID,
+			})
+			.then((response) => {
+				// console.log(response);
 			});
 	};
 
 	let post = postPreview;
 
 	let numApplicants = [];
-	let companyData = [];
 	if (post) {
 		numApplicants = jobApplicants.filter(
 			(candidate) => candidate.JobID === post.JobID
-		);
-
-		companyData = companiesData.filter(
-			(data) => data.CompanyID === post.CompanyID
 		);
 	}
 
@@ -304,22 +387,11 @@ const JobPosts = ({
 		);
 	});
 
-	let finalSalary = "";
+	let previewAcronym = "";
 	if (post) {
-		let jobSalary = post.Salary;
-		for (let a = 1; a <= jobSalary.length; a++) {
-			if (
-				jobSalary.length - a === 3 ||
-				jobSalary.length - a === 6 ||
-				jobSalary.length - a === 9 ||
-				jobSalary.length - a === 12 ||
-				jobSalary.length - a === 15 ||
-				jobSalary.length - a === 18 ||
-				jobSalary.length - a === 21
-			) {
-				finalSalary += jobSalary[a - 1] + ",";
-			} else {
-				finalSalary += jobSalary[a - 1];
+		for (let a = 0; a < companiesData.length; a++) {
+			if (companiesData[a].CompanyID === post.CompanyID) {
+				previewAcronym = companiesData[a].Company_Acronym;
 			}
 		}
 	}
@@ -341,13 +413,62 @@ const JobPosts = ({
 			{isModalOpen && (
 				<Modal
 					headText='Delete Post Confirmation'
-					modalText={`Are you sure you want to permanently delete this post from ${previewDeleteCompany}?`}
+					modalText={`Deleting this post means also deleting all the job applicants in it, wanna continue?`}
+					// modalText={`Are you sure you want to permanently delete this post from ${post.Company_Name}?`}
 					confirmText='Yes'
 					closeText='No'
 					close={() => setIsModalOpen(false)}
 					confirm={handleDeletePost}
 					path='/admin/job-posts'
 				/>
+			)}
+
+			{isJobPostOptionOpen && (
+				<div className='modal-container'>
+					<div
+						className='overlay-style'
+						onClick={() => setIsJobPostOptionOpen(false)}
+					/>
+					<div className='modal-style'>
+						<div className='modal-header'>
+							<h3 className='modal-sub-text'>Job Post Option</h3>
+							<div className='modal-close'>
+								<img
+									className='closeIcon'
+									src={CloseIcon}
+									alt='Close'
+									onClick={() => setIsJobPostOptionOpen(false)}
+								/>
+							</div>
+						</div>
+						<h1 className='modal-text'>{post.Job_Title}</h1>
+						<div className='modal-buttons'>
+							<button
+								className='modal-button-back'
+								onClick={() => {
+									setIsModalOpen(true);
+									setIsJobPostOptionOpen(false);
+								}}>
+								Delete Job Post
+							</button>
+							<button
+								className='modal-button-send'
+								onClick={handleClosePost}
+								disabled={
+									post.Active_Status === "Active" ? "" : "disabled"
+								}
+								style={
+									post.Active_Status === "Active"
+										? { opacity: "1" }
+										: { opacity: "0.7" }
+								}>
+								{post.Active_Status === "Active"
+									? "Close Job Post"
+									: "Closed"}
+							</button>
+						</div>
+					</div>
+				</div>
 			)}
 
 			<div className='content-wrapper'>
@@ -424,12 +545,23 @@ const JobPosts = ({
 													{categoryResources}
 												</select>
 											</div>
+											<div className='post-field'>
+												<label>Place of Work:</label>
+												<input
+													type='text'
+													placeholder='Place of Work'
+													value={placeOfWork}
+													onChange={(e) => {
+														setPlaceOfWork(e.target.value);
+													}}
+												/>
+											</div>
 											<div className='post-field-group'>
 												<div className='post-field'>
-													<label>No. of Employees:</label>
+													<label>Vacancy Count:</label>
 													<input
 														type='number'
-														placeholder='No. of Employees'
+														placeholder='Vacancy Count'
 														onChange={(e) =>
 															setNoReqEmp(e.target.value)
 														}
@@ -437,23 +569,9 @@ const JobPosts = ({
 													/>
 												</div>
 												<div className='post-field'>
-													<label>Salary:</label>
-													<input
-														type='number'
-														placeholder='₱ ----'
-														onChange={(e) =>
-															setSalary(e.target.value)
-														}
-														value={salary}
-													/>
-												</div>
-											</div>
-
-											<div className='post-field-group'>
-												<div className='post-field'>
-													<label>Preferred Sex:</label>
+													<label>Preferred Gender:</label>
 													<select
-														name='Preferred Sex'
+														name='Preferred Gender'
 														onChange={(e) =>
 															setPrefSex(e.target.value)
 														}
@@ -469,12 +587,51 @@ const JobPosts = ({
 														<option value='Male/Female'>
 															Male/Female
 														</option>
+														<option value='Gay'>Gay</option>
+														<option value='Lesbian'>
+															Lesbian
+														</option>
 													</select>
 												</div>
+											</div>
+											<div className='post-field-group'>
 												<div className='post-field'>
-													<label>Job Type:</label>
+													<label>Civil Status:</label>
 													<select
 														name='Job Type'
+														onChange={(e) =>
+															setCivilStatus(e.target.value)
+														}
+														value={civilStatus}>
+														<option
+															disabled='disabled'
+															hidden='hidden'
+															value=''>
+															Select Civil Status
+														</option>
+														<option value='Not Specified'>
+															Not Specified
+														</option>
+														<option value='Single'>Single</option>
+														<option value='Married'>
+															Married
+														</option>
+														<option value='Widowed'>
+															Widowed
+														</option>
+														<option value='Separated'>
+															Separated
+														</option>
+														<option value='Live-in'>
+															Live-in
+														</option>
+													</select>
+												</div>
+
+												<div className='post-field'>
+													<label>Nature of Work:</label>
+													<select
+														name='Nature of Work'
 														onChange={(e) =>
 															setJobType(e.target.value)
 														}
@@ -483,7 +640,7 @@ const JobPosts = ({
 															disabled='disabled'
 															hidden='hidden'
 															value=''>
-															Select Job Type
+															Select Nature of Work
 														</option>
 														<option value='Full-time'>
 															Full-time
@@ -491,23 +648,46 @@ const JobPosts = ({
 														<option value='Part-time'>
 															Part-time
 														</option>
-														<option value='Contract'>
-															Contract
+														<option value='Contractual'>
+															Contractual
 														</option>
-														<option value='Urgent Hiring'>
-															Urgent Hiring
+														<option value='Project-based'>
+															Project-based
 														</option>
-														<option value='Temporary'>
-															Temporary
-														</option>
-														<option value='Seasonal'>
-															Seasonal
+														<option value='Work from home'>
+															Work from home
 														</option>
 														<option value='Freelance'>
 															Freelance
 														</option>
-														<option value='Intern'>Intern</option>
+														<option value='Internship/OJT'>
+															Internship/OJT
+														</option>
 													</select>
+												</div>
+											</div>
+											<div className='post-field-group'>
+												<div className='post-field'>
+													<label>Minimum Salary:</label>
+													<input
+														type='number'
+														placeholder='Minimum Salary'
+														onChange={(e) =>
+															setMinSalary(e.target.value)
+														}
+														value={minSalary}
+													/>
+												</div>
+												<div className='post-field'>
+													<label>Maximum Salary:</label>
+													<input
+														type='number'
+														placeholder='Maximum Salary'
+														onChange={(e) =>
+															setMaxSalary(e.target.value)
+														}
+														value={maxSalary}
+													/>
 												</div>
 											</div>
 											<div className='job-qualification'>
@@ -553,7 +733,7 @@ const JobPosts = ({
 								<div className='job-post-preview'>
 									<div className='post-preview-panel'>
 										<div className='job-post-header'>
-											<h3>Business Stablishment Information</h3>
+											<h3>Business Establishment Information</h3>
 										</div>
 										<div className='job-posts'>
 											<div className='post-fields'>
@@ -567,6 +747,104 @@ const JobPosts = ({
 															setCompanyName(e.target.value)
 														}
 													/>
+												</div>
+												<div className='post-field'>
+													<div className='acronym-container'>
+														<label>Acronym/Abbreviation:</label>
+														<div className='acronym'>
+															<input
+																type='checkbox'
+																name='acronym'
+																checked={
+																	hasAcronym &&
+																	companyAcronym.length === 0
+																		? "checked"
+																		: ""
+																}
+																onChange={() => {
+																	setHasAcronym(!hasAcronym);
+																	if (!hasAcronym) {
+																		setCompanyAcronym("");
+																	}
+																}}
+															/>
+															<label>(n/a)</label>
+														</div>
+													</div>
+													<input
+														type='text'
+														placeholder={`Enter Company's Acronym/Abbreviation`}
+														value={companyAcronym}
+														onChange={(e) =>
+															setCompanyAcronym(e.target.value)
+														}
+														disabled={
+															hasAcronym ? "disabled" : ""
+														}
+														style={
+															hasAcronym
+																? { opacity: "0.7" }
+																: {}
+														}
+													/>
+												</div>
+												<div className='post-field'>
+													<label>Employer Type:</label>
+													<select
+														value={employerType}
+														onChange={(e) =>
+															setEmployerType(e.target.value)
+														}>
+														<option
+															disabled='disabled'
+															hidden='hidden'
+															value=''>
+															Select Employer Type
+														</option>
+														<option value='Government'>
+															Government
+														</option>
+														<option value='Recruitment & Placement Agency'>
+															Recruitment & Placement Agency
+														</option>
+														<option value='Private'>
+															Private
+														</option>
+														<option value='Licenced Recruitment Agency (Overseas)'>
+															Licenced Recruitment Agency
+															(Overseas)
+														</option>
+														<option value='DO 174-17. Subcontractor'>
+															DO 174-17. Subcontractor
+														</option>
+													</select>
+												</div>
+												<div className='post-field'>
+													<label>Total Work Force:</label>
+													<select
+														value={workForce}
+														onChange={(e) =>
+															setWorkForce(e.target.value)
+														}>
+														<option
+															disabled='disabled'
+															hidden='hidden'
+															value=''>
+															Select Total Work Force
+														</option>
+														<option value='Micro (1-9)'>
+															Micro (1-9)
+														</option>
+														<option value='Small (10-99)'>
+															Small (10-99)
+														</option>
+														<option value='Medium (100-199)'>
+															Medium (100-199)
+														</option>
+														<option value='Large (200 and up)'>
+															Large (200 and up)
+														</option>
+													</select>
 												</div>
 												<div className='post-field'>
 													<label>Employer's First Name:</label>
@@ -618,14 +896,6 @@ const JobPosts = ({
 												</div>
 												<div className='post-field'>
 													<label>Zone:</label>
-													{/* <input
-														type='text'
-														placeholder='Address: (Zone)'
-														value={zone}
-														onChange={(e) =>
-															setZone(e.target.value)
-														}
-													/> */}
 													<select
 														value={zone}
 														onChange={(e) =>
@@ -662,7 +932,7 @@ const JobPosts = ({
 													</select>
 												</div>
 												<div className='post-field'>
-													<label>Stablishment Contact No.:</label>
+													<label>Contact No.:</label>
 													<input
 														type='text'
 														placeholder='Cellphone Number'
@@ -672,20 +942,33 @@ const JobPosts = ({
 														}
 													/>
 												</div>
+												<div className='post-field'>
+													<label>Email Address:</label>
+													<input
+														type='text'
+														placeholder='Email Address'
+														value={emailAddress}
+														onChange={(e) =>
+															setEmailAddress(e.target.value)
+														}
+													/>
+												</div>
 												<div className='job-qualification'>
 													<h4>Company Description:</h4>
 													<textarea
 														name='business-description'
 														placeholder='Enter Business Description'
+														value={companyDescription}
 														onChange={(e) =>
 															setCompanyDescription(
 																e.target.value
 															)
-														}></textarea>
+														}
+														style={{ width: "95%" }}></textarea>
 												</div>
 
 												<div className='post-field'>
-													<label>Stablishment Photo:</label>
+													<label>Establishment Photo:</label>
 													<input
 														type='file'
 														accept='image/jpeg, image/png'
@@ -708,6 +991,88 @@ const JobPosts = ({
 															}
 														/>
 													</div>
+												</div>
+												<div className='contact-person-container'>
+													<div className='contact-person-header'>
+														<h2>Set Contact Person: </h2>
+														<div className='contact-person'>
+															<input
+																type='checkbox'
+																name='contact-person'
+																checked={
+																	hasContactPerson
+																		? "checked"
+																		: ""
+																}
+																onChange={() => {
+																	{
+																		setHasContactPerson(
+																			!hasContactPerson
+																		);
+																	}
+																}}
+															/>{" "}
+															{/* <h4>(n/a)</h4> */}
+														</div>{" "}
+													</div>
+													{hasContactPerson && (
+														<>
+															<div className='post-field'>
+																<label>
+																	Contact Person (Full Name):
+																</label>
+																<input
+																	type='text'
+																	placeholder='Full Name'
+																	value={contactPersonName}
+																	onChange={(e) =>
+																		setContactPersonName(
+																			e.target.value
+																		)
+																	}
+																/>
+															</div>
+															<div className='post-field'>
+																<label>Position:</label>
+																<input
+																	type='text'
+																	placeholder='Position'
+																	value={contactPersonPosition}
+																	onChange={(e) =>
+																		setContactPersonPosition(
+																			e.target.value
+																		)
+																	}
+																/>
+															</div>
+															<div className='post-field'>
+																<label>Contact Number:</label>
+																<input
+																	type='text'
+																	placeholder='Contact Number'
+																	value={contactPersonNumber}
+																	onChange={(e) =>
+																		setContactPersonNumber(
+																			e.target.value
+																		)
+																	}
+																/>
+															</div>
+															<div className='post-field'>
+																<label>Email Address:</label>
+																<input
+																	type='text'
+																	placeholder='Email Address'
+																	value={contactPersonEmail}
+																	onChange={(e) =>
+																		setContactPersonEmail(
+																			e.target.value
+																		)
+																	}
+																/>
+															</div>
+														</>
+													)}
 												</div>
 
 												<div className='post-field'>
@@ -778,6 +1143,22 @@ const JobPosts = ({
 														selectedPost = post.JobID;
 													}
 												}
+
+												let acronym = "";
+												for (
+													let a = 0;
+													a < companiesData.length;
+													a++
+												) {
+													if (
+														companiesData[a].CompanyID ===
+														jobPost.CompanyID
+													) {
+														acronym =
+															companiesData[a].Company_Acronym;
+													}
+												}
+
 												if (
 													`${address}`
 														.toLowerCase()
@@ -808,7 +1189,19 @@ const JobPosts = ({
 															}>
 															<div className='post-right-text'>
 																<h2>{jobPost.Job_Title}</h2>
-																<h5>{jobPost.Company_Name}</h5>
+																{acronym !== "(n/a)" ? (
+																	<h5
+																		title={
+																			jobPost.Company_Name
+																		}>
+																		{acronym}{" "}
+																		<span>(shortened)</span>
+																	</h5>
+																) : (
+																	<h5>
+																		{jobPost.Company_Name}
+																	</h5>
+																)}
 															</div>
 															<div className='post-left-text'>
 																<p>
@@ -864,6 +1257,15 @@ const JobPosts = ({
 									<div className='post-preview-panel'>
 										<div className='job-post-header'>
 											<h3>Job Post Preview</h3>
+											{post && (
+												<p
+													title='Job Post Option'
+													onClick={() => {
+														setIsJobPostOptionOpen(true);
+													}}>
+													•••
+												</p>
+											)}
 										</div>
 
 										{post !== null ? (
@@ -874,7 +1276,7 @@ const JobPosts = ({
 															<div className='account-profile'>
 																<img
 																	src={`../assets/${post.Company_Image}`}
-																	alt='Stablishment'
+																	alt='Establishment'
 																/>
 															</div>
 															{/* {post.Required_Employees >= 5 && (
@@ -890,7 +1292,16 @@ const JobPosts = ({
 														</div>
 
 														<div className='basic-jobPost'>
-															<h2>{post.Company_Name}</h2>
+															{/* <h2>{post.Company_Name}</h2> */}
+															{previewAcronym !== "(n/a)" ? (
+																<h2 title={post.Company_Name}>
+																	{previewAcronym}{" "}
+																	<span>(shortened)</span>
+																	{/* {acronym} <span>(acronym/abbreviation)</span> */}
+																</h2>
+															) : (
+																<h2>{post.Company_Name}</h2>
+															)}
 
 															<div className='date-address'>
 																<p>
@@ -912,7 +1323,7 @@ const JobPosts = ({
 															</div>
 														</div>
 													</div>
-													<div className='upperRight-jobPost'>
+													{/* <div className='upperRight-jobPost'>
 														<img
 															src={DeleteIcon}
 															alt='Delete post'
@@ -925,7 +1336,7 @@ const JobPosts = ({
 																);
 															}}
 														/>
-													</div>
+													</div> */}
 												</div>
 												<div className='post-preview'>
 													<div className='post-body'>
@@ -940,17 +1351,25 @@ const JobPosts = ({
 															<div className='post-detail-container'>
 																<div className='post-detail-group1'>
 																	<div className='post-detail'>
-																		<p>Salary:</p>
-																		<h4>₱ {finalSalary}</h4>
+																		<p>Salary Range:</p>
+																		<h4>
+																			₱{" "}
+																			{AdminResources.formatMoney(
+																				post.Minimum_Salary
+																			)}{" "}
+																			- ₱{" "}
+																			{AdminResources.formatMoney(
+																				post.Maximum_Salary
+																			)}
+																		</h4>
 																	</div>
 																	<div className='post-detail'>
-																		<p title='Required no. of Employees'>
-																			Req. Employees:
-																		</p>
+																		<p>Vacancy Count:</p>
 																		<h4>
+																			{" "}
 																			{
 																				post.Required_Employees
-																			}
+																			}{" "}
 																		</h4>
 																	</div>
 																	<div className='post-detail'>
@@ -959,19 +1378,38 @@ const JobPosts = ({
 																			{numApplicants.length}
 																		</h4>
 																	</div>
+																	<div className='post-detail'>
+																		<p>Date Posted:</p>
+																		<h4>
+																			{post.Month < 10
+																				? `0${post.Month}`
+																				: post.Month}
+																			-
+																			{post.Day < 10
+																				? `0${post.Day}`
+																				: post.Day}
+																			-{post.Year}
+																		</h4>
+																	</div>
 																</div>
 
 																<div className='post-detail-group2'>
 																	<div className='post-detail'>
-																		<p>Job Type:</p>
-																		<h4>{post.Job_Type}</h4>
-																	</div>
-																	<div className='post-detail'>
-																		<p title='Preferred Sex'>
-																			Pref. Sex:
+																		<p title='Preferred Gender'>
+																			Pref. Gender:
 																		</p>
 																		<h4>
 																			{post.Preferred_Sex}
+																		</h4>
+																	</div>
+																	<div className='post-detail'>
+																		<p>Nature of Work:</p>
+																		<h4>{post.Job_Type}</h4>
+																	</div>
+																	<div className='post-detail'>
+																		<p>Civil Status:</p>
+																		<h4>
+																			{post.Civil_Status}
 																		</h4>
 																	</div>
 																	<div className='post-detail'>
@@ -1017,26 +1455,77 @@ const JobPosts = ({
 																<p>{post.Job_Description}</p>
 															</div>
 															<div className='job-qualification-portion'>
-																<h3>--- Employer's Name ---</h3>
-																<p>{post.Employer_Name}</p>
+																<h3>--- Place of Work ---</h3>
+																<p
+																	style={{
+																		textAlign: "center",
+																	}}>
+																	{post.Work_Place}
+																</p>
 															</div>
-															{/* <div className='job-qualification-portion'>
-															<h3>--- Contact Number ---</h3>
-															<p>
-																{companyData[0].Contact_Number}
-															</p>
-														</div>
-														<div className='job-qualification-portion'>
-															<h3>
-																--- Company Description ---
-															</h3>
-															<p>
-																{
-																	companyData[0]
-																		.Company_Description
-																}
-															</p>
-														</div> */}
+															<div className='job-qualification-portion'>
+																<h3>--- Employer's Name ---</h3>
+																<p
+																	style={{
+																		textAlign: "center",
+																	}}>
+																	{post.Employer_Name}
+																</p>
+															</div>
+															{post.Contact_Person_Name && (
+																<>
+																	<div className='job-qualification-portion'>
+																		<h3>
+																			--- Contact Person ---
+																		</h3>
+																		<p>
+																			Full Name:{" "}
+																			<span
+																				style={{
+																					textDecoration:
+																						"underline",
+																				}}>
+																				{
+																					post.Contact_Person_Name
+																				}
+																			</span>
+																			<br />
+																			Position:{" "}
+																			<span
+																				style={{
+																					textDecoration:
+																						"underline",
+																				}}>
+																				{
+																					post.Contact_Person_Position
+																				}
+																			</span>
+																			<br />
+																			Contact Number:{" "}
+																			<span
+																				style={{
+																					textDecoration:
+																						"underline",
+																				}}>
+																				{
+																					post.Contact_Person_Number
+																				}
+																			</span>
+																			<br />
+																			Email Address:{" "}
+																			<span
+																				style={{
+																					textDecoration:
+																						"underline",
+																				}}>
+																				{
+																					post.Contact_Person_Email
+																				}
+																			</span>
+																		</p>
+																	</div>
+																</>
+															)}
 														</div>
 													</div>
 												</div>

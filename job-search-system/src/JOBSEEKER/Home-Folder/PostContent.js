@@ -40,15 +40,15 @@ export class PostContent extends Component {
 					className='post-content'>
 					<div className='job-qualification-container'>
 						<div className='job-qualification-portion'>
-							<h3>--- Job Qualifications ---</h3>
+							<h3>JOB QUALIFICATIONS</h3>
 							<p>{Job_Qualifications}</p>
 						</div>
 						<div className='job-qualification-portion'>
-							<h3>--- Job Requirements ---</h3>
+							<h3>JOB REQUIREMENTS</h3>
 							<p>{Job_Requirements}</p>
 						</div>
 						<div className='job-qualification-portion'>
-							<h3>--- Job Description ---</h3>
+							<h3>JOB DESCRIPTION</h3>
 							<p>{Job_Description}</p>
 						</div>
 						{Contact_Person_Name === null ? (
@@ -58,7 +58,7 @@ export class PostContent extends Component {
 						) : (
 							<>
 								<div className='job-qualification-portion'>
-									<h3>--- Contact Person ---</h3>
+									<h3>CONTACT PERSON</h3>
 								</div>
 								<h2 style={{ marginTop: "0px" }}>
 									Full Name: <u>{Contact_Person_Name}</u>

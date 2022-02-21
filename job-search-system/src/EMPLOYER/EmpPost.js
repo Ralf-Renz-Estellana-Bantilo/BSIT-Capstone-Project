@@ -7,6 +7,7 @@ import PostContent from "../JOBSEEKER/Home-Folder/PostContent";
 import "./EmpPost.css";
 import Modal from "../JOBSEEKER/Home-Folder/Modal";
 import axios from "axios";
+import Resources from "../Resources";
 
 export class Emp_Post extends Component {
 	constructor() {
@@ -87,50 +88,17 @@ export class Emp_Post extends Component {
 				numApplicant.Candidate_Status === "Hired"
 		);
 
-		let finalMinSalary = "";
-		let finalMaxSalary = "";
-		let jobMinSalary = companyJobPost.Minimum_Salary;
-		let jobMaxSalary = companyJobPost.Maximum_Salary;
-		for (let a = 1; a <= jobMinSalary.length; a++) {
-			if (
-				jobMinSalary.length - a === 3 ||
-				jobMinSalary.length - a === 6 ||
-				jobMinSalary.length - a === 9 ||
-				jobMinSalary.length - a === 12 ||
-				jobMinSalary.length - a === 15 ||
-				jobMinSalary.length - a === 18 ||
-				jobMinSalary.length - a === 21
-			) {
-				finalMinSalary += jobMinSalary[a - 1] + ",";
-			} else {
-				finalMinSalary += jobMinSalary[a - 1];
-			}
-		}
-		for (let a = 1; a <= jobMaxSalary.length; a++) {
-			if (
-				jobMaxSalary.length - a === 3 ||
-				jobMaxSalary.length - a === 6 ||
-				jobMaxSalary.length - a === 9 ||
-				jobMaxSalary.length - a === 12 ||
-				jobMaxSalary.length - a === 15 ||
-				jobMaxSalary.length - a === 18 ||
-				jobMaxSalary.length - a === 21
-			) {
-				finalMaxSalary += jobMaxSalary[a - 1] + ",";
-			} else {
-				finalMaxSalary += jobMaxSalary[a - 1];
-			}
-		}
-
 		return (
 			<div className='post-container'>
-				<div className='post-header'>
+				<div
+					className='post-header'
+					style={darkTheme ? { borderBottom: "1px solid #4d4d4d" } : {}}>
 					<div className='upperLeft-info'>
 						<Link to='/employer/business-profile'>
 							<div className='account-profile'>
 								<img
 									src={`../assets/${companyJobPost.Company_Image}`}
-									alt='Stablishment'
+									alt='Establishment'
 								/>
 							</div>
 						</Link>
@@ -211,7 +179,14 @@ export class Emp_Post extends Component {
 								<div className='post-detail'>
 									<p>Salary Range:</p>
 									<h4>
-										₱ {finalMinSalary} - ₱ {finalMaxSalary}
+										₱{" "}
+										{Resources.formatMoney(
+											companyJobPost.Minimum_Salary
+										)}{" "}
+										- ₱{" "}
+										{Resources.formatMoney(
+											companyJobPost.Maximum_Salary
+										)}
 									</h4>
 								</div>
 								<div className='post-detail'>
@@ -276,10 +251,9 @@ export class Emp_Post extends Component {
 						<button onClick={this.seeMore} className='see-more'>
 							{this.state.showMore ? "See More" : "See Less"}
 						</button>
-						<Link to='/employer/jobs'>
+						<Link to='/employer/jobs' onClick={this.toggle}>
 							<button
 								className='apply-btn'
-								onClick={this.toggle}
 								disabled={
 									companyJobPost.Active_Status === "Closed"
 										? "disabled"

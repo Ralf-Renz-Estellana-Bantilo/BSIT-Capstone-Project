@@ -23,7 +23,8 @@ const Accordion = () => {
 			<div
 				className='accordion-title'
 				onClick={() => setIsActive(!isActive)}>
-				<div>Help & Support</div>
+				<div>About</div>
+				{/* <div>Help & Support</div> */}
 				<div
 					className='toggle-container'
 					style={{
@@ -45,9 +46,9 @@ const Accordion = () => {
 						<Link to={`/${userType}/menu/contact`}>
 							<button>Contact Us</button>
 						</Link>
-						<Link to={`/${userType}/menu/help`}>
+						{/* <Link to={`/${userType}/menu/help`}>
 							<button>Help Center</button>
-						</Link>
+						</Link> */}
 					</div>
 				</div>
 			)}

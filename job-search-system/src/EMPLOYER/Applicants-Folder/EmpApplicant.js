@@ -173,7 +173,7 @@ export class EmpApplicant extends Component {
 				{this.props.isDeleted === true && (
 					<Indication
 						type='secondary'
-						text='Job applicant has been deleted!'
+						text='JOB APPLICANT HAS BEEN DELETED!'
 						method={this.closeDeleteState}
 						delay={3}
 						module='employer'

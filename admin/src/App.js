@@ -138,112 +138,146 @@ export default function App() {
 		setJobPosts((posts) => [...posts, post]);
 
 		const id = shortid.generate();
-
 		const generatedUsername = generateID();
 		const generatedPassword = id;
 		const userID = sessionStorage.getItem("UserID");
 		const generatedUserID = id;
-
 		const employerName = `${post.Employer_First_Name} ${post.Employer_Middle_Name} ${post.Employer_Last_Name}`;
 
-		await axios
-			.post("http://localhost:2000/api/create-company-admin", {
-				userID: generatedUserID,
-				companyID: post.CompanyID,
-				companyName: post.Company_Name,
-				street: post.Street,
-				zone: post.Zone,
-				barangay: post.Barangay,
-				employerName: employerName,
-				contactNumber: post.Contact_Number,
-				companyDescription: post.Company_Description,
-				companyImage: post.Company_Image,
-			})
-			.then(() => {
-				console.log("Successfully Created a company...");
-			});
+		const company = {
+			UserID: generatedUserID,
+			CompanyID: post.CompanyID,
+			Employer_Name: employerName,
+			Street: post.Street,
+			Zone: post.Zone,
+			Barangay: post.Barangay,
+			Contact_Number: post.Contact_Number,
+			Company_Name: post.Company_Name,
+			Company_Acronym: post.Company_Acronym,
+			Company_Description: post.Company_Description,
+			Company_Image: post.Company_Image,
+			Email_Address: post.Email_Address,
+			Employer_Type: post.Employer_Type,
+			Work_Force: post.Work_Force,
+		};
+		setCompaniesData((companyData) => [...companyData, company]);
 
-		await axios
-			.post("http://localhost:2000/api/create-jobPost", {
-				jobID: post.JobID,
-				companyID: post.CompanyID,
-				companyName: post.Company_Name,
-				min: post.Minutes,
-				hour: post.Hour,
-				day: post.Day,
-				month: post.Month,
-				year: post.Year,
-				datePosted: post.Date_Posted,
-				companyAddress: post.Company_Address,
-				jobTitle: post.Job_Title,
-				category: post.Category,
-				reqNoEmp: post.Required_Employees,
-				salary: post.Salary,
-				jobType: post.Job_Type,
-				prefSex: post.Preferred_Sex,
-				qualifications: post.Job_Qualifications,
-				requirements: post.Job_Requirements,
-				description: post.Job_Description,
-				employerName: employerName,
-				companyImage: post.Company_Image,
-				status: post.Active_Status,
-			})
-			.then(() => {
-				console.log("Successfully Posted a Job Vacancy...");
-			});
+		try {
+			await axios
+				.post("http://localhost:2000/api/create-company-admin", {
+					userID: generatedUserID,
+					companyID: post.CompanyID,
+					companyName: post.Company_Name,
+					street: post.Street,
+					zone: post.Zone,
+					barangay: post.Barangay,
+					employerName: employerName,
+					contactNumber: post.Contact_Number,
+					companyDescription: post.Company_Description,
+					companyImage: post.Company_Image,
+					acronym: post.Company_Acronym,
+					employerType: post.Employer_Type,
+					workForce: post.Work_Force,
+					emailAddress: post.Email_Address,
+				})
+				.then(() => {
+					// console.log("Successfully Created a company...");
+				});
 
-		await axios
-			.post("http://localhost:2000/api/create-user", {
-				userID: generatedUserID,
-				firstName: post.Employer_First_Name,
-				middleName: post.Employer_Middle_Name,
-				lastName: post.Employer_Last_Name,
-				sex: "Male",
-				role: "Employer",
-				username: generatedUsername,
-				password: generatedPassword,
-				userImage: "DefaultUserMale",
-			})
-			.then(() => {
-				// console.log("Successfully Registered...");
-			});
+			await axios
+				.post("http://localhost:2000/api/create-jobPost", {
+					jobID: post.JobID,
+					companyID: post.CompanyID,
+					companyName: post.Company_Name,
+					min: post.Minutes,
+					hour: post.Hour,
+					day: post.Day,
+					month: post.Month,
+					year: post.Year,
+					datePosted: post.Date_Posted,
+					companyAddress: post.Company_Address,
+					jobTitle: post.Job_Title,
+					category: post.Category,
+					placeOfWork: post.Work_Place,
+					reqNoEmp: post.Required_Employees,
+					minSalary: post.Minimum_Salary,
+					maxSalary: post.Maximum_Salary,
+					civilStatus: post.Civil_Status,
+					jobType: post.Job_Type,
+					prefSex: post.Preferred_Sex,
+					qualifications: post.Job_Qualifications,
+					requirements: post.Job_Requirements,
+					description: post.Job_Description,
+					employerName: employerName,
+					companyImage: post.Company_Image,
+					emailAddress: post.Email_Address,
+					contactPersonName: post.Contact_Person_Name,
+					contactPersonPosition: post.Contact_Person_Position,
+					contactPersonNumber: post.Contact_Person_Number,
+					contactPersonEmail: post.Contact_Person_Email,
+					status: post.Active_Status,
+				})
+				.then(() => {
+					// console.log("1 Successfully Posted a Job Vacancy...");
+				});
 
-		await axios
-			.post("http://localhost:2000/api/admin/add-post", {
-				adminID: userID,
-				companyID: post.CompanyID,
-				jobID: post.JobID,
-				companyName: post.Company_Name,
-				username: generatedUsername,
-				password: generatedPassword,
-			})
-			.then(() => {
-				// console.log("Successfully Registered...");
-			});
+			await axios
+				.post("http://localhost:2000/api/create-user", {
+					userID: generatedUserID,
+					firstName: post.Employer_First_Name,
+					middleName: post.Employer_Middle_Name,
+					lastName: post.Employer_Last_Name,
+					sex: "Male",
+					role: "Employer",
+					username: generatedUsername,
+					password: generatedPassword,
+					userImage: "DefaultUserMale.png",
+				})
+				.then(() => {
+					// console.log("2 Successfully Registered a Company...");
+				});
 
-		const data = new FormData();
-		data.append("image", post.File);
-		await fetch("http://localhost:2000/api/upload-image", {
-			method: "POST",
-			body: data,
-		})
-			.then((result) => {
-				console.log("The File has been Uploaded...");
-			})
-			.catch((error) => {
-				console.log("Multer Error!", error);
-			});
+			await axios
+				.post("http://localhost:2000/api/admin/add-post", {
+					adminID: userID,
+					companyID: post.CompanyID,
+					jobID: post.JobID,
+					companyName: post.Company_Name,
+					username: generatedUsername,
+					password: generatedPassword,
+				})
+				.then(() => {
+					// console.log("3 Successfully Added a Post...");
+				});
 
-		await fetch("http://localhost:2000/api/upload-image-admin", {
-			method: "POST",
-			body: data,
-		})
-			.then((result) => {
-				console.log("The File has been Uploaded to the Administrator...");
+			const data = new FormData();
+			data.append("image", post.File);
+			await fetch("http://localhost:2000/api/upload-image", {
+				method: "POST",
+				body: data,
 			})
-			.catch((error) => {
-				console.log("Multer Error!", error);
-			});
+				.then((result) => {
+					// console.log("4 The File has been Uploaded...");
+				})
+				.catch((error) => {
+					console.log("Multer Error!", error);
+				});
+
+			await fetch("http://localhost:2000/api/upload-image-admin", {
+				method: "POST",
+				body: data,
+			})
+				.then((result) => {
+					// console.log(
+					// 	"5 The File has been Uploaded to the Administrator..."
+					// );
+				})
+				.catch((error) => {
+					console.log("Multer Error!", error);
+				});
+		} catch (error) {
+			alert(error);
+		}
 	};
 
 	const generateID = () => {
@@ -281,6 +315,7 @@ export default function App() {
 								jobPosts={jobPosts}
 								applicantsData={applicantsData}
 								employers={employers}
+								jobApplicants={jobApplicants}
 								admin={admin}
 								setActivePage={setActivePage}
 								setJobPosts={setJobPosts}

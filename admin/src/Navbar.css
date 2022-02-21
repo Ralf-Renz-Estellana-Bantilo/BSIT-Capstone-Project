@@ -175,7 +175,7 @@
 	background-color: var(--dark-primary);
 	padding: 10px;
 	z-index: 1000;
-	border-radius: 10px;
+	border-radius: 5px;
 	box-shadow: 2px 2px 5px black;
 	border: 1px solid var(--border1);
 	width: 300px;
@@ -314,7 +314,7 @@
 }
 
 .file-picker {
-	border-radius: 7px;
+	border-radius: 5px;
 	padding: 5px 10px;
 	text-align: center;
 	outline: none;

@@ -3,7 +3,7 @@
 	flex-direction: column;
 	justify-content: space-between;
 	background-color: var(--dark-primary);
-	width: 300px;
+	width: 280px;
 	height: 100vh;
 	box-shadow: 4px 0 5px rgba(0, 0, 0, 0.2);
 	z-index: 2;
@@ -28,6 +28,7 @@
 	padding: 10px;
 	border-left: 5px solid var(--dark-primary);
 	transition: 0.1s;
+	border-bottom: 1px solid transparent;
 }
 
 .category-container-active {
@@ -38,12 +39,14 @@
 	cursor: pointer;
 	padding: 10px;
 	background: linear-gradient(180deg, var(--dark-blue), var(--light-blue));
+	border-bottom: 1px solid transparent;
 	border-left: 5px solid var(--reddish);
 }
 
 .category-container:hover {
 	background-color: var(--dark-primary-hover);
 	border-left: 5px solid var(--dark-primary-hover);
+	border-bottom: 1px solid var(--border1);
 }
 
 .category-icon {

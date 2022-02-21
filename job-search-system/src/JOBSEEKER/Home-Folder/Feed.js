@@ -148,12 +148,14 @@ export class Feed extends Component {
 						}
 
 						let acronym = "";
-						company.map((comp) => {
-							if (comp.CompanyID === info.CompanyID) {
-								acronym = comp.Company_Acronym;
-								return null;
-							}
-						});
+						try {
+							company.map((comp) => {
+								if (comp.CompanyID === info.CompanyID) {
+									acronym = comp.Company_Acronym;
+									return null;
+								}
+							});
+						} catch (error) {}
 
 						if (
 							`${address}`

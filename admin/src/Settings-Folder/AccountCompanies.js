@@ -16,7 +16,7 @@ const AccountCompanies = ({ companies, adminPosts }) => {
 				<h3>
 					{isCompanyPreview ? "Company Account Credentials" : "Companies"}
 				</h3>
-				{isCompanyPreview ? <p title='More Options...'>•••</p> : ""}
+				{/* {isCompanyPreview ? <p title='More Options...'>•••</p> : ""} */}
 			</div>
 
 			<div className='job-posts'>

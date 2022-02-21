@@ -250,7 +250,7 @@ export class EmpCompanyProfile extends Component {
 				{isIndicationOpen === true && (
 					<Indication
 						type='primary'
-						text='Business Profile has been updated!'
+						text='BUSINESS PROFILE HAS BEEN UPDATED!'
 						method={this.props.toggleIndication}
 						delay={3}
 						module='employer'
@@ -346,10 +346,10 @@ export class EmpCompanyProfile extends Component {
 							<h3>Establishment Details</h3>
 							<div className='profession-info-field'>
 								<div className='field'>
-									<label>Business Stablishment Name:</label>
+									<label>Business Establishment Name:</label>
 									<input
 										type='text'
-										placeholder='Set Stablishment Name'
+										placeholder='Set Establishment Name'
 										value={companyName}
 										onChange={(e) =>
 											this.handleChange(e, "companyName")
@@ -505,7 +505,7 @@ export class EmpCompanyProfile extends Component {
 							</div>
 							<div className='profession-info-field'>
 								<div className='field'>
-									<label>Business Stablishment Description:</label>
+									<label>Business Establishment Description:</label>
 									<textarea
 										name='interest'
 										id='textarea'

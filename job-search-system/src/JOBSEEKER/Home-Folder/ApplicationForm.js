@@ -7,6 +7,7 @@ import Modal from "../Home-Folder/Modal";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
 import DeleteIcon from "../../Images/DeleteIcon.png";
+import Resources from "../../Resources";
 
 export class ApplicationForm extends Component {
 	state = {
@@ -22,9 +23,9 @@ export class ApplicationForm extends Component {
 		role: "",
 		homeAddress: "",
 		sex: "",
-		bMonth: 0,
-		bDay: 0,
-		bYear: 0,
+		bMonth: "",
+		bDay: "",
+		bYear: "",
 		contactNumber: "",
 		email: "",
 		civilStatus: "",
@@ -109,9 +110,8 @@ export class ApplicationForm extends Component {
 		const date =
 			new Date().getMonth() +
 			1 +
-			"_" +
+			"" +
 			new Date().getDate() +
-			"_" +
 			new Date().getFullYear();
 
 		let newFileName = "";
@@ -150,7 +150,7 @@ export class ApplicationForm extends Component {
 		};
 
 		if (fileData !== null) {
-			if (fileData.size > 2000000) {
+			if (fileData.size > 2090000) {
 				alert("File too large (2mb limit) ! Please try again!");
 				this.setState({
 					fileData: null,
@@ -446,42 +446,6 @@ export class ApplicationForm extends Component {
 			applicationStatus = "Closed";
 		}
 
-		let finalMinSalary = "";
-		let finalMaxSalary = "";
-
-		let jobMinSalary = `${post.Minimum_Salary}`;
-		let jobMaxSalary = `${post.Maximum_Salary}`;
-		for (let a = 1; a <= jobMinSalary.length; a++) {
-			if (
-				jobMinSalary.length - a === 3 ||
-				jobMinSalary.length - a === 6 ||
-				jobMinSalary.length - a === 9 ||
-				jobMinSalary.length - a === 12 ||
-				jobMinSalary.length - a === 15 ||
-				jobMinSalary.length - a === 18 ||
-				jobMinSalary.length - a === 21
-			) {
-				finalMinSalary += jobMinSalary[a - 1] + ",";
-			} else {
-				finalMinSalary += jobMinSalary[a - 1];
-			}
-		}
-		for (let a = 1; a <= jobMaxSalary.length; a++) {
-			if (
-				jobMaxSalary.length - a === 3 ||
-				jobMaxSalary.length - a === 6 ||
-				jobMaxSalary.length - a === 9 ||
-				jobMaxSalary.length - a === 12 ||
-				jobMaxSalary.length - a === 15 ||
-				jobMaxSalary.length - a === 18 ||
-				jobMaxSalary.length - a === 21
-			) {
-				finalMaxSalary += jobMaxSalary[a - 1] + ",";
-			} else {
-				finalMaxSalary += jobMaxSalary[a - 1];
-			}
-		}
-
 		return (
 			<div className='application-form-container'>
 				<Link to={`/jobseeker/${activePage}`}>
@@ -595,7 +559,14 @@ export class ApplicationForm extends Component {
 									<div className='apply-detail'>
 										<p>Salary Range:</p>
 										<h4>
-											₱ {finalMinSalary} - ₱ {finalMaxSalary}
+											₱{" "}
+											{Resources.formatMoney(
+												`${post.Minimum_Salary}`
+											)}{" "}
+											- ₱{" "}
+											{Resources.formatMoney(
+												`${post.Maximum_Salary}`
+											)}
 										</h4>
 									</div>
 									<div className='apply-detail'>
@@ -639,15 +610,15 @@ export class ApplicationForm extends Component {
 										this.divElement = divElement;
 									}}>
 									<div className='job-qualification-portion'>
-										<h3>--- Job Qualifications ---</h3>
+										<h3>JOB DESCRIPTION</h3>
 										<p>{post.Job_Qualifications}</p>
 									</div>
 									<div className='job-qualification-portion'>
-										<h3>--- Job Requirements ---</h3>
+										<h3>JOB REQUIREMENTS</h3>
 										<p>{post.Job_Requirements}</p>
 									</div>
 									<div className='job-qualification-portion'>
-										<h3>--- Job Description ---</h3>
+										<h3>JOB DESCRIPTION</h3>
 										<p>{post.Job_Description}</p>
 									</div>
 
@@ -659,7 +630,7 @@ export class ApplicationForm extends Component {
 									) : (
 										<>
 											<div className='job-qualification-portion'>
-												<h3>--- Contact Person ---</h3>
+												<h3>CONTACT PERSON</h3>
 											</div>
 											<h2 style={{ marginTop: "0px" }}>
 												Full Name: <u>{post.Contact_Person_Name}</u>
@@ -698,7 +669,7 @@ export class ApplicationForm extends Component {
 					</div>
 				</div>
 				<div className='application-form'>
-					<h2>Application Form</h2>
+					<h2>APPLICATION FORM</h2>
 					<form
 						className='app-form'
 						onSubmit={(e) => {
@@ -767,7 +738,7 @@ export class ApplicationForm extends Component {
 									/>
 								</div>
 							</div>
-							<div className='status-group'>
+							<div className='group-field'>
 								<div className='field'>
 									<label>Gender: </label>
 									<select
@@ -800,8 +771,11 @@ export class ApplicationForm extends Component {
 											this.handleChange(e, "civilStatus");
 										}}
 										value={civilStatus}>
-										<option disabled='disabled' hidden='hidden'>
-											Civil Status
+										<option
+											disabled='disabled'
+											hidden='hidden'
+											value=''>
+											Select Civil Status
 										</option>
 										<option value='Single'>Single</option>
 										<option value='Married'>Married</option>
@@ -811,49 +785,56 @@ export class ApplicationForm extends Component {
 									</select>
 								</div>
 							</div>
-							<div className='birthdate-field'>
-								<label>Date of Birth: </label>
-								<div className='birthdate'>
-									<select
-										value={bMonth}
-										onChange={(e) => {
-											this.handleChange(e, "bMonth");
-										}}
-										disabled={
-											`${activePage}` === "profile" && "disable"
-										}>
-										<option disabled='disabled' hidden='hidden'>
-											Month
-										</option>
-										<option value={1}>January</option>
-										<option value={2}>February</option>
-										<option value={3}>March</option>
-										<option value={4}>April</option>
-										<option value={5}>May</option>
-										<option value={6}>June</option>
-										<option value={7}>July</option>
-										<option value={8}>August</option>
-										<option value={9}>September</option>
-										<option value={10}>October</option>
-										<option value={11}>November</option>
-										<option value={12}>December</option>
-									</select>
+							<div className='group-field'>
+								<div className='field'>
+									<label>Date of Birth: </label>
+									<div className='birthdate'>
+										<select
+											value={bMonth}
+											onChange={(e) => {
+												this.handleChange(e, "bMonth");
+											}}
+											disabled={
+												`${activePage}` === "profile" && "disable"
+											}>
+											<option
+												disabled='disabled'
+												hidden='hidden'
+												value=''>
+												Month
+											</option>
+											<option value={1}>January</option>
+											<option value={2}>February</option>
+											<option value={3}>March</option>
+											<option value={4}>April</option>
+											<option value={5}>May</option>
+											<option value={6}>June</option>
+											<option value={7}>July</option>
+											<option value={8}>August</option>
+											<option value={9}>September</option>
+											<option value={10}>October</option>
+											<option value={11}>November</option>
+											<option value={12}>December</option>
+										</select>
 
-									<select
-										value={bDay}
-										onChange={(e) => {
-											this.handleChange(e, "bDay");
-										}}
-										disabled={
-											`${activePage}` === "profile" && "disable"
-										}>
-										<option disabled='disabled' hidden='hidden'>
-											Day
-										</option>
-										{birthDay}
-									</select>
+										<select
+											value={bDay}
+											onChange={(e) => {
+												this.handleChange(e, "bDay");
+											}}
+											disabled={
+												`${activePage}` === "profile" && "disable"
+											}>
+											<option
+												disabled='disabled'
+												hidden='hidden'
+												value=''>
+												Day
+											</option>
+											{birthDay}
+										</select>
 
-									{/* <select
+										{/* <select
 										value={bYear}
 										onChange={(e) => {
 											this.handleChange(e, "bYear");
@@ -866,74 +847,19 @@ export class ApplicationForm extends Component {
 										</option>
 										{birthYear}
 									</select> */}
-									<input
-										type='number'
-										placeholder='Year'
-										style={{ width: "80px" }}
-										value={bYear}
-										disabled={
-											`${activePage}` === "profile" && "disable"
-										}
-										onChange={(e) => {
-											this.handleChange(e, "bYear");
-										}}
-									/>
-								</div>
-							</div>
-							<div className='group-field'>
-								<div className='field'>
-									<label>Contact Number: </label>
-									<input
-										type='text'
-										placeholder='Contact Number'
-										value={contactNumber}
-										onChange={(e) => {
-											this.handleChange(e, "contactNumber");
-										}}
-										disabled={
-											`${activePage}` === "profile" && "disable"
-										}
-									/>
-								</div>
-								<div className='field'>
-									<label>Email Address: </label>
-									<input
-										type='email'
-										placeholder='Email Address'
-										value={email}
-										onChange={(e) => {
-											this.handleChange(e, "email");
-										}}
-										disabled={
-											`${activePage}` === "profile" && "disable"
-										}
-									/>
-								</div>
-							</div>
-							<div className='group-field'>
-								<div className='field'>
-									<label>Disability: </label>
-									<select
-										value={disability}
-										onChange={(e) => {
-											this.handleChange(e, "disability");
-										}}
-										disabled={
-											`${activePage}` === "profile" && "disable"
-										}>
-										<option
-											disabled='disabled'
-											hidden='hidden'
-											value=''>
-											Select Disability
-										</option>
-										<option value='None'>None</option>
-										<option value='Visual'>Visual</option>
-										<option value='Hearing'>Hearing</option>
-										<option value='Speech'>Speech</option>
-										<option value='Physical'>Physical</option>
-										<option value='Others'>Others</option>
-									</select>
+										<input
+											type='number'
+											placeholder='Year'
+											style={{ width: "80px" }}
+											value={bYear === 0 ? "" : bYear}
+											disabled={
+												`${activePage}` === "profile" && "disable"
+											}
+											onChange={(e) => {
+												this.handleChange(e, "bYear");
+											}}
+										/>
+									</div>
 								</div>
 								<div className='field'>
 									<label>Employment Status/Type: </label>
@@ -1000,6 +926,94 @@ export class ApplicationForm extends Component {
 									</div>
 								</div>
 							</div>
+
+							<div className='group-field'>
+								<div className='field'>
+									<label>Contact Number: </label>
+									<input
+										type='text'
+										placeholder='Contact Number'
+										value={contactNumber}
+										onChange={(e) => {
+											this.handleChange(e, "contactNumber");
+										}}
+										disabled={
+											`${activePage}` === "profile" && "disable"
+										}
+									/>
+								</div>
+								<div className='field'>
+									<label>Email Address: </label>
+									<input
+										type='email'
+										placeholder='Email Address'
+										value={email}
+										onChange={(e) => {
+											this.handleChange(e, "email");
+										}}
+										disabled={
+											`${activePage}` === "profile" && "disable"
+										}
+									/>
+								</div>
+							</div>
+							<div className='group-field'>
+								<div className='field'>
+									<label>Disability: </label>
+									<select
+										value={disability}
+										onChange={(e) => {
+											this.handleChange(e, "disability");
+										}}
+										disabled={
+											`${activePage}` === "profile" && "disable"
+										}>
+										<option
+											disabled='disabled'
+											hidden='hidden'
+											value=''>
+											Select Disability
+										</option>
+										<option value='None'>None</option>
+										<option value='Visual'>Visual</option>
+										<option value='Hearing'>Hearing</option>
+										<option value='Speech'>Speech</option>
+										<option value='Physical'>Physical</option>
+										<option value='Others'>Others</option>
+									</select>
+								</div>
+								<div className='field'>
+									<label>
+										{`${activePage}` === "profile"
+											? "Resume:"
+											: "Attach your resume here (if necessary):"}
+									</label>
+
+									{`${activePage}` === "profile" ? (
+										<input
+											type='text'
+											placeholder='No attached file'
+											value={resume}
+											disabled={
+												`${activePage}` === "profile" && "disable"
+											}
+										/>
+									) : (
+										<input
+											accept='application/pdf,application/msword,
+											application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+											type='file'
+											disabled={
+												`${activePage}` === "profile" && "disable"
+											}
+											onChange={(e) => {
+												this.handleFileChange(e);
+											}}
+											style={darkTheme ? {} : { color: "black" }}
+										/>
+									)}
+								</div>
+							</div>
 							<div className='field'>
 								<label>Educational Attainment: </label>
 								<input
@@ -1011,37 +1025,6 @@ export class ApplicationForm extends Component {
 									}}
 									disabled={`${activePage}` === "profile" && "disable"}
 								/>
-							</div>
-							<div className='field'>
-								<label>
-									{`${activePage}` === "profile"
-										? "Resume:"
-										: "Attach your resume here (if necessary):"}
-								</label>
-
-								{`${activePage}` === "profile" ? (
-									<input
-										type='text'
-										placeholder='No attached file'
-										value={resume}
-										disabled={
-											`${activePage}` === "profile" && "disable"
-										}
-									/>
-								) : (
-									<input
-										accept='application/pdf,application/msword,
-											application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-										type='file'
-										disabled={
-											`${activePage}` === "profile" && "disable"
-										}
-										onChange={(e) => {
-											this.handleFileChange(e);
-										}}
-										style={darkTheme ? {} : { color: "black" }}
-									/>
-								)}
 							</div>
 						</div>
 

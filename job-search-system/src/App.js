@@ -69,9 +69,10 @@ export class App extends Component {
 			employerMessage: "",
 			numApplicants: [],
 			targetJobPost: null,
+			isCloseIndication: false,
 
 			// system color theme
-			darkTheme: true,
+			darkTheme: false,
 		};
 	}
 
@@ -1282,7 +1283,7 @@ export class App extends Component {
 	};
 
 	updateJobPostStatus = async (jobID) => {
-		this.setState((prevState) => ({
+		await this.setState((prevState) => ({
 			infos: prevState.infos.map((info) =>
 				info.JobID === jobID
 					? Object.assign(info, {
@@ -1443,6 +1444,12 @@ export class App extends Component {
 	toggleIndication = () => {
 		this.setState({
 			isIndicationOpen: !this.state.isIndicationOpen,
+		});
+	};
+
+	toggleClosePost = () => {
+		this.setState({
+			isCloseIndication: !this.state.isCloseIndication,
 		});
 	};
 
@@ -1780,6 +1787,7 @@ export class App extends Component {
 									companyJobPost={this.state.companyJobPost}
 									numApplicants={this.state.numApplicants}
 									darkTheme={this.state.darkTheme}
+									isCloseIndication={this.state.isCloseIndication}
 									onAddPost={this.addPost}
 									toggle={this.handleToggle}
 									setCurrentUser={this.setCurrentUser}
@@ -1793,6 +1801,7 @@ export class App extends Component {
 									resetTargetJobPost={this.resetTargetJobPost}
 									updateJobPostContent={this.updateJobPostContent}
 									updateJobPostStatus={this.updateJobPostStatus}
+									toggleClosePost={this.toggleClosePost}
 								/>
 							)}
 						/>

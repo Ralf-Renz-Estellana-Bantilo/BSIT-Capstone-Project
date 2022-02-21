@@ -54,7 +54,7 @@ export class Navbar extends Component {
 	};
 
 	componentDidMount = async () => {
-		document.title = "JobSeeker | Job Search Catarman";
+		document.title = "Job Seeker | Job Search Catarman";
 	};
 
 	render() {

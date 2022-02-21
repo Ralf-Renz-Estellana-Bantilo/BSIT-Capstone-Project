@@ -14,7 +14,7 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	height: 75vh;
+	height: 77vh;
 }
 
 .bottom-container .logoutButton {

@@ -19,6 +19,7 @@ export class LandingPage extends Component {
 		document.title = "Job Search Catarman";
 		Auth.setNotAuthenticated();
 	}
+
 	render() {
 		const { darkTheme } = this.props;
 		return (
@@ -35,6 +36,14 @@ export class LandingPage extends Component {
 							}
 							onDoubleClick={this.props.setTheme}
 						/>
+						<Link to='/signup'>
+							<button
+								onClick={() => {
+									this.props.setUserType("");
+								}}>
+								Sign Up
+							</button>
+						</Link>
 					</div>
 					<div className='home-page-content'>
 						<div className='page-logo-container'>
@@ -79,7 +88,7 @@ export class LandingPage extends Component {
 					<div className='page-content'>
 						<div className='page-title'>
 							<h2>Are you looking for a job?</h2>
-							<p>Find a job that you like...</p>
+							<p>Find a job that you like.</p>
 						</div>
 						<div className='page-cards'>
 							<div className='page-card'>
@@ -155,7 +164,7 @@ export class LandingPage extends Component {
 							<h2>Are you looking for skilled applicants?</h2>
 							<p>
 								Start searching for applicants who fit your job
-								requirements
+								requirements.
 							</p>
 						</div>
 						<div className='page-cards'>

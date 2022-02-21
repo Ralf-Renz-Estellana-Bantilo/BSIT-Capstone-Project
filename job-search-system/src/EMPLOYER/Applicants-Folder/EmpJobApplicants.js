@@ -165,7 +165,8 @@ export class Emp_Job_Applicants extends Component {
 										"empApplicantScroll",
 										window.pageYOffset
 									);
-								}}>
+								}}
+								title='See Job Applicants Summary'>
 								<h3>{`${info.Job_Title}`}</h3>
 								<p>
 									Vac. Count:{" "}

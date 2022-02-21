@@ -90,14 +90,14 @@ export class JobVacancyFormPart1 extends Component {
 				{this.state.isNotValid === false && (
 					<Indication
 						backgroundcolor='orange'
-						text='Make sure to fill-in all the fields!'
+						text='MAKE SURE TO FILL-IN ALL THE FIELDS!'
 						method={this.closeIsNotValid}
 						delay={3}
 						module='employer'
 					/>
 				)}
 				<form className='post-input-container'>
-					<h3>--- Job Vacancy Form ---</h3>
+					<h3>JOB VACANCY FORM</h3>
 					<div className='post-fields'>
 						<div className='post-field'>
 							<label>Job Title:</label>
@@ -115,7 +115,7 @@ export class JobVacancyFormPart1 extends Component {
 							<select
 								name='Job Category'
 								onChange={handleChange("jobCategory")}
-								defaultValue={values.jobCategory}>
+								value={values.jobCategory}>
 								<option disabled='disabled' hidden='hidden' value=''>
 									Select Job Category
 								</option>
@@ -169,7 +169,7 @@ export class JobVacancyFormPart1 extends Component {
 								<select
 									name='Preferred Sex'
 									onChange={handleChange("prefSex")}
-									defaultValue={values.prefSex}>
+									value={values.prefSex}>
 									<option disabled='disabled' hidden='hidden' value=''>
 										Select Gender
 									</option>
@@ -188,7 +188,7 @@ export class JobVacancyFormPart1 extends Component {
 								<select
 									name='Civil Status'
 									onChange={handleChange("civilStatus")}
-									defaultValue={values.civilStatus}>
+									value={values.civilStatus}>
 									<option disabled='disabled' hidden='hidden' value=''>
 										Select Civil Status
 									</option>
@@ -205,7 +205,7 @@ export class JobVacancyFormPart1 extends Component {
 								<select
 									name='Nature of Work'
 									onChange={handleChange("jobType")}
-									defaultValue={values.jobType}>
+									value={values.jobType}>
 									<option disabled='disabled' hidden='hidden' value=''>
 										Select Nature of Work
 									</option>

@@ -56,7 +56,7 @@ export class Notification extends Component {
 				{this.state.isDeleted === true && (
 					<Indication
 						type='secondary'
-						text='Notification has been deleted'
+						text='NOTIFICATION HAS BEEN DELETED!'
 						method={this.closeDeleteState}
 						delay={3}
 					/>

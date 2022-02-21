@@ -69,9 +69,16 @@ export const createCompanyDataAdmin = (req, res) => {
 	const contactNumber = req.body.contactNumber;
 	const companyDescription = req.body.companyDescription;
 	const companyImage = req.body.companyImage;
+	const acronym = req.body.acronym;
+	const employerType = req.body.employerType;
+	const workForce = req.body.workForce;
+	const emailAddress = req.body.emailAddress;
+	const day = new Date().getDate();
+	const month = new Date().getMonth() + 1;
+	const year = new Date().getFullYear();
 
 	db.query(
-		"INSERT INTO company (UserID, CompanyID, Company_Name, Street, Zone, Barangay, Contact_Number, Employer_Name, Company_Description, Company_Image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+		"INSERT INTO company (UserID, CompanyID, Company_Name, Street, Zone, Barangay, Contact_Number, Employer_Name, Company_Description, Company_Image, Company_Acronym, Employer_Type, Work_Force, Email_Address, Reg_Day, Reg_Month, Reg_Year) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 		[
 			userID,
 			companyID,
@@ -83,6 +90,13 @@ export const createCompanyDataAdmin = (req, res) => {
 			employerName,
 			companyDescription,
 			companyImage,
+			acronym,
+			employerType,
+			workForce,
+			emailAddress,
+			day,
+			month,
+			year,
 		],
 		(err, result) => {
 			if (err) {

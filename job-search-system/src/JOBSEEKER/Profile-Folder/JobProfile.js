@@ -144,9 +144,11 @@ export class JobProfile extends Component {
 					prevState_educationalAttainment: applicant.Educ_Attainment,
 					prevState_preferredJob: applicant.Preferred_Job,
 					prevState_preferredCategory: applicant.Preferred_Category,
-					prevState_preferredSalary: applicant.Preferred_Salary,
+					prevState_preferredSalaryMin: applicant.Minimum_Salary,
+					prevState_preferredSalaryMax: applicant.Maximum_Salary,
 					prevState_interest: applicant.Interested_In,
 					prevState_goodAt: applicant.Good_At,
+					prevState_resume: applicant.My_Resume,
 					prevState_credentials: applicant.Credentials,
 					prevState_disability: applicant.Disability,
 					prevState_employmentStatus: applicant.Employment_Status,
@@ -188,39 +190,53 @@ export class JobProfile extends Component {
 			const date =
 				new Date().getMonth() +
 				1 +
-				"_" +
+				"" +
 				new Date().getDate() +
-				"_" +
 				new Date().getFullYear();
 
-			let newFileName = "";
+			let newFileName = null;
 			if (fileData !== null) {
 				newFileName = date + "_" + fileData.name;
+			} else if (
+				(fileData === null && resume !== undefined) ||
+				resume !== null
+			) {
+				newFileName = resume;
 			}
 
+			// if (resume) {
+			// 	newFileName = resume;
+			// } else {
+			// 	if (fileData !== null) {
+			// 		newFileName = date + "_" + fileData.name;
+			// 	} else {
+			// 		newFileName = resume;
+			// 	}
+			// }
+
 			if (
-				firstName === "" ||
-				middleName === "" ||
-				lastName === "" ||
-				sex === "" ||
-				contactNumber === "" ||
-				email === "" ||
-				address === "" ||
-				bMonth === "" ||
-				bDay === "" ||
-				bYear === "" ||
-				civilStatus === "" ||
-				educationalAttainment === "" ||
-				preferredJob === "" ||
-				preferredCategory === "" ||
-				preferredSalaryMin === "" ||
-				preferredSalaryMax === "" ||
-				interest === "" ||
-				goodAt === "" ||
-				credentials === "" ||
-				disability === "" ||
-				employmentStatus === "" ||
-				employmentType === ""
+				firstName === null ||
+				middleName === null ||
+				lastName === null ||
+				sex === null ||
+				contactNumber === null ||
+				email === null ||
+				address === null ||
+				bMonth === null ||
+				bDay === null ||
+				bYear === null ||
+				civilStatus === null ||
+				educationalAttainment === null ||
+				preferredJob === null ||
+				preferredCategory === null ||
+				preferredSalaryMin === null ||
+				preferredSalaryMax === null ||
+				interest === null ||
+				goodAt === null ||
+				credentials === null ||
+				disability === null ||
+				employmentStatus === null ||
+				employmentType === null
 			) {
 				alert("Please fill up all the fields");
 			} else {
@@ -411,8 +427,10 @@ export class JobProfile extends Component {
 			prevState_educationalAttainment,
 			prevState_preferredJob,
 			prevState_preferredCategory,
-			prevState_preferredSalary,
+			prevState_preferredSalaryMin,
+			prevState_preferredSalaryMax,
 			prevState_interest,
+			prevState_resume,
 			prevState_goodAt,
 			prevState_credentials,
 			isIndicationOpen,
@@ -444,13 +462,84 @@ export class JobProfile extends Component {
 			prevState_educationalAttainment === educationalAttainment &&
 			prevState_preferredJob === preferredJob &&
 			prevState_preferredCategory === preferredCategory &&
-			prevState_preferredSalary === preferredSalaryMin &&
+			prevState_preferredSalaryMin === preferredSalaryMin &&
+			prevState_preferredSalaryMax === preferredSalaryMax &&
 			prevState_interest === interest &&
 			prevState_goodAt === goodAt &&
+			prevState_resume === resume &&
 			prevState_credentials === credentials &&
 			prevState_disability === disability &&
 			prevState_employmentStatus === employmentStatus &&
 			prevState_employmentType === employmentType
+		) {
+			isUpdateButtonEnable = false;
+		} else if (
+			firstName === null ||
+			middleName === null ||
+			lastName === null ||
+			address === null ||
+			sex === null ||
+			bMonth === null ||
+			bDay === null ||
+			bYear === null ||
+			contactNumber === null ||
+			email === null ||
+			civilStatus === null ||
+			educationalAttainment === null ||
+			preferredJob === null ||
+			preferredCategory === null ||
+			preferredSalaryMin === null ||
+			preferredSalaryMax === null ||
+			interest === null ||
+			goodAt === null ||
+			credentials === null ||
+			disability === null ||
+			employmentStatus === null ||
+			employmentType === null ||
+			firstName === "" ||
+			middleName === "" ||
+			lastName === "" ||
+			address === "" ||
+			sex === "" ||
+			bMonth === "" ||
+			bDay === "" ||
+			bYear === "" ||
+			contactNumber === "" ||
+			email === "" ||
+			civilStatus === "" ||
+			educationalAttainment === "" ||
+			preferredJob === "" ||
+			preferredCategory === "" ||
+			preferredSalaryMin === "" ||
+			preferredSalaryMax === "" ||
+			interest === "" ||
+			goodAt === "" ||
+			credentials === "" ||
+			disability === "" ||
+			employmentStatus === "" ||
+			employmentType === "" ||
+			firstName === undefined ||
+			middleName === undefined ||
+			lastName === undefined ||
+			address === undefined ||
+			sex === undefined ||
+			bMonth === undefined ||
+			bDay === undefined ||
+			bYear === undefined ||
+			contactNumber === undefined ||
+			email === undefined ||
+			civilStatus === undefined ||
+			educationalAttainment === undefined ||
+			preferredJob === undefined ||
+			preferredCategory === undefined ||
+			preferredSalaryMin === undefined ||
+			preferredSalaryMax === undefined ||
+			interest === undefined ||
+			goodAt === undefined ||
+			credentials === undefined ||
+			disability === undefined ||
+			employmentStatus === undefined ||
+			employmentType === undefined
 		) {
 			isUpdateButtonEnable = false;
 		}
@@ -484,7 +573,7 @@ export class JobProfile extends Component {
 				{isIndicationOpen ? (
 					<Indication
 						type='primary'
-						text='Updated Job Profile Successfully!'
+						text='JOB SEEKER PROFILE HAS BEEN UPDATED!'
 						method={this.toggleIndication}
 						delay={3}
 					/>
@@ -665,7 +754,7 @@ export class JobProfile extends Component {
 									/>
 								</div>
 								<div className='field'>
-									<label>Home Address:</label>
+									<label>Home Address: (St., Brgy., Mun.)</label>
 									<input
 										name='address'
 										type='text'
@@ -890,7 +979,7 @@ export class JobProfile extends Component {
 							</div>
 
 							<div className='field'>
-								<label>Interested in:</label>
+								<label>Interests:</label>
 								<textarea
 									name='interest'
 									id='textarea'
