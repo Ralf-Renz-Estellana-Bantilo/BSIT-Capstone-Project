@@ -57,19 +57,19 @@ export class Emp_Post extends Component {
 		await axios
 			.delete(`http://localhost:2000/api/delete-jobPost/${JobID}`)
 			.then(async (response) => {
-				console.log("Post has been deleted");
+				// console.log("Post has been deleted");
 				await this.onCloseModal();
 				await this.props.deleteEmployerPost(JobID);
 			});
 		await axios
 			.delete(`http://localhost:2000/api/delete-job-applicants/${JobID}`)
 			.then(async (response) => {
-				console.log("Job Applicants have been deleted");
+				// console.log("Job Applicants have been deleted");
 			});
 		await axios
 			.delete(`http://localhost:2000/api/delete-applied-job/${JobID}`)
 			.then(async (response) => {
-				console.log("Applied Job has been deleted");
+				// console.log("Applied Job has been deleted");
 			});
 	};
 

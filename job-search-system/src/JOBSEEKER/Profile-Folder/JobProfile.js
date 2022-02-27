@@ -204,16 +204,6 @@ export class JobProfile extends Component {
 				newFileName = resume;
 			}
 
-			// if (resume) {
-			// 	newFileName = resume;
-			// } else {
-			// 	if (fileData !== null) {
-			// 		newFileName = date + "_" + fileData.name;
-			// 	} else {
-			// 		newFileName = resume;
-			// 	}
-			// }
-
 			if (
 				firstName === null ||
 				middleName === null ||
@@ -268,7 +258,7 @@ export class JobProfile extends Component {
 						userID: sessionStorage.getItem("UserID"),
 					})
 					.then((response) => {
-						console.log("Job Profile has been Updated");
+						// console.log("Job Profile has been Updated");
 						this.handleToggleEditProfile();
 						this.toggleIndication();
 
@@ -312,7 +302,7 @@ export class JobProfile extends Component {
 						body: data,
 					})
 						.then((result) => {
-							console.log("The PDF File has been Uploaded...");
+							// console.log("The PDF File has been Uploaded...");
 						})
 						.catch((error) => {
 							console.log("Multer Error!", error);
@@ -830,7 +820,7 @@ export class JobProfile extends Component {
 									</select>
 								</div>
 								<div className='field'>
-									<label>Employment Type:</label>
+									<label>Employment Status/Type:</label>
 									<div className='employment-type-field-container'>
 										<select
 											name='employmentStatus'

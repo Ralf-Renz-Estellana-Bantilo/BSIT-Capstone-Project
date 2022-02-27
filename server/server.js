@@ -169,7 +169,7 @@ app.post("/api/upload-image", uploadImage.single("image"), (req, res) => {
 	if (res) {
 		res.send("Successfully Uploaded a File...");
 	} else {
-		console.log(req.file);
+		// console.log(req.file);
 	}
 });
 
@@ -180,7 +180,7 @@ app.post(
 		if (res) {
 			res.send("Successfully Uploaded a File to the Administrator...");
 		} else {
-			console.log(req.file);
+			// console.log(req.file);
 		}
 	}
 );
@@ -188,7 +188,7 @@ app.post("/api/upload-pdf", uploadPDF.single("pdf"), (req, res) => {
 	if (res) {
 		res.send("Successfully Uploaded a PDF File...");
 	} else {
-		console.log(req.file);
+		// console.log(req.file);
 	}
 });
 
@@ -272,6 +272,7 @@ app.put(
 app.delete("/api/delete-applied-employer/:id", account_deleteAppliedJobs); // ----------
 
 // Employer Feedback Database Table
+app.get("/api/read-employer-feedback", getEmployerFeedBacks);
 app.post("/api/create-employer-feedback", addEmployerFeedBack);
 app.post(
 	"/api/read-specific-applicant-notification",
@@ -279,7 +280,6 @@ app.post(
 );
 app.post("/api/read-specific-employer-feedback", getEmployerFeedBack_Employer);
 app.post("/api/read-applicant-response", getApplicantResponse);
-app.get("/api/read-employer-feedback", getEmployerFeedBacks);
 app.put("/api/update-feedback-status", updateNotificationStatus);
 app.put("/api/update-employer-feedback-picture", changeEmployerFeedbackPicture);
 app.put("/api/delete-applicant-notification", deleteApplicantNotification);

@@ -5,7 +5,11 @@ import AdminResources from "../AdminResources";
 import User from "../Images/User.png";
 import "./AccountCreateNewAdmin.css";
 
-const AccountCreateNewAdmin = ({ admin, administrators }) => {
+const AccountCreateNewAdmin = ({
+	admin,
+	administrators,
+	setAdministrators,
+}) => {
 	const [step, setStep] = useState(1);
 	const [username, setUsername] = useState(null);
 	const [password, setPassword] = useState(null);
@@ -34,7 +38,6 @@ const AccountCreateNewAdmin = ({ admin, administrators }) => {
 					.then(async (response) => {
 						if (response.data.length === 1) {
 							alert("Admin Verified");
-							console.log(response);
 							setStep(2);
 						} else {
 							alert("Wrong entries! Please try again!");
@@ -58,20 +61,42 @@ const AccountCreateNewAdmin = ({ admin, administrators }) => {
 		} else if (newAdminPassword !== confirmPassword) {
 			alert(`Password doesn't match`);
 		} else {
+			const newAdmin = {
+				UserID: shortid.generate(),
+				First_Name: AdminResources.formatName(firstName),
+				Middle_Name: AdminResources.formatName(middleName),
+				Last_Name: AdminResources.formatName(lastName),
+				Sex: "Male",
+				Role: "Admin",
+				Username: newAdminUsername,
+				Password: newAdminPassword,
+				User_Image: "DefaultUserMale.png",
+			};
 			await axios
 				.post("http://localhost:2000/api/create-user", {
-					userID: shortid.generate(),
-					firstName: AdminResources.formatName(firstName),
-					middleName: AdminResources.formatName(middleName),
-					lastName: AdminResources.formatName(lastName),
-					sex: "Male",
-					role: "Admin",
-					username: newAdminUsername,
-					password: newAdminPassword,
-					userImage: "DefaultUserMale.png",
+					userID: newAdmin.UserID,
+					firstName: newAdmin.First_Name,
+					middleName: newAdmin.Middle_Name,
+					lastName: newAdmin.Last_Name,
+					sex: newAdmin.Sex,
+					role: newAdmin.Role,
+					username: newAdmin.Username,
+					password: newAdmin.Password,
+					userImage: newAdmin.User_Image,
 				})
 				.then(() => {
+					alert("NEW ADMINSTRATOR IS ADDED TO THE DATABASE!");
+					setUsername(null);
+					setPassword(null);
+					setFirstName(null);
+					setMiddleName(null);
+					setLastName(null);
+					setNewAdminUsername(null);
+					setNewAdminPassword(null);
+					setConfirmPassword(null);
 					setStep(1);
+
+					setAdministrators([...administrators, newAdmin]);
 				});
 		}
 	};

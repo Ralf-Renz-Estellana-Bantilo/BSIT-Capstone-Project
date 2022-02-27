@@ -1,25 +1,25 @@
 /* width */
 ::-webkit-scrollbar {
-	width: 15px;
-	display: none;
+	width: 13px;
+	/* display: none; */
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
 	box-shadow: inset 0 0 5px grey;
 	/* border-radius: 5px; */
-	background-color: rgba(128, 128, 128, 0.2);
+	/* background-color: rgba(128, 128, 128, 0.2); */
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-	background: #00b2ff;
-	/* border-radius: 5px; */
+	background: linear-gradient(-20deg, #00b2ff, #006aff);
+	border-radius: 5px;
 }
 
 /* Handle on press */
 ::-webkit-scrollbar-thumb:active {
-	background: #ff004c;
+	background: linear-gradient(-20deg, #ff004c, #ff7b00);
 }
 
 .app-dark {

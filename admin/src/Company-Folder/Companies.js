@@ -53,18 +53,20 @@ const Companies = ({
 	let countCompany = 0;
 	{
 		companiesData.map((company) => {
-			if (
-				`${company.Company_Name}`
-					.toLowerCase()
-					.includes(`${companySearch}`.toLowerCase()) ||
-				`${company.Barangay}`
-					.toLowerCase()
-					.includes(`${companySearch}`.toLowerCase()) ||
-				`${company.Company_Acronym}`
-					.toLowerCase()
-					.includes(`${companySearch}`.toLowerCase())
-			) {
-				countCompany += 1;
+			if (company.Employer_Name !== null) {
+				if (
+					`${company.Company_Name}`
+						.toLowerCase()
+						.includes(`${companySearch}`.toLowerCase()) ||
+					`${company.Barangay}`
+						.toLowerCase()
+						.includes(`${companySearch}`.toLowerCase()) ||
+					`${company.Company_Acronym}`
+						.toLowerCase()
+						.includes(`${companySearch}`.toLowerCase())
+				) {
+					countCompany += 1;
+				}
 			}
 		});
 	}

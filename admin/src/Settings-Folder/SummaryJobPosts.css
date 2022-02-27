@@ -1,0 +1,49 @@
+.summary-container {
+	padding: 0px 10px 10px 10px;
+}
+
+.summary {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 30px;
+}
+
+.summary-header h4 {
+	font-size: 15px;
+}
+
+.summary-content {
+	display: flex;
+}
+
+table,
+th,
+td {
+	border: 1px solid var(--border1);
+	border-collapse: collapse;
+	padding: 0 5px;
+	font-size: 14px;
+	color: var(--accent1);
+}
+
+tr:nth-child(even) {
+	background-color: #e6e6e6;
+}
+
+.summary-total,
+.summary-value {
+	font-weight: 600;
+	background-color: var(--accent1);
+	color: var(--light-primary);
+	text-align: center;
+}
+
+.summary-month {
+	width: 200px;
+}
+
+.summary-number {
+	width: 130px;
+}

@@ -41,10 +41,6 @@ export class JobVacancyFormPart1 extends Component {
 		});
 	};
 
-	detectJob = (e) => {
-		console.log(e.target.value);
-	};
-
 	componentDidMount() {
 		window.scrollTo(0, 0);
 	}
@@ -192,7 +188,7 @@ export class JobVacancyFormPart1 extends Component {
 									<option disabled='disabled' hidden='hidden' value=''>
 										Select Civil Status
 									</option>
-									<option value='Not Specified'>Not Specified</option>
+									<option value='Any'>Any</option>
 									<option value='Single'>Single</option>
 									<option value='Married'>Married</option>
 									<option value='Widowed'>Widowed</option>

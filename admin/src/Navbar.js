@@ -157,6 +157,8 @@ const Navbar = ({
 		middleName === prevMiddleName
 	) {
 		isUpdateButtonEnable = false;
+	} else if (lastName === "" || firstName === "" || middleName === "") {
+		isUpdateButtonEnable = false;
 	}
 
 	return (
@@ -164,7 +166,13 @@ const Navbar = ({
 			{isProfileModalOpen && (
 				<div className='admin-profile-container'>
 					<div className='profile-modal-container'>
-						<div className='overlay-style' />
+						<div
+							className='overlay-style'
+							onClick={() => {
+								setProfileModalOpen(false);
+								setFile(null);
+							}}
+						/>
 						<div className='profile-modal-style'>
 							<div className='profile-modal-header'>
 								<h3 className='modal-sub-text'>Admin Profile</h3>
@@ -362,6 +370,18 @@ const Navbar = ({
 									}}>
 									Terms and Conditions
 								</p>
+								<p
+									style={
+										activeLink === "Contact"
+											? { color: "#006aff", fontWeight: "600" }
+											: {}
+									}
+									onClick={() => {
+										setActiveLink("Contact");
+										handleChangeLink("Contact");
+									}}>
+									Contact Us
+								</p>
 							</div>
 						</div>
 					) : (
@@ -397,7 +417,10 @@ const Navbar = ({
 					)}
 
 					<div className='profile-container'>
-						<h5>{`${admin.First_Name} ${admin.Middle_Name} ${admin.Last_Name}`}</h5>
+						<h5>
+							{panel !== "Settings" &&
+								`${admin.First_Name} ${admin.Middle_Name} ${admin.Last_Name}`}
+						</h5>
 						<div className='profile-img'>
 							<img
 								src={`../assets/${admin.User_Image}`}

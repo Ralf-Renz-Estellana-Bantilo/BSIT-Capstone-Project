@@ -25,7 +25,7 @@ export class AppliedJob extends Component {
 			Year,
 		} = this.props.appliedJob;
 
-		const { darkTheme, infos, employerFeedback } = this.props;
+		const { darkTheme, infos, employerFeedback, company } = this.props;
 
 		let homeAddress =
 			Company_Address.split(", ")[Company_Address.split(", ").length - 1];
@@ -105,7 +105,11 @@ export class AppliedJob extends Component {
 						</div>
 						<div className='job-detail-lower-portion'>
 							<div className='job-detail-lower-portion-left'>
-								<h3 title='Company Name'>{Company_Name}</h3>
+								<h3 title='Company Name'>
+									{company.Company_Acronym !== "(n/a)"
+										? `${company.Company_Acronym}  (shortened)`
+										: Company_Name}
+								</h3>
 								{/* <p>{Company_Address}</p> */}
 							</div>
 							<p title='Company Address'>{homeAddress}</p>

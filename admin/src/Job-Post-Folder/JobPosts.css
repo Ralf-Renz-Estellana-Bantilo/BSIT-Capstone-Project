@@ -28,6 +28,20 @@
 	margin-bottom: 10px;
 }
 
+.job-post-header img {
+	height: 23px;
+	filter: brightness(0.6);
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	cursor: pointer;
+	transition: 0.2s;
+}
+
+.job-post-header img:hover {
+	filter: brightness(0.3);
+}
+
 .job-post-header p {
 	position: absolute;
 	top: 5px;
@@ -44,6 +58,7 @@
 .job-posts {
 	height: 75vh;
 	overflow-y: scroll;
+	margin-right: 10px;
 }
 
 .job-post,
@@ -121,8 +136,8 @@
 .post-preview {
 	padding: 0 10px;
 	overflow-y: scroll;
-	/* height: 65vh; */
 	height: 420px;
+	margin-right: 10px;
 }
 
 .post-header {

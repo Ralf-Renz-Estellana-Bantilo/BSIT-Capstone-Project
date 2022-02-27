@@ -952,8 +952,13 @@ export class App extends Component {
 							Educ_Attainment: user.Educ_Attainment,
 							Preferred_Job: user.Preferred_Job,
 							Preferred_Category: user.Preferred_Category,
-							Preferred_Salary: user.Preferred_Salary,
+							Minimum_Salary: user.Minimum_Salary,
+							Maximum_Salary: user.Maximum_Salary,
 							Interested_In: user.Interested_In,
+							My_Resume: user.My_Resume,
+							Disability: user.Disability,
+							Employment_Status: user.Employment_Status,
+							Employment_Type: user.Employment_Type,
 							Good_At: user.Good_At,
 							Credentials: user.Credentials,
 					  })
@@ -997,7 +1002,7 @@ export class App extends Component {
 		await axios
 			.delete(`http://localhost:2000/api/delete-applied-job/${jobID}`)
 			.then(async (response) => {
-				console.log("Applied Job has been deleted");
+				// console.log("Applied Job has been deleted");
 			});
 	};
 
@@ -1170,7 +1175,7 @@ export class App extends Component {
 				`http://localhost:2000/api/delete-specific-job-applicant/${jobID}/${applicantID}`
 			)
 			.then(async (response) => {
-				console.log("Job Applicant has been deleted");
+				// console.log("Job Applicant has been deleted");
 			});
 	};
 
@@ -1567,6 +1572,7 @@ export class App extends Component {
 									activePage={this.state.activePage}
 									// showAdd={this.state.showAddTask}
 									infos={this.state.infos}
+									company={this.state.company}
 									darkTheme={this.state.darkTheme}
 									// targetCompany={this.state.targetCompany}
 									appliedJobs={this.state.appliedJobs}

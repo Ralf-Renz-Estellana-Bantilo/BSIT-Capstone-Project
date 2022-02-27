@@ -49,7 +49,7 @@
 	align-items: center;
 	/* column-gap: 50px;
 	margin-left: 10px; */
-	width: 500px;
+	width: 600px;
 	justify-content: space-between;
 }
 
@@ -225,6 +225,31 @@
 	padding-top: 10px;
 }
 
+.confirmation-fields {
+	display: flex;
+	flex-direction: column;
+	row-gap: 5px;
+	width: 100%;
+}
+
+.confirmation-fields input {
+	text-align: center;
+	outline: none;
+	border: none;
+	border-radius: 5px;
+	font-size: 13px;
+	font-weight: 600;
+	padding: 5px 5px;
+	color: black;
+	border: 1px solid var(--border1);
+	box-shadow: 1px 1px 4px black;
+	background-color: white;
+}
+
+.confirmation-fields input:focus {
+	border: 1px solid var(--dark-blue);
+}
+
 .profile-image-container {
 	position: relative;
 }
@@ -286,7 +311,8 @@
 	/* background-color: var(--dark-primary); */
 }
 
-.profile-data button {
+.profile-data button,
+.confirmation-fields button {
 	text-align: center;
 	border-radius: 50px;
 	padding: 5px;
@@ -310,6 +336,10 @@
 }
 
 .profile-data button:hover {
+	box-shadow: none;
+}
+
+.confirmation-fields :hover {
 	box-shadow: none;
 }
 

@@ -137,7 +137,6 @@ const JobPosts = ({
 		) {
 			alert("Make sure to fill-in all the fields!");
 		} else {
-			console.log(hasAcronym);
 			let holdAcronym = "";
 			if (hasAcronym) {
 				holdAcronym = "(n/a)";
@@ -235,27 +234,26 @@ const JobPosts = ({
 	};
 
 	const handleDeletePost = async () => {
-		// await axios
-		// 	.delete(`http://localhost:2000/api/delete-jobPost/${post.JobID}`)
-		// 	.then(async (response) => {
-		// 		setIsModalOpen(false);
-		// 	});
-		// await axios
-		// 	.delete(
-		// 		`http://localhost:2000/api/delete-job-applicants/${post.JobID}`
-		// 	)
-		// 	.then(async (response) => {});
-		// await axios
-		// 	.delete(`http://localhost:2000/api/delete-applied-job/${post.JobID}`)
-		// 	.then(async (response) => {
-		// 		let posts = jobPosts;
-		// 		let index = posts.findIndex((x) => x.JobID === post.JobID);
-		// 		posts.splice(index, 1);
-		// 		await setJobPosts(posts);
-		// 		// await setPostPreview(null);
-		// 		await setIsJobPostOptionOpen(false);
-		// 		alert("Job Post has been deleted!");
-		// 	});
+		await axios
+			.delete(`http://localhost:2000/api/delete-jobPost/${post.JobID}`)
+			.then(async (response) => {
+				setIsModalOpen(false);
+			});
+		await axios
+			.delete(
+				`http://localhost:2000/api/delete-job-applicants/${post.JobID}`
+			)
+			.then((response) => {});
+		await axios
+			.delete(`http://localhost:2000/api/delete-applied-job/${post.JobID}`)
+			.then(async (response) => {
+				let posts = jobPosts;
+				let index = posts.findIndex((x) => x.JobID === post.JobID);
+				posts.splice(index, 1);
+				await setJobPosts(posts);
+				await setIsJobPostOptionOpen(false);
+				alert("Job Post has been deleted!");
+			});
 	};
 
 	const handleClosePost = () => {
@@ -609,9 +607,7 @@ const JobPosts = ({
 															value=''>
 															Select Civil Status
 														</option>
-														<option value='Not Specified'>
-															Not Specified
-														</option>
+														<option value='Any'>Any</option>
 														<option value='Single'>Single</option>
 														<option value='Married'>
 															Married

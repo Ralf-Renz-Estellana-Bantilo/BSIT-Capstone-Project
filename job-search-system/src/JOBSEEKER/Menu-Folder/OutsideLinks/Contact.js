@@ -20,7 +20,7 @@ const Contact = ({ darkTheme, history }) => {
 				)
 				.then(
 					(result) => {
-						console.log(result.text);
+						// console.log(result.text);
 					},
 					(error) => {
 						alert(error.text);

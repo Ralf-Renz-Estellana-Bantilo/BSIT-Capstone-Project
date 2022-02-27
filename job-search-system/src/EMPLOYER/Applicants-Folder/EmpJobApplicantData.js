@@ -102,7 +102,7 @@ const Emp_Job_Applicant_Data = ({
 				status
 			);
 		} catch (error) {
-			console.log("Emp_Job_Applicant_Data", error);
+			console.log(error);
 		}
 	};
 

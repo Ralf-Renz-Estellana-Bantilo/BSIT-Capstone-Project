@@ -17,6 +17,7 @@ export default function App() {
 	const [companiesData, setCompaniesData] = useState([]);
 	const [applicantsData, setApplicantsData] = useState([]);
 	const [jobApplicants, setJobApplicants] = useState([]);
+	const [employerFeedback, setEmployerFeedback] = useState([]);
 
 	const [activePage, setActivePage] = useState("Dashboard");
 
@@ -33,6 +34,7 @@ export default function App() {
 	const [location, setLocation] = useState("");
 	const [status, setStatus] = useState("Active");
 	const [sort, setSort] = useState("Most Recent");
+	const [activeAccountPanel, setActiveAccountPanel] = useState("Job Posts");
 
 	// Search States
 	const [jobPostSearch, setJobPostSearch] = useState("");
@@ -111,6 +113,17 @@ export default function App() {
 			.then((response) => {
 				if (response) {
 					setAdminPosts(response.data);
+				} else {
+					console.log("Error fetching information...");
+				}
+			});
+
+		// Fetching Employers Feedback
+		await axios
+			.get("http://localhost:2000/api/read-employer-feedback")
+			.then((response) => {
+				if (response) {
+					setEmployerFeedback(response.data);
 				} else {
 					console.log("Error fetching information...");
 				}
@@ -317,6 +330,8 @@ export default function App() {
 								employers={employers}
 								jobApplicants={jobApplicants}
 								admin={admin}
+								companiesData={companiesData}
+								employerFeedback={employerFeedback}
 								setActivePage={setActivePage}
 								setJobPosts={setJobPosts}
 								setEmployers={setEmployers}
@@ -419,8 +434,12 @@ export default function App() {
 								admin={admin}
 								adminPosts={adminPosts}
 								jobPosts={jobPosts}
-								jobApplicants={jobApplicants}
 								activePage={activePage}
+								employerFeedback={employerFeedback}
+								applicantsData={applicantsData}
+								companiesData={companiesData}
+								activeAccountPanel={activeAccountPanel}
+								setActiveAccountPanel={setActiveAccountPanel}
 								setActivePage={setActivePage}
 								setJobPosts={setJobPosts}
 								setEmployers={setEmployers}

@@ -16,7 +16,8 @@ const Dashboard = ({
 	setActivePage,
 	jobPosts,
 	applicantsData,
-	employers,
+	employerFeedback,
+	companiesData,
 	setJobPosts,
 	jobApplicants,
 	setEmployers,
@@ -52,17 +53,16 @@ const Dashboard = ({
 	};
 
 	const getApplicantsHired = () => {
-		let applicantHired = 0;
 		let uniqueApplicants = [
-			...new Set(jobApplicants.map((applicant) => applicant.ApplicantID)),
+			...new Set(employerFeedback.map((applicant) => applicant.ApplicantID)),
 		];
 
 		let count = 0;
 		for (let a = 0; a < uniqueApplicants.length; a++) {
-			for (let b = 0; b < jobApplicants.length; b++) {
+			for (let b = 0; b < employerFeedback.length; b++) {
 				if (
-					uniqueApplicants[a] === jobApplicants[b].ApplicantID &&
-					jobApplicants[b].Candidate_Status === "Hired"
+					uniqueApplicants[a] === employerFeedback[b].ApplicantID &&
+					employerFeedback[b].Application_Status === "Hired"
 				) {
 					count += 1;
 					break;
@@ -70,15 +70,7 @@ const Dashboard = ({
 			}
 		}
 
-		// console.log(count);
-
-		// for (let a = 0; a < jobApplicants.length; a++) {
-		// 	if (jobApplicants[a].Candidate_Status === "Hired") {
-		// 		applicantHired += 1;
-		// 	}
-		// }
 		return count;
-		// return applicantHired;
 	};
 
 	const getAverageDailyPost = () => {
@@ -106,24 +98,69 @@ const Dashboard = ({
 	};
 
 	const getHighPayingJob = () => {
-		let allJobs = jobPosts.sort((a, b) => {
+		let jobs = [];
+		let uniquePosts = [
+			...new Set(jobPosts.map((post) => `${post.Job_Title}`.toUpperCase())),
+		];
+
+		for (let a = 0; a < uniquePosts.length; a++) {
+			let maxSalary = 0;
+			let holdMax = 0;
+			let activeStatus = "";
+			for (let b = 0; b < jobPosts.length; b++) {
+				if (
+					`${jobPosts[b].Job_Title}`
+						.toUpperCase()
+						.includes(`${uniquePosts[a]}`.toUpperCase())
+				) {
+					holdMax = jobPosts[b].Maximum_Salary;
+					activeStatus = jobPosts[b].Active_Status;
+					if (holdMax > maxSalary) {
+						maxSalary = holdMax;
+					}
+				}
+			}
+			let job = {
+				Active_Status: activeStatus,
+				Job_Title: uniquePosts[a],
+				Maximum_Salary: maxSalary,
+			};
+			jobs.push(job);
+
+			// console.log(uniquePosts[a], maxSalary);
+		}
+
+		let allJobs = jobs.sort((a, b) => {
 			return Number(a.Maximum_Salary) < Number(b.Maximum_Salary) ? 1 : -1;
 		});
 
 		return allJobs;
 	};
 
+	const getRegisteredCompany = () => {
+		let allRegisteredCompany = null;
+		allRegisteredCompany = companiesData.filter(
+			(company) => company.Employer_Name !== null
+		);
+
+		return allRegisteredCompany;
+	};
+
 	const listOfBarangays = AdminResources.getBarangay();
 	const listOfCategories = AdminResources.getCategories();
 
-	let uniquePosts = [...new Set(jobPosts.map((post) => post.Job_Title))];
+	let uniquePosts = [
+		...new Set(jobPosts.map((post) => `${post.Job_Title}`.toUpperCase())),
+	];
 	let inDemandJobs = [];
 
 	for (let a = 0; a < uniquePosts.length; a++) {
 		let count = 0;
 		for (let b = 0; b < jobPosts.length; b++) {
 			if (
-				uniquePosts[a] === jobPosts[b].Job_Title &&
+				`${uniquePosts[a]}`
+					.toUpperCase()
+					.includes(`${jobPosts[b].Job_Title}`.toUpperCase()) &&
 				jobPosts[b].Active_Status === "Active"
 			) {
 				count += Number(jobPosts[b].Required_Employees);
@@ -151,6 +188,7 @@ const Dashboard = ({
 	let totalApplicantsHired = getApplicantsHired();
 	let dailyPostAverage = getAverageDailyPost();
 	let highPayingJobs = getHighPayingJob();
+	let registeredCompany = getRegisteredCompany();
 
 	return (
 		<div className='dashboard-container'>
@@ -207,7 +245,7 @@ const Dashboard = ({
 								<div className='update-card'>
 									<div className='card-text'>
 										<p>Total number of Employers</p>
-										<h2>{employers.length}</h2>
+										<h2>{registeredCompany.length}</h2>
 									</div>
 									<div className='card-icon'>
 										<img src={Employer} alt='Job Posts' />
@@ -226,7 +264,7 @@ const Dashboard = ({
 								</div>
 								<div className='update-card'>
 									<div className='card-text'>
-										<p>Total number of Applicants Hired</p>
+										<p>Total number of Hired Job Seekers </p>
 										<h2>{totalApplicantsHired}</h2>
 									</div>
 									<div className='card-icon'>
@@ -246,7 +284,7 @@ const Dashboard = ({
 							<div className='dashboard-update-table'>
 								<div className='update-table-container'>
 									<div className='update-table-header'>
-										<h4>Job Posts per Barangay</h4>
+										<h4>Job Posts per Barangay (Active)</h4>
 									</div>
 									<div className='update-table-body'>
 										{listOfBarangays.map((barangay, index) => {
@@ -277,20 +315,19 @@ const Dashboard = ({
 								</div>
 								<div className='update-table-container'>
 									<div className='update-table-header'>
-										<h4>Vacancy Count per Category</h4>
+										<h4>Vacancy Count per Category (Active)</h4>
 									</div>
 									<div className='update-table-body'>
 										{listOfCategories.map((category, index) => {
 											let countVacancy = 0;
 											for (let a = 0; a < jobPosts.length; a++) {
 												if (
-													jobPosts[a].Active_Status === "Active"
+													jobPosts[a].Active_Status === "Active" &&
+													category === jobPosts[a].Category
 												) {
-													if (category === jobPosts[a].Category) {
-														countVacancy += Number(
-															jobPosts[a].Required_Employees
-														);
-													}
+													countVacancy += Number(
+														jobPosts[a].Required_Employees
+													);
 												}
 											}
 
@@ -311,7 +348,7 @@ const Dashboard = ({
 							<div className='dashboard-update-table'>
 								<div className='update-table-container'>
 									<div className='update-table-header'>
-										<h4>In-demand Jobs</h4>
+										<h4>In-demand Jobs (Active)</h4>
 									</div>
 									<div className='update-table-body'>
 										{inDemandJobs.map((jobs, index) => {
@@ -332,7 +369,7 @@ const Dashboard = ({
 								</div>
 								<div className='update-table-container'>
 									<div className='update-table-header'>
-										<h4>High Paying Jobs</h4>
+										<h4>High Paying Jobs (Active)</h4>
 									</div>
 									<div className='update-table-body'>
 										{highPayingJobs.map((jobs, index) => {

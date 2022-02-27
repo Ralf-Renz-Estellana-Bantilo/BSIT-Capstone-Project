@@ -357,7 +357,8 @@
 .success-wrapper p {
 	color: var(--dark-primary);
 	font-size: 12px;
-	color: var(--accent-main);
+	color: white;
+	/* color: var(--accent-main); */
 	padding: 6px;
 	margin: 0;
 }

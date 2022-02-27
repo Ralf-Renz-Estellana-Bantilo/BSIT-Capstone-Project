@@ -107,6 +107,7 @@ export class ApplicationForm extends Component {
 			employmentType,
 		} = this.state;
 
+		//  else {
 		const date =
 			new Date().getMonth() +
 			1 +
@@ -168,20 +169,21 @@ export class ApplicationForm extends Component {
 							body: data,
 						})
 							.then((result) => {
-								console.log("The PDF File has been Uploaded...");
+								// console.log("The PDF File has been Uploaded...");
 							})
 							.catch((error) => {
 								console.log("Multer Error!", error);
 							});
 					}
 				} catch (error) {
-					console.log("Application Form:", error);
+					console.log(error);
 				}
 			}
 		} else {
 			await this.props.addJobApplicants(applicantData);
 			await this.props.handleApplication(this.props.targetCompany);
 		}
+		// }
 	};
 
 	viewModal = () => {
@@ -444,6 +446,45 @@ export class ApplicationForm extends Component {
 
 		if (applicationStatus === "" && post.Active_Status === "Closed") {
 			applicationStatus = "Closed";
+		}
+
+		let isUpdateButtonEnable = true;
+		if (
+			firstName === "" ||
+			middleName === "" ||
+			lastName === "" ||
+			sex === "" ||
+			contactNumber === "" ||
+			email === "" ||
+			homeAddress === "" ||
+			bMonth === "" ||
+			bDay === "" ||
+			bYear === "" ||
+			civilStatus === "" ||
+			educationalAttainment === "" ||
+			disability === "" ||
+			employmentStatus === "" ||
+			employmentType === ""
+		) {
+			isUpdateButtonEnable = false;
+		} else if (
+			firstName === null ||
+			middleName === null ||
+			lastName === null ||
+			sex === null ||
+			contactNumber === null ||
+			email === null ||
+			homeAddress === null ||
+			bMonth === null ||
+			bDay === null ||
+			bYear === null ||
+			civilStatus === null ||
+			educationalAttainment === null ||
+			disability === null ||
+			employmentStatus === null ||
+			employmentType === null
+		) {
+			isUpdateButtonEnable = false;
 		}
 
 		return (
@@ -1047,9 +1088,19 @@ export class ApplicationForm extends Component {
 									e.preventDefault();
 									this.viewModal();
 								}}
-								disabled={`${activePage}` === "profile" && "disable"}
+								disabled={
+									`${activePage}` === "profile"
+										? "disabled"
+										: `${activePage}` !== "profile" &&
+										  !isUpdateButtonEnable
+										? "disable"
+										: ""
+								}
 								style={
 									`${activePage}` === "profile"
+										? { opacity: "0.3" }
+										: `${activePage}` !== "profile" &&
+										  !isUpdateButtonEnable
 										? { opacity: "0.3" }
 										: { opacity: "1" }
 								}>

@@ -4,6 +4,7 @@ import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
 import About from "./About";
 import Account from "./Account";
+import Contact from "./Contact";
 import PrivacyPolicy from "./PrivacyPolicy";
 import TermsAndConditions from "./TermsAndConditions";
 
@@ -20,13 +21,17 @@ const Settings = ({
 	adminPosts,
 	setAdmin,
 	jobPosts,
-	jobApplicants,
+	applicantsData,
+	companiesData,
 	setAdminPosts,
+	employerFeedback,
+	activeAccountPanel,
+	setActiveAccountPanel,
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
 	const [activeLink, handleChangeLink] = useState("Account");
 
-	const [activeAccountPanel, setActiveAccountPanel] = useState("Job Posts");
+	// const [activeAccountPanel, setActiveAccountPanel] = useState("Job Posts");
 
 	const navigate = useNavigate();
 
@@ -85,14 +90,18 @@ const Settings = ({
 								<TermsAndConditions />
 							) : activeLink === "Privacy" ? (
 								<PrivacyPolicy />
+							) : activeLink === "Contact" ? (
+								<Contact handleChangeLink={handleChangeLink} />
 							) : (
 								<Account
 									activeAccountPanel={activeAccountPanel}
 									setActiveAccountPanel={setActiveAccountPanel}
 									jobPosts={jobPosts}
 									adminPosts={adminPosts}
-									jobApplicants={jobApplicants}
+									applicantsData={applicantsData}
+									companiesData={companiesData}
 									admin={admin}
+									employerFeedback={employerFeedback}
 								/>
 							)}
 						</div>

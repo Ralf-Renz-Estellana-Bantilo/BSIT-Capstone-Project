@@ -266,7 +266,7 @@ export class SearchEngine extends Component {
 				{companySession && (
 					<>
 						{" "}
-						{this.state.text !== "" && this.state.text.length > 1 && (
+						{this.state.text !== "" && this.state.text.length > 1 ? (
 							<div className='search-engine'>
 								{applicants.map((applicant) => {
 									if (
@@ -336,11 +336,85 @@ export class SearchEngine extends Component {
 									}
 								})}
 							</div>
+						) : this.state.text === "" ? (
+							<div
+								className='search-engine'
+								style={{ paddingBottom: "1px" }}>
+								{applicants.map((applicant) => {
+									if (
+										(`${applicant.Preferred_Job}`
+											.toLowerCase()
+											.includes(
+												`${this.state.text}`.toLowerCase()
+											) &&
+											applicant.Hiring_Status === "Active") ||
+										(`${applicant.Preferred_Category}`
+											.toLowerCase()
+											.includes(
+												`${this.state.text}`.toLowerCase()
+											) &&
+											applicant.Hiring_Status === "Active") ||
+										(`${applicant.Home_Address}`
+											.toLowerCase()
+											.includes(
+												`${this.state.text}`.toLowerCase()
+											) &&
+											applicant.Hiring_Status === "Active")
+									) {
+										count += 1;
+									}
+								})}
+
+								<p
+									className='results'
+									style={{
+										marginBottom: "15px",
+									}}>{`Results found: ${count}`}</p>
+
+								{applicants.map((applicant) => {
+									if (
+										(`${applicant.Preferred_Job}`
+											.toLowerCase()
+											.includes(
+												`${this.state.text}`.toLowerCase()
+											) &&
+											applicant.Hiring_Status === "Active") ||
+										(`${applicant.Preferred_Category}`
+											.toLowerCase()
+											.includes(
+												`${this.state.text}`.toLowerCase()
+											) &&
+											applicant.Hiring_Status === "Active") ||
+										(`${applicant.Home_Address}`
+											.toLowerCase()
+											.includes(
+												`${this.state.text}`.toLowerCase()
+											) &&
+											applicant.Hiring_Status === "Active")
+									) {
+										return (
+											<div key={applicant.ApplicantID}>
+												<SearchApplicants
+													applicant={applicant}
+													setHiree={this.props.setHiree}
+													employerFeedback={employerFeedback}
+													setEmployerMessage={
+														this.props.setEmployerMessage
+													}
+													darkTheme={darkTheme}
+												/>
+											</div>
+										);
+									}
+								})}
+							</div>
+						) : (
+							""
 						)}{" "}
 					</>
 				)}
 
-				{this.state.text === "" ? (
+				{this.state.text === "" && applicantSession ? (
 					<div className='search-content'>
 						<div className='search-text'>
 							<div className='search-gif'>

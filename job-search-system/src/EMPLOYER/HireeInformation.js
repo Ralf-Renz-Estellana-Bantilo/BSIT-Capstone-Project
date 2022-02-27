@@ -60,7 +60,7 @@ export class Hiree_Information extends Component {
 				await this.props.addEmployerFeedBack(recruit);
 			}
 		} catch (error) {
-			console.log("Hiree_Information", error);
+			console.log(error);
 		}
 	};
 

@@ -53,7 +53,7 @@ export class Emp_DP extends Component {
 				body: data,
 			})
 				.then(async (result) => {
-					console.log("The File has been Uploaded...");
+					// console.log("The File has been Uploaded...");
 					await this.props.changeCompanyProfile(
 						newFileName,
 						companySession
@@ -68,9 +68,10 @@ export class Emp_DP extends Component {
 				body: data,
 			})
 				.then(async (result) => {
-					console.log(
-						"The File has been Uploaded to the Administrator..."
-					);
+					console
+						.log
+						// "The File has been Uploaded to the Administrator..."
+						();
 				})
 				.catch((error) => {
 					console.log("Multer Error!", error);
@@ -82,7 +83,7 @@ export class Emp_DP extends Component {
 					companyID: companySession,
 				})
 				.then((response) => {
-					console.log(response);
+					// console.log(response);
 				});
 
 			// update applied jobs table
@@ -92,7 +93,7 @@ export class Emp_DP extends Component {
 					companyID: companySession,
 				})
 				.then((response) => {
-					console.log(response);
+					// console.log(response);
 				});
 
 			// update job posts table
@@ -102,7 +103,7 @@ export class Emp_DP extends Component {
 					companyID: companySession,
 				})
 				.then((response) => {
-					console.log(response);
+					// console.log(response);
 				});
 
 			// update employer feedback table
@@ -112,7 +113,7 @@ export class Emp_DP extends Component {
 					companyID: companySession,
 				})
 				.then((response) => {
-					console.log(response);
+					// console.log(response);
 				});
 		}
 	};

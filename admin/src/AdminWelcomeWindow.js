@@ -19,7 +19,6 @@ const AdminWelcomeWindow = ({ method, delay, userID, name }) => {
 			<div className='welcome-container-content'>
 				<img src={Loading} alt='Loading1 gif' />
 				<h3>{`Welcome ${name}`}</h3>
-				{/* <p>Initializing Components...</p> */}
 				<p>{<AdminCountDown method={method} delay={delay} />}</p>
 			</div>
 		</div>

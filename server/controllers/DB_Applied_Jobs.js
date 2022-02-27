@@ -94,7 +94,7 @@ export const deleteAppliedJob = (req, res) => {
 		jobID,
 		(err, result) => {
 			if (err) {
-				console.log("deleteAppliedJob:", err);
+				console.log(err);
 			} else {
 				res.send(result);
 				// console.log("Applied Job data has been cleaned");
@@ -111,7 +111,7 @@ export const account_deleteAppliedJob = (req, res) => {
 		applicantID,
 		(err, result) => {
 			if (err) {
-				console.log("deleteAppliedJob:", err);
+				console.log(err);
 			} else {
 				res.send(result);
 				// console.log("account_deleteAppliedJob");
@@ -202,7 +202,7 @@ export const account_deleteAppliedJobs = (req, res) => {
 		companyID,
 		(err, result) => {
 			if (err) {
-				console.log("account_deleteAppliedJobs:", err);
+				console.log(err);
 			} else {
 				res.send(result);
 				// console.log("account_deleteAppliedJobs");

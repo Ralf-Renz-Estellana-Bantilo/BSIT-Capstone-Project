@@ -26,7 +26,7 @@ export class Emp_Navbar extends Component {
 
 	handleLogout = (e) => {
 		e.preventDefault();
-		console.log("User has been logged out!");
+		// console.log("User has been logged out!");
 
 		Auth.setNotAuthenticated();
 		localStorage.clear();

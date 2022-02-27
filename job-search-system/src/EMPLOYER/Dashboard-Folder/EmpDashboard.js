@@ -262,7 +262,23 @@ export class Emp_Dashboard extends Component {
 
 	render() {
 		const { currentUser, applicants, company } = this.props;
-		const { jobApplicantLength, activeJobPost, hasAcronym } = this.state;
+		const {
+			jobApplicantLength,
+			activeJobPost,
+			hasAcronym,
+			comp_stablismentName,
+			comp_street,
+			comp_zone,
+			comp_barangay,
+			comp_contactNumber,
+			comp_description,
+			comp_image,
+			comp_acronym,
+			comp_type,
+			comp_workForce,
+			comp_emailAddress,
+			fileData,
+		} = this.state;
 		const barangays = Resources.getBarangay();
 
 		let newApplicants = 0;
@@ -330,6 +346,40 @@ export class Emp_Dashboard extends Component {
 		}
 
 		const now = hour + ":" + mins + " " + ampm;
+
+		let isUpdateButtonEnable = true;
+
+		if (
+			comp_stablismentName === "" ||
+			comp_street === "" ||
+			comp_zone === "" ||
+			comp_barangay === "" ||
+			comp_contactNumber === "" ||
+			comp_description === "" ||
+			comp_image === "" ||
+			comp_acronym === "" ||
+			comp_type === "" ||
+			comp_workForce === "" ||
+			comp_emailAddress === "" ||
+			fileData === ""
+		) {
+			isUpdateButtonEnable = false;
+		} else if (
+			comp_stablismentName === null ||
+			comp_street === null ||
+			comp_zone === null ||
+			comp_barangay === null ||
+			comp_contactNumber === null ||
+			comp_description === null ||
+			comp_image === null ||
+			comp_acronym === null ||
+			comp_type === null ||
+			comp_workForce === null ||
+			comp_emailAddress === null ||
+			fileData === null
+		) {
+			isUpdateButtonEnable = false;
+		}
 
 		return (
 			<div className='dashboard-container'>
@@ -509,8 +559,14 @@ export class Emp_Dashboard extends Component {
 									/>
 								</div>
 								<button
-									onClick={(e) => this.handleCreateCompanyData(e)}>
-									Continue
+									onClick={(e) => this.handleCreateCompanyData(e)}
+									style={
+										isUpdateButtonEnable
+											? { opacity: "1" }
+											: { opacity: "0.3" }
+									}
+									disabled={isUpdateButtonEnable ? "" : "disabled"}>
+									Register
 								</button>
 							</div>
 						</form>

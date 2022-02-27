@@ -55,7 +55,7 @@ export const createApplicantData = (req, res) => {
 		],
 		(err, result) => {
 			if (err) {
-				console.log("Error:", err);
+				console.log(err);
 			} else {
 				res.send("Values inserted...");
 				// console.log("Successfully Inserted Applicant Data");
@@ -83,7 +83,7 @@ export const changeApplicantPicture = (req, res) => {
 		[image, userID],
 		(err, result) => {
 			if (err) {
-				console.log("Error:", err);
+				console.log(err);
 			} else {
 				res.send(result);
 				// console.log("Successfully updated your applicant profile");
@@ -166,7 +166,7 @@ export const updateJobProfile = (req, res) => {
 		],
 		(err, result) => {
 			if (err) {
-				console.log("Error:", err);
+				console.log(err);
 			} else {
 				res.send(result);
 				// console.log("Successfully updated job applicant data");
@@ -199,7 +199,7 @@ export const account_deleteApplicant = (req, res) => {
 		applicantID,
 		(err, result) => {
 			if (err) {
-				console.log("deleteAppliedJob:", err);
+				console.log(err);
 			} else {
 				res.send(result);
 				// console.log("account_deleteApplicant");

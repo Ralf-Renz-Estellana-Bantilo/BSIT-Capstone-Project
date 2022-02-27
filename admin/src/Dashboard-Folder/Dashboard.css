@@ -21,7 +21,7 @@
 /* ------------------------------- */
 
 .main-panel-container {
-	padding: 10px 20px;
+	padding: 10px 15px;
 	/* height: 84vh; */
 	/* overflow-y: scroll; */
 }
@@ -31,6 +31,7 @@
 	flex-direction: column;
 	height: 85vh;
 	overflow-y: scroll;
+	padding-right: 10px;
 }
 
 .dashboard-update-cards {
@@ -116,6 +117,7 @@
 	flex-direction: column;
 	height: 30vw;
 	overflow-y: scroll;
+	margin-right: 10px;
 }
 
 .table-post {

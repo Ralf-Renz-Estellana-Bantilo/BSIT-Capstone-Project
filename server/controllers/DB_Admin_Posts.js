@@ -46,7 +46,7 @@ export const account_deleteAdminPosts = (req, res) => {
 		userID,
 		(err, result) => {
 			if (err) {
-				console.log("deleteAppliedJob:", err);
+				console.log(err);
 			} else {
 				res.send(result);
 				// console.log("account_deleteUserAccount");

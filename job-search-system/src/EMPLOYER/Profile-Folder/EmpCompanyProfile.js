@@ -243,6 +243,38 @@ export class EmpCompanyProfile extends Component {
 			prevState_companyDescription === companyDescription
 		) {
 			isUpdateButtonEnable = false;
+		} else if (
+			firstName === "" ||
+			middleName === "" ||
+			lastName === "" ||
+			street === "" ||
+			zone === "" ||
+			barangay === "" ||
+			contactNumber === "" ||
+			emailAddress === "" ||
+			companyName === "" ||
+			acronym === "" ||
+			employerType === "" ||
+			workForce === "" ||
+			companyDescription === ""
+		) {
+			isUpdateButtonEnable = false;
+		} else if (
+			firstName === null ||
+			middleName === null ||
+			lastName === null ||
+			street === null ||
+			zone === null ||
+			barangay === null ||
+			contactNumber === null ||
+			emailAddress === null ||
+			companyName === null ||
+			acronym === null ||
+			employerType === null ||
+			workForce === null ||
+			companyDescription === null
+		) {
+			isUpdateButtonEnable = false;
 		}
 
 		return (

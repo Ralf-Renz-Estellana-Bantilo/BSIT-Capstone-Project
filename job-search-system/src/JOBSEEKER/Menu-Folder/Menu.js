@@ -41,8 +41,7 @@ export class Menu extends Component {
 	handleLogout = (e) => {
 		e.preventDefault();
 
-		// this.props.handleIsLogin();
-		console.log("User has been logged out!");
+		// console.log("User has been logged out!");
 		localStorage.clear();
 		Auth.setNotAuthenticated();
 		this.props.resetScroll();

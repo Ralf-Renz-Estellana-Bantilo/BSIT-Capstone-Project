@@ -1,9 +1,8 @@
 .applicant-preview-container {
 	padding: 0 15px;
-	/* padding: 0 10px; */
 	overflow-y: scroll;
-	/* height: 65vh; */
 	height: 490px;
+	margin-right: 10px;
 }
 
 .applicant-basic-info {

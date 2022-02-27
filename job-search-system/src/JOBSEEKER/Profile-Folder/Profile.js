@@ -60,7 +60,7 @@ export class Profile extends Component {
 	render() {
 		const applicantSession = sessionStorage.getItem("ApplicantID");
 		const session = sessionStorage.getItem("UserID");
-		const { applicants } = this.props;
+		const { applicants, company } = this.props;
 
 		const { hiringState } = this.state;
 		let hiringStatus = "";
@@ -127,11 +127,19 @@ export class Profile extends Component {
 						</p>
 					)}
 					{this.props.appliedJobs.map((appliedJob) => {
+						let appliedCompany = [];
+						for (let a = 0; a < company.length; a++) {
+							if (appliedJob.CompanyID === company[a].CompanyID) {
+								appliedCompany = company[a];
+								break;
+							}
+						}
 						if (appliedJob.ApplicantID === applicantSession) {
 							return (
 								<div key={appliedJob.JobID}>
 									<AppliedJob
 										appliedJob={appliedJob}
+										company={appliedCompany}
 										currentUser={this.props.currentUser}
 										activePage={this.props.activePage}
 										handleChangePage={this.props.handleChangePage}
