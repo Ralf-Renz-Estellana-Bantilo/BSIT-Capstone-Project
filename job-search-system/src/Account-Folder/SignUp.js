@@ -7,6 +7,7 @@ import Eye from "../Images/Eye.png";
 import LeftArrow from "../Images/LeftArrow.png";
 import "./Login.css";
 import AuthIndication from "./AuthIndication";
+import axios from "axios";
 
 export class SignUp extends Component {
 	state = {
@@ -23,6 +24,7 @@ export class SignUp extends Component {
 		isModalOpen: false,
 		isValid: true,
 		isPasswordMatch: true,
+		isUsernameTaken: false,
 	};
 
 	viewModal = (e) => {
@@ -48,59 +50,69 @@ export class SignUp extends Component {
 
 	handleSignUp = async () => {
 		const user = this.state;
-
-		const signUpUser = {
-			UserID: shortid.generate(),
-			First_Name: user.firstName,
-			Middle_Name: user.middleName,
-			Last_Name: user.lastName,
-			Sex: user.sex,
-			Role: user.role,
-			Username: user.username,
-			Password: user.password,
-		};
-
-		if (
-			user.firstName === "" ||
-			user.lastName === "" ||
-			user.middleName === "" ||
-			user.role === "" ||
-			user.username === "" ||
-			user.password === "" ||
-			user.confirmPassword === "" ||
-			user.sex === ""
-		) {
-			await this.setState({
-				isValid: false,
+		await axios
+			.post("http://localhost:2000/api/checkUsername", {
+				username: user.username,
+				role: user.role,
+			})
+			.then((result) => {
+				if (result.data.length === 0) {
+					const signUpUser = {
+						UserID: shortid.generate(),
+						First_Name: user.firstName,
+						Middle_Name: user.middleName,
+						Last_Name: user.lastName,
+						Sex: user.sex,
+						Role: user.role,
+						Username: user.username,
+						Password: user.password,
+					};
+					if (
+						user.firstName === "" ||
+						user.lastName === "" ||
+						user.middleName === "" ||
+						user.role === "" ||
+						user.username === "" ||
+						user.password === "" ||
+						user.confirmPassword === "" ||
+						user.sex === ""
+					) {
+						this.setState({
+							isValid: false,
+						});
+					} else {
+						if (user.role === "Job Seeker") {
+							if (user.password !== user.confirmPassword) {
+								this.setState({
+									isPasswordMatch: false,
+								});
+							} else {
+								this.setState({
+									isValid: true,
+								});
+								this.props.toggleSignUp(true);
+								this.props.registerJobSeeker(signUpUser);
+							}
+						} else if (user.role === "Employer") {
+							if (user.password !== user.confirmPassword) {
+								this.setState({
+									isPasswordMatch: false,
+								});
+							} else {
+								this.setState({
+									isValid: true,
+								});
+								this.props.toggleSignUp(true);
+								this.props.registerEmployer(signUpUser);
+							}
+						}
+					}
+				} else {
+					this.setState({
+						isUsernameTaken: true,
+					});
+				}
 			});
-		} else {
-			if (user.role === "Job Seeker") {
-				if (user.password !== user.confirmPassword) {
-					await this.setState({
-						isPasswordMatch: false,
-					});
-				} else {
-					await this.setState({
-						isValid: true,
-					});
-
-					this.props.toggleSignUp(true);
-					this.props.registerJobSeeker(signUpUser);
-				}
-			} else if (user.role === "Employer") {
-				if (user.password !== user.confirmPassword) {
-					await this.setState({
-						isPasswordMatch: false,
-					});
-				} else {
-					await this.setState({
-						isValid: true,
-					});
-					this.props.toggleSignUp(true);
-					this.props.registerEmployer(signUpUser);
-				}
-			}
-		}
 	};
 
 	handleSubmitNext = async (e) => {
@@ -222,6 +234,13 @@ export class SignUp extends Component {
 									</div>
 								</div>
 							)}
+							{this.state.isUsernameTaken && (
+								<div className='error-container'>
+									<div className='error-wrapper'>
+										<p>Error! Username is already taken!</p>
+									</div>
+								</div>
+							)}
 							{this.props.isSignUp === true && (
 								<AuthIndication
 									method={this.props.toggleSignUp}
@@ -314,6 +333,9 @@ export class SignUp extends Component {
 										placeholder='Username'
 										onChange={(e) => {
 											this.handleChange(e, "username");
+											this.setState({
+												isUsernameTaken: false,
+											});
 										}}
 										value={username}
 									/>

@@ -311,7 +311,7 @@ export class App extends Component {
 	addPost = async (post) => {
 		const { infos, companyJobPost } = this.state;
 		// await this.setState({ infos: [post, ...infos] });
-		await this.setState({
+		this.setState({
 			infos: [...infos, post],
 			companyJobPost: [post, ...companyJobPost],
 		});

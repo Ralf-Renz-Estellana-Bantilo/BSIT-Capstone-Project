@@ -228,3 +228,20 @@ export const updateUsernameAndPassword = (req, res) => {
 		);
 	});
 };
+
+export const checkExistingUsernames = (req, res) => {
+	const username = req.body.username;
+	const role = req.body.role;
+
+	db.query(
+		"SELECT * FROM user_account WHERE Username = ? AND Role = ?",
+		[username, role],
+		(err, result) => {
+			if (err) {
+				res.send("Couldnt find user!");
+			} else {
+				res.send(result);
+			}
+		}
+	);
+};

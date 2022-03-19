@@ -128,7 +128,7 @@ export class Activity extends Component {
 							</div>
 						</div>
 					</div>
-					<div className='activity-right-panel' onClick={this.viewModal}>
+					{/* <div className='activity-right-panel' onClick={this.viewModal}>
 						{feedback.Status === "New" ? (
 							""
 						) : (
@@ -143,7 +143,7 @@ export class Activity extends Component {
 								}
 							/>
 						)}
-					</div>
+					</div> */}
 				</div>
 			</div>
 		);

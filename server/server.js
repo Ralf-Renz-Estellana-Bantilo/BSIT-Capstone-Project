@@ -6,6 +6,7 @@ import sharp from "sharp";
 import {
 	account_deleteUserAccount,
 	changeAccountPicture,
+	checkExistingUsernames,
 	createUser,
 	getAdminUsers,
 	getEmployerUsers,
@@ -116,7 +117,6 @@ const imageFileStorageEngine = multer.diskStorage({
 		callback(null, date + "_" + file.originalname);
 	},
 });
-
 const adminImageFileStorageEngine = multer.diskStorage({
 	destination: (req, file, callback) => {
 		callback(null, "../admin/public/assets");
@@ -125,7 +125,6 @@ const adminImageFileStorageEngine = multer.diskStorage({
 		callback(null, date + "_" + file.originalname);
 	},
 });
-
 const pdfFileStorageEngine = multer.diskStorage({
 	destination: (req, file, callback) => {
 		callback(null, "../job-search-system/public/pdf");
@@ -164,7 +163,6 @@ db.connect((err) => {
 });
 
 // Image Upload ---------
-
 app.post("/api/upload-image", uploadImage.single("image"), (req, res) => {
 	if (res) {
 		res.send("Successfully Uploaded a File...");
@@ -172,7 +170,6 @@ app.post("/api/upload-image", uploadImage.single("image"), (req, res) => {
 		// console.log(req.file);
 	}
 });
-
 app.post(
 	"/api/upload-image-admin",
 	uploadImageAdmin.single("image"),
@@ -199,6 +196,7 @@ app.get("/api/read-user-admin", getAdminUsers);
 app.post("/api/create-user", createUser);
 app.post("/api/login", login);
 app.post("/api/fetchSession", retainUser);
+app.post("/api/checkUsername", checkExistingUsernames);
 app.put("/api/update-user-profile", changeAccountPicture);
 app.put("/api/update-user-account", updateUsernameAndPassword);
 app.put("/api/update-user-business-profile", updateUserAccountBusinessProfile);

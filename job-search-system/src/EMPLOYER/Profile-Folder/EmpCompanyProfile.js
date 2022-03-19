@@ -299,6 +299,7 @@ export class EmpCompanyProfile extends Component {
 								? { filter: "brightness(1)" }
 								: { filter: "brightness(0.3)" }
 						}
+						title='Edit Business Profile'
 					/>
 
 					<div

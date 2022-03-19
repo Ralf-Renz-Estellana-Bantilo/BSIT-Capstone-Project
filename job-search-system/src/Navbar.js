@@ -92,7 +92,12 @@ export class Navbar extends Component {
 					<Link to='/jobseeker/profile'>
 						<div className='img-wrapper'>
 							{currentJobSeekerData.map((data) => {
-								if (!data.Preferred_Job) {
+								if (
+									!data.Preferred_Category ||
+									data.Preferred_Category === "" ||
+									data.Preferred_Category === undefined ||
+									data.Preferred_Category === null
+								) {
 									return (
 										<div className='badge'>
 											<p>!</p>

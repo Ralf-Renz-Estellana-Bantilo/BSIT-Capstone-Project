@@ -141,7 +141,7 @@ export class Emp_Post extends Component {
 						</div>
 					</div>
 					<div className='upperRight-info'>
-						<img
+						{/* <img
 							src={DeleteIcon}
 							alt='Delete'
 							title={`Delete this post`}
@@ -151,7 +151,7 @@ export class Emp_Post extends Component {
 									? { filter: "brightness(0.7)" }
 									: { filter: "brightness(0.3)" }
 							}
-						/>
+						/> */}
 
 						{this.state.isModalOpen ? (
 							<Modal

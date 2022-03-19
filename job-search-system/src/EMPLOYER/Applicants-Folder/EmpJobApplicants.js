@@ -289,7 +289,7 @@ export class Emp_Job_Applicants extends Component {
 													)}
 												</p>
 
-												{applicant.Status !== "New" && (
+												{/* {applicant.Status !== "New" && (
 													<div className='applicant-info-right-portion-delete'>
 														<img
 															src={DeleteIcon}
@@ -319,7 +319,7 @@ export class Emp_Job_Applicants extends Component {
 															}}
 														/>
 													</div>
-												)}
+												)} */}
 											</div>
 										</div>
 									</div>

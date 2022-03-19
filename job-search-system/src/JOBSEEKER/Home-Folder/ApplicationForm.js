@@ -504,7 +504,7 @@ export class ApplicationForm extends Component {
 						/>
 					</div>
 				</Link>
-				{`${activePage}` === "profile" &&
+				{/* {`${activePage}` === "profile" &&
 					applicationStatus !== "Pending..." && (
 						<div className='application-form-delete-container'>
 							<img
@@ -519,7 +519,7 @@ export class ApplicationForm extends Component {
 								onClick={this.viewDeleteModal}
 							/>
 						</div>
-					)}
+					)} */}
 
 				{this.state.isDeleteModalOpen ? (
 					<Modal
