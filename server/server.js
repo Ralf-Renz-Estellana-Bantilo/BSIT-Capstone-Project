@@ -2,7 +2,6 @@ import express from "express";
 import mysql from "mysql2";
 import cors from "cors";
 import multer from "multer";
-import sharp from "sharp";
 import {
 	account_deleteUserAccount,
 	changeAccountPicture,
@@ -147,25 +146,29 @@ const uploadPDF = multer({
 	limits: { fileSize: 2090000 },
 });
 
-const db = mysql.createConnection({
-	// user: "root",
-	// host: "localhost",
-	// password: "bantiloralfrenz",
-	// database: "job_search_system_db",
+try {
+	const db = mysql.createConnection({
+		// user: "root",
+		// host: "localhost",
+		// password: "bantiloralfrenz",
+		// database: "job_search_system_db",
 
-	user: "b58454bd4a7cc9",
-	password: "1684a61d",
-	host: "us-cdbr-east-05.cleardb.net",
-	database: "heroku_e973498db39f7ce",
-});
+		user: "b58454bd4a7cc9",
+		password: "1684a61d",
+		host: "us-cdbr-east-05.cleardb.net",
+		database: "heroku_e973498db39f7ce",
+	});
 
-db.connect((err) => {
-	if (err) {
-		console.log("Cannot connect to the database...", err);
-	} else {
-		console.log("MySQL connection successfully stablished...");
-	}
-});
+	db.connect((err) => {
+		if (err) {
+			console.log("Cannot connect to the database...", err);
+		} else {
+			console.log("MySQL connection successfully stablished...");
+		}
+	});
+} catch (error) {
+	console.log("Server Error:", error);
+}
 
 // Image Upload ---------
 app.post("/api/upload-image", uploadImage.single("image"), (req, res) => {
@@ -192,6 +195,10 @@ app.post("/api/upload-pdf", uploadPDF.single("pdf"), (req, res) => {
 	} else {
 		// console.log(req.file);
 	}
+});
+
+app.get("/", (req, res) => {
+	res.send("App is live!");
 });
 
 // User_Account Database Table ----------
