@@ -90,7 +90,7 @@ import {
 } from "./controllers/DB_Admin_Posts.js";
 
 const app = express();
-const PORT = 2000 || process.env.PORT;
+const PORT = process.env.PORT || 2000;
 
 app.use(cors());
 app.use(express.json());
@@ -153,7 +153,7 @@ const db = mysql.createConnection({
 	// password: "bantiloralfrenz",
 	// database: "job_search_system_db",
 
-	username: "b58454bd4a7cc9",
+	user: "b58454bd4a7cc9",
 	password: "1684a61d",
 	host: "us-cdbr-east-05.cleardb.net",
 	database: "heroku_e973498db39f7ce",

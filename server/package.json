@@ -5,7 +5,9 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "start:dev": "nodemon server.js"
   },
   "author": "Ralf Renz Estellana Bantilo",
   "license": "ISC",
@@ -20,5 +22,10 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.14"
+  },
+  "engines": {
+    "node": "16.x",
+    "npm": "8.5.0"
   }
+
 }
