@@ -167,9 +167,12 @@ export class EmpCompanyProfile extends Component {
 		window.scrollTo(0, 0);
 		const sessionUser = sessionStorage.getItem("UserID");
 		await axios
-			.post("http://localhost:2000/api/read-company", {
-				userID: sessionUser,
-			})
+			.post(
+				"https://job-search-system-catarman.herokuapp.com/api/read-company",
+				{
+					userID: sessionUser,
+				}
+			)
 			.then(async (response) => {
 				if (response.data.length === 1) {
 					this.setState({

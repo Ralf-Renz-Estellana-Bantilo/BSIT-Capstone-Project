@@ -85,10 +85,13 @@ const Navbar = ({
 				const data = new FormData();
 				data.append("image", fileData);
 
-				await fetch("http://localhost:2000/api/upload-image-admin", {
-					method: "POST",
-					body: data,
-				})
+				await fetch(
+					"https://job-search-system-catarman.herokuapp.com/api/upload-image-admin",
+					{
+						method: "POST",
+						body: data,
+					}
+				)
 					.then(async (result) => {
 						// console.log(
 						// 	"The File has been Uploaded to the Administrator..."
@@ -99,10 +102,13 @@ const Navbar = ({
 					});
 
 				await axios
-					.put("http://localhost:2000/api/update-user-profile", {
-						image: newFileName,
-						userID: sessionStorage.getItem("UserID"),
-					})
+					.put(
+						"https://job-search-system-catarman.herokuapp.com/api/update-user-profile",
+						{
+							image: newFileName,
+							userID: sessionStorage.getItem("UserID"),
+						}
+					)
 					.then((response) => {
 						setAdmin({
 							...admin,
@@ -127,12 +133,15 @@ const Navbar = ({
 		});
 
 		axios
-			.put("http://localhost:2000/api/update-user-business-profile", {
-				firstName: firstName,
-				middleName: middleName,
-				lastName: lastName,
-				userID: sessionStorage.getItem("UserID"),
-			})
+			.put(
+				"https://job-search-system-catarman.herokuapp.com/api/update-user-business-profile",
+				{
+					firstName: firstName,
+					middleName: middleName,
+					lastName: lastName,
+					userID: sessionStorage.getItem("UserID"),
+				}
+			)
 			.then((response) => {
 				// console.log(response);
 			});

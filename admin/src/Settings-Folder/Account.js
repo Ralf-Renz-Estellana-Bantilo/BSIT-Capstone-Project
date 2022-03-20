@@ -44,7 +44,7 @@ const Account = ({
 			// Delete User Account Data
 			axios
 				.delete(
-					`http://localhost:2000/api/delete-user-account/${userSession}`
+					`https://job-search-system-catarman.herokuapp.com/api/delete-user-account/${userSession}`
 				)
 				.then((response) => {
 					setDeleteModalOpen(false);
@@ -67,11 +67,14 @@ const Account = ({
 				alert("Wrong entries! Please try again!");
 			} else {
 				axios
-					.post("http://localhost:2000/api/login", {
-						role: "Admin",
-						username: username,
-						password: password,
-					})
+					.post(
+						"https://job-search-system-catarman.herokuapp.com/api/login",
+						{
+							role: "Admin",
+							username: username,
+							password: password,
+						}
+					)
 					.then(async (response) => {
 						if (response.data.length === 1) {
 							setDeleteModalOpen(true);
@@ -87,16 +90,22 @@ const Account = ({
 	};
 
 	useEffect(() => {
-		axios.get("http://localhost:2000/api/read-companies").then((response) => {
-			if (response) {
-				setCompanies(response.data);
-			} else {
-				console.log("Error fetching information...");
-			}
-		});
+		axios
+			.get(
+				"https://job-search-system-catarman.herokuapp.com/api/read-companies"
+			)
+			.then((response) => {
+				if (response) {
+					setCompanies(response.data);
+				} else {
+					console.log("Error fetching information...");
+				}
+			});
 
 		axios
-			.get("http://localhost:2000/api/read-user-admin")
+			.get(
+				"https://job-search-system-catarman.herokuapp.com/api/read-user-admin"
+			)
 			.then((response) => {
 				if (response) {
 					setAdministrators(response.data);

@@ -116,7 +116,9 @@ export class App extends Component {
 
 		// Job Posts Database Table ----------
 		await axios
-			.get("http://localhost:2000/api/read-jobPost")
+			.get(
+				"https://job-search-system-catarman.herokuapp.com/api/read-jobPost"
+			)
 			.then((response) => {
 				this.setState({
 					infos: response.data,
@@ -125,7 +127,9 @@ export class App extends Component {
 
 		// User_Account Database Table ----------
 		await axios
-			.get("http://localhost:2000/api/read-user-jobseeker")
+			.get(
+				"https://job-search-system-catarman.herokuapp.com/api/read-user-jobseeker"
+			)
 			.then((response) => {
 				this.setState({
 					user: {
@@ -137,7 +141,9 @@ export class App extends Component {
 
 		// User_Account Database Table ----------
 		await axios
-			.get("http://localhost:2000/api/read-user-employer")
+			.get(
+				"https://job-search-system-catarman.herokuapp.com/api/read-user-employer"
+			)
 			.then((response) => {
 				this.setState({
 					user: {
@@ -149,7 +155,9 @@ export class App extends Component {
 
 		// Applicant Database Table ----------
 		await axios
-			.get("http://localhost:2000/api/read-applicant-data")
+			.get(
+				"https://job-search-system-catarman.herokuapp.com/api/read-applicant-data"
+			)
 			.then((response) => {
 				this.setState({
 					applicants: response.data,
@@ -158,7 +166,9 @@ export class App extends Component {
 
 		// Fetching Job Applicants
 		await axios
-			.get("http://localhost:2000/api/read-company-applicants")
+			.get(
+				"https://job-search-system-catarman.herokuapp.com/api/read-company-applicants"
+			)
 			.then((response) => {
 				if (response) {
 					this.setState({ numApplicants: response.data });
@@ -173,9 +183,12 @@ export class App extends Component {
 		const applicantSession = sessionStorage.getItem("ApplicantID");
 		if (sessionUser) {
 			await axios
-				.post("http://localhost:2000/api/fetchSession", {
-					userID: sessionUser,
-				})
+				.post(
+					"https://job-search-system-catarman.herokuapp.com/api/fetchSession",
+					{
+						userID: sessionUser,
+					}
+				)
 				.then(async (response) => {
 					if (response.data.length === 1) {
 						await this.setCurrentUser(response.data[0]);
@@ -186,9 +199,12 @@ export class App extends Component {
 
 			// Fetching Job Applicant ID of the Current User
 			await axios
-				.post("http://localhost:2000/api/get-applicantID", {
-					userID: sessionUser,
-				})
+				.post(
+					"https://job-search-system-catarman.herokuapp.com/api/get-applicantID",
+					{
+						userID: sessionUser,
+					}
+				)
 				.then((response) => {
 					if (response.data.length === 1) {
 						this.setState({
@@ -200,9 +216,12 @@ export class App extends Component {
 			if (applicantSession) {
 				// Fetching Applied Jobs Data
 				await axios
-					.post("http://localhost:2000/api/read-applied-jobs", {
-						applicantID: applicantSession,
-					})
+					.post(
+						"https://job-search-system-catarman.herokuapp.com/api/read-applied-jobs",
+						{
+							applicantID: applicantSession,
+						}
+					)
 					.then(async (response) => {
 						await this.setState({
 							appliedJobs: response.data,
@@ -212,7 +231,7 @@ export class App extends Component {
 				// Employer Feedback Database Table ----------
 				await axios
 					.post(
-						"http://localhost:2000/api/read-specific-applicant-notification",
+						"https://job-search-system-catarman.herokuapp.com/api/read-specific-applicant-notification",
 						{
 							applicantID: applicantSession,
 						}
@@ -225,7 +244,9 @@ export class App extends Component {
 
 				// Fetching Company Data
 				await axios
-					.get("http://localhost:2000/api/read-companies")
+					.get(
+						"https://job-search-system-catarman.herokuapp.com/api/read-companies"
+					)
 					.then((response) => {
 						this.setState({
 							company: response.data,
@@ -257,9 +278,12 @@ export class App extends Component {
 		if (companySession) {
 			// Fetching Job Applicant Data
 			await axios
-				.post("http://localhost:2000/api/read-job-applicant", {
-					companyID: companySession,
-				})
+				.post(
+					"https://job-search-system-catarman.herokuapp.com/api/read-job-applicant",
+					{
+						companyID: companySession,
+					}
+				)
 				.then(async (response) => {
 					await this.setState({
 						jobApplicants: response.data,
@@ -267,9 +291,12 @@ export class App extends Component {
 				});
 
 			await axios
-				.post("http://localhost:2000/api/read-company", {
-					userID: sessionUser,
-				})
+				.post(
+					"https://job-search-system-catarman.herokuapp.com/api/read-company",
+					{
+						userID: sessionUser,
+					}
+				)
 				.then(async (response) => {
 					if (response.data.length === 1) {
 						await this.setState({ company: response.data[0] });
@@ -280,9 +307,12 @@ export class App extends Component {
 
 			// Fetching Job Posts Data
 			await axios
-				.post("http://localhost:2000/api/read-company-jobPost", {
-					companyID: companySession,
-				})
+				.post(
+					"https://job-search-system-catarman.herokuapp.com/api/read-company-jobPost",
+					{
+						companyID: companySession,
+					}
+				)
 				.then(async (response) => {
 					if (response) {
 						await this.setState({ companyJobPost: response.data });
@@ -293,9 +323,12 @@ export class App extends Component {
 
 			// Fetching Employer Feedback Data
 			await axios
-				.post("http://localhost:2000/api/read-specific-employer-feedback", {
-					companyID: companySession,
-				})
+				.post(
+					"https://job-search-system-catarman.herokuapp.com/api/read-specific-employer-feedback",
+					{
+						companyID: companySession,
+					}
+				)
 				.then(async (response) => {
 					await this.setEmployerFeedBack(response.data);
 				});
@@ -318,38 +351,41 @@ export class App extends Component {
 
 		try {
 			await axios
-				.post("http://localhost:2000/api/create-jobPost", {
-					jobID: post.JobID,
-					companyID: post.CompanyID,
-					companyName: post.Company_Name,
-					min: post.Minutes,
-					hour: post.Hour,
-					day: post.Day,
-					month: post.Month,
-					year: post.Year,
-					datePosted: post.Date_Posted,
-					companyAddress: post.Company_Address,
-					jobTitle: post.Job_Title,
-					category: post.Category,
-					placeOfWork: post.Work_Place,
-					reqNoEmp: post.Required_Employees,
-					minSalary: post.Minimum_Salary,
-					maxSalary: post.Maximum_Salary,
-					civilStatus: post.Civil_Status,
-					jobType: post.Job_Type,
-					prefSex: post.Preferred_Sex,
-					qualifications: post.Job_Qualifications,
-					requirements: post.Job_Requirements,
-					description: post.Job_Description,
-					employerName: post.Employer_Name,
-					companyImage: post.Company_Image,
-					emailAddress: post.Email_Address,
-					contactPersonName: post.Contact_Person_Name,
-					contactPersonPosition: post.Contact_Person_Position,
-					contactPersonNumber: post.Contact_Person_Number,
-					contactPersonEmail: post.Contact_Person_Email,
-					status: post.Active_Status,
-				})
+				.post(
+					"https://job-search-system-catarman.herokuapp.com/api/create-jobPost",
+					{
+						jobID: post.JobID,
+						companyID: post.CompanyID,
+						companyName: post.Company_Name,
+						min: post.Minutes,
+						hour: post.Hour,
+						day: post.Day,
+						month: post.Month,
+						year: post.Year,
+						datePosted: post.Date_Posted,
+						companyAddress: post.Company_Address,
+						jobTitle: post.Job_Title,
+						category: post.Category,
+						placeOfWork: post.Work_Place,
+						reqNoEmp: post.Required_Employees,
+						minSalary: post.Minimum_Salary,
+						maxSalary: post.Maximum_Salary,
+						civilStatus: post.Civil_Status,
+						jobType: post.Job_Type,
+						prefSex: post.Preferred_Sex,
+						qualifications: post.Job_Qualifications,
+						requirements: post.Job_Requirements,
+						description: post.Job_Description,
+						employerName: post.Employer_Name,
+						companyImage: post.Company_Image,
+						emailAddress: post.Email_Address,
+						contactPersonName: post.Contact_Person_Name,
+						contactPersonPosition: post.Contact_Person_Position,
+						contactPersonNumber: post.Contact_Person_Number,
+						contactPersonEmail: post.Contact_Person_Email,
+						status: post.Active_Status,
+					}
+				)
 				.then(() => {
 					// console.log("Successfully Posted a Job Vacancy...");
 				});
@@ -580,41 +616,47 @@ export class App extends Component {
 			});
 
 			await axios
-				.post("http://localhost:2000/api/create-user", {
-					userID: user.UserID,
-					firstName: Resources.formatName(user.First_Name),
-					middleName: Resources.formatName(user.Middle_Name),
-					lastName: Resources.formatName(user.Last_Name),
-					sex: user.Sex,
-					role: user.Role,
-					username: user.Username,
-					password: user.Password,
-					userImage: "DefaultUserMale.png",
-				})
+				.post(
+					"https://job-search-system-catarman.herokuapp.com/api/create-user",
+					{
+						userID: user.UserID,
+						firstName: Resources.formatName(user.First_Name),
+						middleName: Resources.formatName(user.Middle_Name),
+						lastName: Resources.formatName(user.Last_Name),
+						sex: user.Sex,
+						role: user.Role,
+						username: user.Username,
+						password: user.Password,
+						userImage: "DefaultUserMale.png",
+					}
+				)
 				.then(() => {
 					// console.log("Successfully Registered...");
 				});
 
 			await axios
-				.post("http://localhost:2000/api/create-applicant-data", {
-					userID: user.UserID,
-					applicantID: generateApplicantID,
-					firstName: Resources.formatName(user.First_Name),
-					middleName: Resources.formatName(user.Middle_Name),
-					lastName: Resources.formatName(user.Last_Name),
-					role: user.Role,
-					sex: user.Sex,
-					homeAddress: null,
-					userImage: "DefaultUserMale.png",
-					emailAddress: null,
-					contactNumber: null,
-					bMonth: null,
-					bDay: null,
-					bYear: null,
-					civilStatus: null,
-					educationalAttainment: null,
-					hiringStatus: "Inactive",
-				})
+				.post(
+					"https://job-search-system-catarman.herokuapp.com/api/create-applicant-data",
+					{
+						userID: user.UserID,
+						applicantID: generateApplicantID,
+						firstName: Resources.formatName(user.First_Name),
+						middleName: Resources.formatName(user.Middle_Name),
+						lastName: Resources.formatName(user.Last_Name),
+						role: user.Role,
+						sex: user.Sex,
+						homeAddress: null,
+						userImage: "DefaultUserMale.png",
+						emailAddress: null,
+						contactNumber: null,
+						bMonth: null,
+						bDay: null,
+						bYear: null,
+						civilStatus: null,
+						educationalAttainment: null,
+						hiringStatus: "Inactive",
+					}
+				)
 				.then(() => {
 					// console.log("Successfully Created your data...");
 				});
@@ -652,41 +694,47 @@ export class App extends Component {
 			});
 
 			await axios
-				.post("http://localhost:2000/api/create-user", {
-					userID: user.UserID,
-					firstName: Resources.formatName(user.First_Name),
-					middleName: Resources.formatName(user.Middle_Name),
-					lastName: Resources.formatName(user.Last_Name),
-					sex: user.Sex,
-					role: user.Role,
-					username: user.Username,
-					password: user.Password,
-					userImage: "DefaultUserFemale.png",
-				})
+				.post(
+					"https://job-search-system-catarman.herokuapp.com/api/create-user",
+					{
+						userID: user.UserID,
+						firstName: Resources.formatName(user.First_Name),
+						middleName: Resources.formatName(user.Middle_Name),
+						lastName: Resources.formatName(user.Last_Name),
+						sex: user.Sex,
+						role: user.Role,
+						username: user.Username,
+						password: user.Password,
+						userImage: "DefaultUserFemale.png",
+					}
+				)
 				.then(() => {
 					// console.log("Successfully Registered...");
 				});
 
 			await axios
-				.post("http://localhost:2000/api/create-applicant-data", {
-					userID: user.UserID,
-					applicantID: shortid.generate(),
-					firstName: Resources.formatName(user.First_Name),
-					middleName: Resources.formatName(user.Middle_Name),
-					lastName: Resources.formatName(user.Last_Name),
-					role: user.Role,
-					sex: user.Sex,
-					homeAddress: null,
-					userImage: "DefaultUserFemale.png",
-					emailAddress: null,
-					contactNumber: null,
-					bMonth: null,
-					bDay: null,
-					bYear: null,
-					civilStatus: null,
-					educationalAttainment: null,
-					hiringStatus: "Inactive",
-				})
+				.post(
+					"https://job-search-system-catarman.herokuapp.com/api/create-applicant-data",
+					{
+						userID: user.UserID,
+						applicantID: shortid.generate(),
+						firstName: Resources.formatName(user.First_Name),
+						middleName: Resources.formatName(user.Middle_Name),
+						lastName: Resources.formatName(user.Last_Name),
+						role: user.Role,
+						sex: user.Sex,
+						homeAddress: null,
+						userImage: "DefaultUserFemale.png",
+						emailAddress: null,
+						contactNumber: null,
+						bMonth: null,
+						bDay: null,
+						bYear: null,
+						civilStatus: null,
+						educationalAttainment: null,
+						hiringStatus: "Inactive",
+					}
+				)
 				.then(() => {
 					// console.log("Successfully Created your Applicant data...");
 				});
@@ -739,33 +787,39 @@ export class App extends Component {
 		}
 
 		await axios
-			.post("http://localhost:2000/api/create-user", {
-				userID: user.UserID,
-				firstName: Resources.formatName(user.First_Name),
-				middleName: Resources.formatName(user.Middle_Name),
-				lastName: Resources.formatName(user.Last_Name),
-				sex: user.Sex,
-				role: user.Role,
-				username: user.Username,
-				password: user.Password,
-				userImage: defaultImage,
-			})
+			.post(
+				"https://job-search-system-catarman.herokuapp.com/api/create-user",
+				{
+					userID: user.UserID,
+					firstName: Resources.formatName(user.First_Name),
+					middleName: Resources.formatName(user.Middle_Name),
+					lastName: Resources.formatName(user.Last_Name),
+					sex: user.Sex,
+					role: user.Role,
+					username: user.Username,
+					password: user.Password,
+					userImage: defaultImage,
+				}
+			)
 			.then(() => {
 				// console.log("Successfully Registered...");
 			});
 
 		await axios
-			.post("http://localhost:2000/api/create-company", {
-				userID: user.UserID,
-				companyID: shortid.generate(),
-				companyName: "",
-				street: "",
-				zone: "",
-				barangay: "",
-				contactNumber: "",
-				companyDescription: "",
-				companyImage: "",
-			})
+			.post(
+				"https://job-search-system-catarman.herokuapp.com/api/create-company",
+				{
+					userID: user.UserID,
+					companyID: shortid.generate(),
+					companyName: "",
+					street: "",
+					zone: "",
+					barangay: "",
+					contactNumber: "",
+					companyDescription: "",
+					companyImage: "",
+				}
+			)
 			.then(() => {
 				// console.log("Successfully Registered your Company...");
 			});
@@ -780,31 +834,34 @@ export class App extends Component {
 		});
 
 		await axios
-			.post("http://localhost:2000/api/create-applied-job", {
-				jobID: job.JobID,
-				applicantID: sessionStorage.getItem("ApplicantID"),
-				companyID: job.CompanyID,
-				companyName: job.Company_Name,
-				companyAddress: job.Company_Address,
-				jobTitle: job.Job_Title,
-				category: job.Category,
-				reqNoEmp: job.Required_Employees,
-				salary: job.Salary,
-				jobType: job.Job_Type,
-				prefSex: job.Preferred_Sex,
-				qualifications: job.Job_Qualifications,
-				requirements: job.Job_Requirements,
-				description: job.Job_Description,
-				employerName: job.Employer_Name,
-				companyImage: job.Company_Image,
-				status: job.Active_Status,
-				min: new Date().getMinutes(),
-				hour: new Date().getHours(),
-				day: new Date().getDate(),
-				month: new Date().getMonth() + 1,
-				year: new Date().getFullYear(),
-				dateApplied: new Date(),
-			})
+			.post(
+				"https://job-search-system-catarman.herokuapp.com/api/create-applied-job",
+				{
+					jobID: job.JobID,
+					applicantID: sessionStorage.getItem("ApplicantID"),
+					companyID: job.CompanyID,
+					companyName: job.Company_Name,
+					companyAddress: job.Company_Address,
+					jobTitle: job.Job_Title,
+					category: job.Category,
+					reqNoEmp: job.Required_Employees,
+					salary: job.Salary,
+					jobType: job.Job_Type,
+					prefSex: job.Preferred_Sex,
+					qualifications: job.Job_Qualifications,
+					requirements: job.Job_Requirements,
+					description: job.Job_Description,
+					employerName: job.Employer_Name,
+					companyImage: job.Company_Image,
+					status: job.Active_Status,
+					min: new Date().getMinutes(),
+					hour: new Date().getHours(),
+					day: new Date().getDate(),
+					month: new Date().getMonth() + 1,
+					year: new Date().getFullYear(),
+					dateApplied: new Date(),
+				}
+			)
 			.then(() => {
 				// console.log("Successfully Applied for a Job");
 			});
@@ -824,36 +881,39 @@ export class App extends Component {
 			});
 
 			await axios
-				.post("http://localhost:2000/api/create-job-applicant", {
-					jobID: applicant.jobID,
-					companyID: applicant.companyID,
-					applicantID: applicant.applicantID,
-					jobTitle: applicant.jobTitle,
-					firstName: applicant.firstName,
-					middleName: applicant.middleName,
-					lastName: applicant.lastName,
-					homeAddress: applicant.homeAddress,
-					sex: applicant.sex,
-					bMonth: applicant.bMonth,
-					bDay: applicant.bDay,
-					bYear: applicant.bYear,
-					contactNumber: applicant.contactNumber,
-					email: applicant.email,
-					civilStatus: applicant.civilStatus,
-					educationalAttainment: applicant.educationalAttainment,
-					userImage: applicant.userImage,
-					min: applicant.min,
-					hour: applicant.hour,
-					day: applicant.day,
-					month: applicant.month,
-					year: applicant.year,
-					dateApplied: new Date(),
-					candidateStatus: "Not hired yet",
-					resume: applicant.resume,
-					disability: applicant.disability,
-					employmentStatus: applicant.employmentStatus,
-					employmentType: applicant.employmentType,
-				})
+				.post(
+					"https://job-search-system-catarman.herokuapp.com/api/create-job-applicant",
+					{
+						jobID: applicant.jobID,
+						companyID: applicant.companyID,
+						applicantID: applicant.applicantID,
+						jobTitle: applicant.jobTitle,
+						firstName: applicant.firstName,
+						middleName: applicant.middleName,
+						lastName: applicant.lastName,
+						homeAddress: applicant.homeAddress,
+						sex: applicant.sex,
+						bMonth: applicant.bMonth,
+						bDay: applicant.bDay,
+						bYear: applicant.bYear,
+						contactNumber: applicant.contactNumber,
+						email: applicant.email,
+						civilStatus: applicant.civilStatus,
+						educationalAttainment: applicant.educationalAttainment,
+						userImage: applicant.userImage,
+						min: applicant.min,
+						hour: applicant.hour,
+						day: applicant.day,
+						month: applicant.month,
+						year: applicant.year,
+						dateApplied: new Date(),
+						candidateStatus: "Not hired yet",
+						resume: applicant.resume,
+						disability: applicant.disability,
+						employmentStatus: applicant.employmentStatus,
+						employmentType: applicant.employmentType,
+					}
+				)
 				.then(() => {
 					// console.log("Successfully Added a Job Application!");
 				});
@@ -979,12 +1039,15 @@ export class App extends Component {
 
 		// User Account Database Table -----------
 		axios
-			.put("http://localhost:2000/api/update-user-business-profile", {
-				firstName: Resources.formatName(user.First_Name),
-				middleName: Resources.formatName(user.Middle_Name),
-				lastName: Resources.formatName(user.Last_Name),
-				userID: user.UserID,
-			})
+			.put(
+				"https://job-search-system-catarman.herokuapp.com/api/update-user-business-profile",
+				{
+					firstName: Resources.formatName(user.First_Name),
+					middleName: Resources.formatName(user.Middle_Name),
+					lastName: Resources.formatName(user.Last_Name),
+					userID: user.UserID,
+				}
+			)
 			.then((response) => {
 				// console.log(response);
 			});
@@ -1000,7 +1063,9 @@ export class App extends Component {
 
 		// Delete Applied Jobs Data
 		await axios
-			.delete(`http://localhost:2000/api/delete-applied-job/${jobID}`)
+			.delete(
+				`https://job-search-system-catarman.herokuapp.com/api/delete-applied-job/${jobID}`
+			)
 			.then(async (response) => {
 				// console.log("Applied Job has been deleted");
 			});
@@ -1020,37 +1085,43 @@ export class App extends Component {
 		});
 
 		await axios
-			.post("http://localhost:2000/api/create-employer-feedback", {
-				feedbackID: shortid.generate(),
-				applicantID: feedback.ApplicantID,
-				companyID: feedback.CompanyID,
-				jobID: feedback.JobID,
-				companyImage: feedback.Company_Image,
-				companyName: feedback.Company_Name,
-				jobTitle: feedback.Job_Title,
-				companyAddress: feedback.Company_Address,
-				min: feedback.Minutes,
-				hour: feedback.Hour,
-				day: feedback.Day,
-				month: feedback.Month,
-				year: feedback.Year,
-				dateReplied: feedback.Date_Replied,
-				applicationStatus: feedback.Application_Status,
-				status: feedback.Status,
-				type: feedback.Type,
-				message: feedback.Message,
-			})
+			.post(
+				"https://job-search-system-catarman.herokuapp.com/api/create-employer-feedback",
+				{
+					feedbackID: shortid.generate(),
+					applicantID: feedback.ApplicantID,
+					companyID: feedback.CompanyID,
+					jobID: feedback.JobID,
+					companyImage: feedback.Company_Image,
+					companyName: feedback.Company_Name,
+					jobTitle: feedback.Job_Title,
+					companyAddress: feedback.Company_Address,
+					min: feedback.Minutes,
+					hour: feedback.Hour,
+					day: feedback.Day,
+					month: feedback.Month,
+					year: feedback.Year,
+					dateReplied: feedback.Date_Replied,
+					applicationStatus: feedback.Application_Status,
+					status: feedback.Status,
+					type: feedback.Type,
+					message: feedback.Message,
+				}
+			)
 			.then(() => {
 				// console.log("Successfully Added a Feedback!");
 			});
 
 		await axios
-			.put("http://localhost:2000/api/update-job-applicant-status", {
-				candidateStatus: feedback.Application_Status,
-				applicantID: feedback.ApplicantID,
-				companyID: feedback.CompanyID,
-				jobID: feedback.JobID,
-			})
+			.put(
+				"https://job-search-system-catarman.herokuapp.com/api/update-job-applicant-status",
+				{
+					candidateStatus: feedback.Application_Status,
+					applicantID: feedback.ApplicantID,
+					companyID: feedback.CompanyID,
+					jobID: feedback.JobID,
+				}
+			)
 			.then((response) => {
 				// console.log(response);
 			});
@@ -1095,9 +1166,12 @@ export class App extends Component {
 		}));
 
 		await axios
-			.put("http://localhost:2000/api/update-feedback-status", {
-				feedbackID: feedbackID,
-			})
+			.put(
+				"https://job-search-system-catarman.herokuapp.com/api/update-feedback-status",
+				{
+					feedbackID: feedbackID,
+				}
+			)
 			.then((response) => {});
 	};
 
@@ -1112,7 +1186,7 @@ export class App extends Component {
 
 		await axios
 			.put(
-				"http://localhost:2000/api/update-job-applicant-notification-status",
+				"https://job-search-system-catarman.herokuapp.com/api/update-job-applicant-notification-status",
 				{
 					jobID: jobID,
 					applicantID: applicantID,
@@ -1130,10 +1204,13 @@ export class App extends Component {
 		this.setState({ employerFeedback: employerFeedback });
 
 		await axios
-			.put("http://localhost:2000/api/delete-applicant-notification", {
-				jobID: feedbackObj.JobID,
-				applicantID: feedbackObj.ApplicantID,
-			})
+			.put(
+				"https://job-search-system-catarman.herokuapp.com/api/delete-applicant-notification",
+				{
+					jobID: feedbackObj.JobID,
+					applicantID: feedbackObj.ApplicantID,
+				}
+			)
 			.then((response) => {});
 	};
 
@@ -1172,7 +1249,7 @@ export class App extends Component {
 
 		await axios
 			.delete(
-				`http://localhost:2000/api/delete-specific-job-applicant/${jobID}/${applicantID}`
+				`https://job-search-system-catarman.herokuapp.com/api/delete-specific-job-applicant/${jobID}/${applicantID}`
 			)
 			.then(async (response) => {
 				// console.log("Job Applicant has been deleted");
@@ -1246,42 +1323,48 @@ export class App extends Component {
 
 		// Fetching Job Post Data
 		await axios
-			.put("http://localhost:2000/api/update-jobPost-content", {
-				jobTitle: jobPost.Job_Title,
-				category: jobPost.Category,
-				reqNoEmp: jobPost.Required_Employees,
-				minSalary: jobPost.Minimum_Salary,
-				maxSalary: jobPost.Maximum_Salary,
-				civilStatus: jobPost.Civil_Status,
-				placeOfWork: jobPost.Work_Place,
-				jobType: jobPost.Job_Type,
-				prefSex: jobPost.Preferred_Sex,
-				qualifications: jobPost.Job_Qualifications,
-				requirements: jobPost.Job_Requirements,
-				description: jobPost.Job_Description,
-				contactPersonName: jobPost.Contact_Person_Name,
-				contactPersonPosition: jobPost.Contact_Person_Position,
-				contactPersonNumber: jobPost.Contact_Person_Number,
-				contactPersonEmail: jobPost.Contact_Person_Email,
-				jobID: jobPost.JobID,
-			})
+			.put(
+				"https://job-search-system-catarman.herokuapp.com/api/update-jobPost-content",
+				{
+					jobTitle: jobPost.Job_Title,
+					category: jobPost.Category,
+					reqNoEmp: jobPost.Required_Employees,
+					minSalary: jobPost.Minimum_Salary,
+					maxSalary: jobPost.Maximum_Salary,
+					civilStatus: jobPost.Civil_Status,
+					placeOfWork: jobPost.Work_Place,
+					jobType: jobPost.Job_Type,
+					prefSex: jobPost.Preferred_Sex,
+					qualifications: jobPost.Job_Qualifications,
+					requirements: jobPost.Job_Requirements,
+					description: jobPost.Job_Description,
+					contactPersonName: jobPost.Contact_Person_Name,
+					contactPersonPosition: jobPost.Contact_Person_Position,
+					contactPersonNumber: jobPost.Contact_Person_Number,
+					contactPersonEmail: jobPost.Contact_Person_Email,
+					jobID: jobPost.JobID,
+				}
+			)
 			.then((response) => {
 				// console.log("Successfully updated the job post data");
 			});
 
 		await axios
-			.put("http://localhost:2000/api/update-applied-job-content", {
-				jobTitle: jobPost.Job_Title,
-				category: jobPost.Category,
-				reqNoEmp: jobPost.Required_Employees,
-				salary: jobPost.Salary,
-				jobType: jobPost.Job_Type,
-				prefSex: jobPost.Preferred_Sex,
-				qualifications: jobPost.Job_Qualifications,
-				requirements: jobPost.Job_Requirements,
-				description: jobPost.Job_Description,
-				jobID: jobPost.JobID,
-			})
+			.put(
+				"https://job-search-system-catarman.herokuapp.com/api/update-applied-job-content",
+				{
+					jobTitle: jobPost.Job_Title,
+					category: jobPost.Category,
+					reqNoEmp: jobPost.Required_Employees,
+					salary: jobPost.Salary,
+					jobType: jobPost.Job_Type,
+					prefSex: jobPost.Preferred_Sex,
+					qualifications: jobPost.Job_Qualifications,
+					requirements: jobPost.Job_Requirements,
+					description: jobPost.Job_Description,
+					jobID: jobPost.JobID,
+				}
+			)
 			.then((response) => {
 				// console.log("Successfully updated the applied job data");
 			});
@@ -1308,9 +1391,12 @@ export class App extends Component {
 
 		// Fetching Job Post Data
 		await axios
-			.put("http://localhost:2000/api/update-jobPost-active-status", {
-				jobID: jobID,
-			})
+			.put(
+				"https://job-search-system-catarman.herokuapp.com/api/update-jobPost-active-status",
+				{
+					jobID: jobID,
+				}
+			)
 			.then((response) => {
 				// console.log(response);
 			});
@@ -1364,43 +1450,52 @@ export class App extends Component {
 
 		// User Account Database Table -----------
 		await axios
-			.put("http://localhost:2000/api/update-user-business-profile", {
-				firstName: newValue.firstName,
-				middleName: newValue.middleName,
-				lastName: newValue.lastName,
-				userID: newValue.userID,
-			})
+			.put(
+				"https://job-search-system-catarman.herokuapp.com/api/update-user-business-profile",
+				{
+					firstName: newValue.firstName,
+					middleName: newValue.middleName,
+					lastName: newValue.lastName,
+					userID: newValue.userID,
+				}
+			)
 			.then((response) => {
 				// console.log(response);
 			});
 
 		// Company Database Table -----------
 		await axios
-			.put("http://localhost:2000/api/update-company-business-profile", {
-				employerName: `${newValue.firstName} ${newValue.middleName} ${newValue.lastName}`,
-				street: newValue.street,
-				zone: newValue.zone,
-				barangay: newValue.barangay,
-				contactNumber: newValue.contactNumber,
-				companyName: newValue.companyName,
-				companyDescription: newValue.companyDescription,
-				acronym: newValue.acronym,
-				employerType: newValue.employerType,
-				workForce: newValue.workForce,
-				emailAddress: newValue.emailAddress,
-				companyID: newValue.companyID,
-			})
+			.put(
+				"https://job-search-system-catarman.herokuapp.com/api/update-company-business-profile",
+				{
+					employerName: `${newValue.firstName} ${newValue.middleName} ${newValue.lastName}`,
+					street: newValue.street,
+					zone: newValue.zone,
+					barangay: newValue.barangay,
+					contactNumber: newValue.contactNumber,
+					companyName: newValue.companyName,
+					companyDescription: newValue.companyDescription,
+					acronym: newValue.acronym,
+					employerType: newValue.employerType,
+					workForce: newValue.workForce,
+					emailAddress: newValue.emailAddress,
+					companyID: newValue.companyID,
+				}
+			)
 			.then((response) => {
 				// console.log(response);
 			});
 
 		// Job Posts Database Table -----------
 		await axios
-			.put("http://localhost:2000/api/update-jobPost-business-profile", {
-				companyName: newValue.companyName,
-				companyAddress: `${newValue.street}, ${newValue.zone}, ${newValue.barangay}`,
-				companyID: newValue.companyID,
-			})
+			.put(
+				"https://job-search-system-catarman.herokuapp.com/api/update-jobPost-business-profile",
+				{
+					companyName: newValue.companyName,
+					companyAddress: `${newValue.street}, ${newValue.zone}, ${newValue.barangay}`,
+					companyID: newValue.companyID,
+				}
+			)
 			.then((response) => {
 				// console.log(response);
 			});
@@ -1408,7 +1503,7 @@ export class App extends Component {
 		// Applied Jobs Database Table -----------
 		await axios
 			.put(
-				"http://localhost:2000/api/update-applied-jobs-business-profile",
+				"https://job-search-system-catarman.herokuapp.com/api/update-applied-jobs-business-profile",
 				{
 					companyName: newValue.companyName,
 					companyAddress: `${newValue.street}, ${newValue.zone}, ${newValue.barangay}`,
@@ -1422,7 +1517,7 @@ export class App extends Component {
 		// Employer Feedback Database Table -----------
 		await axios
 			.put(
-				"http://localhost:2000/api/update-employer-feedback-business-profile",
+				"https://job-search-system-catarman.herokuapp.com/api/update-employer-feedback-business-profile",
 				{
 					companyName: newValue.companyName,
 					companyAddress: `${newValue.street}, ${newValue.zone}, ${newValue.barangay}`,

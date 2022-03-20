@@ -26,9 +26,12 @@ class Auth {
 
 		// Fetching Job Applicant ID of the Current User
 		await axios
-			.post("http://localhost:2000/api/get-applicantID", {
-				userID: id,
-			})
+			.post(
+				"https://job-search-system-catarman.herokuapp.com/api/get-applicantID",
+				{
+					userID: id,
+				}
+			)
 			.then(async (response) => {
 				if (response.data.length === 1) {
 					sessionStorage.setItem(
@@ -42,9 +45,12 @@ class Auth {
 
 		// Fetching Job Applicant ID of the Current User
 		await axios
-			.post("http://localhost:2000/api/get-companyID", {
-				userID: id,
-			})
+			.post(
+				"https://job-search-system-catarman.herokuapp.com/api/get-companyID",
+				{
+					userID: id,
+				}
+			)
 			.then(async (response) => {
 				if (response.data.length === 1) {
 					sessionStorage.setItem("CompanyID", response.data[0].CompanyID);

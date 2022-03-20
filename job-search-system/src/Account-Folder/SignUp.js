@@ -51,10 +51,13 @@ export class SignUp extends Component {
 	handleSignUp = async () => {
 		const user = this.state;
 		await axios
-			.post("http://localhost:2000/api/checkUsername", {
-				username: user.username,
-				role: user.role,
-			})
+			.post(
+				"https://job-search-system-catarman.herokuapp.com/api/checkUsername",
+				{
+					username: user.username,
+					role: user.role,
+				}
+			)
 			.then((result) => {
 				if (result.data.length === 0) {
 					const signUpUser = {

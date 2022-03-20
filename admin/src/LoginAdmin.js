@@ -22,11 +22,14 @@ const LoginAdmin = ({ setAdmin }) => {
 		try {
 			if (userName !== null && password !== null) {
 				await axios
-					.post("http://localhost:2000/api/login", {
-						role: "Admin",
-						username: userName,
-						password: password,
-					})
+					.post(
+						"https://job-search-system-catarman.herokuapp.com/api/login",
+						{
+							role: "Admin",
+							username: userName,
+							password: password,
+						}
+					)
 					.then(async (response) => {
 						if (response.data.length === 1) {
 							setAdmin(response.data[0]);

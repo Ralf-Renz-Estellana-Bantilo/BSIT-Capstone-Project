@@ -235,17 +235,21 @@ const JobPosts = ({
 
 	const handleDeletePost = async () => {
 		await axios
-			.delete(`http://localhost:2000/api/delete-jobPost/${post.JobID}`)
+			.delete(
+				`https://job-search-system-catarman.herokuapp.com/api/delete-jobPost/${post.JobID}`
+			)
 			.then(async (response) => {
 				setIsModalOpen(false);
 			});
 		await axios
 			.delete(
-				`http://localhost:2000/api/delete-job-applicants/${post.JobID}`
+				`https://job-search-system-catarman.herokuapp.com/api/delete-job-applicants/${post.JobID}`
 			)
 			.then((response) => {});
 		await axios
-			.delete(`http://localhost:2000/api/delete-applied-job/${post.JobID}`)
+			.delete(
+				`https://job-search-system-catarman.herokuapp.com/api/delete-applied-job/${post.JobID}`
+			)
 			.then(async (response) => {
 				let posts = jobPosts;
 				let index = posts.findIndex((x) => x.JobID === post.JobID);
@@ -269,9 +273,12 @@ const JobPosts = ({
 
 		// Fetching Job Post Data
 		axios
-			.put("http://localhost:2000/api/update-jobPost-active-status", {
-				jobID: post.JobID,
-			})
+			.put(
+				"https://job-search-system-catarman.herokuapp.com/api/update-jobPost-active-status",
+				{
+					jobID: post.JobID,
+				}
+			)
 			.then((response) => {
 				// console.log(response);
 			});

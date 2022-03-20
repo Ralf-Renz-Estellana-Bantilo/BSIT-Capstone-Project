@@ -40,7 +40,7 @@ export class Navbar extends Component {
 			// Fetching Employer Feedback Data
 			await axios
 				.post(
-					"http://localhost:2000/api/read-specific-applicant-notification",
+					"https://job-search-system-catarman.herokuapp.com/api/read-specific-applicant-notification",
 					{
 						applicantID: applicantSession,
 					}

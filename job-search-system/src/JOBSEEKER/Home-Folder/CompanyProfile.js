@@ -13,9 +13,12 @@ export class CompanyProfile extends Component {
 
 	filterObject = async () => {
 		await axios
-			.post("http://localhost:2000/api/read-company-details", {
-				companyID: this.props.targetCompany,
-			})
+			.post(
+				"https://job-search-system-catarman.herokuapp.com/api/read-company-details",
+				{
+					companyID: this.props.targetCompany,
+				}
+			)
 			.then((response) => {
 				if (response.data.length === 1) {
 					this.setState({

@@ -25,7 +25,9 @@ const Sidebar = ({
 	const handleDashboard = async () => {
 		navigate("/admin/dashboard");
 		await axios
-			.get("http://localhost:2000/api/read-jobPost")
+			.get(
+				"https://job-search-system-catarman.herokuapp.com/api/read-jobPost"
+			)
 			.then((response) => {
 				if (response) {
 					setJobPosts(response.data);
@@ -36,7 +38,9 @@ const Sidebar = ({
 
 		// User_Account Database Table ----------
 		await axios
-			.get("http://localhost:2000/api/read-user-employer")
+			.get(
+				"https://job-search-system-catarman.herokuapp.com/api/read-user-employer"
+			)
 			.then((response) => {
 				if (response) {
 					setEmployers(response.data);
@@ -47,7 +51,9 @@ const Sidebar = ({
 
 		// Applicant Database Table ----------
 		await axios
-			.get("http://localhost:2000/api/read-applicant-data")
+			.get(
+				"https://job-search-system-catarman.herokuapp.com/api/read-applicant-data"
+			)
 			.then((response) => {
 				if (response) {
 					setApplicantsData(response.data);
@@ -61,7 +67,9 @@ const Sidebar = ({
 		navigate("/admin/job-posts");
 		// Fetching Job Posts
 		await axios
-			.get("http://localhost:2000/api/read-jobPost")
+			.get(
+				"https://job-search-system-catarman.herokuapp.com/api/read-jobPost"
+			)
 			.then((response) => {
 				if (response) {
 					setJobPosts(response.data);
@@ -72,7 +80,9 @@ const Sidebar = ({
 
 		// Fetching Job Applicants
 		await axios
-			.get("http://localhost:2000/api/read-company-applicants")
+			.get(
+				"https://job-search-system-catarman.herokuapp.com/api/read-company-applicants"
+			)
 			.then((response) => {
 				if (response) {
 					setJobApplicants(response.data);
@@ -87,7 +97,9 @@ const Sidebar = ({
 
 		// Applicant Database Table ----------
 		await axios
-			.get("http://localhost:2000/api/read-applicant-data")
+			.get(
+				"https://job-search-system-catarman.herokuapp.com/api/read-applicant-data"
+			)
 			.then((response) => {
 				if (response) {
 					setJobSeekers(response.data);
@@ -102,7 +114,9 @@ const Sidebar = ({
 
 		// Fetching Companies
 		await axios
-			.get("http://localhost:2000/api/read-companies")
+			.get(
+				"https://job-search-system-catarman.herokuapp.com/api/read-companies"
+			)
 			.then((response) => {
 				if (response) {
 					setCompaniesData(response.data);
@@ -117,7 +131,9 @@ const Sidebar = ({
 
 		// Fetching Job Applicants
 		await axios
-			.get("http://localhost:2000/api/read-company-applicants")
+			.get(
+				"https://job-search-system-catarman.herokuapp.com/api/read-company-applicants"
+			)
 			.then((response) => {
 				if (response) {
 					setJobApplicants(response.data);
@@ -128,7 +144,9 @@ const Sidebar = ({
 
 		// Fetching Admin Posts
 		await axios
-			.get("http://localhost:2000/api/admin/read-posts")
+			.get(
+				"https://job-search-system-catarman.herokuapp.com/api/admin/read-posts"
+			)
 			.then((response) => {
 				if (response) {
 					setAdminPosts(response.data);

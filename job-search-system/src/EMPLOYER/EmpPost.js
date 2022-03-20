@@ -55,19 +55,25 @@ export class Emp_Post extends Component {
 	deletePost = async () => {
 		const { JobID } = this.props.companyJobPost;
 		await axios
-			.delete(`http://localhost:2000/api/delete-jobPost/${JobID}`)
+			.delete(
+				`https://job-search-system-catarman.herokuapp.com/api/delete-jobPost/${JobID}`
+			)
 			.then(async (response) => {
 				// console.log("Post has been deleted");
 				await this.onCloseModal();
 				await this.props.deleteEmployerPost(JobID);
 			});
 		await axios
-			.delete(`http://localhost:2000/api/delete-job-applicants/${JobID}`)
+			.delete(
+				`https://job-search-system-catarman.herokuapp.com/api/delete-job-applicants/${JobID}`
+			)
 			.then(async (response) => {
 				// console.log("Job Applicants have been deleted");
 			});
 		await axios
-			.delete(`http://localhost:2000/api/delete-applied-job/${JobID}`)
+			.delete(
+				`https://job-search-system-catarman.herokuapp.com/api/delete-applied-job/${JobID}`
+			)
 			.then(async (response) => {
 				// console.log("Applied Job has been deleted");
 			});

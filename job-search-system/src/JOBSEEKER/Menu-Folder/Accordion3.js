@@ -33,7 +33,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 			// Delete User Account Data
 			await axios
 				.delete(
-					`http://localhost:2000/api/delete-user-account/${userSession}`
+					`https://job-search-system-catarman.herokuapp.com/api/delete-user-account/${userSession}`
 				)
 				.then(async (response) => {
 					// console.log("Job Applicants have been deleted");
@@ -42,7 +42,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 			// Delete Applicant Data
 			await axios
 				.delete(
-					`http://localhost:2000/api/delete-applicant/${applicantSession}`
+					`https://job-search-system-catarman.herokuapp.com/api/delete-applicant/${applicantSession}`
 				)
 				.then(async (response) => {
 					// console.log("Job Applicants have been deleted");
@@ -51,7 +51,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 			// Delete Job Applicant Data
 			await axios
 				.delete(
-					`http://localhost:2000/api/account-delete-job-applicant/${applicantSession}`
+					`https://job-search-system-catarman.herokuapp.com/api/account-delete-job-applicant/${applicantSession}`
 				)
 				.then(async (response) => {
 					// console.log("Job Applicants have been deleted");
@@ -60,7 +60,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 			// Delete Applied Jobs Data
 			await axios
 				.delete(
-					`http://localhost:2000/api/account-delete-applied-job/${applicantSession}`
+					`https://job-search-system-catarman.herokuapp.com/api/account-delete-applied-job/${applicantSession}`
 				)
 				.then(async (response) => {
 					// console.log("Job Applicants have been deleted");
@@ -69,7 +69,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 			// Delete Employer Feedback Data
 			await axios
 				.delete(
-					`http://localhost:2000/api/delete-employer-feedback/${applicantSession}`
+					`https://job-search-system-catarman.herokuapp.com/api/delete-employer-feedback/${applicantSession}`
 				)
 				.then(async (response) => {
 					// console.log("Employer Feedback have been deleted");
@@ -91,7 +91,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 			// Delete User Account Data
 			await axios
 				.delete(
-					`http://localhost:2000/api/delete-user-account/${userSession}`
+					`https://job-search-system-catarman.herokuapp.com/api/delete-user-account/${userSession}`
 				)
 				.then(async (response) => {
 					// console.log("User Account Data have been deleted");
@@ -99,7 +99,9 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 
 			// Delete Company Data
 			await axios
-				.delete(`http://localhost:2000/api/delete-company/${userSession}`)
+				.delete(
+					`https://job-search-system-catarman.herokuapp.com/api/delete-company/${userSession}`
+				)
 				.then(async (response) => {
 					// console.log("Company Data have been deleted");
 				});
@@ -107,7 +109,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 			// Delete Job Posts Data
 			await axios
 				.delete(
-					`http://localhost:2000/api/delete-company-jobPost/${companySession}`
+					`https://job-search-system-catarman.herokuapp.com/api/delete-company-jobPost/${companySession}`
 				)
 				.then(async (response) => {
 					// console.log("Job Posts Data have been deleted");
@@ -116,7 +118,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 			// Delete Job Applicant Data
 			await axios
 				.delete(
-					`http://localhost:2000/api/delete-job-applicant-employer/${companySession}`
+					`https://job-search-system-catarman.herokuapp.com/api/delete-job-applicant-employer/${companySession}`
 				)
 				.then(async (response) => {
 					// console.log("Job Applicant Data have been deleted");
@@ -125,7 +127,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 			// Delete Applied Jobs Data
 			await axios
 				.delete(
-					`http://localhost:2000/api/delete-applied-employer/${companySession}`
+					`https://job-search-system-catarman.herokuapp.com/api/delete-applied-employer/${companySession}`
 				)
 				.then(async (response) => {
 					// console.log("Applied Jobs Data have been deleted");
@@ -134,7 +136,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 			// Delete Employer Feedback Data
 			await axios
 				.delete(
-					`http://localhost:2000/api/delete-employer-feedback-data/${companySession}`
+					`https://job-search-system-catarman.herokuapp.com/api/delete-employer-feedback-data/${companySession}`
 				)
 				.then(async (response) => {
 					// console.log("Employer Feedback Data have been deleted");
@@ -166,11 +168,14 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 				alert("Wrong entries! Please try again!");
 			} else {
 				axios
-					.post("http://localhost:2000/api/login", {
-						role: userTypeSession,
-						username: currentUsername,
-						password: currentPassword,
-					})
+					.post(
+						"https://job-search-system-catarman.herokuapp.com/api/login",
+						{
+							role: userTypeSession,
+							username: currentUsername,
+							password: currentPassword,
+						}
+					)
 					.then(async (response) => {
 						if (response.data.length === 1) {
 							setStep(2);
@@ -195,11 +200,14 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 		} else {
 			try {
 				axios
-					.put("http://localhost:2000/api/update-user-account", {
-						username: newUsername,
-						password: newPassword,
-						userID: userID,
-					})
+					.put(
+						"https://job-search-system-catarman.herokuapp.com/api/update-user-account",
+						{
+							username: newUsername,
+							password: newPassword,
+							userID: userID,
+						}
+					)
 					.then(async (response) => {
 						setStep(0);
 						resetAllFields();

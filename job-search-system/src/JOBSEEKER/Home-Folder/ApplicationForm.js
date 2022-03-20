@@ -164,10 +164,13 @@ export class ApplicationForm extends Component {
 					if (fileData !== null) {
 						const data = new FormData();
 						data.append("pdf", fileData);
-						await fetch("http://localhost:2000/api/upload-pdf", {
-							method: "POST",
-							body: data,
-						})
+						await fetch(
+							"https://job-search-system-catarman.herokuapp.com/api/upload-pdf",
+							{
+								method: "POST",
+								body: data,
+							}
+						)
 							.then((result) => {
 								// console.log("The PDF File has been Uploaded...");
 							})
@@ -260,7 +263,9 @@ export class ApplicationForm extends Component {
 
 	locateData = async () => {
 		await axios
-			.get("http://localhost:2000/api/read-applicant-data")
+			.get(
+				"https://job-search-system-catarman.herokuapp.com/api/read-applicant-data"
+			)
 			.then((response) => {
 				this.setState({
 					applicants: response.data,
@@ -306,9 +311,12 @@ export class ApplicationForm extends Component {
 
 		// Fetching Job Applicant ID of the Current User
 		await axios
-			.post("http://localhost:2000/api/get-applicantID", {
-				userID: session,
-			})
+			.post(
+				"https://job-search-system-catarman.herokuapp.com/api/get-applicantID",
+				{
+					userID: session,
+				}
+			)
 			.then(async (response) => {
 				if (response.data.length === 1) {
 					await this.setState({
@@ -320,11 +328,14 @@ export class ApplicationForm extends Component {
 		if (`${activePage}` === "profile") {
 			// Fetching Job Applicant Data
 			await axios
-				.post("http://localhost:2000/api/read-specific-job-applicant", {
-					applicantID: applicantSession,
-					companyID: post.CompanyID,
-					jobID: post.JobID,
-				})
+				.post(
+					"https://job-search-system-catarman.herokuapp.com/api/read-specific-job-applicant",
+					{
+						applicantID: applicantSession,
+						companyID: post.CompanyID,
+						jobID: post.JobID,
+					}
+				)
 				.then(async (response) => {
 					if (response.data.length === 1) {
 						await this.setState({

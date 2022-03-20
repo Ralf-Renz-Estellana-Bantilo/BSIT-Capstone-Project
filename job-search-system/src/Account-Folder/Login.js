@@ -39,11 +39,14 @@ export class Login extends Component {
 
 		try {
 			await axios
-				.post("http://localhost:2000/api/login", {
-					role: role,
-					username: usernameInput,
-					password: passwordInput,
-				})
+				.post(
+					"https://job-search-system-catarman.herokuapp.com/api/login",
+					{
+						role: role,
+						username: usernameInput,
+						password: passwordInput,
+					}
+				)
 				.then(async (response) => {
 					try {
 						if (response.data.length === 1) {

@@ -90,7 +90,7 @@ import {
 } from "./controllers/DB_Admin_Posts.js";
 
 const app = express();
-const PORT = 2000;
+const PORT = 2000 || process.env.PORT;
 
 app.use(cors());
 app.use(express.json());
@@ -148,10 +148,15 @@ const uploadPDF = multer({
 });
 
 const db = mysql.createConnection({
-	user: "root",
-	host: "localhost",
-	password: "bantiloralfrenz",
-	database: "job_search_system_db",
+	// user: "root",
+	// host: "localhost",
+	// password: "bantiloralfrenz",
+	// database: "job_search_system_db",
+
+	username: "b58454bd4a7cc9",
+	password: "1684a61d",
+	host: "us-cdbr-east-05.cleardb.net",
+	database: "heroku_e973498db39f7ce",
 });
 
 db.connect((err) => {
@@ -298,3 +303,10 @@ app.post("/api/admin/add-post", createAdminPost);
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);
 });
+
+// mysql://b58454bd4a7cc9:1684a61d@us-cdbr-east-05.cleardb.net/heroku_e973498db39f7ce?reconnect=true
+
+// username: b58454bd4a7cc9
+// password: 1684a61d
+// host: us-cdbr-east-05.cleardb.net
+// database: heroku_e973498db39f7ce

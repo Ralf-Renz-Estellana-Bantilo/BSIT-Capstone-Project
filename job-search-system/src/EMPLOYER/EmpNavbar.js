@@ -34,7 +34,9 @@ export class Emp_Navbar extends Component {
 
 	handleDashboard = async () => {
 		await axios
-			.get("http://localhost:2000/api/read-applicant-data")
+			.get(
+				"https://job-search-system-catarman.herokuapp.com/api/read-applicant-data"
+			)
 			.then((response) => {
 				this.props.setApplicants(response.data);
 			});
@@ -45,9 +47,12 @@ export class Emp_Navbar extends Component {
 
 		// Fetching Job Applicant Data ------------
 		await axios
-			.post("http://localhost:2000/api/read-job-applicant", {
-				companyID: companySession,
-			})
+			.post(
+				"https://job-search-system-catarman.herokuapp.com/api/read-job-applicant",
+				{
+					companyID: companySession,
+				}
+			)
 			.then(async (response) => {
 				await this.props.getJobApplicantsByCompany(response.data);
 			});

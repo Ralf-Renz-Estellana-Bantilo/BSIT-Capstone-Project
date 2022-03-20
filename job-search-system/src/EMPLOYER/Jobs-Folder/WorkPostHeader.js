@@ -21,9 +21,12 @@ const WorkPostHeader = ({
 	useEffect(() => {
 		// Fetching Company Data
 		axios
-			.post("http://localhost:2000/api/read-company", {
-				userID: currentUser.UserID,
-			})
+			.post(
+				"https://job-search-system-catarman.herokuapp.com/api/read-company",
+				{
+					userID: currentUser.UserID,
+				}
+			)
 			.then(async (response) => {
 				if (response.data.length === 1) {
 					setCompany(response.data[0]);

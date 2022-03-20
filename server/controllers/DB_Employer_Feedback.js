@@ -1,10 +1,15 @@
 import mysql from "mysql2";
 
 const db = mysql.createConnection({
-	user: "root",
-	host: "localhost",
-	password: "bantiloralfrenz",
-	database: "job_search_system_db",
+	// user: "root",
+	// host: "localhost",
+	// password: "bantiloralfrenz",
+	// database: "job_search_system_db",
+
+	username: "b58454bd4a7cc9",
+	password: "1684a61d",
+	host: "us-cdbr-east-05.cleardb.net",
+	database: "heroku_e973498db39f7ce",
 });
 
 export const getEmployerFeedBacks = (req, res) => {

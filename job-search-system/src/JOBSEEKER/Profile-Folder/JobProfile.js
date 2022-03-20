@@ -231,32 +231,35 @@ export class JobProfile extends Component {
 				alert("Please fill up all the fields");
 			} else {
 				await axios
-					.put("http://localhost:2000/api/update-appplicant-data", {
-						firstName: Resources.formatName(firstName),
-						middleName: Resources.formatName(middleName),
-						lastName: Resources.formatName(lastName),
-						email: email,
-						bMonth: parseInt(bMonth),
-						bDay: parseInt(bDay),
-						bYear: parseInt(bYear),
-						sex: sex,
-						contactNumber: contactNumber,
-						address: address,
-						civilStatus: civilStatus,
-						educationalAttainment: educationalAttainment,
-						preferredJob: preferredJob,
-						preferredCategory: preferredCategory,
-						preferredSalaryMin: preferredSalaryMin,
-						preferredSalaryMax: preferredSalaryMax,
-						resume: newFileName,
-						interest: interest,
-						goodAt: goodAt,
-						credentials: credentials,
-						disability: disability,
-						employmentStatus: employmentStatus,
-						employmentType: employmentType,
-						userID: sessionStorage.getItem("UserID"),
-					})
+					.put(
+						"https://job-search-system-catarman.herokuapp.com/api/update-appplicant-data",
+						{
+							firstName: Resources.formatName(firstName),
+							middleName: Resources.formatName(middleName),
+							lastName: Resources.formatName(lastName),
+							email: email,
+							bMonth: parseInt(bMonth),
+							bDay: parseInt(bDay),
+							bYear: parseInt(bYear),
+							sex: sex,
+							contactNumber: contactNumber,
+							address: address,
+							civilStatus: civilStatus,
+							educationalAttainment: educationalAttainment,
+							preferredJob: preferredJob,
+							preferredCategory: preferredCategory,
+							preferredSalaryMin: preferredSalaryMin,
+							preferredSalaryMax: preferredSalaryMax,
+							resume: newFileName,
+							interest: interest,
+							goodAt: goodAt,
+							credentials: credentials,
+							disability: disability,
+							employmentStatus: employmentStatus,
+							employmentType: employmentType,
+							userID: sessionStorage.getItem("UserID"),
+						}
+					)
 					.then((response) => {
 						// console.log("Job Profile has been Updated");
 						this.handleToggleEditProfile();
@@ -297,10 +300,13 @@ export class JobProfile extends Component {
 				if (fileData !== null) {
 					const data = new FormData();
 					data.append("pdf", fileData);
-					await fetch("http://localhost:2000/api/upload-pdf", {
-						method: "POST",
-						body: data,
-					})
+					await fetch(
+						"https://job-search-system-catarman.herokuapp.com/api/upload-pdf",
+						{
+							method: "POST",
+							body: data,
+						}
+					)
 						.then((result) => {
 							// console.log("The PDF File has been Uploaded...");
 						})
@@ -347,7 +353,9 @@ export class JobProfile extends Component {
 		// Applicant Database Table ----------
 		if (applicants.length === 0) {
 			await axios
-				.get("http://localhost:2000/api/read-applicant-data")
+				.get(
+					"https://job-search-system-catarman.herokuapp.com/api/read-applicant-data"
+				)
 				.then((response) => {
 					this.props.setApplicants(response.data);
 				});

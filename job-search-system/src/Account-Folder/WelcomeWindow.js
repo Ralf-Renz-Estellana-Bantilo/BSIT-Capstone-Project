@@ -38,16 +38,21 @@ export class WelcomeWindow extends Component {
 			if (applicantSession) {
 				// Fetching Job Posts Data
 				await axios
-					.get("http://localhost:2000/api/read-jobPost")
+					.get(
+						"https://job-search-system-catarman.herokuapp.com/api/read-jobPost"
+					)
 					.then((response) => {
 						this.props.setJobPosts(response.data);
 					});
 
 				// Fetching Job Applicant Data
 				await axios
-					.post("http://localhost:2000/api/read-applied-jobs", {
-						applicantID: applicantSession,
-					})
+					.post(
+						"https://job-search-system-catarman.herokuapp.com/api/read-applied-jobs",
+						{
+							applicantID: applicantSession,
+						}
+					)
 					.then(async (response) => {
 						await this.props.getAppliedJobs(response.data);
 						await this.filterAppliedJobs(response.data);
@@ -56,7 +61,7 @@ export class WelcomeWindow extends Component {
 				// Fetching Employer Feedback Data
 				await axios
 					.post(
-						"http://localhost:2000/api/read-specific-applicant-notification",
+						"https://job-search-system-catarman.herokuapp.com/api/read-specific-applicant-notification",
 						{
 							applicantID: applicantSession,
 						}
@@ -67,24 +72,32 @@ export class WelcomeWindow extends Component {
 
 				// Fetching Company Data
 				await axios
-					.get("http://localhost:2000/api/read-companies")
+					.get(
+						"https://job-search-system-catarman.herokuapp.com/api/read-companies"
+					)
 					.then(async (response) => {
 						await this.props.setCompany(response.data);
 					});
 			} else if (companySession) {
 				// Fetching Job Applicant Data ------------
 				await axios
-					.post("http://localhost:2000/api/read-job-applicant", {
-						companyID: companySession,
-					})
+					.post(
+						"https://job-search-system-catarman.herokuapp.com/api/read-job-applicant",
+						{
+							companyID: companySession,
+						}
+					)
 					.then(async (response) => {
 						await this.props.getJobApplicantsByCompany(response.data);
 					});
 
 				await axios
-					.post("http://localhost:2000/api/read-company", {
-						userID: sessionUser,
-					})
+					.post(
+						"https://job-search-system-catarman.herokuapp.com/api/read-company",
+						{
+							userID: sessionUser,
+						}
+					)
 					.then(async (response) => {
 						if (response.data.length === 1) {
 							await this.props.setCompany(response.data[0]);
@@ -95,9 +108,12 @@ export class WelcomeWindow extends Component {
 
 				// Fetching Job Posts Data
 				await axios
-					.post("http://localhost:2000/api/read-company-jobPost", {
-						companyID: companySession,
-					})
+					.post(
+						"https://job-search-system-catarman.herokuapp.com/api/read-company-jobPost",
+						{
+							companyID: companySession,
+						}
+					)
 					.then(async (response) => {
 						if (response) {
 							await this.props.setCompanyJobPosts(response.data);
@@ -109,7 +125,7 @@ export class WelcomeWindow extends Component {
 				// Fetching Employer Feedback Data
 				await axios
 					.post(
-						"http://localhost:2000/api/read-specific-employer-feedback",
+						"https://job-search-system-catarman.herokuapp.com/api/read-specific-employer-feedback",
 						{
 							companyID: companySession,
 						}
