@@ -4,13 +4,13 @@ class AppConfiguration {
 	}
 
 	url() {
-		const port = process.env.PORT;
+		const currentURL = window.location.href;
 
-		if (port) {
+		if (currentURL.includes("localhost")) {
+			this.CONFIGURED_URL = "http://localhost:2000";
+		} else {
 			this.CONFIGURED_URL =
 				"https://job-search-system-catarman.herokuapp.com";
-		} else {
-			this.CONFIGURED_URL = "http://localhost:2000";
 		}
 
 		return this.CONFIGURED_URL;

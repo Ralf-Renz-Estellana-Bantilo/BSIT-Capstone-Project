@@ -1480,8 +1480,12 @@ export class App extends Component {
 			userType = `employer`;
 		}
 
-		console.log("Port:", process.env.PORT);
-		console.log("AppConfiguration", AppConfiguration.url());
+		const currentURL = window.location.href; // returns the absolute URL of a page
+
+		const pathname = window.location.pathname; //returns the current url minus the domain name
+
+		console.log("currentURL:", currentURL);
+		console.log("pathname", pathname);
 
 		return (
 			<div className={darkTheme ? `app-dark` : `app-light`}>

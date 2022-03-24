@@ -292,7 +292,7 @@ export class Login extends Component {
 									style={
 										this.state.isPasswordVisible
 											? { opacity: "100%" }
-											: {}
+											: {  opacity: "60% " }
 									}
 									src={Eye}
 									alt='Password Visible'
