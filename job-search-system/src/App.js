@@ -1480,9 +1480,8 @@ export class App extends Component {
 			userType = `employer`;
 		}
 
-		// setInterval(() => {
-		// 	console.log(new Date().getSeconds());
-		// }, 1000);
+		console.log("Port:", process.env.PORT);
+		console.log("AppConfiguration", AppConfiguration.url());
 
 		return (
 			<div className={darkTheme ? `app-dark` : `app-light`}>

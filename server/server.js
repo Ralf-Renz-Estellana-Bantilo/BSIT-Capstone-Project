@@ -149,27 +149,8 @@ const uploadPDF = multer({
 try {
 	let db;
 	function connectToDatabase() {
-		db = mysql.createConnection({
-			// development configuration ----------
-			// user: "root",
-			// password: "bantiloralfrenz",
-			// host: "localhost",
-			// database: "job_search_system_db",
-
-			// production configuration ----------
-			// user: "b58454bd4a7cc9",
-			// password: "1684a61d",
-			// host: "us-cdbr-east-05.cleardb.net",
-			// database: "heroku_e973498db39f7ce",
-
-			// custom configuration ----------
-			user: process.env.PORT ? "b58454bd4a7cc9" : "root",
-			password: process.env.PORT ? "1684a61d" : "bantiloralfrenz",
-			host: process.env.PORT ? "us-cdbr-east-05.cleardb.net" : "localhost",
-			database: process.env.PORT
-				? "heroku_e973498db39f7ce"
-				: "job_search_system_db",
-		});
+		db = require("./dbConfig");
+		db.dbConfig();
 
 		db.connect((err) => {
 			if (err) {
