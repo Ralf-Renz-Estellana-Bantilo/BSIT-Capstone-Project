@@ -1480,12 +1480,11 @@ export class App extends Component {
 			userType = `employer`;
 		}
 
-		const currentURL = window.location.href; // returns the absolute URL of a page
+		// const currentURL = window.location.href; // returns the absolute URL of a page
+		// const pathname = window.location.pathname; //returns the current url minus the domain name
 
-		const pathname = window.location.pathname; //returns the current url minus the domain name
-
-		console.log("currentURL:", currentURL);
-		console.log("pathname", pathname);
+		// console.log("currentURL:", currentURL);
+		// console.log("pathname", pathname);
 
 		return (
 			<div className={darkTheme ? `app-dark` : `app-light`}>
