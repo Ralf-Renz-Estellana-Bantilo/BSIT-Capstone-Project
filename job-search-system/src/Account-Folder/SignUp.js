@@ -360,7 +360,7 @@ export class SignUp extends Component {
 										style={
 											this.state.isPasswordVisible
 												? { opacity: "100%" }
-												: { opacity: "60%" }
+												: { opacity: "30%" }
 										}
 										src={Eye}
 										alt='Password Visible'

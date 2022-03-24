@@ -47,6 +47,7 @@ export class Login extends Component {
 				})
 				.then(async (response) => {
 					try {
+						console.log(response.data);
 						if (response.data.length === 1) {
 							let path = "";
 
@@ -64,22 +65,37 @@ export class Login extends Component {
 							await Auth.setAuthenticated(response.data[0].UserID);
 							Auth.setUserType(response.data[0].Role);
 							console.log("Successfully Logged in...");
-						} else if (response.data.length > 1) {
+						} else if (response.data === "User does not exist!") {
 							this.setState({
-								errorMessage: response.data,
+								errorMessage: "User not found!",
+								isValid: false,
+							});
+						} else if (
+							response.data === "Wrong Username/Password Combination..."
+						) {
+							this.setState({
+								errorMessage: "Wrong Username/Password Combination!",
 								isValid: false,
 							});
 						} else {
 							this.setState({
-								errorMessage: response.data,
+								errorMessage: "Login failed!",
 								isValid: false,
 							});
 						}
 					} catch (error) {
+						this.setState({
+							errorMessage: "Login Error! Please try again!",
+							isValid: false,
+						});
 						console.log(error);
 					}
 				});
 		} catch (error) {
+			this.setState({
+				errorMessage: "System Error!",
+				isValid: false,
+			});
 			console.log(error);
 		}
 	};
@@ -219,7 +235,7 @@ export class Login extends Component {
 							{this.state.isValid === false && (
 								<div className='error-container'>
 									<div className='error-wrapper'>
-										<p>User not found...</p>
+										<p>{this.state.errorMessage}</p>
 									</div>
 								</div>
 							)}
@@ -292,7 +308,7 @@ export class Login extends Component {
 									style={
 										this.state.isPasswordVisible
 											? { opacity: "100%" }
-											: {  opacity: "60% " }
+											: { opacity: "30% " }
 									}
 									src={Eye}
 									alt='Password Visible'
