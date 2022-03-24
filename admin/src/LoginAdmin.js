@@ -6,6 +6,7 @@ import UsernameIcon from "./Images/UsernameIcon.png";
 import "./LoginAdmin.css";
 import AdminWelcomeWindow from "./AdminWelcomeWindow";
 import axios from "axios";
+import AppConfiguration from "./AppConfiguration";
 
 const LoginAdmin = ({ setAdmin }) => {
 	const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -22,14 +23,11 @@ const LoginAdmin = ({ setAdmin }) => {
 		try {
 			if (userName !== null && password !== null) {
 				await axios
-					.post(
-						"https://job-search-system-catarman.herokuapp.com/api/login",
-						{
-							role: "Admin",
-							username: userName,
-							password: password,
-						}
-					)
+					.post(`${AppConfiguration.url()}/api/login`, {
+						role: "Admin",
+						username: userName,
+						password: password,
+					})
 					.then(async (response) => {
 						if (response.data.length === 1) {
 							setAdmin(response.data[0]);

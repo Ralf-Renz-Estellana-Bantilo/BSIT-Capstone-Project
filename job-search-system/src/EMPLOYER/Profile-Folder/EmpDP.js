@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
+import AppConfiguration from "../../AppConfiguration";
 import CameraIcon from "../../Images/CameraIcon.png";
 import CloseIcon from "../../Images/CloseIcon.png";
 
@@ -48,13 +49,10 @@ export class Emp_DP extends Component {
 		} else {
 			const data = new FormData();
 			data.append("image", fileData);
-			await fetch(
-				"https://job-search-system-catarman.herokuapp.com/api/upload-image",
-				{
-					method: "POST",
-					body: data,
-				}
-			)
+			await fetch(`${AppConfiguration.url()}/api/upload-image`, {
+				method: "POST",
+				body: data,
+			})
 				.then(async (result) => {
 					// console.log("The File has been Uploaded...");
 					await this.props.changeCompanyProfile(
@@ -66,13 +64,10 @@ export class Emp_DP extends Component {
 					console.log("Multer Error!", error);
 				});
 
-			await fetch(
-				"https://job-search-system-catarman.herokuapp.com/api/upload-image-admin",
-				{
-					method: "POST",
-					body: data,
-				}
-			)
+			await fetch(`${AppConfiguration.url()}/api/upload-image-admin`, {
+				method: "POST",
+				body: data,
+			})
 				.then(async (result) => {
 					console
 						.log
@@ -84,39 +79,30 @@ export class Emp_DP extends Component {
 				});
 
 			await axios
-				.put(
-					"https://job-search-system-catarman.herokuapp.com/api/update-company-picture",
-					{
-						image: newFileName,
-						companyID: companySession,
-					}
-				)
+				.put(`${AppConfiguration.url()}/api/update-company-picture`, {
+					image: newFileName,
+					companyID: companySession,
+				})
 				.then((response) => {
 					// console.log(response);
 				});
 
 			// update applied jobs table
 			await axios
-				.put(
-					"https://job-search-system-catarman.herokuapp.com/api/update-applied-job-picture",
-					{
-						image: newFileName,
-						companyID: companySession,
-					}
-				)
+				.put(`${AppConfiguration.url()}/api/update-applied-job-picture`, {
+					image: newFileName,
+					companyID: companySession,
+				})
 				.then((response) => {
 					// console.log(response);
 				});
 
 			// update job posts table
 			await axios
-				.put(
-					"https://job-search-system-catarman.herokuapp.com/api/update-jobPost-picture",
-					{
-						image: newFileName,
-						companyID: companySession,
-					}
-				)
+				.put(`${AppConfiguration.url()}/api/update-jobPost-picture`, {
+					image: newFileName,
+					companyID: companySession,
+				})
 				.then((response) => {
 					// console.log(response);
 				});
@@ -124,7 +110,7 @@ export class Emp_DP extends Component {
 			// update employer feedback table
 			await axios
 				.put(
-					"https://job-search-system-catarman.herokuapp.com/api/update-employer-feedback-picture",
+					`${AppConfiguration.url()}/api/update-employer-feedback-picture`,
 					{
 						image: newFileName,
 						companyID: companySession,

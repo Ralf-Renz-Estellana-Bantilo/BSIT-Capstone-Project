@@ -8,6 +8,7 @@ import { withRouter } from "react-router-dom";
 import axios from "axios";
 import DeleteIcon from "../../Images/DeleteIcon.png";
 import Resources from "../../Resources";
+import AppConfiguration from "../../AppConfiguration";
 
 export class ApplicationForm extends Component {
 	state = {
@@ -164,13 +165,10 @@ export class ApplicationForm extends Component {
 					if (fileData !== null) {
 						const data = new FormData();
 						data.append("pdf", fileData);
-						await fetch(
-							"https://job-search-system-catarman.herokuapp.com/api/upload-pdf",
-							{
-								method: "POST",
-								body: data,
-							}
-						)
+						await fetch(`${AppConfiguration.url()}/api/upload-pdf`, {
+							method: "POST",
+							body: data,
+						})
 							.then((result) => {
 								// console.log("The PDF File has been Uploaded...");
 							})
@@ -263,9 +261,7 @@ export class ApplicationForm extends Component {
 
 	locateData = async () => {
 		await axios
-			.get(
-				"https://job-search-system-catarman.herokuapp.com/api/read-applicant-data"
-			)
+			.get(`${AppConfiguration.url()}/api/read-applicant-data`)
 			.then((response) => {
 				this.setState({
 					applicants: response.data,
@@ -311,12 +307,9 @@ export class ApplicationForm extends Component {
 
 		// Fetching Job Applicant ID of the Current User
 		await axios
-			.post(
-				"https://job-search-system-catarman.herokuapp.com/api/get-applicantID",
-				{
-					userID: session,
-				}
-			)
+			.post(`${AppConfiguration.url()}/api/get-applicantID`, {
+				userID: session,
+			})
 			.then(async (response) => {
 				if (response.data.length === 1) {
 					await this.setState({
@@ -325,17 +318,14 @@ export class ApplicationForm extends Component {
 				}
 			});
 
-		if (`${activePage}` === "profile") {
+		if (`${activePage}` === `profile`) {
 			// Fetching Job Applicant Data
 			await axios
-				.post(
-					"https://job-search-system-catarman.herokuapp.com/api/read-specific-job-applicant",
-					{
-						applicantID: applicantSession,
-						companyID: post.CompanyID,
-						jobID: post.JobID,
-					}
-				)
+				.post(`${AppConfiguration.url()}/api/read-specific-job-applicant`, {
+					applicantID: applicantSession,
+					companyID: post.CompanyID,
+					jobID: post.JobID,
+				})
 				.then(async (response) => {
 					if (response.data.length === 1) {
 						await this.setState({

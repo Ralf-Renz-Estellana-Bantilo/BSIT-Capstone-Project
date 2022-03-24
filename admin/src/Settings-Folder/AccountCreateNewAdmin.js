@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import shortid from "shortid";
 import AdminResources from "../AdminResources";
+import AppConfiguration from "../AppConfiguration";
 import User from "../Images/User.png";
 import "./AccountCreateNewAdmin.css";
 
@@ -30,14 +31,11 @@ const AccountCreateNewAdmin = ({
 				alert("Wrong entries! Please try again!");
 			} else {
 				axios
-					.post(
-						"https://job-search-system-catarman.herokuapp.com/api/login",
-						{
-							role: "Admin",
-							username: username,
-							password: password,
-						}
-					)
+					.post(`${AppConfiguration.url()}/api/login`, {
+						role: "Admin",
+						username: username,
+						password: password,
+					})
 					.then(async (response) => {
 						if (response.data.length === 1) {
 							alert("Admin Verified");
@@ -76,20 +74,17 @@ const AccountCreateNewAdmin = ({
 				User_Image: "DefaultUserMale.png",
 			};
 			await axios
-				.post(
-					"https://job-search-system-catarman.herokuapp.com/api/create-user",
-					{
-						userID: newAdmin.UserID,
-						firstName: newAdmin.First_Name,
-						middleName: newAdmin.Middle_Name,
-						lastName: newAdmin.Last_Name,
-						sex: newAdmin.Sex,
-						role: newAdmin.Role,
-						username: newAdmin.Username,
-						password: newAdmin.Password,
-						userImage: newAdmin.User_Image,
-					}
-				)
+				.post(`${AppConfiguration.url()}/api/create-user`, {
+					userID: newAdmin.UserID,
+					firstName: newAdmin.First_Name,
+					middleName: newAdmin.Middle_Name,
+					lastName: newAdmin.Last_Name,
+					sex: newAdmin.Sex,
+					role: newAdmin.Role,
+					username: newAdmin.Username,
+					password: newAdmin.Password,
+					userImage: newAdmin.User_Image,
+				})
 				.then(() => {
 					alert("NEW ADMINSTRATOR IS ADDED TO THE DATABASE!");
 					setUsername(null);

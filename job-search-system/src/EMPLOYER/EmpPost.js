@@ -8,6 +8,7 @@ import "./EmpPost.css";
 import Modal from "../JOBSEEKER/Home-Folder/Modal";
 import axios from "axios";
 import Resources from "../Resources";
+import AppConfiguration from "../AppConfiguration";
 
 export class Emp_Post extends Component {
 	constructor() {
@@ -55,25 +56,19 @@ export class Emp_Post extends Component {
 	deletePost = async () => {
 		const { JobID } = this.props.companyJobPost;
 		await axios
-			.delete(
-				`https://job-search-system-catarman.herokuapp.com/api/delete-jobPost/${JobID}`
-			)
+			.delete(`${AppConfiguration.url()}/api/delete-jobPost/${JobID}`)
 			.then(async (response) => {
 				// console.log("Post has been deleted");
 				await this.onCloseModal();
 				await this.props.deleteEmployerPost(JobID);
 			});
 		await axios
-			.delete(
-				`https://job-search-system-catarman.herokuapp.com/api/delete-job-applicants/${JobID}`
-			)
+			.delete(`${AppConfiguration.url()}/api/delete-job-applicants/${JobID}`)
 			.then(async (response) => {
 				// console.log("Job Applicants have been deleted");
 			});
 		await axios
-			.delete(
-				`https://job-search-system-catarman.herokuapp.com/api/delete-applied-job/${JobID}`
-			)
+			.delete(`${AppConfiguration.url()}/api/delete-applied-job/${JobID}`)
 			.then(async (response) => {
 				// console.log("Applied Job has been deleted");
 			});

@@ -9,6 +9,7 @@ import CameraIcon from "./Images/CameraIcon.png";
 import "./Navbar.css";
 import Modal from "./Modal";
 import axios from "axios";
+import AppConfiguration from "./AppConfiguration";
 
 const Navbar = ({
 	isSidebarOpen,
@@ -85,13 +86,10 @@ const Navbar = ({
 				const data = new FormData();
 				data.append("image", fileData);
 
-				await fetch(
-					"https://job-search-system-catarman.herokuapp.com/api/upload-image-admin",
-					{
-						method: "POST",
-						body: data,
-					}
-				)
+				await fetch(`${AppConfiguration.url()}/api/upload-image-admin`, {
+					method: "POST",
+					body: data,
+				})
 					.then(async (result) => {
 						// console.log(
 						// 	"The File has been Uploaded to the Administrator..."
@@ -102,13 +100,10 @@ const Navbar = ({
 					});
 
 				await axios
-					.put(
-						"https://job-search-system-catarman.herokuapp.com/api/update-user-profile",
-						{
-							image: newFileName,
-							userID: sessionStorage.getItem("UserID"),
-						}
-					)
+					.put(`${AppConfiguration.url()}/api/update-user-profile`, {
+						image: newFileName,
+						userID: sessionStorage.getItem("UserID"),
+					})
 					.then((response) => {
 						setAdmin({
 							...admin,
@@ -133,15 +128,12 @@ const Navbar = ({
 		});
 
 		axios
-			.put(
-				"https://job-search-system-catarman.herokuapp.com/api/update-user-business-profile",
-				{
-					firstName: firstName,
-					middleName: middleName,
-					lastName: lastName,
-					userID: sessionStorage.getItem("UserID"),
-				}
-			)
+			.put(`${AppConfiguration.url()}/api/update-user-business-profile`, {
+				firstName: firstName,
+				middleName: middleName,
+				lastName: lastName,
+				userID: sessionStorage.getItem("UserID"),
+			})
 			.then((response) => {
 				// console.log(response);
 			});

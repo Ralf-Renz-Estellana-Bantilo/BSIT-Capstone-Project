@@ -4,6 +4,7 @@ import Modal from "../Home-Folder/Modal";
 import "./Accordion.css";
 import CloseIcon from "../../Images/CloseIcon.png";
 import Eye from "../../Images/Eye.png";
+import AppConfiguration from "../../AppConfiguration";
 
 const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 	const [isActive, setIsActive] = useState(false);
@@ -33,7 +34,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 			// Delete User Account Data
 			await axios
 				.delete(
-					`https://job-search-system-catarman.herokuapp.com/api/delete-user-account/${userSession}`
+					`${AppConfiguration.url()}/api/delete-user-account/${userSession}`
 				)
 				.then(async (response) => {
 					// console.log("Job Applicants have been deleted");
@@ -42,7 +43,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 			// Delete Applicant Data
 			await axios
 				.delete(
-					`https://job-search-system-catarman.herokuapp.com/api/delete-applicant/${applicantSession}`
+					`${AppConfiguration.url()}/api/delete-applicant/${applicantSession}`
 				)
 				.then(async (response) => {
 					// console.log("Job Applicants have been deleted");
@@ -51,7 +52,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 			// Delete Job Applicant Data
 			await axios
 				.delete(
-					`https://job-search-system-catarman.herokuapp.com/api/account-delete-job-applicant/${applicantSession}`
+					`${AppConfiguration.url()}/api/account-delete-job-applicant/${applicantSession}`
 				)
 				.then(async (response) => {
 					// console.log("Job Applicants have been deleted");
@@ -60,7 +61,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 			// Delete Applied Jobs Data
 			await axios
 				.delete(
-					`https://job-search-system-catarman.herokuapp.com/api/account-delete-applied-job/${applicantSession}`
+					`${AppConfiguration.url()}/api/account-delete-applied-job/${applicantSession}`
 				)
 				.then(async (response) => {
 					// console.log("Job Applicants have been deleted");
@@ -69,7 +70,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 			// Delete Employer Feedback Data
 			await axios
 				.delete(
-					`https://job-search-system-catarman.herokuapp.com/api/delete-employer-feedback/${applicantSession}`
+					`${AppConfiguration.url()}/api/delete-employer-feedback/${applicantSession}`
 				)
 				.then(async (response) => {
 					// console.log("Employer Feedback have been deleted");
@@ -91,7 +92,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 			// Delete User Account Data
 			await axios
 				.delete(
-					`https://job-search-system-catarman.herokuapp.com/api/delete-user-account/${userSession}`
+					`${AppConfiguration.url()}/api/delete-user-account/${userSession}`
 				)
 				.then(async (response) => {
 					// console.log("User Account Data have been deleted");
@@ -100,7 +101,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 			// Delete Company Data
 			await axios
 				.delete(
-					`https://job-search-system-catarman.herokuapp.com/api/delete-company/${userSession}`
+					`${AppConfiguration.url()}/api/delete-company/${userSession}`
 				)
 				.then(async (response) => {
 					// console.log("Company Data have been deleted");
@@ -109,7 +110,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 			// Delete Job Posts Data
 			await axios
 				.delete(
-					`https://job-search-system-catarman.herokuapp.com/api/delete-company-jobPost/${companySession}`
+					`${AppConfiguration.url()}/api/delete-company-jobPost/${companySession}`
 				)
 				.then(async (response) => {
 					// console.log("Job Posts Data have been deleted");
@@ -118,7 +119,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 			// Delete Job Applicant Data
 			await axios
 				.delete(
-					`https://job-search-system-catarman.herokuapp.com/api/delete-job-applicant-employer/${companySession}`
+					`${AppConfiguration.url()}/api/delete-job-applicant-employer/${companySession}`
 				)
 				.then(async (response) => {
 					// console.log("Job Applicant Data have been deleted");
@@ -127,7 +128,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 			// Delete Applied Jobs Data
 			await axios
 				.delete(
-					`https://job-search-system-catarman.herokuapp.com/api/delete-applied-employer/${companySession}`
+					`${AppConfiguration.url()}/api/delete-applied-employer/${companySession}`
 				)
 				.then(async (response) => {
 					// console.log("Applied Jobs Data have been deleted");
@@ -136,7 +137,7 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 			// Delete Employer Feedback Data
 			await axios
 				.delete(
-					`https://job-search-system-catarman.herokuapp.com/api/delete-employer-feedback-data/${companySession}`
+					`${AppConfiguration.url()}/api/delete-employer-feedback-data/${companySession}`
 				)
 				.then(async (response) => {
 					// console.log("Employer Feedback Data have been deleted");
@@ -168,14 +169,11 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 				alert("Wrong entries! Please try again!");
 			} else {
 				axios
-					.post(
-						"https://job-search-system-catarman.herokuapp.com/api/login",
-						{
-							role: userTypeSession,
-							username: currentUsername,
-							password: currentPassword,
-						}
-					)
+					.post(`${AppConfiguration.url()}/api/login`, {
+						role: userTypeSession,
+						username: currentUsername,
+						password: currentPassword,
+					})
 					.then(async (response) => {
 						if (response.data.length === 1) {
 							setStep(2);
@@ -200,14 +198,11 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 		} else {
 			try {
 				axios
-					.put(
-						"https://job-search-system-catarman.herokuapp.com/api/update-user-account",
-						{
-							username: newUsername,
-							password: newPassword,
-							userID: userID,
-						}
-					)
+					.put(`${AppConfiguration.url()}/api/update-user-account`, {
+						username: newUsername,
+						password: newPassword,
+						userID: userID,
+					})
 					.then(async (response) => {
 						setStep(0);
 						resetAllFields();

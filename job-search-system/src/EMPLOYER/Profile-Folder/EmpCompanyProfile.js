@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
+import AppConfiguration from "../../AppConfiguration";
 import EditProfileIcon from "../../Images/EditProfileIcon.png";
 import Indication from "../../Indication";
 import Resources from "../../Resources";
@@ -167,12 +168,9 @@ export class EmpCompanyProfile extends Component {
 		window.scrollTo(0, 0);
 		const sessionUser = sessionStorage.getItem("UserID");
 		await axios
-			.post(
-				"https://job-search-system-catarman.herokuapp.com/api/read-company",
-				{
-					userID: sessionUser,
-				}
-			)
+			.post(`${AppConfiguration.url()}/api/read-company`, {
+				userID: sessionUser,
+			})
 			.then(async (response) => {
 				if (response.data.length === 1) {
 					this.setState({

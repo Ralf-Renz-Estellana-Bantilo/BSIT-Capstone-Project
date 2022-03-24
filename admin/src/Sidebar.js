@@ -8,6 +8,7 @@ import Settings from "./Images/MenuIconFilled.png";
 import { useNavigate } from "react-router-dom";
 import "./Sidebar.css";
 import axios from "axios";
+import AppConfiguration from "./AppConfiguration";
 
 const Sidebar = ({
 	activePage,
@@ -25,35 +26,29 @@ const Sidebar = ({
 	const handleDashboard = async () => {
 		navigate("/admin/dashboard");
 		await axios
-			.get(
-				"https://job-search-system-catarman.herokuapp.com/api/read-jobPost"
-			)
+			.get(`${AppConfiguration.url()}/api/read-jobPost`)
 			.then((response) => {
 				if (response) {
 					setJobPosts(response.data);
 				} else {
-					console.log("Error fetching information...");
+					console.log(`Error fetching information...`);
 				}
 			});
 
 		// User_Account Database Table ----------
 		await axios
-			.get(
-				"https://job-search-system-catarman.herokuapp.com/api/read-user-employer"
-			)
+			.get(`${AppConfiguration.url()}/api/read-user-employer`)
 			.then((response) => {
 				if (response) {
 					setEmployers(response.data);
 				} else {
-					console.log("Error fetching information...");
+					console.log(`Error fetching information...`);
 				}
 			});
 
 		// Applicant Database Table ----------
 		await axios
-			.get(
-				"https://job-search-system-catarman.herokuapp.com/api/read-applicant-data"
-			)
+			.get(`${AppConfiguration.url()}/api/read-applicant-data`)
 			.then((response) => {
 				if (response) {
 					setApplicantsData(response.data);
@@ -67,22 +62,18 @@ const Sidebar = ({
 		navigate("/admin/job-posts");
 		// Fetching Job Posts
 		await axios
-			.get(
-				"https://job-search-system-catarman.herokuapp.com/api/read-jobPost"
-			)
+			.get(`${AppConfiguration.url()}/api/read-jobPost`)
 			.then((response) => {
 				if (response) {
 					setJobPosts(response.data);
 				} else {
-					console.log("Error fetching information...");
+					console.log(`Error fetching information...`);
 				}
 			});
 
 		// Fetching Job Applicants
 		await axios
-			.get(
-				"https://job-search-system-catarman.herokuapp.com/api/read-company-applicants"
-			)
+			.get(`${AppConfiguration.url()}/api/read-company-applicants`)
 			.then((response) => {
 				if (response) {
 					setJobApplicants(response.data);
@@ -97,9 +88,7 @@ const Sidebar = ({
 
 		// Applicant Database Table ----------
 		await axios
-			.get(
-				"https://job-search-system-catarman.herokuapp.com/api/read-applicant-data"
-			)
+			.get(`${AppConfiguration.url()}/api/read-applicant-data`)
 			.then((response) => {
 				if (response) {
 					setJobSeekers(response.data);
@@ -114,9 +103,7 @@ const Sidebar = ({
 
 		// Fetching Companies
 		await axios
-			.get(
-				"https://job-search-system-catarman.herokuapp.com/api/read-companies"
-			)
+			.get(`${AppConfiguration.url()}/api/read-companies`)
 			.then((response) => {
 				if (response) {
 					setCompaniesData(response.data);
@@ -131,22 +118,18 @@ const Sidebar = ({
 
 		// Fetching Job Applicants
 		await axios
-			.get(
-				"https://job-search-system-catarman.herokuapp.com/api/read-company-applicants"
-			)
+			.get(`${AppConfiguration.url()}/api/read-company-applicants`)
 			.then((response) => {
 				if (response) {
 					setJobApplicants(response.data);
 				} else {
-					console.log("Error fetching information...");
+					console.log(`Error fetching information...`);
 				}
 			});
 
 		// Fetching Admin Posts
 		await axios
-			.get(
-				"https://job-search-system-catarman.herokuapp.com/api/admin/read-posts"
-			)
+			.get(`${AppConfiguration.url()}/api/admin/read-posts`)
 			.then((response) => {
 				if (response) {
 					setAdminPosts(response.data);

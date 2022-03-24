@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import AppConfiguration from "../../AppConfiguration";
 import "./WorkPostHeader.css";
 
 const WorkPostHeader = ({
@@ -21,17 +22,14 @@ const WorkPostHeader = ({
 	useEffect(() => {
 		// Fetching Company Data
 		axios
-			.post(
-				"https://job-search-system-catarman.herokuapp.com/api/read-company",
-				{
-					userID: currentUser.UserID,
-				}
-			)
+			.post(`${AppConfiguration.url()}/api/read-company`, {
+				userID: currentUser.UserID,
+			})
 			.then(async (response) => {
 				if (response.data.length === 1) {
 					setCompany(response.data[0]);
 				} else {
-					console.log("Error fetching information...");
+					console.log(`Error fetching information...`);
 				}
 			});
 	}, []);

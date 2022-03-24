@@ -1,4 +1,5 @@
 import axios from "axios";
+import AppConfiguration from "./AppConfiguration";
 
 class Auth {
 	constructor() {
@@ -26,12 +27,9 @@ class Auth {
 
 		// Fetching Job Applicant ID of the Current User
 		await axios
-			.post(
-				"https://job-search-system-catarman.herokuapp.com/api/get-applicantID",
-				{
-					userID: id,
-				}
-			)
+			.post(`${AppConfiguration.url()}/api/get-applicantID`, {
+				userID: id,
+			})
 			.then(async (response) => {
 				if (response.data.length === 1) {
 					sessionStorage.setItem(
@@ -45,12 +43,9 @@ class Auth {
 
 		// Fetching Job Applicant ID of the Current User
 		await axios
-			.post(
-				"https://job-search-system-catarman.herokuapp.com/api/get-companyID",
-				{
-					userID: id,
-				}
-			)
+			.post(`${AppConfiguration.url()}/api/get-companyID`, {
+				userID: id,
+			})
 			.then(async (response) => {
 				if (response.data.length === 1) {
 					sessionStorage.setItem("CompanyID", response.data[0].CompanyID);

@@ -4,6 +4,7 @@ import "./CompanyProfile.css";
 import LeftArrow from "../../Images/LeftArrow.png";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
+import AppConfiguration from "../../AppConfiguration";
 
 export class CompanyProfile extends Component {
 	state = {
@@ -13,12 +14,9 @@ export class CompanyProfile extends Component {
 
 	filterObject = async () => {
 		await axios
-			.post(
-				"https://job-search-system-catarman.herokuapp.com/api/read-company-details",
-				{
-					companyID: this.props.targetCompany,
-				}
-			)
+			.post(`${AppConfiguration.url()}/api/read-company-details`, {
+				companyID: this.props.targetCompany,
+			})
 			.then((response) => {
 				if (response.data.length === 1) {
 					this.setState({

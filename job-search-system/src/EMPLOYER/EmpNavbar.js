@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Auth from "../Auth";
 import { withRouter } from "react-router-dom";
+import AppConfiguration from "../AppConfiguration";
 
 export class Emp_Navbar extends Component {
 	state = {
@@ -34,25 +35,20 @@ export class Emp_Navbar extends Component {
 
 	handleDashboard = async () => {
 		await axios
-			.get(
-				"https://job-search-system-catarman.herokuapp.com/api/read-applicant-data"
-			)
+			.get(`${AppConfiguration.url()}/api/read-applicant-data`)
 			.then((response) => {
 				this.props.setApplicants(response.data);
 			});
 	};
 
 	handleApplicant = async () => {
-		const companySession = sessionStorage.getItem("CompanyID");
+		const companySession = sessionStorage.getItem(`CompanyID`);
 
 		// Fetching Job Applicant Data ------------
 		await axios
-			.post(
-				"https://job-search-system-catarman.herokuapp.com/api/read-job-applicant",
-				{
-					companyID: companySession,
-				}
-			)
+			.post(`${AppConfiguration.url()}/api/read-job-applicant`, {
+				companyID: companySession,
+			})
 			.then(async (response) => {
 				await this.props.getJobApplicantsByCompany(response.data);
 			});

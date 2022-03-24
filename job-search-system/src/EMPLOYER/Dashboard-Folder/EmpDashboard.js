@@ -6,6 +6,7 @@ import EmpNavbar from "../EmpNavbar";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
 import Resources from "../../Resources";
+import AppConfiguration from "../../AppConfiguration";
 
 export class Emp_Dashboard extends Component {
 	state = {
@@ -108,25 +109,22 @@ export class Emp_Dashboard extends Component {
 
 				// Uploading the image to the ClientSide Storage
 				await axios
-					.put(
-						"https://job-search-system-catarman.herokuapp.com/api/insertData-company",
-						{
-							companyName: comp_stablismentName,
-							employerName: employerName,
-							street: comp_street,
-							zone: comp_zone,
-							barangay: comp_barangay,
-							contactNumber: comp_contactNumber,
-							companyDescription: comp_description,
-							companyImage: newFileName,
-							acronym: comp_acronym,
-							employerType: comp_type,
-							workForce: comp_workForce,
-							emailAddress: comp_emailAddress,
-							userID: company.UserID,
-							companyID: company.CompanyID,
-						}
-					)
+					.put(`${AppConfiguration.url()}/api/insertData-company`, {
+						companyName: comp_stablismentName,
+						employerName: employerName,
+						street: comp_street,
+						zone: comp_zone,
+						barangay: comp_barangay,
+						contactNumber: comp_contactNumber,
+						companyDescription: comp_description,
+						companyImage: newFileName,
+						acronym: comp_acronym,
+						employerType: comp_type,
+						workForce: comp_workForce,
+						emailAddress: comp_emailAddress,
+						userID: company.UserID,
+						companyID: company.CompanyID,
+					})
 					.then((response) => {
 						// console.log(response);
 
@@ -135,13 +133,10 @@ export class Emp_Dashboard extends Component {
 						});
 					});
 
-				await fetch(
-					"https://job-search-system-catarman.herokuapp.com/api/upload-image",
-					{
-						method: "POST",
-						body: data,
-					}
-				)
+				await fetch(`${AppConfiguration.url()}/api/upload-image`, {
+					method: "POST",
+					body: data,
+				})
 					.then(async (result) => {
 						// console.log("The File has been Uploaded...");
 						await this.props.changeCompanyProfile(
@@ -158,13 +153,10 @@ export class Emp_Dashboard extends Component {
 					});
 
 				// Uploading the image to the Admin Storage
-				await fetch(
-					"https://job-search-system-catarman.herokuapp.com/api/upload-image-admin",
-					{
-						method: "POST",
-						body: data,
-					}
-				)
+				await fetch(`${AppConfiguration.url()}/api/upload-image-admin`, {
+					method: "POST",
+					body: data,
+				})
 					.then(async (result) => {
 						this.closeModal();
 						await this.props.setCompany(companyData);
@@ -203,29 +195,23 @@ export class Emp_Dashboard extends Component {
 
 		// Fetching Job Posts Data
 		await axios
-			.post(
-				"https://job-search-system-catarman.herokuapp.com/api/read-company-jobPost",
-				{
-					companyID: company.CompanyID,
-				}
-			)
+			.post(`${AppConfiguration.url()}/api/read-company-jobPost`, {
+				companyID: company.CompanyID,
+			})
 			.then(async (response) => {
 				if (response) {
 					await this.setState({
 						activeJobPost: response.data,
 					});
 				} else {
-					console.log("Error fetching information...");
+					console.log(`Error fetching information...`);
 				}
 			});
 
 		await axios
-			.post(
-				"https://job-search-system-catarman.herokuapp.com/api/read-job-applicant",
-				{
-					companyID: company.CompanyID,
-				}
-			)
+			.post(`${AppConfiguration.url()}/api/read-job-applicant`, {
+				companyID: company.CompanyID,
+			})
 			.then(async (response) => {
 				await this.setState({
 					jobApplicantLength: response.data,

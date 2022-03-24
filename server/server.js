@@ -147,25 +147,76 @@ const uploadPDF = multer({
 });
 
 try {
-	const db = mysql.createConnection({
-		// user: "root",
-		// host: "localhost",
-		// password: "bantiloralfrenz",
-		// database: "job_search_system_db",
+	let db;
+	function connectToDatabase() {
+		db = mysql.createConnection({
+			// development configuration ----------
+			// user: "root",
+			// password: "bantiloralfrenz",
+			// host: "localhost",
+			// database: "job_search_system_db",
 
-		user: "b58454bd4a7cc9",
-		password: "1684a61d",
-		host: "us-cdbr-east-05.cleardb.net",
-		database: "heroku_e973498db39f7ce",
+			// production configuration ----------
+			// user: "b58454bd4a7cc9",
+			// password: "1684a61d",
+			// host: "us-cdbr-east-05.cleardb.net",
+			// database: "heroku_e973498db39f7ce",
+
+			// custom configuration ----------
+			user: process.env.PORT ? "b58454bd4a7cc9" : "root",
+			password: process.env.PORT ? "1684a61d" : "bantiloralfrenz",
+			host: process.env.PORT ? "us-cdbr-east-05.cleardb.net" : "localhost",
+			database: process.env.PORT
+				? "heroku_e973498db39f7ce"
+				: "job_search_system_db",
+		});
+
+		db.connect((err) => {
+			if (err) {
+				console.log("Cannot connect to the database...", err);
+			} else {
+				console.log("MySQL connection successfully stablished...");
+			}
+		});
+
+		db.on("error", function (err) {
+			console.log("db error", err);
+			if (err.code === "PROTOCOL_CONNECTION_LOST") {
+				// Connection to the MySQL server is usually
+				connectToDatabase(); // lost due to either server restart, or a
+			} else {
+				// connnection idle timeout (the wait_timeout
+				throw err; // server variable configures this)
+			}
+		});
+	}
+
+	connectToDatabase();
+
+	const pool = mysql.createPool({
+		user: process.env.PORT ? "b58454bd4a7cc9" : "root",
+		password: process.env.PORT ? "1684a61d" : "bantiloralfrenz",
+		host: process.env.PORT ? "us-cdbr-east-05.cleardb.net" : "localhost",
+		database: process.env.PORT
+			? "heroku_e973498db39f7ce"
+			: "job_search_system_db",
 	});
 
-	db.connect((err) => {
-		if (err) {
-			console.log("Cannot connect to the database...", err);
-		} else {
-			console.log("MySQL connection successfully stablished...");
-		}
+	// ... later
+	pool.query("select 1 + 1", (err, rows) => {
+		/* */
 	});
+
+	// db.on("error", function (err) {
+	// 	console.log("db error", err);
+	// 	if (err.code === "PROTOCOL_CONNECTION_LOST") {
+	// 									// Connection to the MySQL server is usually
+	// 		handleDisconnect(); // lost due to either server restart, or a
+	// 	} else {
+	// 		// connnection idle timeout (the wait_timeout
+	// 		throw err; // server variable configures this)
+	// 	}
+	// });
 } catch (error) {
 	console.log("Server Error:", error);
 }

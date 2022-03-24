@@ -5,6 +5,7 @@ import CameraIcon from "../../Images/CameraIcon.png";
 import CloseIcon from "../../Images/CloseIcon.png";
 import Gap from "../../Gap";
 import axios from "axios";
+import AppConfiguration from "../../AppConfiguration";
 
 export class Dp extends Component {
 	constructor() {
@@ -53,13 +54,10 @@ export class Dp extends Component {
 			try {
 				const data = new FormData();
 				data.append("image", fileData);
-				await fetch(
-					"https://job-search-system-catarman.herokuapp.com/api/upload-image",
-					{
-						method: "POST",
-						body: data,
-					}
-				)
+				await fetch(`${AppConfiguration.url()}/api/upload-image`, {
+					method: "POST",
+					body: data,
+				})
 					.then((result) => {
 						// console.log("The File has been Uploaded...");
 					})
@@ -67,13 +65,10 @@ export class Dp extends Component {
 						console.log("Multer Error!", error);
 					});
 
-				await fetch(
-					"https://job-search-system-catarman.herokuapp.com/api/upload-image-admin",
-					{
-						method: "POST",
-						body: data,
-					}
-				)
+				await fetch(`${AppConfiguration.url()}/api/upload-image-admin`, {
+					method: "POST",
+					body: data,
+				})
 					.then(async (result) => {
 						// console.log(
 						// 	"The File has been Uploaded to the Administrator..."
@@ -84,25 +79,19 @@ export class Dp extends Component {
 					});
 
 				await axios
-					.put(
-						"https://job-search-system-catarman.herokuapp.com/api/update-user-profile",
-						{
-							image: newFileName,
-							userID: sessionStorage.getItem("UserID"),
-						}
-					)
+					.put(`${AppConfiguration.url()}/api/update-user-profile`, {
+						image: newFileName,
+						userID: sessionStorage.getItem("UserID"),
+					})
 					.then((response) => {
 						// console.log(response);
 					});
 
 				await axios
-					.put(
-						"https://job-search-system-catarman.herokuapp.com/api/update-appplicant-profile",
-						{
-							image: newFileName,
-							userID: sessionStorage.getItem("UserID"),
-						}
-					)
+					.put(`${AppConfiguration.url()}/api/update-appplicant-profile`, {
+						image: newFileName,
+						userID: sessionStorage.getItem("UserID"),
+					})
 					.then(async (response) => {
 						// console.log(response);
 						await this.props.changeCurrentUserProfile(
@@ -129,13 +118,10 @@ export class Dp extends Component {
 		const userSession = sessionStorage.getItem("UserID");
 
 		await axios
-			.put(
-				"https://job-search-system-catarman.herokuapp.com/api/update-appplicant-hiring-status",
-				{
-					hiringStatus: hiringStatus,
-					userID: userSession,
-				}
-			)
+			.put(`${AppConfiguration.url()}/api/update-appplicant-hiring-status`, {
+				hiringStatus: hiringStatus,
+				userID: userSession,
+			})
 			.then((response) => {
 				// console.log("Hiring_Status has been Updated");
 			});

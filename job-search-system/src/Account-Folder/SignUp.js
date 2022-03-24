@@ -8,6 +8,7 @@ import LeftArrow from "../Images/LeftArrow.png";
 import "./Login.css";
 import AuthIndication from "./AuthIndication";
 import axios from "axios";
+import AppConfiguration from "../AppConfiguration";
 
 export class SignUp extends Component {
 	state = {
@@ -51,13 +52,10 @@ export class SignUp extends Component {
 	handleSignUp = async () => {
 		const user = this.state;
 		await axios
-			.post(
-				"https://job-search-system-catarman.herokuapp.com/api/checkUsername",
-				{
-					username: user.username,
-					role: user.role,
-				}
-			)
+			.post(`${AppConfiguration.url()}/api/checkUsername`, {
+				username: user.username,
+				role: user.role,
+			})
 			.then((result) => {
 				if (result.data.length === 0) {
 					const signUpUser = {

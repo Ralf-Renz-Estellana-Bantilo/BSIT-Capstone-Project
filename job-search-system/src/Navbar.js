@@ -10,6 +10,7 @@ import MenuIconFilled from "./Images/MenuIconFilled.png";
 import MenuIconOutlined from "./Images/MenuIconOutlined.png";
 import "./Navbar.css";
 import axios from "axios";
+import AppConfiguration from "./AppConfiguration";
 
 export class Navbar extends Component {
 	state = {
@@ -40,7 +41,7 @@ export class Navbar extends Component {
 			// Fetching Employer Feedback Data
 			await axios
 				.post(
-					"https://job-search-system-catarman.herokuapp.com/api/read-specific-applicant-notification",
+					`${AppConfiguration.url()}/api/read-specific-applicant-notification`,
 					{
 						applicantID: applicantSession,
 					}

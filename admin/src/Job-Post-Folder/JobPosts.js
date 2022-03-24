@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import Modal from "../Modal";
 import axios from "axios";
 import shortid from "shortid";
+import AppConfiguration from "../AppConfiguration";
 
 const JobPosts = ({
 	activePage,
@@ -235,20 +236,18 @@ const JobPosts = ({
 
 	const handleDeletePost = async () => {
 		await axios
-			.delete(
-				`https://job-search-system-catarman.herokuapp.com/api/delete-jobPost/${post.JobID}`
-			)
+			.delete(`${AppConfiguration.url()}/api/delete-jobPost/${post.JobID}`)
 			.then(async (response) => {
 				setIsModalOpen(false);
 			});
 		await axios
 			.delete(
-				`https://job-search-system-catarman.herokuapp.com/api/delete-job-applicants/${post.JobID}`
+				`${AppConfiguration.url()}/api/delete-job-applicants/${post.JobID}`
 			)
 			.then((response) => {});
 		await axios
 			.delete(
-				`https://job-search-system-catarman.herokuapp.com/api/delete-applied-job/${post.JobID}`
+				`${AppConfiguration.url()}/api/delete-applied-job/${post.JobID}`
 			)
 			.then(async (response) => {
 				let posts = jobPosts;
@@ -273,12 +272,9 @@ const JobPosts = ({
 
 		// Fetching Job Post Data
 		axios
-			.put(
-				"https://job-search-system-catarman.herokuapp.com/api/update-jobPost-active-status",
-				{
-					jobID: post.JobID,
-				}
-			)
+			.put(`${AppConfiguration.url()}/api/update-jobPost-active-status`, {
+				jobID: post.JobID,
+			})
 			.then((response) => {
 				// console.log(response);
 			});

@@ -12,6 +12,7 @@ import WelcomeWindow from "./WelcomeWindow";
 import Loading2Blue from "../Images/Loading2Blue.gif";
 import Loading2Red from "../Images/Loading2Red.gif";
 import axios from "axios";
+import AppConfiguration from "../AppConfiguration";
 
 export class Login extends Component {
 	constructor(props) {
@@ -39,14 +40,11 @@ export class Login extends Component {
 
 		try {
 			await axios
-				.post(
-					"https://job-search-system-catarman.herokuapp.com/api/login",
-					{
-						role: role,
-						username: usernameInput,
-						password: passwordInput,
-					}
-				)
+				.post(`${AppConfiguration.url()}/api/login`, {
+					role: role,
+					username: usernameInput,
+					password: passwordInput,
+				})
 				.then(async (response) => {
 					try {
 						if (response.data.length === 1) {

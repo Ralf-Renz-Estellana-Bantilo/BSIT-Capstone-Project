@@ -9,6 +9,7 @@ import Companies from "./Company-Folder/Companies";
 import Settings from "./Settings-Folder/Settings";
 import LoginAdmin from "./LoginAdmin";
 import shortid from "shortid";
+import AppConfiguration from "./AppConfiguration";
 
 export default function App() {
 	const [jobPosts, setJobPosts] = useState([]);
@@ -43,117 +44,98 @@ export default function App() {
 
 	useEffect(async () => {
 		await axios
-			.get(
-				"https://job-search-system-catarman.herokuapp.com/api/read-jobPost"
-			)
+			.get(`${AppConfiguration.url()}/api/read-jobPost`)
 			.then((response) => {
 				if (response) {
 					setJobPosts(response.data);
 				} else {
-					console.log("Error fetching information...");
+					console.log(`Error fetching information...`);
 				}
 			});
 
 		// Applicant Database Table ----------
 		await axios
-			.get(
-				"https://job-search-system-catarman.herokuapp.com/api/read-applicant-data"
-			)
+			.get(`${AppConfiguration.url()}/api/read-applicant-data`)
 			.then((response) => {
 				if (response) {
 					setJobSeekers(response.data);
 				} else {
-					console.log("Error fetching information...");
+					console.log(`Error fetching information...`);
 				}
 			});
 
 		// User_Account Database Table ----------
 		await axios
-			.get(
-				"https://job-search-system-catarman.herokuapp.com/api/read-user-employer"
-			)
+			.get(`${AppConfiguration.url()}/api/read-user-employer`)
 			.then((response) => {
 				if (response) {
 					setEmployers(response.data);
 				} else {
-					console.log("Error fetching information...");
+					console.log(`Error fetching information...`);
 				}
 			});
 
 		// Applicant Database Table ----------
 		await axios
-			.get(
-				"https://job-search-system-catarman.herokuapp.com/api/read-applicant-data"
-			)
+			.get(`${AppConfiguration.url()}/api/read-applicant-data`)
 			.then((response) => {
 				if (response) {
 					setApplicantsData(response.data);
 				} else {
-					console.log("Error fetching information...");
+					console.log(`Error fetching information...`);
 				}
 			});
 
 		// Fetching Companies
 		await axios
-			.get(
-				"https://job-search-system-catarman.herokuapp.com/api/read-companies"
-			)
+			.get(`${AppConfiguration.url()}/api/read-companies`)
 			.then((response) => {
 				if (response) {
 					setCompaniesData(response.data);
 				} else {
-					console.log("Error fetching information...");
+					console.log(`Error fetching information...`);
 				}
 			});
 
 		// Fetching Job Applicants
 		await axios
-			.get(
-				"https://job-search-system-catarman.herokuapp.com/api/read-company-applicants"
-			)
+			.get(`${AppConfiguration.url()}/api/read-company-applicants`)
 			.then((response) => {
 				if (response) {
 					setJobApplicants(response.data);
 				} else {
-					console.log("Error fetching information...");
+					console.log(`Error fetching information...`);
 				}
 			});
 
 		// Fetching Admin Posts
 		await axios
-			.get(
-				"https://job-search-system-catarman.herokuapp.com/api/admin/read-posts"
-			)
+			.get(`${AppConfiguration.url()}/api/admin/read-posts`)
 			.then((response) => {
 				if (response) {
 					setAdminPosts(response.data);
 				} else {
-					console.log("Error fetching information...");
+					console.log(`Error fetching information...`);
 				}
 			});
 
 		// Fetching Employers Feedback
 		await axios
-			.get(
-				"https://job-search-system-catarman.herokuapp.com/api/read-employer-feedback"
-			)
+			.get(`${AppConfiguration.url()}/api/read-employer-feedback`)
 			.then((response) => {
 				if (response) {
 					setEmployerFeedback(response.data);
 				} else {
-					console.log("Error fetching information...");
+					console.log(`Error fetching information...`);
 				}
 			});
 
-		const sessionUser = sessionStorage.getItem("UserID");
+		const sessionUser = sessionStorage.getItem(`UserID`);
 		if (sessionUser) {
 			await axios
-				.post(
-					"https://job-search-system-catarman.herokuapp.com/api/fetchSession",
-					{
-						userID: sessionUser,
-					}
-				)
+				.post(`${AppConfiguration.url()}/api/fetchSession`, {
+					userID: sessionUser,
+				})
 				.then(async (response) => {
 					if (response.data.length === 1) {
 						setAdmin(response.data[0]);
@@ -196,113 +178,98 @@ export default function App() {
 
 		try {
 			await axios
-				.post(
-					"https://job-search-system-catarman.herokuapp.com/api/create-company-admin",
-					{
-						userID: generatedUserID,
-						companyID: post.CompanyID,
-						companyName: post.Company_Name,
-						street: post.Street,
-						zone: post.Zone,
-						barangay: post.Barangay,
-						employerName: employerName,
-						contactNumber: post.Contact_Number,
-						companyDescription: post.Company_Description,
-						companyImage: post.Company_Image,
-						acronym: post.Company_Acronym,
-						employerType: post.Employer_Type,
-						workForce: post.Work_Force,
-						emailAddress: post.Email_Address,
-					}
-				)
+				.post(`${AppConfiguration.url()}/api/create-company-admin`, {
+					userID: generatedUserID,
+					companyID: post.CompanyID,
+					companyName: post.Company_Name,
+					street: post.Street,
+					zone: post.Zone,
+					barangay: post.Barangay,
+					employerName: employerName,
+					contactNumber: post.Contact_Number,
+					companyDescription: post.Company_Description,
+					companyImage: post.Company_Image,
+					acronym: post.Company_Acronym,
+					employerType: post.Employer_Type,
+					workForce: post.Work_Force,
+					emailAddress: post.Email_Address,
+				})
 				.then(() => {
 					// console.log("Successfully Created a company...");
 				});
 
 			await axios
-				.post(
-					"https://job-search-system-catarman.herokuapp.com/api/create-jobPost",
-					{
-						jobID: post.JobID,
-						companyID: post.CompanyID,
-						companyName: post.Company_Name,
-						min: post.Minutes,
-						hour: post.Hour,
-						day: post.Day,
-						month: post.Month,
-						year: post.Year,
-						datePosted: post.Date_Posted,
-						companyAddress: post.Company_Address,
-						jobTitle: post.Job_Title,
-						category: post.Category,
-						placeOfWork: post.Work_Place,
-						reqNoEmp: post.Required_Employees,
-						minSalary: post.Minimum_Salary,
-						maxSalary: post.Maximum_Salary,
-						civilStatus: post.Civil_Status,
-						jobType: post.Job_Type,
-						prefSex: post.Preferred_Sex,
-						qualifications: post.Job_Qualifications,
-						requirements: post.Job_Requirements,
-						description: post.Job_Description,
-						employerName: employerName,
-						companyImage: post.Company_Image,
-						emailAddress: post.Email_Address,
-						contactPersonName: post.Contact_Person_Name,
-						contactPersonPosition: post.Contact_Person_Position,
-						contactPersonNumber: post.Contact_Person_Number,
-						contactPersonEmail: post.Contact_Person_Email,
-						status: post.Active_Status,
-					}
-				)
+				.post(`${AppConfiguration.url()}/api/create-jobPost`, {
+					jobID: post.JobID,
+					companyID: post.CompanyID,
+					companyName: post.Company_Name,
+					min: post.Minutes,
+					hour: post.Hour,
+					day: post.Day,
+					month: post.Month,
+					year: post.Year,
+					datePosted: post.Date_Posted,
+					companyAddress: post.Company_Address,
+					jobTitle: post.Job_Title,
+					category: post.Category,
+					placeOfWork: post.Work_Place,
+					reqNoEmp: post.Required_Employees,
+					minSalary: post.Minimum_Salary,
+					maxSalary: post.Maximum_Salary,
+					civilStatus: post.Civil_Status,
+					jobType: post.Job_Type,
+					prefSex: post.Preferred_Sex,
+					qualifications: post.Job_Qualifications,
+					requirements: post.Job_Requirements,
+					description: post.Job_Description,
+					employerName: employerName,
+					companyImage: post.Company_Image,
+					emailAddress: post.Email_Address,
+					contactPersonName: post.Contact_Person_Name,
+					contactPersonPosition: post.Contact_Person_Position,
+					contactPersonNumber: post.Contact_Person_Number,
+					contactPersonEmail: post.Contact_Person_Email,
+					status: post.Active_Status,
+				})
 				.then(() => {
-					// console.log("1 Successfully Posted a Job Vacancy...");
+					// console.log(`1 Successfully Posted a Job Vacancy...`);
 				});
 
 			await axios
-				.post(
-					"https://job-search-system-catarman.herokuapp.com/api/create-user",
-					{
-						userID: generatedUserID,
-						firstName: post.Employer_First_Name,
-						middleName: post.Employer_Middle_Name,
-						lastName: post.Employer_Last_Name,
-						sex: "Male",
-						role: "Employer",
-						username: generatedUsername,
-						password: generatedPassword,
-						userImage: "DefaultUserMale.png",
-					}
-				)
+				.post(`${AppConfiguration.url()}/api/create-user`, {
+					userID: generatedUserID,
+					firstName: post.Employer_First_Name,
+					middleName: post.Employer_Middle_Name,
+					lastName: post.Employer_Last_Name,
+					sex: "Male",
+					role: "Employer",
+					username: generatedUsername,
+					password: generatedPassword,
+					userImage: "DefaultUserMale.png",
+				})
 				.then(() => {
 					// console.log("2 Successfully Registered a Company...");
 				});
 
 			await axios
-				.post(
-					"https://job-search-system-catarman.herokuapp.com/api/admin/add-post",
-					{
-						adminID: userID,
-						companyID: post.CompanyID,
-						jobID: post.JobID,
-						companyName: post.Company_Name,
-						username: generatedUsername,
-						password: generatedPassword,
-					}
-				)
+				.post(`${AppConfiguration.url()}/api/admin/add-post`, {
+					adminID: userID,
+					companyID: post.CompanyID,
+					jobID: post.JobID,
+					companyName: post.Company_Name,
+					username: generatedUsername,
+					password: generatedPassword,
+				})
 				.then(() => {
 					// console.log("3 Successfully Added a Post...");
 				});
 
 			const data = new FormData();
 			data.append("image", post.File);
-			await fetch(
-				"https://job-search-system-catarman.herokuapp.com/api/upload-image",
-				{
-					method: "POST",
-					body: data,
-				}
-			)
+			await fetch(`${AppConfiguration.url()}/api/upload-image`, {
+				method: "POST",
+				body: data,
+			})
 				.then((result) => {
 					// console.log("4 The File has been Uploaded...");
 				})
@@ -310,13 +277,10 @@ export default function App() {
 					console.log("Multer Error!", error);
 				});
 
-			await fetch(
-				"https://job-search-system-catarman.herokuapp.com/api/upload-image-admin",
-				{
-					method: "POST",
-					body: data,
-				}
-			)
+			await fetch(`${AppConfiguration.url()}/api/upload-image-admin`, {
+				method: "POST",
+				body: data,
+			})
 				.then((result) => {
 					// console.log(
 					// 	"5 The File has been Uploaded to the Administrator..."

@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { Component } from "react";
 import { withRouter } from "react-router";
+import AppConfiguration from "../AppConfiguration";
 import CountDown from "../JOBSEEKER/Home-Folder/CountDown";
 import "./WelcomeWindow.css";
 
@@ -38,21 +39,16 @@ export class WelcomeWindow extends Component {
 			if (applicantSession) {
 				// Fetching Job Posts Data
 				await axios
-					.get(
-						"https://job-search-system-catarman.herokuapp.com/api/read-jobPost"
-					)
+					.get(`${AppConfiguration.url()}/api/read-jobPost`)
 					.then((response) => {
 						this.props.setJobPosts(response.data);
 					});
 
 				// Fetching Job Applicant Data
 				await axios
-					.post(
-						"https://job-search-system-catarman.herokuapp.com/api/read-applied-jobs",
-						{
-							applicantID: applicantSession,
-						}
-					)
+					.post(`${AppConfiguration.url()}/api/read-applied-jobs`, {
+						applicantID: applicantSession,
+					})
 					.then(async (response) => {
 						await this.props.getAppliedJobs(response.data);
 						await this.filterAppliedJobs(response.data);
@@ -61,7 +57,7 @@ export class WelcomeWindow extends Component {
 				// Fetching Employer Feedback Data
 				await axios
 					.post(
-						"https://job-search-system-catarman.herokuapp.com/api/read-specific-applicant-notification",
+						`${AppConfiguration.url()}/api/read-specific-applicant-notification`,
 						{
 							applicantID: applicantSession,
 						}
@@ -72,60 +68,49 @@ export class WelcomeWindow extends Component {
 
 				// Fetching Company Data
 				await axios
-					.get(
-						"https://job-search-system-catarman.herokuapp.com/api/read-companies"
-					)
+					.get(`${AppConfiguration.url()}/api/read-companies`)
 					.then(async (response) => {
 						await this.props.setCompany(response.data);
 					});
 			} else if (companySession) {
 				// Fetching Job Applicant Data ------------
 				await axios
-					.post(
-						"https://job-search-system-catarman.herokuapp.com/api/read-job-applicant",
-						{
-							companyID: companySession,
-						}
-					)
+					.post(`${AppConfiguration.url()}/api/read-job-applicant`, {
+						companyID: companySession,
+					})
 					.then(async (response) => {
 						await this.props.getJobApplicantsByCompany(response.data);
 					});
 
 				await axios
-					.post(
-						"https://job-search-system-catarman.herokuapp.com/api/read-company",
-						{
-							userID: sessionUser,
-						}
-					)
+					.post(`${AppConfiguration.url()}/api/read-company`, {
+						userID: sessionUser,
+					})
 					.then(async (response) => {
 						if (response.data.length === 1) {
 							await this.props.setCompany(response.data[0]);
 						} else {
-							console.log("Error fetching information...");
+							console.log(`Error fetching information...`);
 						}
 					});
 
 				// Fetching Job Posts Data
 				await axios
-					.post(
-						"https://job-search-system-catarman.herokuapp.com/api/read-company-jobPost",
-						{
-							companyID: companySession,
-						}
-					)
+					.post(`${AppConfiguration.url()}/api/read-company-jobPost`, {
+						companyID: companySession,
+					})
 					.then(async (response) => {
 						if (response) {
 							await this.props.setCompanyJobPosts(response.data);
 						} else {
-							console.log("Error fetching information...");
+							console.log(`Error fetching information...`);
 						}
 					});
 
 				// Fetching Employer Feedback Data
 				await axios
 					.post(
-						"https://job-search-system-catarman.herokuapp.com/api/read-specific-employer-feedback",
+						`${AppConfiguration.url()}/api/read-specific-employer-feedback`,
 						{
 							companyID: companySession,
 						}
