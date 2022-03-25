@@ -97,7 +97,7 @@ export class Login extends Component {
 				isValid: false,
 			});
 			console.log(error);
-			alert(error);
+			alert("error", `${AppConfiguration.url()}`);
 		}
 	};
 
