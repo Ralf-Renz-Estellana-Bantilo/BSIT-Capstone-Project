@@ -91,7 +91,12 @@ import {
 const app = express();
 const PORT = process.env.PORT || 2000;
 
-app.use(cors());
+app.use(
+	cors({
+		credentials: true,
+		origin: "*",
+	})
+);
 app.use(express.json());
 
 const date =
@@ -108,9 +113,26 @@ const datePDF =
 	new Date().getDate() +
 	new Date().getFullYear();
 
+const netlifyAppPath =
+	"https://623dc4716bb570000874f9f4--epic-pare-b776c9.netlify.app";
+
+let savedFileDirectory = "";
+if (process.env.PORT) {
+	savedFileDirectory = netlifyAppPath;
+} else {
+	savedFileDirectory = "../job-search-system/public";
+}
+
+let savedAdminFileDirectory = "";
+if (process.env.PORT) {
+	savedFileDirectory = netlifyAppPath;
+} else {
+	savedFileDirectory = "../admin/public";
+}
+
 const imageFileStorageEngine = multer.diskStorage({
 	destination: (req, file, callback) => {
-		callback(null, "../job-search-system/public/assets");
+		callback(null, `${savedFileDirectory}/assets`);
 	},
 	filename: (req, file, callback) => {
 		callback(null, date + "_" + file.originalname);
@@ -118,7 +140,7 @@ const imageFileStorageEngine = multer.diskStorage({
 });
 const adminImageFileStorageEngine = multer.diskStorage({
 	destination: (req, file, callback) => {
-		callback(null, "../admin/public/assets");
+		callback(null, `${savedAdminFileDirectory}/assets`);
 	},
 	filename: (req, file, callback) => {
 		callback(null, date + "_" + file.originalname);
@@ -126,7 +148,7 @@ const adminImageFileStorageEngine = multer.diskStorage({
 });
 const pdfFileStorageEngine = multer.diskStorage({
 	destination: (req, file, callback) => {
-		callback(null, "../job-search-system/public/pdf");
+		callback(null, `${savedFileDirectory}/pdf`);
 	},
 	filename: (req, file, callback) => {
 		callback(null, datePDF + "_" + file.originalname);
@@ -150,13 +172,13 @@ try {
 	let db;
 	function connectToDatabase() {
 		db = mysql.createConnection({
-		user: process.env.PORT ? "b58454bd4a7cc9" : "root",
-		password: process.env.PORT ? "1684a61d" : "bantiloralfrenz",
-		host: process.env.PORT ? "us-cdbr-east-05.cleardb.net" : "localhost",
-		database: process.env.PORT
-			? "heroku_e973498db39f7ce"
-			: "job_search_system_db",
-	});
+			user: process.env.PORT ? "b58454bd4a7cc9" : "root",
+			password: process.env.PORT ? "1684a61d" : "bantiloralfrenz",
+			host: process.env.PORT ? "us-cdbr-east-05.cleardb.net" : "localhost",
+			database: process.env.PORT
+				? "heroku_e973498db39f7ce"
+				: "job_search_system_db",
+		});
 
 		db.connect((err) => {
 			if (err) {

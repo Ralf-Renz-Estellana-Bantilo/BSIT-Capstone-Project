@@ -47,7 +47,6 @@ export class Login extends Component {
 				})
 				.then(async (response) => {
 					try {
-						console.log(response.data);
 						if (response.data.length === 1) {
 							let path = "";
 
@@ -64,7 +63,7 @@ export class Login extends Component {
 							await this.setIsLoggedin();
 							await Auth.setAuthenticated(response.data[0].UserID);
 							Auth.setUserType(response.data[0].Role);
-							console.log("Successfully Logged in...");
+							// console.log("Successfully Logged in...");
 						} else if (response.data === "User does not exist!") {
 							this.setState({
 								errorMessage: "User not found!",
