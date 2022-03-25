@@ -1,6 +1,6 @@
 .login-container {
 	text-align: center;
-	height: 100vh;
+	height: 680px;
 	display: flex;
 	flex-direction: column;
 	/* justify-content: space-between; */
@@ -59,6 +59,7 @@
 
 .login-header .img-login-header img {
 	height: 180px;
+	transition: 0.2s ease-in-out;
 }
 
 .select-login-header {
@@ -77,7 +78,8 @@
 	margin: 0;
 	padding: 5px;
 }
-.form-login {
+.form-login,
+.form-signup {
 	width: 80%;
 	margin: 0 auto;
 	border: 1px solid var(--border1);
@@ -86,6 +88,7 @@
 	overflow: hidden;
 	position: relative;
 	background-color: var(--main-background3);
+	transition: 0.2s ease-in-out;
 }
 
 .circle-blue,
@@ -172,7 +175,8 @@
 	text-align: center;
 }
 
-.form-login button {
+.form-login button,
+.form-signup button {
 	color: var(--accent-main);
 	border: none;
 	border-radius: 50px;
@@ -194,7 +198,8 @@
 	box-shadow: 2px 1000px 1px var(--main-background2) inset;
 }
 
-.form-login button:hover {
+.form-login button:hover,
+.form-signup button:hover {
 	box-shadow: none;
 	color: white;
 }
@@ -387,5 +392,27 @@
 	.success-wrapper {
 		width: 50%;
 		margin: 0 auto;
+	}
+}
+
+@media only screen and (max-height: 600px) {
+	.form-login {
+		margin: 5px auto;
+	}
+
+	.form-signup {
+		/* overflow-y: scroll; */
+	}
+
+	.login-header .img-login-header img {
+		height: 100px;
+	}
+
+	.select-login-header {
+		top: -18px;
+	}
+
+	.login-form {
+		margin: 5px 0;
 	}
 }

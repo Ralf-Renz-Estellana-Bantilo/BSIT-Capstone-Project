@@ -50,70 +50,74 @@ export class SignUp extends Component {
 	};
 
 	handleSignUp = async () => {
-		const user = this.state;
-		await axios
-			.post(`${AppConfiguration.url()}/api/checkUsername`, {
-				username: user.username,
-				role: user.role,
-			})
-			.then((result) => {
-				if (result.data.length === 0) {
-					const signUpUser = {
-						UserID: shortid.generate(),
-						First_Name: user.firstName,
-						Middle_Name: user.middleName,
-						Last_Name: user.lastName,
-						Sex: user.sex,
-						Role: user.role,
-						Username: user.username,
-						Password: user.password,
-					};
-					if (
-						user.firstName === "" ||
-						user.lastName === "" ||
-						user.middleName === "" ||
-						user.role === "" ||
-						user.username === "" ||
-						user.password === "" ||
-						user.confirmPassword === "" ||
-						user.sex === ""
-					) {
-						this.setState({
-							isValid: false,
-						});
-					} else {
-						if (user.role === "Job Seeker") {
-							if (user.password !== user.confirmPassword) {
-								this.setState({
-									isPasswordMatch: false,
-								});
-							} else {
-								this.setState({
-									isValid: true,
-								});
-								this.props.toggleSignUp(true);
-								this.props.registerJobSeeker(signUpUser);
-							}
-						} else if (user.role === "Employer") {
-							if (user.password !== user.confirmPassword) {
-								this.setState({
-									isPasswordMatch: false,
-								});
-							} else {
-								this.setState({
-									isValid: true,
-								});
-								this.props.toggleSignUp(true);
-								this.props.registerEmployer(signUpUser);
+		try {
+			const user = this.state;
+			await axios
+				.post(`${AppConfiguration.url()}/api/checkUsername`, {
+					username: user.username,
+					role: user.role,
+				})
+				.then((result) => {
+					if (result.data.length === 0) {
+						const signUpUser = {
+							UserID: shortid.generate(),
+							First_Name: user.firstName,
+							Middle_Name: user.middleName,
+							Last_Name: user.lastName,
+							Sex: user.sex,
+							Role: user.role,
+							Username: user.username,
+							Password: user.password,
+						};
+						if (
+							user.firstName === "" ||
+							user.lastName === "" ||
+							user.middleName === "" ||
+							user.role === "" ||
+							user.username === "" ||
+							user.password === "" ||
+							user.confirmPassword === "" ||
+							user.sex === ""
+						) {
+							this.setState({
+								isValid: false,
+							});
+						} else {
+							if (user.role === "Job Seeker") {
+								if (user.password !== user.confirmPassword) {
+									this.setState({
+										isPasswordMatch: false,
+									});
+								} else {
+									this.setState({
+										isValid: true,
+									});
+									this.props.toggleSignUp(true);
+									this.props.registerJobSeeker(signUpUser);
+								}
+							} else if (user.role === "Employer") {
+								if (user.password !== user.confirmPassword) {
+									this.setState({
+										isPasswordMatch: false,
+									});
+								} else {
+									this.setState({
+										isValid: true,
+									});
+									this.props.toggleSignUp(true);
+									this.props.registerEmployer(signUpUser);
+								}
 							}
 						}
+					} else {
+						this.setState({
+							isUsernameTaken: true,
+						});
 					}
-				} else {
-					this.setState({
-						isUsernameTaken: true,
-					});
-				}
-			});
+				});
+		} catch (error) {
+			alert(error);
+		}
 	};
 
 	handleSubmitNext = async (e) => {
@@ -254,7 +258,7 @@ export class SignUp extends Component {
 
 					{this.state.step === 1 && (
 						<form
-							className='form-login'
+							className='form-signup'
 							onSubmit={(e) => this.handleSubmitNext(e)}>
 							<div className='circle-blue' />
 							<div className='circle-red' />
@@ -322,7 +326,7 @@ export class SignUp extends Component {
 					)}
 
 					{this.state.step === 2 && (
-						<div className='form-login'>
+						<div className='form-signup'>
 							<div className='circle-blue' />
 							<div className='circle-red' />
 

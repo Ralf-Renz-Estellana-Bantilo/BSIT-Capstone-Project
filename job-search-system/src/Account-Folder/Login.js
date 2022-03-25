@@ -93,7 +93,7 @@ export class Login extends Component {
 				});
 		} catch (error) {
 			this.setState({
-				errorMessage: "System Error!",
+				errorMessage: "Network Error!",
 				isValid: false,
 			});
 			console.log(error);
