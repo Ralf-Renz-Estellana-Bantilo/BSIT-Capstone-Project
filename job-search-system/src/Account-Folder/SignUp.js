@@ -26,6 +26,7 @@ export class SignUp extends Component {
 		isValid: true,
 		isPasswordMatch: true,
 		isUsernameTaken: false,
+		errorMessage: "",
 	};
 
 	viewModal = (e) => {
@@ -81,6 +82,7 @@ export class SignUp extends Component {
 						) {
 							this.setState({
 								isValid: false,
+								errorMessage: "Fill in all the fields please...",
 							});
 						} else {
 							if (user.role === "Job Seeker") {
@@ -116,6 +118,10 @@ export class SignUp extends Component {
 					}
 				});
 		} catch (error) {
+			this.setState({
+				isValid: false,
+				errorMessage: `${error}`,
+			});
 			alert(error);
 		}
 	};
@@ -131,6 +137,7 @@ export class SignUp extends Component {
 		) {
 			this.setState({
 				isValid: false,
+				errorMessage: "Fill in all the fields please...",
 			});
 		} else {
 			await this.setState({
@@ -211,24 +218,26 @@ export class SignUp extends Component {
 				<div className='login-content'>
 					<div className='login-header-container'>
 						<div className='login-header'>
-							<div className='img-login-header'>
-								<img
-									src={AddUser}
-									alt=''
-									style={
-										darkTheme
-											? { filter: "brightness(1)" }
-											: { filter: "brightness(0.5)" }
-									}
-								/>
-							</div>
-							<div className='select-login-header'>
-								<h3>Register User</h3>
+							<div className='signup-label'>
+								<div className='img-login-header'>
+									<img
+										src={AddUser}
+										alt=''
+										style={
+											darkTheme
+												? { filter: "brightness(1)" }
+												: { filter: "brightness(0.5)" }
+										}
+									/>
+								</div>
+								<div className='select-login-header'>
+									<h3>Register User</h3>
+								</div>
 							</div>
 							{this.state.isValid === false && (
 								<div className='error-container'>
 									<div className='error-wrapper'>
-										<p>Fill in all the fields please...</p>
+										<p>{this.state.errorMessage}</p>
 									</div>
 								</div>
 							)}
