@@ -57,6 +57,13 @@ export class Dp extends Component {
 				await fetch(`${AppConfiguration.url()}/api/upload-image`, {
 					method: "POST",
 					body: data,
+					headers: {
+						"content-type": "image/jpeg, image/png ",
+						"Access-Control-Allow-Origin": "*",
+					},
+					validateStatus: (status) => {
+						return true; // I'm always returning true, you may want to do it depending on the status received
+					},
 				})
 					.then((result) => {
 						// console.log("The File has been Uploaded...");
@@ -68,6 +75,13 @@ export class Dp extends Component {
 				await fetch(`${AppConfiguration.url()}/api/upload-image-admin`, {
 					method: "POST",
 					body: data,
+					headers: {
+						"content-type": "image/jpeg, image/png ",
+						"Access-Control-Allow-Origin": "*",
+					},
+					validateStatus: (status) => {
+						return true; // I'm always returning true, you may want to do it depending on the status received
+					},
 				})
 					.then(async (result) => {
 						// console.log(

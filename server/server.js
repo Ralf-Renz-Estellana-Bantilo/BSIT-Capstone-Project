@@ -234,7 +234,7 @@ app.post("/api/upload-image", uploadImage.single("image"), (req, res) => {
 	if (res) {
 		res.send("Successfully Uploaded a File...");
 	} else {
-		// console.log(req.file);
+		console.log("Server Error:", res);
 	}
 });
 app.post(
@@ -244,7 +244,7 @@ app.post(
 		if (res) {
 			res.send("Successfully Uploaded a File to the Administrator...");
 		} else {
-			// console.log(req.file);
+			console.log("Server Error:", res);
 		}
 	}
 );
@@ -252,7 +252,7 @@ app.post("/api/upload-pdf", uploadPDF.single("pdf"), (req, res) => {
 	if (res) {
 		res.send("Successfully Uploaded a PDF File...");
 	} else {
-		// console.log(req.file);
+		console.log("Server Error:", res);
 	}
 });
 
