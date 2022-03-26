@@ -108,7 +108,7 @@ const Emp_Job_Applicant_Data = ({
 
 	const handleDecline = (name) => {
 		setRow1Text(
-			`Good day, ${name}! I would like to inform you that I have looked through your job application, and I am sorry to tell you that your job application is declined, better luck next time😉`
+			`Good day, ${name}! I would like to inform you that I have looked through your job application, and I am sorry to tell you that your job application is declined, better luck next time.`
 		);
 		setRow2Text("");
 		setRow3Text("");

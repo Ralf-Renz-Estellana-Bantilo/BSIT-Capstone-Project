@@ -54,43 +54,60 @@ export class Dp extends Component {
 			try {
 				const data = new FormData();
 				data.append("image", fileData);
-				await fetch(`${AppConfiguration.url()}/api/upload-image`, {
-					method: "POST",
-					body: data,
-					headers: {
-						"content-type": "image/jpeg, image/png ",
-						"Access-Control-Allow-Origin": "*",
-					},
-					validateStatus: (status) => {
-						return true; // I'm always returning true, you may want to do it depending on the status received
-					},
-				})
-					.then((result) => {
-						// console.log("The File has been Uploaded...");
-					})
-					.catch((error) => {
-						console.log("Multer Error!", error);
+
+				await axios
+					.post(`${AppConfiguration.url()}/api/upload-image`, data, {})
+					.then((res) => {
+						console.log(res);
 					});
 
-				await fetch(`${AppConfiguration.url()}/api/upload-image-admin`, {
-					method: "POST",
-					body: data,
-					headers: {
-						"content-type": "image/jpeg, image/png ",
-						"Access-Control-Allow-Origin": "*",
-					},
-					validateStatus: (status) => {
-						return true; // I'm always returning true, you may want to do it depending on the status received
-					},
-				})
-					.then(async (result) => {
-						// console.log(
-						// 	"The File has been Uploaded to the Administrator..."
-						// );
-					})
-					.catch((error) => {
-						console.log("Multer Error!", error);
+				await axios
+					.post(
+						`${AppConfiguration.url()}/api/upload-image-admin`,
+						data,
+						{}
+					)
+					.then((res) => {
+						console.log(res);
 					});
+
+				// await fetch(`${AppConfiguration.url()}/api/upload-image`, {
+				// 	method: "POST",
+				// 	body: data,
+				// 	headers: {
+				// 		"content-type": "image/jpeg, image/png ",
+				// 		"Access-Control-Allow-Origin": "*",
+				// 	},
+				// 	validateStatus: (status) => {
+				// 		return true; // I'm always returning true, you may want to do it depending on the status received
+				// 	},
+				// })
+				// 	.then((result) => {
+				// 		// console.log("The File has been Uploaded...");
+				// 	})
+				// 	.catch((error) => {
+				// 		console.log("Multer Error!", error);
+				// 	});
+
+				// await fetch(`${AppConfiguration.url()}/api/upload-image-admin`, {
+				// 	method: "POST",
+				// 	body: data,
+				// 	headers: {
+				// 		"content-type": "image/jpeg, image/png ",
+				// 		"Access-Control-Allow-Origin": "*",
+				// 	},
+				// 	validateStatus: (status) => {
+				// 		return true; // I'm always returning true, you may want to do it depending on the status received
+				// 	},
+				// })
+				// 	.then(async (result) => {
+				// 		// console.log(
+				// 		// 	"The File has been Uploaded to the Administrator..."
+				// 		// );
+				// 	})
+				// 	.catch((error) => {
+				// 		console.log("Multer Error!", error);
+				// 	});
 
 				await axios
 					.put(`${AppConfiguration.url()}/api/update-user-profile`, {
