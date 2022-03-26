@@ -113,8 +113,7 @@ const datePDF =
 	new Date().getDate() +
 	new Date().getFullYear();
 
-const netlifyAppPath =
-	"https://623dc4716bb570000874f9f4--epic-pare-b776c9.netlify.app";
+const netlifyAppPath = "https://job-search-catarman.netlify.app";
 
 let savedFileDirectory = "";
 if (process.env.PORT) {
