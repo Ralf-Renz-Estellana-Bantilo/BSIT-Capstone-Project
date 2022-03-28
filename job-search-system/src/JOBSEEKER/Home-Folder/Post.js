@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import TimeStamp from "../../TimeStamp";
 import Modal from "./Modal";
 import Resources from "../../Resources";
+import AppConfiguration from "../../AppConfiguration";
 
 export class Post extends Component {
 	constructor() {
@@ -85,7 +86,9 @@ export class Post extends Component {
 									className='account-profile'
 									title='View Establishment Details'>
 									<img
-										src={`../assets/${info.Company_Image}`}
+										src={`${AppConfiguration.url()}/assets/images/${
+											info.Company_Image
+										}`}
 										alt='Establishment'
 									/>
 								</div>

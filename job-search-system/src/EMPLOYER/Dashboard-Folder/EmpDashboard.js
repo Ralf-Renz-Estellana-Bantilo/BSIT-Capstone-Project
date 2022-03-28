@@ -153,20 +153,20 @@ export class Emp_Dashboard extends Component {
 					});
 
 				// Uploading the image to the Admin Storage
-				await fetch(`${AppConfiguration.url()}/api/upload-image-admin`, {
-					method: "POST",
-					body: data,
-				})
-					.then(async (result) => {
-						this.closeModal();
-						await this.props.setCompany(companyData);
-						// console.log(
-						// 	"The File has been Uploaded to the Administrator..."
-						// );
-					})
-					.catch((error) => {
-						console.log("Multer Error!", error);
-					});
+				// await fetch(`${AppConfiguration.url()}/api/upload-image-admin`, {
+				// 	method: "POST",
+				// 	body: data,
+				// })
+				// 	.then(async (result) => {
+				// 		this.closeModal();
+				// 		await this.props.setCompany(companyData);
+				// 		// console.log(
+				// 		// 	"The File has been Uploaded to the Administrator..."
+				// 		// );
+				// 	})
+				// 	.catch((error) => {
+				// 		console.log("Multer Error!", error);
+				// 	});
 			}
 		} catch (error) {
 			console.log(error);

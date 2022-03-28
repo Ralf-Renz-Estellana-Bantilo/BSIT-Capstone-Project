@@ -964,6 +964,8 @@ export class JobProfile extends Component {
 									<input
 										name='preferredSalary'
 										type='file'
+										accept='application/pdf,application/msword,
+											application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 										onChange={this.handleFileChange}
 									/>
 								</div>

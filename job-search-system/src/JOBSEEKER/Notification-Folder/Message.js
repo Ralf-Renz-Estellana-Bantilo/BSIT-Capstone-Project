@@ -4,6 +4,7 @@ import CloseIcon from "../../Images/CloseIcon.png";
 import "./Message.css";
 import Footer from "../Home-Folder/Footer";
 import { withRouter } from "react-router-dom";
+import AppConfiguration from "../../AppConfiguration";
 
 export class Message extends Component {
 	viewCompanyProfile = async () => {
@@ -95,7 +96,9 @@ export class Message extends Component {
 						className='message-company-profile'
 						onClick={this.viewCompanyProfile}>
 						<img
-							src={`../../assets/${feedback.Company_Image}`}
+							src={`${AppConfiguration.url()}/assets/images/${
+								feedback.Company_Image
+							}`}
 							alt='Company Profile'
 							title='View Company Details'
 						/>
@@ -158,7 +161,9 @@ export class Message extends Component {
 						<div className='message-left-panel'>
 							<div className='message-left-panel-img'>
 								<img
-									src={`../../assets/${feedback.Company_Image}`}
+									src={`${AppConfiguration.url()}/assets/images/${
+										feedback.Company_Image
+									}`}
 									alt='Company Profile'
 								/>
 							</div>
@@ -173,7 +178,9 @@ export class Message extends Component {
 							<div className='seen-indicator-container'>
 								<div className='seen-indicator'>
 									<img
-										src={`../../assets/${currentUser.User_Image}`}
+										src={`${AppConfiguration.url()}/assets/images/${
+											currentUser.User_Image
+										}`}
 										alt='Company Profile'
 										title='Seen'
 									/>

@@ -98,6 +98,8 @@ app.use(
 	})
 );
 app.use(express.json());
+app.use("/assets/images", express.static("./assets/images"));
+app.use("/assets/pdf", express.static("./assets/pdf"));
 
 const date =
 	new Date().getMonth() +
@@ -131,24 +133,33 @@ if (process.env.PORT) {
 
 const imageFileStorageEngine = multer.diskStorage({
 	destination: (req, file, callback) => {
-		callback(null, `${savedFileDirectory}/assets`);
+		callback(null, "assets/images");
 	},
+	// destination: (req, file, callback) => {
+	// 	callback(null, `${savedFileDirectory}/assets`);
+	// },
 	filename: (req, file, callback) => {
 		callback(null, date + "_" + file.originalname);
 	},
 });
 const adminImageFileStorageEngine = multer.diskStorage({
 	destination: (req, file, callback) => {
-		callback(null, `${savedAdminFileDirectory}/assets`);
+		callback(null, "assets/images");
 	},
+	// destination: (req, file, callback) => {
+	// 	callback(null, `${savedAdminFileDirectory}/assets`);
+	// },
 	filename: (req, file, callback) => {
 		callback(null, date + "_" + file.originalname);
 	},
 });
 const pdfFileStorageEngine = multer.diskStorage({
 	destination: (req, file, callback) => {
-		callback(null, `${savedFileDirectory}/pdf`);
+		callback(null, "assets/pdf");
 	},
+	// destination: (req, file, callback) => {
+	// 	callback(null, `${savedFileDirectory}/pdf`);
+	// },
 	filename: (req, file, callback) => {
 		callback(null, datePDF + "_" + file.originalname);
 	},
@@ -167,16 +178,14 @@ const uploadPDF = multer({
 	limits: { fileSize: 2090000 },
 });
 
+let db;
 try {
-	let db;
-	function connectToDatabase() {
+	if (!process.env.PORT) {
 		db = mysql.createConnection({
-			user: process.env.PORT ? "b58454bd4a7cc9" : "root",
-			password: process.env.PORT ? "1684a61d" : "bantiloralfrenz",
-			host: process.env.PORT ? "us-cdbr-east-05.cleardb.net" : "localhost",
-			database: process.env.PORT
-				? "heroku_e973498db39f7ce"
-				: "job_search_system_db",
+			user: "root",
+			password: "bantiloralfrenz",
+			host: "localhost",
+			database: "job_search_system_db",
 		});
 
 		db.connect((err) => {
@@ -186,34 +195,78 @@ try {
 				console.log("MySQL connection successfully stablished...");
 			}
 		});
+	} else {
+		function connectToDatabase() {
+			db = mysql.createConnection({
+				user: "b58454bd4a7cc9",
+				password: "1684a61d",
+				host: "us-cdbr-east-05.cleardb.net",
+				database: "heroku_e973498db39f7ce",
+			});
 
-		db.on("error", function (err) {
-			console.log("db error", err);
-			if (err.code === "PROTOCOL_CONNECTION_LOST") {
-				// Connection to the MySQL server is usually
-				connectToDatabase(); // lost due to either server restart, or a
-			} else {
-				// connnection idle timeout (the wait_timeout
-				throw err; // server variable configures this)
-			}
-		});
+			db.connect((err) => {
+				if (err) {
+					console.log("Cannot connect to the database...", err);
+				} else {
+					console.log("MySQL connection successfully stablished...");
+				}
+			});
+
+			db.on("error", function (err) {
+				console.log("db error", err);
+				if (err.code === "PROTOCOL_CONNECTION_LOST") {
+					connectToDatabase();
+				} else {
+					throw err;
+				}
+			});
+		}
+		// function connectToDatabase() {
+		// 	db = mysql.createConnection({
+		// 		user: process.env.PORT ? "b58454bd4a7cc9" : "root",
+		// 		password: process.env.PORT ? "1684a61d" : "bantiloralfrenz",
+		// 		host: process.env.PORT ? "us-cdbr-east-05.cleardb.net" : "localhost",
+		// 		database: process.env.PORT
+		// 			? "heroku_e973498db39f7ce"
+		// 			: "job_search_system_db",
+		// 	});
+
+		// 	db.connect((err) => {
+		// 		if (err) {
+		// 			console.log("Cannot connect to the database...", err);
+		// 		} else {
+		// 			console.log("MySQL connection successfully stablished...");
+		// 		}
+		// 	});
+
+		// 	db.on("error", function (err) {
+		// 		console.log("db error", err);
+		// 		if (err.code === "PROTOCOL_CONNECTION_LOST") {
+		// 			// Connection to the MySQL server is usually
+		// 			connectToDatabase(); // lost due to either server restart, or a
+		// 		} else {
+		// 			// connnection idle timeout (the wait_timeout
+		// 			throw err; // server variable configures this)
+		// 		}
+		// 	});
+		// }
+
+		connectToDatabase();
 	}
 
-	connectToDatabase();
+	// const pool = mysql.createPool({
+	// 	user: process.env.PORT ? "b58454bd4a7cc9" : "root",
+	// 	password: process.env.PORT ? "1684a61d" : "bantiloralfrenz",
+	// 	host: process.env.PORT ? "us-cdbr-east-05.cleardb.net" : "localhost",
+	// 	database: process.env.PORT
+	// 		? "heroku_e973498db39f7ce"
+	// 		: "job_search_system_db",
+	// });
 
-	const pool = mysql.createPool({
-		user: process.env.PORT ? "b58454bd4a7cc9" : "root",
-		password: process.env.PORT ? "1684a61d" : "bantiloralfrenz",
-		host: process.env.PORT ? "us-cdbr-east-05.cleardb.net" : "localhost",
-		database: process.env.PORT
-			? "heroku_e973498db39f7ce"
-			: "job_search_system_db",
-	});
-
-	// ... later
-	pool.query("select 1 + 1", (err, rows) => {
-		/* */
-	});
+	// // ... later
+	// pool.query("select 1 + 1", (err, rows) => {
+	// 	/* */
+	// });
 
 	// db.on("error", function (err) {
 	// 	console.log("db error", err);
@@ -254,6 +307,9 @@ app.post("/api/upload-pdf", uploadPDF.single("pdf"), (req, res) => {
 	} else {
 		console.log("Server Error:", res);
 	}
+});
+app.get("/api/get-user-image/:filename", (req, res) => {
+	res.download(`./assets/images/${req.params.filename}`);
 });
 
 app.get("/", (req, res) => {
@@ -369,10 +425,3 @@ app.post("/api/admin/add-post", createAdminPost);
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);
 });
-
-// mysql://b58454bd4a7cc9:1684a61d@us-cdbr-east-05.cleardb.net/heroku_e973498db39f7ce?reconnect=true
-
-// username: b58454bd4a7cc9
-// password: 1684a61d
-// host: us-cdbr-east-05.cleardb.net
-// database: heroku_e973498db39f7ce

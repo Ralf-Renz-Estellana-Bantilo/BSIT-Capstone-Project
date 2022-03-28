@@ -6,6 +6,7 @@ import LocationIcon from "../../Images/LocationIcon.png";
 import "./Activity.css";
 import TimeStamp from "../../TimeStamp";
 import Modal from "../Home-Folder/Modal";
+import AppConfiguration from "../../AppConfiguration";
 
 export class Activity extends Component {
 	state = {
@@ -69,7 +70,9 @@ export class Activity extends Component {
 							onClick={this.handleFeedback}>
 							<div className='activity-left-panel-img-main'>
 								<img
-									src={`../assets/${feedback.Company_Image}`}
+									src={`${AppConfiguration.url()}/assets/images/${
+										feedback.Company_Image
+									}`}
 									alt='company'
 								/>
 							</div>

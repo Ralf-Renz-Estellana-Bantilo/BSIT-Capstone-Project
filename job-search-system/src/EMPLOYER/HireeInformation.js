@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import AppConfiguration from "../AppConfiguration";
 import LeftArrow from "../Images/LeftArrow.png";
 import Modal from "../JOBSEEKER/Home-Folder/Modal";
 import Resources from "../Resources";
@@ -133,7 +134,9 @@ export class Hiree_Information extends Component {
 				<div className='applicant-dp'>
 					<div className='applicant-profile'>
 						<img
-							src={`../../assets/${hiree.User_Image}`}
+							src={`${AppConfiguration.url()}/assets/images/${
+								hiree.User_Image
+							}`}
 							alt='Applicant Profile'
 							style={{ height: "150px" }}
 						/>
@@ -252,12 +255,22 @@ export class Hiree_Information extends Component {
 							{!hiree.My_Resume ? (
 								<p className='resume-data'>No attached file</p>
 							) : (
-								<Link
-									to={`/pdf/${hiree.My_Resume}`}
-									target='_blank'
-									download>
+								<a
+									href={`${AppConfiguration.url()}/assets/pdf/${
+										hiree.My_Resume
+									}`}
+									target='_blank'>
 									{hiree.My_Resume}
-								</Link>
+								</a>
+								// <Link
+								// 	// to={`/pdf/${hiree.My_Resume}`}
+								// 	to={`${AppConfiguration.url()}/assets/pdf/${
+								// 		hiree.My_Resume
+								// 	}`}
+								// 	target='_blank'
+								// 	download>
+								// 	{hiree.My_Resume}
+								// </Link>
 							)}
 						</div>
 					</div>

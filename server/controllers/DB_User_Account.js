@@ -26,13 +26,13 @@ function connectToDatabase() {
 			: "job_search_system_db",
 	});
 
-	db.connect((err) => {
-		if (err) {
-			console.log("Cannot connect to the database...", err);
-		} else {
-			console.log("MySQL connection successfully stablished...");
-		}
-	});
+	// db.connect((err) => {
+	// 	if (err) {
+	// 		console.log("Cannot connect to the database...", err);
+	// 	} else {
+	// 		console.log("MySQL connection successfully stablished...");
+	// 	}
+	// });
 
 	db.on("error", function (err) {
 		console.log("db error", err);

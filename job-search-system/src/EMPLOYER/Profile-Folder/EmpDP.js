@@ -64,19 +64,19 @@ export class Emp_DP extends Component {
 					console.log("Multer Error!", error);
 				});
 
-			await fetch(`${AppConfiguration.url()}/api/upload-image-admin`, {
-				method: "POST",
-				body: data,
-			})
-				.then(async (result) => {
-					console
-						.log
-						// "The File has been Uploaded to the Administrator..."
-						();
-				})
-				.catch((error) => {
-					console.log("Multer Error!", error);
-				});
+			// await fetch(`${AppConfiguration.url()}/api/upload-image-admin`, {
+			// 	method: "POST",
+			// 	body: data,
+			// })
+			// 	.then(async (result) => {
+			// 		console
+			// 			.log
+			// 			// "The File has been Uploaded to the Administrator..."
+			// 			();
+			// 	})
+			// 	.catch((error) => {
+			// 		console.log("Multer Error!", error);
+			// 	});
 
 			await axios
 				.put(`${AppConfiguration.url()}/api/update-company-picture`, {
@@ -129,7 +129,9 @@ export class Emp_DP extends Component {
 				<div className='dp'>
 					<div className='profile-picture'>
 						<img
-							src={`../assets/${company.Company_Image}`}
+							src={`${AppConfiguration.url()}/assets/images/${
+								company.Company_Image
+							}`}
 							alt='Profile Image'
 							onClick={this.toggleImagePreview}
 							title='Preview Image'
@@ -155,7 +157,9 @@ export class Emp_DP extends Component {
 								<div className='image-wrapper'>
 									<img
 										className='image-preview-img'
-										src={`../assets/${company.Company_Image}`}
+										src={`${AppConfiguration.url()}/assets/images/${
+											company.Company_Image
+										}`}
 										alt='profile'
 									/>
 								</div>

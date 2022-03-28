@@ -539,7 +539,9 @@ export class ApplicationForm extends Component {
 				<div className='company-img'>
 					<div className='company-img-wrapper'>
 						<img
-							src={`../../assets/${post.Company_Image}`}
+							src={`${AppConfiguration.url()}/assets/images/${
+								post.Company_Image
+							}`}
 							alt='Company Picture'
 						/>
 					</div>

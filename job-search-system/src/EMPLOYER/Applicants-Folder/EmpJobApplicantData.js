@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import AppConfiguration from "../../AppConfiguration";
 import LeftArrow from "../../Images/LeftArrow.png";
 import Modal from "../../JOBSEEKER/Home-Folder/Modal";
 import Resources from "../../Resources";
@@ -270,7 +271,9 @@ const Emp_Job_Applicant_Data = ({
 				<div className='applicant-dp'>
 					<div className='applicant-profile'>
 						<img
-							src={`../../assets/${jobApplicantData.User_Image}`}
+							src={`${AppConfiguration.url()}/assets/images/${
+								jobApplicantData.User_Image
+							}`}
 							alt='Applicant Profile'
 							style={{ height: "150px" }}
 						/>
@@ -392,12 +395,25 @@ const Emp_Job_Applicant_Data = ({
 								No attached file
 							</p>
 						) : (
-							<Link
-								to={`/pdf/${jobApplicantData.Resume}`}
-								target='_blank'
-								download>
+							<a
+								href={`${AppConfiguration.url()}/assets/pdf/${
+									jobApplicantData.Resume
+								}`}
+								target='_blank'>
 								{jobApplicantData.Resume}
-							</Link>
+							</a>
+							// <Link
+							// 	// to={`/pdf/${jobApplicantData.Resume}`}
+							// 	to={`${AppConfiguration.url()}/assets/pdf/${
+							// 		jobApplicantData.Resume
+							// 	}`}
+							// 	target='_blank'
+							// 	download>
+							// 	{/* {jobApplicantData.Resume} */}
+							// 	{`${AppConfiguration.url()}/assets/pdf/${
+							// 		jobApplicantData.Resume
+							// 	}`}
+							// </Link>
 						)}
 					</div>
 				</div>

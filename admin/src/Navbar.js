@@ -86,18 +86,18 @@ const Navbar = ({
 				const data = new FormData();
 				data.append("image", fileData);
 
-				await fetch(`${AppConfiguration.url()}/api/upload-image-admin`, {
-					method: "POST",
-					body: data,
-				})
-					.then(async (result) => {
-						// console.log(
-						// 	"The File has been Uploaded to the Administrator..."
-						// );
-					})
-					.catch((error) => {
-						console.log("Multer Error!", error);
-					});
+				// await fetch(`${AppConfiguration.url()}/api/upload-image-admin`, {
+				// 	method: "POST",
+				// 	body: data,
+				// })
+				// 	.then(async (result) => {
+				// 		// console.log(
+				// 		// 	"The File has been Uploaded to the Administrator..."
+				// 		// );
+				// 	})
+				// 	.catch((error) => {
+				// 		console.log("Multer Error!", error);
+				// 	});
 
 				await axios
 					.put(`${AppConfiguration.url()}/api/update-user-profile`, {

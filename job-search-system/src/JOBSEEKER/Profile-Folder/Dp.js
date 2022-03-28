@@ -55,50 +55,36 @@ export class Dp extends Component {
 				const data = new FormData();
 				data.append("image", fileData);
 
-				await axios
-					.post(`${AppConfiguration.url()}/api/upload-image`, data, {})
-					.then((res) => {
-						console.log(res);
-					});
-
-				await axios
-					.post(
-						`${AppConfiguration.url()}/api/upload-image-admin`,
-						data,
-						{}
-					)
-					.then((res) => {
-						console.log(res);
-					});
-
-				// await fetch(`${AppConfiguration.url()}/api/upload-image`, {
-				// 	method: "POST",
-				// 	body: data,
-				// 	headers: {
-				// 		"content-type": "image/jpeg, image/png ",
-				// 		"Access-Control-Allow-Origin": "*",
-				// 	},
-				// 	validateStatus: (status) => {
-				// 		return true; // I'm always returning true, you may want to do it depending on the status received
-				// 	},
-				// })
-				// 	.then((result) => {
-				// 		// console.log("The File has been Uploaded...");
-				// 	})
-				// 	.catch((error) => {
-				// 		console.log("Multer Error!", error);
+				// await axios
+				// 	.post(`${AppConfiguration.url()}/api/upload-image`, data, {})
+				// 	.then((res) => {
+				// 		console.log(res);
 				// 	});
+
+				// await axios
+				// 	.post(
+				// 		`${AppConfiguration.url()}/api/upload-image-admin`,
+				// 		data,
+				// 		{}
+				// 	)
+				// 	.then((res) => {
+				// 		console.log(res);
+				// 	});
+
+				await fetch(`${AppConfiguration.url()}/api/upload-image`, {
+					method: "POST",
+					body: data,
+				})
+					.then((result) => {
+						console.log("The File has been Uploaded...");
+					})
+					.catch((error) => {
+						console.log("Multer Error!", error);
+					});
 
 				// await fetch(`${AppConfiguration.url()}/api/upload-image-admin`, {
 				// 	method: "POST",
 				// 	body: data,
-				// 	headers: {
-				// 		"content-type": "image/jpeg, image/png ",
-				// 		"Access-Control-Allow-Origin": "*",
-				// 	},
-				// 	validateStatus: (status) => {
-				// 		return true; // I'm always returning true, you may want to do it depending on the status received
-				// 	},
 				// })
 				// 	.then(async (result) => {
 				// 		// console.log(
@@ -197,7 +183,7 @@ export class Dp extends Component {
 				<div className='dp'>
 					<div className='profile-picture'>
 						<img
-							src={`../assets/${User_Image}`}
+							src={`${AppConfiguration.url()}/assets/images/${User_Image}`}
 							alt='Profile Image'
 							onClick={this.toggleImagePreview}
 							title='Preview Image'
@@ -218,7 +204,7 @@ export class Dp extends Component {
 								<div className='image-wrapper'>
 									<img
 										className='image-preview-img'
-										src={`../assets/${User_Image}`}
+										src={`${AppConfiguration.url()}/assets/images/${User_Image}`}
 										alt='profile'
 									/>
 								</div>

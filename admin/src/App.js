@@ -277,18 +277,18 @@ export default function App() {
 					console.log("Multer Error!", error);
 				});
 
-			await fetch(`${AppConfiguration.url()}/api/upload-image-admin`, {
-				method: "POST",
-				body: data,
-			})
-				.then((result) => {
-					// console.log(
-					// 	"5 The File has been Uploaded to the Administrator..."
-					// );
-				})
-				.catch((error) => {
-					console.log("Multer Error!", error);
-				});
+			// await fetch(`${AppConfiguration.url()}/api/upload-image-admin`, {
+			// 	method: "POST",
+			// 	body: data,
+			// })
+			// 	.then((result) => {
+			// 		// console.log(
+			// 		// 	"5 The File has been Uploaded to the Administrator..."
+			// 		// );
+			// 	})
+			// 	.catch((error) => {
+			// 		console.log("Multer Error!", error);
+			// 	});
 		} catch (error) {
 			alert(error);
 		}

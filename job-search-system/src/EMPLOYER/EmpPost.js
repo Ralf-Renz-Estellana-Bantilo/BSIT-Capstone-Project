@@ -98,7 +98,9 @@ export class Emp_Post extends Component {
 						<Link to='/employer/business-profile'>
 							<div className='account-profile'>
 								<img
-									src={`../assets/${companyJobPost.Company_Image}`}
+									src={`${AppConfiguration.url()}/assets/images/${
+										companyJobPost.Company_Image
+									}`}
 									alt='Establishment'
 								/>
 							</div>

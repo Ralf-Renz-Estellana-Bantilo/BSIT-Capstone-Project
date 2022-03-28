@@ -4,6 +4,7 @@ import Resources from "../../Resources";
 import TimeStamp from "../../TimeStamp";
 import DeleteIcon from "../../Images/DeleteIcon.png";
 import Modal from "../../JOBSEEKER/Home-Folder/Modal";
+import AppConfiguration from "../../AppConfiguration";
 
 export class Emp_Job_Applicants extends Component {
 	constructor() {
@@ -237,7 +238,9 @@ export class Emp_Job_Applicants extends Component {
 												<div className='applicant-image-container'>
 													<div className='applicant-image'>
 														<img
-															src={`../assets/${applicant.User_Image}`}
+															src={`${AppConfiguration.url()}/assets/images/${
+																applicant.User_Image
+															}`}
 															alt='User'
 														/>
 													</div>

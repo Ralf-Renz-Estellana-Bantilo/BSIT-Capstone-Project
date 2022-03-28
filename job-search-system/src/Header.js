@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Logo from "./Images/Logo.png";
 import SearchIcon from "./Images/SearchIcon.png";
 import "./Header.css";
+import AppConfiguration from "./AppConfiguration";
 
 export class Header extends Component {
 	render() {
@@ -51,7 +52,7 @@ export class Header extends Component {
 								this.props.history.push(`/${userType}/profile`)
 							}>
 							<img
-								src={`../assets/${User_Image}`}
+								src={`${AppConfiguration.url()}/assets/images/${User_Image}`}
 								style={{ height: "60px" }}
 							/>
 						</div>
