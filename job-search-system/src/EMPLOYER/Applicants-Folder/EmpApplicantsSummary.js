@@ -3,6 +3,7 @@ import "./EmpApplicantsSummary.css";
 import CloseIcon from "../../Images/CloseIcon.png";
 import TimeStamp from "../../TimeStamp";
 import Resources from "../../Resources";
+import AppConfiguration from "../../AppConfiguration";
 
 export class Emp_Applicants_Summary extends Component {
 	state = {
