@@ -234,7 +234,7 @@
 @media only screen and (max-width: 800px) {
 	.job-profile-container {
 		border-radius: 0;
-		border: none;
+		/* border: none; */
 	}
 }
 

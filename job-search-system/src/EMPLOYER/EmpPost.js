@@ -54,23 +54,32 @@ export class Emp_Post extends Component {
 	};
 
 	deletePost = async () => {
-		const { JobID } = this.props.companyJobPost;
+		const { JobID, CompanyID } = this.props.companyJobPost;
 		await axios
-			.delete(`${AppConfiguration.url()}/api/delete-jobPost/${JobID}`)
+			.put(`${AppConfiguration.url()}/api/delete-jobPost`, {
+				companyID: CompanyID,
+				jobID: JobID,
+			})
 			.then(async (response) => {
-				// console.log("Post has been deleted");
+				console.log("Post has been deleted", response);
 				await this.onCloseModal();
 				await this.props.deleteEmployerPost(JobID);
 			});
 		await axios
-			.delete(`${AppConfiguration.url()}/api/delete-job-applicants/${JobID}`)
+			.put(`${AppConfiguration.url()}/api/delete-job-applicants`, {
+				companyID: CompanyID,
+				jobID: JobID,
+			})
 			.then(async (response) => {
-				// console.log("Job Applicants have been deleted");
+				console.log("Job Applicants have been deleted", response);
 			});
 		await axios
-			.delete(`${AppConfiguration.url()}/api/delete-applied-job/${JobID}`)
+			.put(`${AppConfiguration.url()}/api/delete-applied-job`, {
+				companyID: CompanyID,
+				jobID: JobID,
+			})
 			.then(async (response) => {
-				// console.log("Applied Job has been deleted");
+				console.log("Applied Job has been deleted", response);
 			});
 	};
 
@@ -144,7 +153,7 @@ export class Emp_Post extends Component {
 						</div>
 					</div>
 					<div className='upperRight-info'>
-						{/* <img
+						<img
 							src={DeleteIcon}
 							alt='Delete'
 							title={`Delete this post`}
@@ -154,12 +163,12 @@ export class Emp_Post extends Component {
 									? { filter: "brightness(0.7)" }
 									: { filter: "brightness(0.3)" }
 							}
-						/> */}
+						/>
 
 						{this.state.isModalOpen ? (
 							<Modal
 								headText='Delete Post Confirmation'
-								modalText={`Are you sure you want to permanently delete this post?`}
+								modalText={`Are you sure you want to delete this post?`}
 								confirmText='Yes'
 								closeText='No'
 								close={this.onCloseModal}

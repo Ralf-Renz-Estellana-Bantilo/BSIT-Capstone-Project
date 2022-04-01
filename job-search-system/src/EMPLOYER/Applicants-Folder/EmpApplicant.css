@@ -52,6 +52,7 @@
 	font-size: 13px;
 	color: var(--accent2);
 	flex: 1;
+	text-align: right;
 }
 
 .job-post-content-right-container .toggle-job-post-content {

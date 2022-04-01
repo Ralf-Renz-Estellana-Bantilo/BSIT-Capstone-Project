@@ -116,74 +116,80 @@ export class ApplicationForm extends Component {
 			new Date().getDate() +
 			new Date().getFullYear();
 
-		let newFileName = "";
-		if (fileData !== null) {
-			newFileName = date + "_" + fileData.name;
-		}
+		try {
+			let newFileName = "";
+			if (fileData !== null) {
+				newFileName = date + "_" + fileData.name;
+			}
 
-		const applicantData = {
-			jobID: post.JobID,
-			companyID: post.CompanyID,
-			applicantID: applicantID,
-			jobTitle: post.Job_Title,
-			firstName: firstName,
-			middleName: middleName,
-			lastName: lastName,
-			homeAddress: homeAddress,
-			sex: sex,
-			bMonth: bMonth,
-			bDay: bDay,
-			bYear: bYear,
-			contactNumber: contactNumber,
-			email: email,
-			civilStatus: civilStatus,
-			educationalAttainment: educationalAttainment,
-			resume: newFileName,
-			userImage: userImage,
-			disability: disability,
-			employmentStatus: employmentStatus,
-			employmentType: employmentType,
-			min: new Date().getMinutes(),
-			hour: new Date().getHours(),
-			day: new Date().getDate(),
-			month: new Date().getMonth() + 1,
-			year: new Date().getFullYear(),
-			fileData: fileData,
-		};
+			const applicantData = {
+				jobID: post.JobID,
+				companyID: post.CompanyID,
+				applicantID: applicantID,
+				jobTitle: post.Job_Title,
+				firstName: firstName,
+				middleName: middleName,
+				lastName: lastName,
+				homeAddress: homeAddress,
+				sex: sex,
+				bMonth: bMonth,
+				bDay: bDay,
+				bYear: bYear,
+				contactNumber: contactNumber,
+				email: email,
+				civilStatus: civilStatus,
+				educationalAttainment: educationalAttainment,
+				resume: newFileName,
+				userImage: userImage,
+				disability: disability,
+				employmentStatus: employmentStatus,
+				employmentType: employmentType,
+				min: new Date().getMinutes(),
+				hour: new Date().getHours(),
+				day: new Date().getDate(),
+				month: new Date().getMonth() + 1,
+				year: new Date().getFullYear(),
+				fileData: fileData,
+			};
 
-		if (fileData !== null) {
-			if (fileData.size > 2090000) {
-				alert("File too large (2mb limit) ! Please try again!");
-				this.setState({
-					fileData: null,
-				});
+			if (fileData !== null) {
+				if (fileData.size > 2090000) {
+					alert("File too large (2mb limit) ! Please try again!");
+					this.setState({
+						fileData: null,
+					});
+				} else {
+					await this.props.addJobApplicants(applicantData);
+					await this.props.handleApplication(this.props.targetCompany);
+
+					try {
+						if (fileData !== null) {
+							const data = new FormData();
+							data.append("pdf", fileData);
+							await fetch(`${AppConfiguration.url()}/api/upload-pdf`, {
+								method: "POST",
+								body: data,
+							})
+								.then((result) => {
+									// console.log("The PDF File has been Uploaded...");
+								})
+								.catch((error) => {
+									console.log("Multer Error!", error);
+								});
+						}
+					} catch (error) {
+						console.log(error);
+					}
+				}
 			} else {
 				await this.props.addJobApplicants(applicantData);
 				await this.props.handleApplication(this.props.targetCompany);
-
-				try {
-					if (fileData !== null) {
-						const data = new FormData();
-						data.append("pdf", fileData);
-						await fetch(`${AppConfiguration.url()}/api/upload-pdf`, {
-							method: "POST",
-							body: data,
-						})
-							.then((result) => {
-								// console.log("The PDF File has been Uploaded...");
-							})
-							.catch((error) => {
-								console.log("Multer Error!", error);
-							});
-					}
-				} catch (error) {
-					console.log(error);
-				}
 			}
-		} else {
-			await this.props.addJobApplicants(applicantData);
-			await this.props.handleApplication(this.props.targetCompany);
+		} catch (error) {
+			alert(error);
+			console.log(error);
 		}
+
 		// }
 	};
 
@@ -419,6 +425,7 @@ export class ApplicationForm extends Component {
 			disability,
 			employmentStatus,
 			employmentType,
+			userImage,
 		} = this.state;
 
 		let filteredCandidate = numApplicants.filter(
@@ -485,6 +492,14 @@ export class ApplicationForm extends Component {
 			employmentStatus === null ||
 			employmentType === null
 		) {
+			isUpdateButtonEnable = false;
+		}
+
+		if (
+			userImage.includes("DefaultUserMale") ||
+			userImage.includes("DefaultUserFemale")
+		) {
+			alert("You need to change your profile picture first!");
 			isUpdateButtonEnable = false;
 		}
 

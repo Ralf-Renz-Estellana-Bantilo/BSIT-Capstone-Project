@@ -559,6 +559,8 @@ export class JobProfile extends Component {
 			);
 		});
 
+		const screenSize = document.body.clientWidth;
+
 		return (
 			<>
 				{isIndicationOpen ? (
@@ -651,6 +653,7 @@ export class JobProfile extends Component {
 										onChange={(event) => {
 											this.handleChange(event, "email");
 										}}
+										// autocomplete='off'
 									/>
 								</div>
 							</div>
@@ -903,9 +906,11 @@ export class JobProfile extends Component {
 											this.handleChange(event, "preferredJob");
 										}}
 									/>
-									<datalist id='jobLists'>
-										{jobTitleSmartHints}
-									</datalist>
+									{screenSize > 600 && (
+										<datalist id='jobLists'>
+											{jobTitleSmartHints}
+										</datalist>
+									)}
 								</div>
 								<div className='field'>
 									<label>Preferred Category:</label>

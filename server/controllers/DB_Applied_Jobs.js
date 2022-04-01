@@ -72,7 +72,7 @@ export const handleAppliedJobs = (req, res) => {
 	const dateApplied = req.body.dateApplied;
 
 	db.query(
-		"INSERT INTO applied_jobs (JobID, ApplicantID, CompanyID, Company_Name, Company_Address, Job_Title, Category, Required_Employees, Salary, Job_Type, Preferred_Sex, Job_Qualifications, Job_Requirements, Job_Description, Employer_Name, Company_Image, Active_Status, Minutes, Hour, Day, Month, Year, Date_Applied) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+		"INSERT INTO applied_jobs (JobID, ApplicantID, CompanyID, Company_Name, Company_Address, Job_Title, Category, Required_Employees, Salary, Job_Type, Preferred_Sex, Job_Qualifications, Job_Requirements, Job_Description, Employer_Name, Company_Image, Active_Status, Minutes, Hour, Day, Month, Year, Date_Applied, Is_Deleted) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Visible')",
 		[
 			jobID,
 			applicantID,
@@ -126,21 +126,39 @@ export const getAppliedJobs = (req, res) => {
 };
 
 export const deleteAppliedJob = (req, res) => {
-	const jobID = req.params.id;
+	const companyID = req.body.companyID;
+	const jobID = req.body.jobID;
 
 	db.query(
-		"DELETE FROM applied_jobs WHERE JobID = ?",
-		jobID,
+		"UPDATE applied_jobs SET Is_Deleted='Deleted' WHERE CompanyID=? AND JobID=?",
+		[companyID, jobID],
 		(err, result) => {
 			if (err) {
-				console.log(err);
+				console.log("deleteAppliedJob:", err);
 			} else {
 				res.send(result);
-				// console.log("Applied Job data has been cleaned");
+				console.log("Successfully deleted an applied jobs");
 			}
 		}
 	);
 };
+
+// export const deleteAppliedJob = (req, res) => {
+// 	const jobID = req.params.id;
+
+// 	db.query(
+// 		"DELETE FROM applied_jobs WHERE JobID = ?",
+// 		jobID,
+// 		(err, result) => {
+// 			if (err) {
+// 				console.log(err);
+// 			} else {
+// 				res.send(result);
+// 				// console.log("Applied Job data has been cleaned");
+// 			}
+// 		}
+// 	);
+// };
 
 export const account_deleteAppliedJob = (req, res) => {
 	const applicantID = req.params.id;

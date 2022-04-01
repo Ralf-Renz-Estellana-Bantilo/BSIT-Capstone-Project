@@ -78,12 +78,11 @@ export class Emp_Job_Applicants extends Component {
 	};
 
 	componentDidMount = async () => {
-		const height = this.divElement.clientHeight;
-		const titleHeight = this.titleElement.clientHeight;
-		this.setState({ height });
-		this.setState({ titleHeight });
-
 		try {
+			const height = this.divElement.clientHeight;
+			const titleHeight = this.titleElement.clientHeight;
+			this.setState({ height });
+			this.setState({ titleHeight });
 			const { info, jobApplicants } = this.props;
 			for (let index = 0; index < jobApplicants.length; index++) {
 				if (
@@ -116,6 +115,10 @@ export class Emp_Job_Applicants extends Component {
 		const { height, titleHeight, toggleApplicantsPanel, countHired } =
 			this.state;
 
+		const jobApplicantsVisible = jobApplicants.filter(
+			(post) => post.Is_Deleted !== "Deleted"
+		);
+
 		let countApplicants = 0;
 
 		return (
@@ -132,78 +135,82 @@ export class Emp_Job_Applicants extends Component {
 						ref={(divElement) => {
 							this.divElement = divElement;
 						}}>
-						{jobApplicants.map((applicant) => {
+						{jobApplicantsVisible.map((applicant) => {
 							if (applicant.JobID === info.JobID) {
 								countApplicants += 1;
 							}
 						})}
 
-						<div
-							className='job-post-title'
-							ref={(titleElement) => {
-								this.titleElement = titleElement;
-							}}
-							style={
-								info.Active_Status === "Active"
-									? {
-											borderLeft: "5px solid #1eff00",
-									  }
-									: {
-											borderLeft: "5px solid #ff0000",
-									  }
-							}>
+						{info.Is_Deleted !== "Deleted" ? (
 							<div
-								className='job-post-content-left-container'
-								onClick={() => {
-									this.applicantSummary(info.JobID);
-									this.props.setJobTitle(
-										info.Active_Status,
-										info.Job_Title,
-										info.Required_Employees,
-										countApplicants
-									);
-									localStorage.setItem(
-										"empApplicantScroll",
-										window.pageYOffset
-									);
+								className='job-post-title'
+								ref={(titleElement) => {
+									this.titleElement = titleElement;
 								}}
-								title='See Job Applicants Summary'>
-								<h3>{`${info.Job_Title}`}</h3>
-								<p>
-									Vac. Count:{" "}
-									<strong>{info.Required_Employees}</strong> • Applied:{" "}
-									<strong>{countApplicants}</strong> • Hired:{" "}
-									<strong>{countHired}</strong>
-								</p>
-							</div>
-							<div className='job-post-content-right-container'>
-								<p>{`• ${convertedMonth} ${info.Day}, ${info.Year}`}</p>
+								style={
+									info.Active_Status === "Active"
+										? {
+												borderLeft: "5px solid #1eff00",
+										  }
+										: {
+												borderLeft: "5px solid #ff0000",
+										  }
+								}>
 								<div
-									className='toggle-job-post-content'
-									onClick={(e) => {
-										this.togglePanel();
+									className='job-post-content-left-container'
+									onClick={() => {
+										this.applicantSummary(info.JobID);
+										this.props.setJobTitle(
+											info.Active_Status,
+											info.Job_Title,
+											info.Required_Employees,
+											countApplicants
+										);
 										localStorage.setItem(
 											"empApplicantScroll",
 											window.pageYOffset
 										);
 									}}
-									style={
-										toggleApplicantsPanel
-											? {
-													background:
-														"linear-gradient(20deg, #ff004c, #ff7b00)",
-											  }
-											: {
-													background:
-														"linear-gradient(20deg, #00b2ff, #006aff)",
-											  }
-									}>
-									{toggleApplicantsPanel ? "-" : "+"}
+									title='See Job Applicants Summary'>
+									<h3>{`${info.Job_Title}`}</h3>
+									<p>
+										Vac. Count:{" "}
+										<strong>{info.Required_Employees}</strong> •
+										Applied: <strong>{countApplicants}</strong> •
+										Hired: <strong>{countHired}</strong>
+									</p>
+								</div>
+								<div className='job-post-content-right-container'>
+									<p>{`• ${convertedMonth} ${info.Day}, ${info.Year}`}</p>
+									<div
+										className='toggle-job-post-content'
+										onClick={(e) => {
+											this.togglePanel();
+											localStorage.setItem(
+												"empApplicantScroll",
+												window.pageYOffset
+											);
+										}}
+										style={
+											toggleApplicantsPanel
+												? {
+														background:
+															"linear-gradient(20deg, #ff004c, #ff7b00)",
+												  }
+												: {
+														background:
+															"linear-gradient(20deg, #00b2ff, #006aff)",
+												  }
+										}>
+										{toggleApplicantsPanel ? "-" : "+"}
+									</div>
 								</div>
 							</div>
-						</div>
+						) : (
+							""
+						)}
 
-						{jobApplicants.map((applicant) => {
+						{jobApplicantsVisible.map((applicant) => {
 							let homeAddress = "";
 							if (applicant.JobID === info.JobID) {
 								// homeAddress =

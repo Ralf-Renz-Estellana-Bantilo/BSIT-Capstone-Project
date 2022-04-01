@@ -68,18 +68,22 @@ export class Feed extends Component {
 
 		let posts = [];
 
+		const jobPostVisible = infos.filter(
+			(post) => post.Is_Deleted !== "Deleted"
+		);
+
 		if (filter === "Job Suggestions") {
-			posts = infos.filter((info) =>
+			posts = jobPostVisible.filter((info) =>
 				info.Category.toLowerCase().includes(
 					preferredCategory.toLowerCase()
 				)
 			);
 		} else if (filter === "Most Recent") {
-			posts = infos.sort((a, b) => {
+			posts = jobPostVisible.sort((a, b) => {
 				return a.Date_Posted < b.Date_Posted ? 1 : -1;
 			});
 		} else if (filter === "Old Posts First") {
-			posts = infos.sort((a, b) => {
+			posts = jobPostVisible.sort((a, b) => {
 				return a.Date_Posted < b.Date_Posted ? -1 : 1;
 			});
 		}
@@ -197,7 +201,8 @@ export class Feed extends Component {
 						}}>
 						No Posts Available in this Barangay!
 					</p>
-				) : count === 0 ? (
+				) : count === 0 &&
+				  localStorage.getItem("filter") !== "Job Suggestions" ? (
 					<p
 						style={{
 							textAlign: "center",
@@ -212,18 +217,19 @@ export class Feed extends Component {
 					""
 				)}
 
-				{posts.length === 0 && (
-					<p
-						style={{
-							textAlign: "center",
-							padding: "10px",
-							backgroundColor: "red",
-							marginTop: "6px",
-							fontSize: "12px",
-						}}>
-						No Suggested Posts Available!
-					</p>
-				)}
+				{posts.length === 0 &&
+					localStorage.getItem("filter") === "Job Suggestions" && (
+						<p
+							style={{
+								textAlign: "center",
+								padding: "10px",
+								backgroundColor: "red",
+								marginTop: "6px",
+								fontSize: "12px",
+							}}>
+							No Suggested Posts Available!
+						</p>
+					)}
 			</>
 		);
 	}

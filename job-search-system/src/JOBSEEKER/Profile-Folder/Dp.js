@@ -26,6 +26,7 @@ export class Dp extends Component {
 				fileData: event.target.files[0],
 			});
 		} catch (error) {
+			alert(error);
 			this.setState({
 				file: null,
 			});
@@ -55,45 +56,17 @@ export class Dp extends Component {
 				const data = new FormData();
 				data.append("image", fileData);
 
-				// await axios
-				// 	.post(`${AppConfiguration.url()}/api/upload-image`, data, {})
-				// 	.then((res) => {
-				// 		console.log(res);
-				// 	});
-
-				// await axios
-				// 	.post(
-				// 		`${AppConfiguration.url()}/api/upload-image-admin`,
-				// 		data,
-				// 		{}
-				// 	)
-				// 	.then((res) => {
-				// 		console.log(res);
-				// 	});
-
 				await fetch(`${AppConfiguration.url()}/api/upload-image`, {
 					method: "POST",
 					body: data,
 				})
 					.then((result) => {
 						console.log("The File has been Uploaded...");
+						console.log(result);
 					})
 					.catch((error) => {
 						console.log("Multer Error!", error);
 					});
-
-				// await fetch(`${AppConfiguration.url()}/api/upload-image-admin`, {
-				// 	method: "POST",
-				// 	body: data,
-				// })
-				// 	.then(async (result) => {
-				// 		// console.log(
-				// 		// 	"The File has been Uploaded to the Administrator..."
-				// 		// );
-				// 	})
-				// 	.catch((error) => {
-				// 		console.log("Multer Error!", error);
-				// 	});
 
 				await axios
 					.put(`${AppConfiguration.url()}/api/update-user-profile`, {

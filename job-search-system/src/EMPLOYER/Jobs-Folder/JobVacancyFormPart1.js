@@ -81,6 +81,8 @@ export class JobVacancyFormPart1 extends Component {
 			);
 		});
 
+		const screenSize = document.body.clientWidth;
+
 		return (
 			<div className='text-fields'>
 				{this.state.isNotValid === false && (
@@ -104,7 +106,9 @@ export class JobVacancyFormPart1 extends Component {
 								placeholder='Job Title'
 								onChange={handleChange("jobTitle")}
 							/>
-							<datalist id='jobLists'>{jobTitleSmartHints}</datalist>
+							{screenSize > 600 && (
+								<datalist id='jobLists'>{jobTitleSmartHints}</datalist>
+							)}
 						</div>
 						<div className='post-field'>
 							<label>Job Category:</label>

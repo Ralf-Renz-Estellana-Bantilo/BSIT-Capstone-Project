@@ -143,6 +143,8 @@ export class Emp_Dashboard extends Component {
 							newFileName,
 							companySession
 						);
+						this.closeModal();
+						await this.props.setCompany(companyData);
 					})
 					.catch((error) => {
 						console.log("Multer Error!", error);
@@ -158,8 +160,6 @@ export class Emp_Dashboard extends Component {
 				// 	body: data,
 				// })
 				// 	.then(async (result) => {
-				// 		this.closeModal();
-				// 		await this.props.setCompany(companyData);
 				// 		// console.log(
 				// 		// 	"The File has been Uploaded to the Administrator..."
 				// 		// );

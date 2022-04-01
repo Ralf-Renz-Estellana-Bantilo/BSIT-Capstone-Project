@@ -73,7 +73,7 @@ export class App extends Component {
 			isCloseIndication: false,
 
 			// system color theme
-			darkTheme: false,
+			darkTheme: true,
 		};
 	}
 

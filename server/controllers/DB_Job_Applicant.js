@@ -77,7 +77,7 @@ export const addJobApplicants = (req, res) => {
 	const employmentType = req.body.employmentType;
 
 	db.query(
-		"INSERT INTO job_applicants (JobID, CompanyID, ApplicantID, Job_Title, First_Name, Middle_Name, Last_Name, Home_Address, Sex, B_Month, B_Day, B_Year, Contact_Number, Email_Address, Civil_Status, Educ_Attainment, Resume, User_Image, Minutes, Hour, Day, Month, Year, Date_Applied, Candidate_Status, Status, Disability, Employment_Status, Employment_Type ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'New', ?, ?, ?)",
+		"INSERT INTO job_applicants (JobID, CompanyID, ApplicantID, Job_Title, First_Name, Middle_Name, Last_Name, Home_Address, Sex, B_Month, B_Day, B_Year, Contact_Number, Email_Address, Civil_Status, Educ_Attainment, Resume, User_Image, Minutes, Hour, Day, Month, Year, Date_Applied, Candidate_Status, Status, Disability, Employment_Status, Employment_Type, Is_Deleted ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'New', ?, ?, ?, 'Visible')",
 		[
 			jobID,
 			companyID,
@@ -164,21 +164,39 @@ export const getJobApplicant = (req, res) => {
 };
 
 export const deleteJobApplicants = (req, res) => {
-	const jobID = req.params.id;
+	const companyID = req.body.companyID;
+	const jobID = req.body.jobID;
 
 	db.query(
-		"DELETE FROM job_applicants WHERE JobID = ?",
-		jobID,
+		"UPDATE job_applicants SET Is_Deleted='Deleted' WHERE CompanyID=? AND JobID=?",
+		[companyID, jobID],
 		(err, result) => {
 			if (err) {
-				console.log("deleteCompanyPost:", err);
+				console.log("deleteJobApplicants:", err);
 			} else {
 				res.send(result);
-				// console.log("Job Applicant data has been cleaned");
+				console.log("Successfully deleted job applicants");
 			}
 		}
 	);
 };
+
+// export const deleteJobApplicants = (req, res) => {
+// 	const jobID = req.params.id;
+
+// 	db.query(
+// 		"DELETE FROM job_applicants WHERE JobID = ?",
+// 		jobID,
+// 		(err, result) => {
+// 			if (err) {
+// 				console.log("deleteCompanyPost:", err);
+// 			} else {
+// 				res.send(result);
+// 				// console.log("Job Applicant data has been cleaned");
+// 			}
+// 		}
+// 	);
+// };
 
 export const deleteJobApplicant = (req, res) => {
 	const jobID = req.params.jobID;

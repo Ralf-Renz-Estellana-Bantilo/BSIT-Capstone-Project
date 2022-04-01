@@ -91,7 +91,7 @@ export const createJobPost = (req, res) => {
 	const status = req.body.status;
 
 	db.query(
-		"INSERT INTO job_posts (JobID, CompanyID, Company_Name, Minutes, Hour, Day, Month, Year, Date_Posted, Company_Address, Job_Title, Category, Work_Place, Required_Employees, Minimum_Salary, Maximum_Salary, Civil_Status, Job_Type, Preferred_Sex, Active_Status, Job_Qualifications, Job_Requirements, Job_Description, Employer_Name, Company_Image, Contact_Person_Name, Contact_Person_Position, Contact_Person_Number,Contact_Person_Email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+		"INSERT INTO job_posts (JobID, CompanyID, Company_Name, Minutes, Hour, Day, Month, Year, Date_Posted, Company_Address, Job_Title, Category, Work_Place, Required_Employees, Minimum_Salary, Maximum_Salary, Civil_Status, Job_Type, Preferred_Sex, Active_Status, Job_Qualifications, Job_Requirements, Job_Description, Employer_Name, Company_Image, Contact_Person_Name, Contact_Person_Position, Contact_Person_Number,Contact_Person_Email, Is_Deleted) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Visible')",
 		[
 			jobID,
 			companyID,
@@ -168,17 +168,35 @@ export const getCompanyJobPost = (req, res) => {
 };
 
 export const deleteCompanyPost = (req, res) => {
-	const jobID = req.params.id;
+	const companyID = req.body.companyID;
+	const jobID = req.body.jobID;
 
-	db.query("DELETE FROM job_posts WHERE JobID = ?", jobID, (err, result) => {
-		if (err) {
-			console.log("deleteCompanyPost:", err);
-		} else {
-			res.send(result);
-			// console.log("Successfully deleted a post");
+	db.query(
+		"UPDATE job_posts SET Is_Deleted='Deleted' WHERE CompanyID=? AND JobID=?",
+		[companyID, jobID],
+		(err, result) => {
+			if (err) {
+				console.log("deleteCompanyPost:", err);
+			} else {
+				res.send(result);
+				console.log("Successfully deleted a job post");
+			}
 		}
-	});
+	);
 };
+
+// export const deleteCompanyPost = (req, res) => {
+// 	const jobID = req.params.id;
+
+// 	db.query("DELETE FROM job_posts WHERE JobID = ?", jobID, (err, result) => {
+// 		if (err) {
+// 			console.log("deleteCompanyPost:", err);
+// 		} else {
+// 			res.send(result);
+// 			// console.log("Successfully deleted a post");
+// 		}
+// 	});
+// };
 
 export const changeJobPostPicture = (req, res) => {
 	const image = req.body.image;

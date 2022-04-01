@@ -283,7 +283,12 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 							onClick={() => setStep(1)}>
 							Change Username and Password
 						</button>
-						<button className='accordionButton' onClick={viewModal}>
+						<button
+							className='accordionButton'
+							onClick={viewModal}
+							disabled
+							style={{ opacity: ".6" }}
+							title='Cannot delete your account!'>
 							Delete Account
 						</button>
 						{/* <button className='accordionButton'>Reboot Account</button> */}

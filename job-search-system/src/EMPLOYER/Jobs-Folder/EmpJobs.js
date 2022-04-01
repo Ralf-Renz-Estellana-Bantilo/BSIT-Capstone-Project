@@ -69,6 +69,10 @@ export class Emp_Jobs extends Component {
 		const { currentUser, companyJobPost, company } = this.props;
 		const { targetJobPost } = this.state;
 
+		const companyJobPostVisible = companyJobPost.filter(
+			(post) => post.Is_Deleted !== "Deleted"
+		);
+
 		return (
 			<div>
 				<EmpGap />
@@ -140,15 +144,15 @@ export class Emp_Jobs extends Component {
 
 				<div className='posted-jobs-container'>
 					<h3 className='posted-jobs-label'>
-						{companyJobPost.length > 1
-							? `Jobs you posted (${companyJobPost.length})`
-							: `Job you posted (${companyJobPost.length})`}
+						{companyJobPostVisible.length > 1
+							? `Jobs you posted (${companyJobPostVisible.length})`
+							: `Job you posted (${companyJobPostVisible.length})`}
 					</h3>
-					{companyJobPost.map((companyJobPost) => {
+					{companyJobPostVisible.map((companyJobPostVisible) => {
 						return (
-							<div key={companyJobPost.JobID}>
+							<div key={companyJobPostVisible.JobID}>
 								<EmpPost
-									companyJobPost={companyJobPost}
+									companyJobPost={companyJobPostVisible}
 									currentUser={currentUser}
 									deleteEmployerPost={this.props.deleteEmployerPost}
 									darkTheme={this.props.darkTheme}
@@ -165,7 +169,7 @@ export class Emp_Jobs extends Component {
 						);
 					})}
 
-					{companyJobPost.length === 0 && (
+					{companyJobPostVisible.length === 0 && (
 						<p
 							style={{
 								textAlign: "center",

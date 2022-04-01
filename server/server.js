@@ -115,29 +115,10 @@ const datePDF =
 	new Date().getDate() +
 	new Date().getFullYear();
 
-const netlifyAppPath = "https://job-search-catarman.netlify.app";
-
-let savedFileDirectory = "";
-if (process.env.PORT) {
-	savedFileDirectory = netlifyAppPath;
-} else {
-	savedFileDirectory = "../job-search-system/public";
-}
-
-let savedAdminFileDirectory = "";
-if (process.env.PORT) {
-	savedFileDirectory = netlifyAppPath;
-} else {
-	savedFileDirectory = "../admin/public";
-}
-
 const imageFileStorageEngine = multer.diskStorage({
 	destination: (req, file, callback) => {
 		callback(null, "assets/images");
 	},
-	// destination: (req, file, callback) => {
-	// 	callback(null, `${savedFileDirectory}/assets`);
-	// },
 	filename: (req, file, callback) => {
 		callback(null, date + "_" + file.originalname);
 	},
@@ -146,9 +127,6 @@ const adminImageFileStorageEngine = multer.diskStorage({
 	destination: (req, file, callback) => {
 		callback(null, "assets/images");
 	},
-	// destination: (req, file, callback) => {
-	// 	callback(null, `${savedAdminFileDirectory}/assets`);
-	// },
 	filename: (req, file, callback) => {
 		callback(null, date + "_" + file.originalname);
 	},
@@ -157,9 +135,6 @@ const pdfFileStorageEngine = multer.diskStorage({
 	destination: (req, file, callback) => {
 		callback(null, "assets/pdf");
 	},
-	// destination: (req, file, callback) => {
-	// 	callback(null, `${savedFileDirectory}/pdf`);
-	// },
 	filename: (req, file, callback) => {
 		callback(null, datePDF + "_" + file.originalname);
 	},
@@ -221,63 +196,8 @@ try {
 				}
 			});
 		}
-		// function connectToDatabase() {
-		// 	db = mysql.createConnection({
-		// 		user: process.env.PORT ? "b58454bd4a7cc9" : "root",
-		// 		password: process.env.PORT ? "1684a61d" : "bantiloralfrenz",
-		// 		host: process.env.PORT ? "us-cdbr-east-05.cleardb.net" : "localhost",
-		// 		database: process.env.PORT
-		// 			? "heroku_e973498db39f7ce"
-		// 			: "job_search_system_db",
-		// 	});
-
-		// 	db.connect((err) => {
-		// 		if (err) {
-		// 			console.log("Cannot connect to the database...", err);
-		// 		} else {
-		// 			console.log("MySQL connection successfully stablished...");
-		// 		}
-		// 	});
-
-		// 	db.on("error", function (err) {
-		// 		console.log("db error", err);
-		// 		if (err.code === "PROTOCOL_CONNECTION_LOST") {
-		// 			// Connection to the MySQL server is usually
-		// 			connectToDatabase(); // lost due to either server restart, or a
-		// 		} else {
-		// 			// connnection idle timeout (the wait_timeout
-		// 			throw err; // server variable configures this)
-		// 		}
-		// 	});
-		// }
-
 		connectToDatabase();
 	}
-
-	// const pool = mysql.createPool({
-	// 	user: process.env.PORT ? "b58454bd4a7cc9" : "root",
-	// 	password: process.env.PORT ? "1684a61d" : "bantiloralfrenz",
-	// 	host: process.env.PORT ? "us-cdbr-east-05.cleardb.net" : "localhost",
-	// 	database: process.env.PORT
-	// 		? "heroku_e973498db39f7ce"
-	// 		: "job_search_system_db",
-	// });
-
-	// // ... later
-	// pool.query("select 1 + 1", (err, rows) => {
-	// 	/* */
-	// });
-
-	// db.on("error", function (err) {
-	// 	console.log("db error", err);
-	// 	if (err.code === "PROTOCOL_CONNECTION_LOST") {
-	// 									// Connection to the MySQL server is usually
-	// 		handleDisconnect(); // lost due to either server restart, or a
-	// 	} else {
-	// 		// connnection idle timeout (the wait_timeout
-	// 		throw err; // server variable configures this)
-	// 	}
-	// });
 } catch (error) {
 	console.log("Server Error:", error);
 }
@@ -360,14 +280,14 @@ app.put("/api/update-jobPost-picture", changeJobPostPicture);
 app.put("/api/update-jobPost-content", updateJobPost);
 app.put("/api/update-jobPost-active-status", updateActiveStatus);
 app.put("/api/update-jobPost-business-profile", updateJobPostBusinessProfile);
-app.delete("/api/delete-jobPost/:id", deleteCompanyPost);
+app.put("/api/delete-jobPost", deleteCompanyPost);
 app.delete("/api/delete-company-jobPost/:id", account_deleteJobPosts); // ----------
 
 // Job Applicants Database Table ----------
 app.post("/api/create-job-applicant", addJobApplicants);
 app.post("/api/read-job-applicant", getJobApplicants);
 app.post("/api/read-specific-job-applicant", getJobApplicant);
-app.delete("/api/delete-job-applicants/:id", deleteJobApplicants);
+app.put("/api/delete-job-applicants", deleteJobApplicants);
 app.delete(
 	"/api/delete-specific-job-applicant/:jobID/:applicantID",
 	deleteJobApplicant
@@ -388,7 +308,7 @@ app.post("/api/create-applied-job", handleAppliedJobs);
 app.post("/api/read-applied-jobs", getAppliedJobs);
 app.put("/api/update-applied-job-picture", changeAppliedJobPicture);
 app.put("/api/update-applied-job-content", updateAppliedJob);
-app.delete("/api/delete-applied-job/:id", deleteAppliedJob);
+app.put("/api/delete-applied-job", deleteAppliedJob);
 app.delete("/api/account-delete-applied-job/:id", account_deleteAppliedJob);
 app.put(
 	"/api/update-applied-jobs-business-profile",

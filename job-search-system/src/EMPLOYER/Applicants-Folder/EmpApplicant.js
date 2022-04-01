@@ -88,6 +88,10 @@ export class EmpApplicant extends Component {
 			"Dec",
 		];
 
+		const companyJobPostVisible = companyJobPost.filter(
+			(post) => post.Is_Deleted !== "Deleted"
+		);
+
 		return (
 			<div>
 				<EmpGap />
@@ -105,7 +109,7 @@ export class EmpApplicant extends Component {
 					""
 				) : (
 					<div className='applicant-container'>
-						{companyJobPost.map((info) => {
+						{companyJobPostVisible.map((info) => {
 							let convertedMonth = "";
 
 							for (let index = 0; index < month.length; index++) {
@@ -157,7 +161,7 @@ export class EmpApplicant extends Component {
 					</div>
 				)}
 
-				{companyJobPost.length === 0 && (
+				{companyJobPostVisible.length === 0 && (
 					<p
 						style={{
 							textAlign: "center",

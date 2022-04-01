@@ -114,7 +114,7 @@ export class Login extends Component {
 
 		this.props.showWelcomWindowOn();
 
-		localStorage.setItem("darkTheme", false);
+		localStorage.setItem("darkTheme", true);
 	};
 
 	setNotLoggedin = () => {

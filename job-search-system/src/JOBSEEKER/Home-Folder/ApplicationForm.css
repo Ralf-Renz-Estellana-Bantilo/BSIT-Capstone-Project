@@ -19,7 +19,7 @@
 }
 
 .preview-container {
-	width: 90%;
+	width: 95%;
 	background-color: var(--dark-primary);
 	padding-bottom: 5px;
 	/* box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.664); */
@@ -163,7 +163,7 @@
 
 /* form */
 .application-form {
-	width: 90%;
+	width: 95%;
 	margin: 0 auto;
 	margin-top: 20px;
 }
@@ -386,6 +386,19 @@
 	}
 	.employment-status-fields {
 		justify-content: space-between;
+	}
+}
+
+@media only screen and (max-width: 300px) {
+	.employment-status-fields,
+	.birthdate {
+		flex-direction: column;
+		row-gap: 5px;
+	}
+
+	.birthdate input {
+		width: 100%;
+		margin: 0 auto;
 	}
 }
 
