@@ -87,6 +87,8 @@ import {
 	createAdminPost,
 	getAdminPosts,
 } from "./controllers/DB_Admin_Posts.js";
+import fileUpload from "express-fileupload";
+import cloudinary from "cloudinary";
 
 const app = express();
 const PORT = process.env.PORT || 2000;
@@ -98,8 +100,15 @@ app.use(
 	})
 );
 app.use(express.json());
+app.use(fileUpload());
 app.use("/assets/images", express.static("./assets/images"));
 app.use("/assets/pdf", express.static("./assets/pdf"));
+
+cloudinary.config({
+	cloud_name: "doprewqnx",
+	api_key: "326167851291639",
+	api_secret: "6G0fgOrs47qz1FWrkNuz-E_FQJQ",
+});
 
 const date =
 	new Date().getMonth() +
@@ -231,9 +240,14 @@ app.post("/api/upload-pdf", uploadPDF.single("pdf"), (req, res) => {
 app.get("/api/get-user-image/:filename", (req, res) => {
 	res.download(`./assets/images/${req.params.filename}`);
 });
-
 app.get("/", (req, res) => {
 	res.send("App is live!");
+});
+
+// Uploading images directly to the database
+app.post("/upload", function (req, res) {
+	const file = req;
+	// console.log(file);
 });
 
 // User_Account Database Table ----------

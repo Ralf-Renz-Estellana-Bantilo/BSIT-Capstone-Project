@@ -64,9 +64,10 @@ export class Search_Applicants extends Component {
 						<div className='search-applicant-upperLeft-info'>
 							<div className='search-applicant-account-profile'>
 								<img
-									src={`${AppConfiguration.url()}/assets/images/${
-										applicant.User_Image
-									}`}
+									src={applicant.User_Image}
+									// src={`${AppConfiguration.url()}/assets/images/${
+									// 	applicant.User_Image
+									// }`}
 									alt='Applicant'
 									style={{ height: "60px" }}
 								/>

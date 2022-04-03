@@ -52,7 +52,8 @@ export class Header extends Component {
 								this.props.history.push(`/${userType}/profile`)
 							}>
 							<img
-								src={`${AppConfiguration.url()}/assets/images/${User_Image}`}
+								src={User_Image}
+								// src={`${AppConfiguration.url()}/assets/images/${User_Image}`}
 								style={{ height: "60px" }}
 							/>
 						</div>

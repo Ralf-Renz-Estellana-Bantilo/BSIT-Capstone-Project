@@ -577,7 +577,7 @@ export class App extends Component {
 							educationalAttainment: null,
 							username: user.Username,
 							password: user.Password,
-							userImage: `DefaultUserMale.png`,
+							userImage: `https://res.cloudinary.com/doprewqnx/image/upload/v1648959524/jntowv75wyhkqvy4o1xu.png`,
 						},
 					],
 				},
@@ -593,7 +593,7 @@ export class App extends Component {
 					role: user.Role,
 					username: user.Username,
 					password: user.Password,
-					userImage: `DefaultUserMale.png`,
+					userImage: `https://res.cloudinary.com/doprewqnx/image/upload/v1648959524/jntowv75wyhkqvy4o1xu.png`,
 				})
 				.then(() => {
 					// console.log(`Successfully Registered...`);
@@ -609,7 +609,7 @@ export class App extends Component {
 					role: user.Role,
 					sex: user.Sex,
 					homeAddress: null,
-					userImage: `DefaultUserMale.png`,
+					userImage: `https://res.cloudinary.com/doprewqnx/image/upload/v1648959524/jntowv75wyhkqvy4o1xu.png`,
 					emailAddress: null,
 					contactNumber: null,
 					bMonth: null,
@@ -649,7 +649,7 @@ export class App extends Component {
 							educationalAttainment: null,
 							username: user.Username,
 							password: user.Password,
-							userImage: `DefaultUserFemale.png`,
+							userImage: `https://res.cloudinary.com/doprewqnx/image/upload/v1648959544/g1r50cq1kbhqaccw7gwk.png`,
 						},
 					],
 				},
@@ -665,7 +665,7 @@ export class App extends Component {
 					role: user.Role,
 					username: user.Username,
 					password: user.Password,
-					userImage: `DefaultUserFemale.png`,
+					userImage: `https://res.cloudinary.com/doprewqnx/image/upload/v1648959544/g1r50cq1kbhqaccw7gwk.png`,
 				})
 				.then(() => {
 					// console.log(`Successfully Registered...`);
@@ -681,7 +681,7 @@ export class App extends Component {
 					role: user.Role,
 					sex: user.Sex,
 					homeAddress: null,
-					userImage: `DefaultUserFemale.png`,
+					userImage: `https://res.cloudinary.com/doprewqnx/image/upload/v1648959544/g1r50cq1kbhqaccw7gwk.png`,
 					emailAddress: null,
 					contactNumber: null,
 					bMonth: null,
@@ -737,9 +737,9 @@ export class App extends Component {
 		let defaultImage = ``;
 
 		if (user.Role === `Male`) {
-			defaultImage = `DefaultUserMale.png`;
+			defaultImage = `https://res.cloudinary.com/doprewqnx/image/upload/v1648959524/jntowv75wyhkqvy4o1xu.png`;
 		} else {
-			defaultImage = `DefaultUserFemale.png`;
+			defaultImage = `https://res.cloudinary.com/doprewqnx/image/upload/v1648959544/g1r50cq1kbhqaccw7gwk.png`;
 		}
 
 		await axios

@@ -144,9 +144,10 @@ export class Emp_Navbar extends Component {
 										)
 									}>
 									<img
-										src={`${AppConfiguration.url()}/assets/images/${
-											company.Company_Image
-										}`}
+										src={company.Company_Image}
+										// src={`${AppConfiguration.url()}/assets/images/${
+										// 	company.Company_Image
+										// }`}
 										alt='Company'
 									/>
 								</div>

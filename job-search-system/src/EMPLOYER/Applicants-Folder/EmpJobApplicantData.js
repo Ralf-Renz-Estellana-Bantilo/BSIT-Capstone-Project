@@ -271,9 +271,10 @@ const Emp_Job_Applicant_Data = ({
 				<div className='applicant-dp'>
 					<div className='applicant-profile'>
 						<img
-							src={`${AppConfiguration.url()}/assets/images/${
-								jobApplicantData.User_Image
-							}`}
+							src={jobApplicantData.User_Image}
+							// src={`${AppConfiguration.url()}/assets/images/${
+							// 	jobApplicantData.User_Image
+							// }`}
 							alt='Applicant Profile'
 							style={{ height: "150px" }}
 						/>

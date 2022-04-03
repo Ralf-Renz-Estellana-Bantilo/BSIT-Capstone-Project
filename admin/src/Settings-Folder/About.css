@@ -153,7 +153,7 @@
 	/* width: 80%; */
 	padding: 10px;
 	border-radius: 5px;
-	background-color: var(--nav-background);
+	background-color: var(--accent1);
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
@@ -166,7 +166,7 @@
 	font-weight: 600;
 	font-size: 16px;
 	padding-bottom: 5px;
-	color: var(--accent1);
+	color: var(--nav-background);
 }
 
 .contact-form .contact {
@@ -198,7 +198,7 @@
 .contact-form .contact button {
 	text-align: center;
 	border-radius: 50px;
-	color: var(--accent1);
+	color: var(--nav-background);
 	padding: 5px;
 	width: 100%;
 	margin: 0 auto;
@@ -214,7 +214,7 @@
 		linear-gradient(-20deg, var(--light-blue), var(--dark-blue));
 	background-origin: border-box;
 	background-clip: content-box, border-box;
-	box-shadow: 2px 1000px 1px var(--nav-background) inset;
+	box-shadow: 2px 1000px 1px var(--accent1) inset;
 	transition: 0.2s;
 }
 

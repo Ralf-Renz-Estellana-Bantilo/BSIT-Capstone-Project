@@ -86,9 +86,10 @@ export class Post extends Component {
 									className='account-profile'
 									title='View Establishment Details'>
 									<img
-										src={`${AppConfiguration.url()}/assets/images/${
-											info.Company_Image
-										}`}
+										src={info.Company_Image}
+										// src={`${AppConfiguration.url()}/assets/images/${
+										// 	info.Company_Image
+										// }`}
 										alt='Establishment'
 									/>
 								</div>

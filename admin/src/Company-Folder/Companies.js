@@ -201,7 +201,7 @@ const Companies = ({
 										}
 									})}
 
-									{countCompany === 0 && companySearch.length !== 0 && (
+									{countCompany === 0 && companySearch.length === 0 && (
 										<p
 											style={{
 												textAlign: "center",

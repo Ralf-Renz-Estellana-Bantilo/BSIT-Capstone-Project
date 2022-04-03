@@ -70,9 +70,10 @@ export class Activity extends Component {
 							onClick={this.handleFeedback}>
 							<div className='activity-left-panel-img-main'>
 								<img
-									src={`${AppConfiguration.url()}/assets/images/${
-										feedback.Company_Image
-									}`}
+									src={feedback.Company_Image}
+									// src={`${AppConfiguration.url()}/assets/images/${
+									// 	feedback.Company_Image
+									// }`}
 									alt='company'
 								/>
 							</div>

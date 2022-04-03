@@ -71,7 +71,8 @@ const AccountCreateNewAdmin = ({
 				Role: "Admin",
 				Username: newAdminUsername,
 				Password: newAdminPassword,
-				User_Image: "DefaultUserMale.png",
+				User_Image:
+					"https://res.cloudinary.com/doprewqnx/image/upload/v1648959524/jntowv75wyhkqvy4o1xu.png",
 			};
 			await axios
 				.post(`${AppConfiguration.url()}/api/create-user`, {

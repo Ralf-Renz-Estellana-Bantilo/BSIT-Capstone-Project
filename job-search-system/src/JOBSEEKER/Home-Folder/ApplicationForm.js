@@ -121,8 +121,11 @@ export class ApplicationForm extends Component {
 			if (fileData !== null) {
 				newFileName = date + "_" + fileData.name;
 			}
+			const data = new FormData();
+			data.append("file", fileData);
+			data.append("upload_preset", "job-search-catarman-asset");
 
-			const applicantData = {
+			let applicantData = {
 				jobID: post.JobID,
 				companyID: post.CompanyID,
 				applicantID: applicantID,
@@ -159,24 +162,62 @@ export class ApplicationForm extends Component {
 						fileData: null,
 					});
 				} else {
-					await this.props.addJobApplicants(applicantData);
-					await this.props.handleApplication(this.props.targetCompany);
-
 					try {
-						if (fileData !== null) {
-							const data = new FormData();
-							data.append("pdf", fileData);
-							await fetch(`${AppConfiguration.url()}/api/upload-pdf`, {
-								method: "POST",
-								body: data,
-							})
-								.then((result) => {
-									// console.log("The PDF File has been Uploaded...");
-								})
-								.catch((error) => {
-									console.log("Multer Error!", error);
-								});
-						}
+						// if (fileData !== null) {
+						// 	const data = new FormData();
+						// 	data.append("pdf", fileData);
+						// 	await fetch(`${AppConfiguration.url()}/api/upload-pdf`, {
+						// 		method: "POST",
+						// 		body: data,
+						// 	})
+						// 		.then((result) => {
+						// 			// console.log("The PDF File has been Uploaded...");
+						// 		})
+						// 		.catch((error) => {
+						// 			console.log("Multer Error!", error);
+						// 		});
+						// }
+						await axios
+							.post(
+								"https://api.cloudinary.com/v1_1/doprewqnx/pdf/upload",
+								data
+							)
+							.then(async (res) => {
+								const applicantData = {
+									jobID: post.JobID,
+									companyID: post.CompanyID,
+									applicantID: applicantID,
+									jobTitle: post.Job_Title,
+									firstName: firstName,
+									middleName: middleName,
+									lastName: lastName,
+									homeAddress: homeAddress,
+									sex: sex,
+									bMonth: bMonth,
+									bDay: bDay,
+									bYear: bYear,
+									contactNumber: contactNumber,
+									email: email,
+									civilStatus: civilStatus,
+									educationalAttainment: educationalAttainment,
+									resume: res.data.url,
+									userImage: userImage,
+									disability: disability,
+									employmentStatus: employmentStatus,
+									employmentType: employmentType,
+									min: new Date().getMinutes(),
+									hour: new Date().getHours(),
+									day: new Date().getDate(),
+									month: new Date().getMonth() + 1,
+									year: new Date().getFullYear(),
+									fileData: fileData,
+								};
+								console.log(res);
+								await this.props.addJobApplicants(applicantData);
+								await this.props.handleApplication(
+									this.props.targetCompany
+								);
+							});
 					} catch (error) {
 						console.log(error);
 					}
@@ -189,8 +230,6 @@ export class ApplicationForm extends Component {
 			alert(error);
 			console.log(error);
 		}
-
-		// }
 	};
 
 	viewModal = () => {
@@ -554,9 +593,10 @@ export class ApplicationForm extends Component {
 				<div className='company-img'>
 					<div className='company-img-wrapper'>
 						<img
-							src={`${AppConfiguration.url()}/assets/images/${
-								post.Company_Image
-							}`}
+							src={post.Company_Image}
+							// src={`${AppConfiguration.url()}/assets/images/${
+							// 	post.Company_Image
+							// }`}
 							alt='Company Picture'
 						/>
 					</div>

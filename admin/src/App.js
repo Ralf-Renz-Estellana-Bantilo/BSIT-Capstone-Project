@@ -245,7 +245,8 @@ export default function App() {
 					role: "Employer",
 					username: generatedUsername,
 					password: generatedPassword,
-					userImage: "DefaultUserMale.png",
+					userImage:
+						"https://res.cloudinary.com/doprewqnx/image/upload/v1648959524/jntowv75wyhkqvy4o1xu.png",
 				})
 				.then(() => {
 					// console.log("2 Successfully Registered a Company...");

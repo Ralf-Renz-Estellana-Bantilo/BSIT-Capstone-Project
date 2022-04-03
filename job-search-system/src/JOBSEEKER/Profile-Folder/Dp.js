@@ -6,6 +6,7 @@ import CloseIcon from "../../Images/CloseIcon.png";
 import Gap from "../../Gap";
 import axios from "axios";
 import AppConfiguration from "../../AppConfiguration";
+import Loading from "../../Loading";
 
 export class Dp extends Component {
 	constructor() {
@@ -16,6 +17,7 @@ export class Dp extends Component {
 			profileImg: User,
 			toggleChooser: false,
 			showImage: false,
+			isLoading: false,
 		};
 	}
 
@@ -33,71 +35,131 @@ export class Dp extends Component {
 		}
 	};
 
+	// handleSave = async (e) => {
+	// 	e.preventDefault();
+	// 	const { fileData, file } = this.state;
+	// 	const date =
+	// 		new Date().getMonth() +
+	// 		1 +
+	// 		"" +
+	// 		new Date().getDate() +
+	// 		new Date().getFullYear();
+
+	// 	const newFileName = date + "_" + fileData.name;
+
+	// 	if (fileData.size > 2090000) {
+	// 		alert("File too large (2mb limit) ! Please try again!");
+	// 		this.setState({
+	// 			file: null,
+	// 			fileData: null,
+	// 		});
+	// 	} else {
+	// 		try {
+	// 			// const data = new FormData();
+	// 			// data.append("image", fileData);
+
+	// 			// await fetch(`${AppConfiguration.url()}/api/upload-image`, {
+	// 			// 	method: "POST",
+	// 			// 	body: data,
+	// 			// })
+	// 			// 	.then((result) => {
+	// 			// 		console.log("The File has been Uploaded...");
+	// 			// 		console.log(result);
+	// 			// 	})
+	// 			// 	.catch((error) => {
+	// 			// 		console.log("Multer Error!", error);
+	// 			// 	});
+
+	// 			await axios
+	// 				.put(`${AppConfiguration.url()}/api/update-user-profile`, {
+	// 					image: newFileName,
+	// 					userID: sessionStorage.getItem("UserID"),
+	// 				})
+	// 				.then((response) => {
+	// 					// console.log(response);
+	// 				});
+
+	// 			await axios
+	// 				.put(`${AppConfiguration.url()}/api/update-appplicant-profile`, {
+	// 					image: newFileName,
+	// 					userID: sessionStorage.getItem("UserID"),
+	// 				})
+	// 				.then(async (response) => {
+	// 					// console.log(response);
+	// 					await this.props.changeCurrentUserProfile(
+	// 						newFileName,
+	// 						this.props.currentUser.UserID
+	// 					);
+	// 					this.setState({
+	// 						profileImg: file,
+	// 						toggleChooser: false,
+	// 						file: null,
+	// 					});
+	// 				});
+	// 		} catch (error) {
+	// 			alert(error);
+	// 		}
+	// 	}
+	// };
+
 	handleSave = async (e) => {
-		e.preventDefault();
-		const { fileData, file } = this.state;
-		const date =
-			new Date().getMonth() +
-			1 +
-			"" +
-			new Date().getDate() +
-			new Date().getFullYear();
-
-		const newFileName = date + "_" + fileData.name;
-
-		if (fileData.size > 2090000) {
-			alert("File too large (2mb limit) ! Please try again!");
+		try {
 			this.setState({
-				file: null,
-				fileData: null,
+				isLoading: true,
 			});
-		} else {
-			try {
-				const data = new FormData();
-				data.append("image", fileData);
 
-				await fetch(`${AppConfiguration.url()}/api/upload-image`, {
-					method: "POST",
-					body: data,
-				})
-					.then((result) => {
-						console.log("The File has been Uploaded...");
-						console.log(result);
-					})
-					.catch((error) => {
-						console.log("Multer Error!", error);
-					});
+			e.preventDefault();
+			const { fileData } = this.state;
+			const data = new FormData();
+			data.append("file", fileData);
+			data.append("upload_preset", "job-search-catarman-asset");
 
-				await axios
-					.put(`${AppConfiguration.url()}/api/update-user-profile`, {
-						image: newFileName,
-						userID: sessionStorage.getItem("UserID"),
-					})
-					.then((response) => {
-						// console.log(response);
+			axios
+				.post(
+					"https://api.cloudinary.com/v1_1/doprewqnx/image/upload",
+					data
+				)
+				.then(async (res) => {
+					console.log(res);
+					await this.updateData(res.data.url);
+					this.setState({
+						isLoading: false,
 					});
-
-				await axios
-					.put(`${AppConfiguration.url()}/api/update-appplicant-profile`, {
-						image: newFileName,
-						userID: sessionStorage.getItem("UserID"),
-					})
-					.then(async (response) => {
-						// console.log(response);
-						await this.props.changeCurrentUserProfile(
-							newFileName,
-							this.props.currentUser.UserID
-						);
-						this.setState({
-							profileImg: file,
-							toggleChooser: false,
-							file: null,
-						});
-					});
-			} catch (error) {
-				alert(error);
-			}
+				});
+		} catch (error) {
+			alert(error);
 		}
+	};
+
+	updateData = async (newFileName) => {
+		const { file } = this.state;
+
+		await axios
+			.put(`${AppConfiguration.url()}/api/update-user-profile`, {
+				image: newFileName,
+				userID: sessionStorage.getItem("UserID"),
+			})
+			.then((response) => {
+				// console.log(response);
+			});
+
+		await axios
+			.put(`${AppConfiguration.url()}/api/update-appplicant-profile`, {
+				image: newFileName,
+				userID: sessionStorage.getItem("UserID"),
+			})
+			.then(async (response) => {
+				// console.log(response);
+				await this.props.changeCurrentUserProfile(
+					newFileName,
+					this.props.currentUser.UserID
+				);
+				this.setState({
+					profileImg: newFileName,
+					toggleChooser: false,
+					file: null,
+				});
+			});
 	};
 
 	handleToggleHire = async () => {
@@ -145,7 +207,7 @@ export class Dp extends Component {
 					isHirable = true;
 				}
 			} catch (error) {
-				console.log(error);
+				// console.log(error);
 			}
 		}
 
@@ -156,7 +218,8 @@ export class Dp extends Component {
 				<div className='dp'>
 					<div className='profile-picture'>
 						<img
-							src={`${AppConfiguration.url()}/assets/images/${User_Image}`}
+							src={User_Image}
+							// src={`${AppConfiguration.url()}/assets/images/${User_Image}`}
 							alt='Profile Image'
 							onClick={this.toggleImagePreview}
 							title='Preview Image'
@@ -177,7 +240,8 @@ export class Dp extends Component {
 								<div className='image-wrapper'>
 									<img
 										className='image-preview-img'
-										src={`${AppConfiguration.url()}/assets/images/${User_Image}`}
+										src={User_Image}
+										// src={`${AppConfiguration.url()}/assets/images/${User_Image}`}
 										alt='profile'
 									/>
 								</div>
@@ -264,6 +328,8 @@ export class Dp extends Component {
 						</label>
 					</div>
 				)}
+
+				{this.state.isLoading && <Loading />}
 			</div>
 		);
 	}

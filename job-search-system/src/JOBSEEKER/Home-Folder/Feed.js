@@ -67,10 +67,9 @@ export class Feed extends Component {
 		const { filter, location, preferredCategory } = this.state;
 
 		let posts = [];
+		let jobPostVisible = [];
 
-		const jobPostVisible = infos.filter(
-			(post) => post.Is_Deleted !== "Deleted"
-		);
+		jobPostVisible = infos.filter((post) => post.Is_Deleted !== "Deleted");
 
 		if (filter === "Job Suggestions") {
 			posts = jobPostVisible.filter((info) =>

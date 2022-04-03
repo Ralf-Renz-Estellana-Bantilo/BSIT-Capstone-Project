@@ -82,6 +82,10 @@ export class Hiree_Information extends Component {
 			userType = "employer";
 		}
 
+		const resumeName = `${hiree.My_Resume}`.split("/")[
+			`${hiree.My_Resume}`.split("/").length - 1
+		];
+
 		return (
 			<div className='hiree-info-container'>
 				{this.state.isModalOpen ? (
@@ -134,9 +138,10 @@ export class Hiree_Information extends Component {
 				<div className='applicant-dp'>
 					<div className='applicant-profile'>
 						<img
-							src={`${AppConfiguration.url()}/assets/images/${
-								hiree.User_Image
-							}`}
+							src={hiree.User_Image}
+							// src={`${AppConfiguration.url()}/assets/images/${
+							// 	hiree.User_Image
+							// }`}
 							alt='Applicant Profile'
 							style={{ height: "150px" }}
 						/>
@@ -256,11 +261,12 @@ export class Hiree_Information extends Component {
 								<p className='resume-data'>No attached file</p>
 							) : (
 								<a
-									href={`${AppConfiguration.url()}/assets/pdf/${
-										hiree.My_Resume
-									}`}
+									href={hiree.My_Resume}
+									// href={`${AppConfiguration.url()}/assets/pdf/${
+									// 	hiree.My_Resume
+									// }`}
 									target='_blank'>
-									{hiree.My_Resume}
+									{resumeName}
 								</a>
 								// <Link
 								// 	// to={`/pdf/${hiree.My_Resume}`}

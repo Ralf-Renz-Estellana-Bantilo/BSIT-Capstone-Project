@@ -245,9 +245,10 @@ export class Emp_Job_Applicants extends Component {
 												<div className='applicant-image-container'>
 													<div className='applicant-image'>
 														<img
-															src={`${AppConfiguration.url()}/assets/images/${
-																applicant.User_Image
-															}`}
+															src={applicant.User_Image}
+															// src={`${AppConfiguration.url()}/assets/images/${
+															// 	applicant.User_Image
+															// }`}
 															alt='User'
 														/>
 													</div>

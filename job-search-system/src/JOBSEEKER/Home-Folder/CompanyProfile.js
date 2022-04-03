@@ -65,9 +65,10 @@ export class CompanyProfile extends Component {
 					<div className='company-header'>
 						<div className='company-logo'>
 							<img
-								src={`${AppConfiguration.url()}/assets/images/${
-									company.Company_Image
-								}`}
+								src={company.Company_Image}
+								// src={`${AppConfiguration.url()}/assets/images/${
+								// 	company.Company_Image
+								// }`}
 								alt='Company Photo'
 							/>
 						</div>

@@ -5,6 +5,7 @@ import axios from "axios";
 import Resources from "../../Resources";
 import Indication from "../../Indication";
 import AppConfiguration from "../../AppConfiguration";
+import Loading from "../../Loading";
 
 export class JobProfile extends Component {
 	constructor() {
@@ -56,6 +57,7 @@ export class JobProfile extends Component {
 			disability: "",
 			employmentStatus: "",
 			employmentType: "",
+			isLoading: false,
 		};
 	}
 
@@ -161,6 +163,9 @@ export class JobProfile extends Component {
 
 	updateApplicantData = async () => {
 		try {
+			this.setState({
+				isLoading: true,
+			});
 			const {
 				firstName,
 				middleName,
@@ -197,7 +202,25 @@ export class JobProfile extends Component {
 
 			let newFileName = null;
 			if (fileData !== null) {
-				newFileName = date + "_" + fileData.name;
+				const data = new FormData();
+				data.append("file", fileData);
+				data.append("upload_preset", "job-search-catarman-asset");
+				data.append("api_key", "326167851291639");
+				data.append("api_secret", "6G0fgOrs47qz1FWrkNuz-E_FQJQ");
+
+				await axios
+					.post(
+						"https://api.cloudinary.com/v1_1/doprewqnx/image/upload",
+						data
+					)
+					.then(async (res) => {
+						console.log(res.data.url);
+						newFileName = res.data.url;
+						this.setState({
+							isLoading: false,
+						});
+						// newFileName = date + "_" + fileData.name;
+					});
 			} else if (
 				(fileData === null && resume !== undefined) ||
 				resume !== null
@@ -432,6 +455,7 @@ export class JobProfile extends Component {
 			prevState_disability,
 			prevState_employmentStatus,
 			prevState_employmentType,
+			isLoading,
 		} = this.state;
 
 		const { darkTheme } = this.props;
@@ -560,6 +584,10 @@ export class JobProfile extends Component {
 		});
 
 		const screenSize = document.body.clientWidth;
+
+		const resumeName = `${resume}`.split("/")[
+			`${resume}`.split("/").length - 1
+		];
 
 		return (
 			<>
@@ -965,7 +993,7 @@ export class JobProfile extends Component {
 									</div>
 								</div>
 								<div className='field'>
-									<label>Resume (if necessary): {resume}</label>
+									<label>Resume (if necessary): {resumeName}</label>
 									<input
 										name='preferredSalary'
 										type='file'
@@ -1033,6 +1061,7 @@ export class JobProfile extends Component {
 						</div>
 					</div>
 				</div>
+				{isLoading && <Loading />}
 			</>
 		);
 	}

@@ -38,9 +38,10 @@ const WorkPostHeader = ({
 		<div className='user-post'>
 			<div className='user-profile'>
 				<img
-					src={`${AppConfiguration.url()}/assets/images/${
-						company.Company_Image
-					}`}
+					src={company.Company_Image}
+					// src={`${AppConfiguration.url()}/assets/images/${
+					// 	company.Company_Image
+					// }`}
 					alt='User'
 					title={name}
 				/>

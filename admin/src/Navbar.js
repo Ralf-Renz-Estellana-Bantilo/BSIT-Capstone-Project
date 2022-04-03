@@ -162,6 +162,20 @@ const Navbar = ({
 		isUpdateButtonEnable = false;
 	}
 
+	let imageSource = "";
+	if (
+		`${AppConfiguration.url()}/assets/images/${admin.User_Image}`.includes(
+			"undefined"
+		)
+	) {
+		imageSource =
+			"../public/assets/https://res.cloudinary.com/doprewqnx/image/upload/v1648959524/jntowv75wyhkqvy4o1xu.png";
+	} else {
+		imageSource = `${AppConfiguration.url()}/assets/images/${
+			admin.User_Image
+		}`;
+	}
+
 	return (
 		<>
 			{isProfileModalOpen && (
@@ -194,7 +208,9 @@ const Navbar = ({
 								<div className='profile-image-container'>
 									<div className='profile-image'>
 										<img
-											src={`../assets/${admin.User_Image}`}
+											src={`${AppConfiguration.url()}/assets/images/${
+												admin.User_Image
+											}`}
 											alt='Admin'
 										/>
 									</div>
@@ -424,7 +440,9 @@ const Navbar = ({
 						</h5>
 						<div className='profile-img'>
 							<img
-								src={`../assets/${admin.User_Image}`}
+								src={`${AppConfiguration.url()}/assets/images/${
+									admin.User_Image
+								}`}
 								alt='Administrator'
 								onClick={() => setProfileModalOpen(true)}
 							/>

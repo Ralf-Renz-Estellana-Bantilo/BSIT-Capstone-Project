@@ -96,9 +96,10 @@ export class Message extends Component {
 						className='message-company-profile'
 						onClick={this.viewCompanyProfile}>
 						<img
-							src={`${AppConfiguration.url()}/assets/images/${
-								feedback.Company_Image
-							}`}
+							src={feedback.Company_Image}
+							// src={`${AppConfiguration.url()}/assets/images/${
+							// 	feedback.Company_Image
+							// }`}
 							alt='Company Profile'
 							title='View Company Details'
 						/>
@@ -161,9 +162,10 @@ export class Message extends Component {
 						<div className='message-left-panel'>
 							<div className='message-left-panel-img'>
 								<img
-									src={`${AppConfiguration.url()}/assets/images/${
-										feedback.Company_Image
-									}`}
+									src={feedback.Company_Image}
+									// src={`${AppConfiguration.url()}/assets/images/${
+									// 	feedback.Company_Image
+									// }`}
 									alt='Company Profile'
 								/>
 							</div>
@@ -178,9 +180,10 @@ export class Message extends Component {
 							<div className='seen-indicator-container'>
 								<div className='seen-indicator'>
 									<img
-										src={`${AppConfiguration.url()}/assets/images/${
-											currentUser.User_Image
-										}`}
+										src={currentUser.User_Image}
+										// src={`${AppConfiguration.url()}/assets/images/${
+										// 	currentUser.User_Image
+										// }`}
 										alt='Company Profile'
 										title='Seen'
 									/>
