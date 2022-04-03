@@ -120,7 +120,7 @@ export class Dp extends Component {
 					data
 				)
 				.then(async (res) => {
-					await this.updateData(res.data.url);
+					await this.updateData(res.data.secure_url);
 					this.setState({
 						isLoading: false,
 					});
@@ -217,7 +217,7 @@ export class Dp extends Component {
 				<div className='dp'>
 					<div className='profile-picture'>
 						<img
-							src={User_Image}
+							src={`${User_Image}`}
 							// src={`${AppConfiguration.url()}/assets/images/${User_Image}`}
 							alt='Profile Image'
 							onClick={this.toggleImagePreview}

@@ -214,8 +214,8 @@ export class JobProfile extends Component {
 						data
 					)
 					.then(async (res) => {
-						console.log(res.data.url);
-						newFileName = res.data.url;
+						console.log(res.data.secure_url);
+						newFileName = res.data.secure_url;
 						this.setState({
 							isLoading: false,
 						});

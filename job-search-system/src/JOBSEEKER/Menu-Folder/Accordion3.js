@@ -286,8 +286,8 @@ const Accordion3 = ({ deleteCompanyPosts, currentUser, setUpdated }) => {
 						<button
 							className='accordionButton'
 							onClick={viewModal}
-							disabled
-							style={{ opacity: ".6" }}
+							// disabled
+							// style={{ opacity: ".6" }}
 							title='Cannot delete your account!'>
 							Delete Account
 						</button>

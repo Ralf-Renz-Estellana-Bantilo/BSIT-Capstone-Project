@@ -49,7 +49,7 @@ export class Emp_DP extends Component {
 					data
 				)
 				.then(async (res) => {
-					await this.updateData(res.data.url, companySession);
+					await this.updateData(res.data.secure_url, companySession);
 					this.setState({
 						isLoading: false,
 					});
@@ -308,7 +308,7 @@ export class Emp_DP extends Component {
 					""
 				)}
 				<h2>{company.Company_Name}</h2>
-				{this.state.isLoading && <Loading />}
+				{this.state.isLoading && <Loading role='Employer' />}
 			</div>
 		);
 	}

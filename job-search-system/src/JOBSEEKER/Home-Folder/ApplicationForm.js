@@ -200,7 +200,7 @@ export class ApplicationForm extends Component {
 									email: email,
 									civilStatus: civilStatus,
 									educationalAttainment: educationalAttainment,
-									resume: res.data.url,
+									resume: res.data.secure_url,
 									userImage: userImage,
 									disability: disability,
 									employmentStatus: employmentStatus,
