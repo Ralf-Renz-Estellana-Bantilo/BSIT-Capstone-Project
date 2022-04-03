@@ -225,6 +225,9 @@ export class JobProfile extends Component {
 				(fileData === null && resume !== undefined) ||
 				resume !== null
 			) {
+				this.setState({
+					isLoading: false,
+				});
 				newFileName = resume;
 			}
 

@@ -120,7 +120,6 @@ export class Dp extends Component {
 					data
 				)
 				.then(async (res) => {
-					console.log(res);
 					await this.updateData(res.data.url);
 					this.setState({
 						isLoading: false,
