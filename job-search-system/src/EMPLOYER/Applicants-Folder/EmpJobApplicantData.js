@@ -245,6 +245,10 @@ const Emp_Job_Applicant_Data = ({
 		category = jobPost[0].Category;
 	} catch (error) {}
 
+	const resumeName = `${jobApplicantData.Resume}`.split("/")[
+		`${jobApplicantData.Resume}`.split("/").length - 1
+	];
+
 	return (
 		<div className='job-applicant-data-container'>
 			<div className='applicant-data-container'>
@@ -396,12 +400,8 @@ const Emp_Job_Applicant_Data = ({
 								No attached file
 							</p>
 						) : (
-							<a
-								href={`${AppConfiguration.url()}/assets/pdf/${
-									jobApplicantData.Resume
-								}`}
-								target='_blank'>
-								{jobApplicantData.Resume}
+							<a href={jobApplicantData.Resume} target='_blank'>
+								{resumeName}
 							</a>
 							// <Link
 							// 	// to={`/pdf/${jobApplicantData.Resume}`}

@@ -321,20 +321,20 @@ export class JobProfile extends Component {
 						// console.log(user);
 					});
 
-				if (fileData !== null) {
-					const data = new FormData();
-					data.append("pdf", fileData);
-					await fetch(`${AppConfiguration.url()}/api/upload-pdf`, {
-						method: "POST",
-						body: data,
-					})
-						.then((result) => {
-							// console.log("The PDF File has been Uploaded...");
-						})
-						.catch((error) => {
-							console.log("Multer Error!", error);
-						});
-				}
+				// if (fileData !== null) {
+				// 	const data = new FormData();
+				// 	data.append("pdf", fileData);
+				// 	await fetch(`${AppConfiguration.url()}/api/upload-pdf`, {
+				// 		method: "POST",
+				// 		body: data,
+				// 	})
+				// 		.then((result) => {
+				// 			// console.log("The PDF File has been Uploaded...");
+				// 		})
+				// 		.catch((error) => {
+				// 			console.log("Multer Error!", error);
+				// 		});
+				// }
 
 				this.setState({
 					firstName: Resources.formatName(firstName),
@@ -828,6 +828,43 @@ export class JobProfile extends Component {
 											);
 										}}
 									/>
+									{/* <label>Highest Educational Attainment: </label>
+									<select
+										name='educationalAttainment'
+										value={educationalAttainment}
+										onChange={(event) => {
+											this.handleChange(
+												event,
+												"educationalAttainment"
+											);
+										}}>
+										<option
+											disabled='disabled'
+											hidden='hidden'
+											value=''>
+											Select Educ. Attainment
+										</option>
+										<option value='Elementary Undergraduate'>
+											Elementary Undergraduate
+										</option>
+										<option value='Elementary Graduate'>
+											Elementary Graduate
+										</option>
+										<option value='JHS Undergraduate'>
+											JHS Undergraduate
+										</option>
+										<option value='JHS Graduate'>JHS Graduate</option>
+										<option value='SHS Undergraduate'>
+											SHS Undergraduate
+										</option>
+										<option value='SHS Graduate'>SHS Graduate</option>
+										<option value='College Undergraduate'>
+											College Undergraduate
+										</option>
+										<option value='College Graduate'>
+											College Graduate
+										</option>
+									</select> */}
 								</div>
 							</div>
 							<div className='basic-info-field'>

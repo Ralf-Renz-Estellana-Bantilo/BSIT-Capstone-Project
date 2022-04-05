@@ -9,6 +9,7 @@ import axios from "axios";
 import DeleteIcon from "../../Images/DeleteIcon.png";
 import Resources from "../../Resources";
 import AppConfiguration from "../../AppConfiguration";
+import Loading from "../../Loading";
 
 export class ApplicationForm extends Component {
 	state = {
@@ -42,6 +43,7 @@ export class ApplicationForm extends Component {
 		disability: "",
 		employmentStatus: "",
 		employmentType: "",
+		isLoading: false,
 	};
 
 	filterObject = () => {
@@ -108,6 +110,8 @@ export class ApplicationForm extends Component {
 			employmentType,
 		} = this.state;
 
+		const { activePage } = this.props;
+
 		//  else {
 		const date =
 			new Date().getMonth() +
@@ -117,14 +121,6 @@ export class ApplicationForm extends Component {
 			new Date().getFullYear();
 
 		try {
-			let newFileName = "";
-			if (fileData !== null) {
-				newFileName = date + "_" + fileData.name;
-			}
-			const data = new FormData();
-			data.append("file", fileData);
-			data.append("upload_preset", "job-search-catarman-asset");
-
 			let applicantData = {
 				jobID: post.JobID,
 				companyID: post.CompanyID,
@@ -142,7 +138,7 @@ export class ApplicationForm extends Component {
 				email: email,
 				civilStatus: civilStatus,
 				educationalAttainment: educationalAttainment,
-				resume: newFileName,
+				resume: null,
 				userImage: userImage,
 				disability: disability,
 				employmentStatus: employmentStatus,
@@ -152,7 +148,7 @@ export class ApplicationForm extends Component {
 				day: new Date().getDate(),
 				month: new Date().getMonth() + 1,
 				year: new Date().getFullYear(),
-				fileData: fileData,
+				fileData: null,
 			};
 
 			if (fileData !== null) {
@@ -163,27 +159,23 @@ export class ApplicationForm extends Component {
 					});
 				} else {
 					try {
-						// if (fileData !== null) {
-						// 	const data = new FormData();
-						// 	data.append("pdf", fileData);
-						// 	await fetch(`${AppConfiguration.url()}/api/upload-pdf`, {
-						// 		method: "POST",
-						// 		body: data,
-						// 	})
-						// 		.then((result) => {
-						// 			// console.log("The PDF File has been Uploaded...");
-						// 		})
-						// 		.catch((error) => {
-						// 			console.log("Multer Error!", error);
-						// 		});
-						// }
+						this.setState({
+							isLoading: true,
+							isModalOpen: false,
+						});
+						const data = new FormData();
+						data.append("file", fileData);
+						data.append("upload_preset", "job-search-catarman-asset");
+						data.append("api_key", "326167851291639");
+						data.append("api_secret", "6G0fgOrs47qz1FWrkNuz-E_FQJQ");
+
 						await axios
 							.post(
-								"https://api.cloudinary.com/v1_1/doprewqnx/pdf/upload",
+								"https://api.cloudinary.com/v1_1/doprewqnx/image/upload",
 								data
 							)
 							.then(async (res) => {
-								const applicantData = {
+								const applicantDataCopy = {
 									jobID: post.JobID,
 									companyID: post.CompanyID,
 									applicantID: applicantID,
@@ -212,19 +204,30 @@ export class ApplicationForm extends Component {
 									year: new Date().getFullYear(),
 									fileData: fileData,
 								};
-								console.log(res);
-								await this.props.addJobApplicants(applicantData);
+								await this.props.addJobApplicants(applicantDataCopy);
 								await this.props.handleApplication(
 									this.props.targetCompany
 								);
+								this.setState({
+									isLoading: false,
+								});
+								this.props.history.push(`/jobseeker/${activePage}`);
+							})
+							.catch((error) => {
+								alert(error);
+								this.setState({
+									isLoading: false,
+								});
 							});
 					} catch (error) {
 						console.log(error);
+						alert(error);
 					}
 				}
 			} else {
 				await this.props.addJobApplicants(applicantData);
 				await this.props.handleApplication(this.props.targetCompany);
+				this.props.history.push(`/jobseeker/${activePage}`);
 			}
 		} catch (error) {
 			alert(error);
@@ -337,8 +340,13 @@ export class ApplicationForm extends Component {
 		await this.filterObject();
 		await this.locateData();
 
-		const height = this.divElement.clientHeight;
-		this.setState({ height });
+		let height = 0;
+		try {
+			height = this.divElement.clientHeight;
+			this.setState({ height });
+		} catch (error) {
+			this.setState({ height });
+		}
 
 		const session = sessionStorage.getItem("UserID");
 		const applicantSession = sessionStorage.getItem("ApplicantID");
@@ -465,6 +473,7 @@ export class ApplicationForm extends Component {
 			employmentStatus,
 			employmentType,
 			userImage,
+			isLoading,
 		} = this.state;
 
 		let filteredCandidate = numApplicants.filter(
@@ -534,32 +543,38 @@ export class ApplicationForm extends Component {
 			isUpdateButtonEnable = false;
 		}
 
-		if (
-			userImage.includes("DefaultUserMale") ||
-			userImage.includes("DefaultUserFemale")
-		) {
-			alert("You need to change your profile picture first!");
-			isUpdateButtonEnable = false;
-		}
+		try {
+			if (
+				userImage.includes("jntowv75wyhkqvy4o1xu") ||
+				userImage.includes("g1r50cq1kbhqaccw7gwk")
+			) {
+				alert("You need to change your profile picture first!");
+				isUpdateButtonEnable = false;
+			}
+		} catch (error) {}
 
 		return (
-			<div className='application-form-container'>
-				<Link to={`/jobseeker/${activePage}`}>
-					<div className='back-icon-container'>
-						<img
-							src={LeftArrow}
-							alt='back'
-							title='Go Back'
-							className='back-icon'
-							style={
-								darkTheme
-									? { filter: "brightness(1)" }
-									: { filter: "brightness(0.3)" }
-							}
-						/>
-					</div>
-				</Link>
-				{/* {`${activePage}` === "profile" &&
+			<>
+				{isLoading && (
+					<Loading message={"Processing Application Form..."} />
+				)}
+				<div className='application-form-container'>
+					<Link to={`/jobseeker/${activePage}`}>
+						<div className='back-icon-container'>
+							<img
+								src={LeftArrow}
+								alt='back'
+								title='Go Back'
+								className='back-icon'
+								style={
+									darkTheme
+										? { filter: "brightness(1)" }
+										: { filter: "brightness(0.3)" }
+								}
+							/>
+						</div>
+					</Link>
+					{/* {`${activePage}` === "profile" &&
 					applicationStatus !== "Pending..." && (
 						<div className='application-form-delete-container'>
 							<img
@@ -574,324 +589,281 @@ export class ApplicationForm extends Component {
 								onClick={this.viewDeleteModal}
 							/>
 						</div>
+					)} 
+
+					{this.state.isDeleteModalOpen ? (
+						<Modal
+							headText='Delete Applied Job Confirmation'
+							modalText='Continue Deleting Job Application?'
+							confirmText='Delete'
+							closeText='Cancel'
+							close={this.onDeleteCloseModal}
+							confirm={this.handleDeleteAppliedJob}
+							path={`/jobseeker/${activePage}`}
+						/>
+					) : (
+						""
 					)} */}
 
-				{this.state.isDeleteModalOpen ? (
-					<Modal
-						headText='Delete Applied Job Confirmation'
-						modalText='Continue Deleting Job Application?'
-						confirmText='Delete'
-						closeText='Cancel'
-						close={this.onDeleteCloseModal}
-						confirm={this.handleDeleteAppliedJob}
-						path={`/jobseeker/${activePage}`}
-					/>
-				) : (
-					""
-				)}
-
-				<div className='company-img'>
-					<div className='company-img-wrapper'>
-						<img
-							src={post.Company_Image}
-							// src={`${AppConfiguration.url()}/assets/images/${
-							// 	post.Company_Image
-							// }`}
-							alt='Company Picture'
-						/>
+					<div className='company-img'>
+						<div className='company-img-wrapper'>
+							<img
+								src={post.Company_Image}
+								// src={`${AppConfiguration.url()}/assets/images/${
+								// 	post.Company_Image
+								// }`}
+								alt='Company Picture'
+							/>
+						</div>
+						<Link
+							to={`/jobseeker/${activePage}/company-profile`}
+							onClick={() => {
+								this.props.setCompanyID(post.CompanyID);
+							}}>
+							<h2>{post.Company_Name}</h2>
+						</Link>
 					</div>
-					<Link
-						to={`/jobseeker/${activePage}/company-profile`}
-						onClick={() => {
-							this.props.setCompanyID(post.CompanyID);
-						}}>
-						<h2>{post.Company_Name}</h2>
-					</Link>
-				</div>
-				<div className='preview-container'>
-					<div className='preview-wrapper'>
-						<div className='post-content'>
-							<div className='post-content-header'>
-								<h3 className='job-title'>{post.Job_Title}</h3>
+					<div className='preview-container'>
+						<div className='preview-wrapper'>
+							<div className='post-content'>
+								<div className='post-content-header'>
+									<h3 className='job-title'>{post.Job_Title}</h3>
 
-								<div className='apply-detail-container'>
-									<div className='apply-detail'>
-										<p>Job Category:</p>
-										<h4>{post.Category}</h4>
-									</div>
-									<div className='apply-detail'>
-										<p>Date Posted:</p>
-										<h4>
-											{TimeStamp.setTimeStamp(
-												post.Minutes,
-												post.Hour,
-												post.Day,
-												post.Month,
-												post.Year
-											)}
-										</h4>
-									</div>
-									<div className='apply-detail'>
-										<p>Company Address :</p>
-										<h4>{post.Company_Address}, Catarman</h4>
-									</div>
-									<div className='apply-detail'>
-										<p>Place of Work :</p>
-										<h4>
-											{post.Work_Place === post.Company_Address
-												? "Company Location"
-												: post.Work_Place}
-										</h4>
-									</div>
+									<div className='apply-detail-container'>
+										<div className='apply-detail'>
+											<p>Job Category:</p>
+											<h4>{post.Category}</h4>
+										</div>
+										<div className='apply-detail'>
+											<p>Date Posted:</p>
+											<h4>
+												{TimeStamp.setTimeStamp(
+													post.Minutes,
+													post.Hour,
+													post.Day,
+													post.Month,
+													post.Year
+												)}
+											</h4>
+										</div>
+										<div className='apply-detail'>
+											<p>Company Address :</p>
+											<h4>{post.Company_Address}, Catarman</h4>
+										</div>
+										<div className='apply-detail'>
+											<p>Place of Work :</p>
+											<h4>
+												{post.Work_Place === post.Company_Address
+													? "Company Location"
+													: post.Work_Place}
+											</h4>
+										</div>
 
-									<div className='apply-detail'>
-										<p>Vacancy Count:</p>
-										<h4>{post.Required_Employees}</h4>
-									</div>
-									<div className='apply-detail'>
-										<p>Applied | Hired:</p>
-										<h4>
-											{filteredCandidate.length} •{" "}
-											{filteredHiredCandidate.length}
-										</h4>
-									</div>
-									<div className='apply-detail'>
-										<p>Salary Range:</p>
-										<h4>
-											₱{" "}
-											{Resources.formatMoney(
-												`${post.Minimum_Salary}`
-											)}{" "}
-											- ₱{" "}
-											{Resources.formatMoney(
-												`${post.Maximum_Salary}`
-											)}
-										</h4>
-									</div>
-									<div className='apply-detail'>
-										<p>Nature of Work:</p>
-										<h4>{post.Job_Type}</h4>
-									</div>
-									<div className='apply-detail'>
-										<p>Civil Status:</p>
-										<h4>{post.Civil_Status}</h4>
-									</div>
-									<div className='apply-detail'>
-										<p>Preferred Gender:</p>
-										<h4>{post.Preferred_Sex}</h4>
-									</div>
-									<div className='apply-detail'>
-										<p>Job Vacancy Status:</p>
-										<div
-											className='active-circle'
-											style={
-												post.Active_Status === "Active"
-													? { backgroundColor: "#00ff40" }
-													: { backgroundColor: "#ff0000" }
-											}></div>
-										<h4 style={{ position: "relative", left: "5px" }}>
-											{post.Active_Status}
-										</h4>
+										<div className='apply-detail'>
+											<p>Vacancy Count:</p>
+											<h4>{post.Required_Employees}</h4>
+										</div>
+										<div className='apply-detail'>
+											<p>Applied | Hired:</p>
+											<h4>
+												{filteredCandidate.length} •{" "}
+												{filteredHiredCandidate.length}
+											</h4>
+										</div>
+										<div className='apply-detail'>
+											<p>Salary Range:</p>
+											<h4>
+												₱{" "}
+												{Resources.formatMoney(
+													`${post.Minimum_Salary}`
+												)}{" "}
+												- ₱{" "}
+												{Resources.formatMoney(
+													`${post.Maximum_Salary}`
+												)}
+											</h4>
+										</div>
+										<div className='apply-detail'>
+											<p>Nature of Work:</p>
+											<h4>{post.Job_Type}</h4>
+										</div>
+										<div className='apply-detail'>
+											<p>Civil Status:</p>
+											<h4>{post.Civil_Status}</h4>
+										</div>
+										<div className='apply-detail'>
+											<p>Preferred Gender:</p>
+											<h4>{post.Preferred_Sex}</h4>
+										</div>
+										<div className='apply-detail'>
+											<p>Job Vacancy Status:</p>
+											<div
+												className='active-circle'
+												style={
+													post.Active_Status === "Active"
+														? { backgroundColor: "#00ff40" }
+														: { backgroundColor: "#ff0000" }
+												}></div>
+											<h4
+												style={{
+													position: "relative",
+													left: "5px",
+												}}>
+												{post.Active_Status}
+											</h4>
+										</div>
 									</div>
 								</div>
-							</div>
 
-							<div
-								className='post-content-body'
-								style={
-									!this.state.seeMore
-										? { height: "0px" }
-										: { height: `${height}px` }
-								}>
 								<div
-									className='post-more-info'
-									ref={(divElement) => {
-										this.divElement = divElement;
-									}}>
-									<div className='job-qualification-portion'>
-										<h3>JOB DESCRIPTION</h3>
-										<p>{post.Job_Qualifications}</p>
-									</div>
-									<div className='job-qualification-portion'>
-										<h3>JOB REQUIREMENTS</h3>
-										<p>{post.Job_Requirements}</p>
-									</div>
-									<div className='job-qualification-portion'>
-										<h3>JOB DESCRIPTION</h3>
-										<p>{post.Job_Description}</p>
-									</div>
+									className='post-content-body'
+									style={
+										!this.state.seeMore
+											? { height: "0px" }
+											: { height: `${height}px` }
+									}>
+									<div
+										className='post-more-info'
+										ref={(divElement) => {
+											this.divElement = divElement;
+										}}>
+										<div className='job-qualification-portion'>
+											<h3>JOB DESCRIPTION</h3>
+											<p>{post.Job_Qualifications}</p>
+										</div>
+										<div className='job-qualification-portion'>
+											<h3>JOB REQUIREMENTS</h3>
+											<p>{post.Job_Requirements}</p>
+										</div>
+										<div className='job-qualification-portion'>
+											<h3>JOB DESCRIPTION</h3>
+											<p>{post.Job_Description}</p>
+										</div>
 
-									{/* <h2>Employer's Name: {post.Employer_Name}</h2> */}
-									{post.Contact_Person_Name === null ? (
-										<h2 style={{ marginBottom: "10px" }}>
-											Employer's Name: {post.Employer_Name}
-										</h2>
-									) : (
-										<>
-											<div className='job-qualification-portion'>
-												<h3>CONTACT PERSON</h3>
-											</div>
-											<h2 style={{ marginTop: "0px" }}>
-												Full Name: <u>{post.Contact_Person_Name}</u>
+										{/* <h2>Employer's Name: {post.Employer_Name}</h2> */}
+										{post.Contact_Person_Name === null ? (
+											<h2 style={{ marginBottom: "10px" }}>
+												Employer's Name: {post.Employer_Name}
 											</h2>
-											<h2 style={{ marginTop: "0px" }}>
-												Position:{" "}
-												<u>{post.Contact_Person_Position}</u>
-											</h2>
-											<h2 style={{ marginTop: "0px" }}>
-												Contact Number:{" "}
-												<u>{post.Contact_Person_Number}</u>
-											</h2>
-											<h2
-												style={{
-													marginTop: "0px",
-													marginBottom: "10px",
-												}}>
-												Email Address:{" "}
-												<u>{post.Contact_Person_Email}</u>
-											</h2>
-										</>
-									)}
+										) : (
+											<>
+												<div className='job-qualification-portion'>
+													<h3>CONTACT PERSON</h3>
+												</div>
+												<h2 style={{ marginTop: "0px" }}>
+													Full Name:{" "}
+													<u>{post.Contact_Person_Name}</u>
+												</h2>
+												<h2 style={{ marginTop: "0px" }}>
+													Position:{" "}
+													<u>{post.Contact_Person_Position}</u>
+												</h2>
+												<h2 style={{ marginTop: "0px" }}>
+													Contact Number:{" "}
+													<u>{post.Contact_Person_Number}</u>
+												</h2>
+												<h2
+													style={{
+														marginTop: "0px",
+														marginBottom: "10px",
+													}}>
+													Email Address:{" "}
+													<u>{post.Contact_Person_Email}</u>
+												</h2>
+											</>
+										)}
+									</div>
 								</div>
 							</div>
 						</div>
+						<div className='btn'>
+							<button
+								onClick={() => {
+									this.setState({
+										seeMore: !this.state.seeMore,
+									});
+								}}>
+								{this.state.seeMore ? "See Less" : "See More"}
+							</button>
+						</div>
 					</div>
-					<div className='btn'>
-						<button
-							onClick={() => {
-								this.setState({
-									seeMore: !this.state.seeMore,
-								});
+					<div className='application-form'>
+						<h2>APPLICATION FORM</h2>
+						<form
+							className='app-form'
+							onSubmit={(e) => {
+								e.preventDefault();
+								this.viewModal();
 							}}>
-							{this.state.seeMore ? "See Less" : "See More"}
-						</button>
-					</div>
-				</div>
-				<div className='application-form'>
-					<h2>APPLICATION FORM</h2>
-					<form
-						className='app-form'
-						onSubmit={(e) => {
-							e.preventDefault();
-							this.viewModal();
-						}}>
-						<div className='fields'>
-							<div className='group-field'>
-								<div className='field'>
-									<label>First Name: </label>
-									<input
-										name='firstName'
-										type='text'
-										placeholder='First Name'
-										value={firstName}
-										onChange={(e) => {
-											this.handleChange(e, "firstName");
-										}}
-										disabled={
-											`${activePage}` === "profile" && "disable"
-										}
-									/>
-								</div>
-								<div className='field'>
-									<label>Middle Name: </label>
-									<input
-										type='text'
-										placeholder='Middle Name'
-										value={middleName}
-										onChange={(e) => {
-											this.handleChange(e, "middleName");
-										}}
-										disabled={
-											`${activePage}` === "profile" && "disable"
-										}
-									/>
-								</div>
-							</div>
-							<div className='group-field'>
-								<div className='field'>
-									<label>Last Name: </label>
-									<input
-										type='text'
-										placeholder='Last Name'
-										value={lastName}
-										onChange={(e) => {
-											this.handleChange(e, "lastName");
-										}}
-										disabled={
-											`${activePage}` === "profile" && "disable"
-										}
-									/>
-								</div>
-								<div className='field'>
-									<label>Home Address: </label>
-									<input
-										type='text'
-										placeholder='Home Address'
-										value={homeAddress}
-										onChange={(e) => {
-											this.handleChange(e, "homeAddress");
-										}}
-										disabled={
-											`${activePage}` === "profile" && "disable"
-										}
-									/>
-								</div>
-							</div>
-							<div className='group-field'>
-								<div className='field'>
-									<label>Gender: </label>
-									<select
-										value={sex}
-										onChange={(e) => {
-											this.handleChange(e, "sex");
-										}}
-										disabled={
-											`${activePage}` === "profile" && "disable"
-										}>
-										<option
-											disabled='disabled'
-											hidden='hidden'
-											value=''>
-											Select Gender
-										</option>
-										<option value='Male'>Male</option>
-										<option value='Female'>Female</option>
-										<option value='Gay'>Gay</option>
-										<option value='Lesbian'>Lesbian</option>
-									</select>
-								</div>
-								<div className='field'>
-									<label>Civil Status: </label>
-									<select
-										disabled={
-											`${activePage}` === "profile" && "disable"
-										}
-										onChange={(e) => {
-											this.handleChange(e, "civilStatus");
-										}}
-										value={civilStatus}>
-										<option
-											disabled='disabled'
-											hidden='hidden'
-											value=''>
-											Select Civil Status
-										</option>
-										<option value='Single'>Single</option>
-										<option value='Married'>Married</option>
-										<option value='Widowed'>Widowed</option>
-										<option value='Separated'>Separated</option>
-										<option value='Live-in'>Live-in</option>
-									</select>
-								</div>
-							</div>
-							<div className='group-field'>
-								<div className='field'>
-									<label>Date of Birth: </label>
-									<div className='birthdate'>
-										<select
-											value={bMonth}
+							<div className='fields'>
+								<div className='group-field'>
+									<div className='field'>
+										<label>First Name: </label>
+										<input
+											name='firstName'
+											type='text'
+											placeholder='First Name'
+											value={firstName}
 											onChange={(e) => {
-												this.handleChange(e, "bMonth");
+												this.handleChange(e, "firstName");
+											}}
+											disabled={
+												`${activePage}` === "profile" && "disable"
+											}
+										/>
+									</div>
+									<div className='field'>
+										<label>Middle Name: </label>
+										<input
+											type='text'
+											placeholder='Middle Name'
+											value={middleName}
+											onChange={(e) => {
+												this.handleChange(e, "middleName");
+											}}
+											disabled={
+												`${activePage}` === "profile" && "disable"
+											}
+										/>
+									</div>
+								</div>
+								<div className='group-field'>
+									<div className='field'>
+										<label>Last Name: </label>
+										<input
+											type='text'
+											placeholder='Last Name'
+											value={lastName}
+											onChange={(e) => {
+												this.handleChange(e, "lastName");
+											}}
+											disabled={
+												`${activePage}` === "profile" && "disable"
+											}
+										/>
+									</div>
+									<div className='field'>
+										<label>Home Address: </label>
+										<input
+											type='text'
+											placeholder='Home Address'
+											value={homeAddress}
+											onChange={(e) => {
+												this.handleChange(e, "homeAddress");
+											}}
+											disabled={
+												`${activePage}` === "profile" && "disable"
+											}
+										/>
+									</div>
+								</div>
+								<div className='group-field'>
+									<div className='field'>
+										<label>Gender: </label>
+										<select
+											value={sex}
+											onChange={(e) => {
+												this.handleChange(e, "sex");
 											}}
 											disabled={
 												`${activePage}` === "profile" && "disable"
@@ -900,40 +872,90 @@ export class ApplicationForm extends Component {
 												disabled='disabled'
 												hidden='hidden'
 												value=''>
-												Month
+												Select Gender
 											</option>
-											<option value={1}>January</option>
-											<option value={2}>February</option>
-											<option value={3}>March</option>
-											<option value={4}>April</option>
-											<option value={5}>May</option>
-											<option value={6}>June</option>
-											<option value={7}>July</option>
-											<option value={8}>August</option>
-											<option value={9}>September</option>
-											<option value={10}>October</option>
-											<option value={11}>November</option>
-											<option value={12}>December</option>
+											<option value='Male'>Male</option>
+											<option value='Female'>Female</option>
+											<option value='Gay'>Gay</option>
+											<option value='Lesbian'>Lesbian</option>
 										</select>
-
+									</div>
+									<div className='field'>
+										<label>Civil Status: </label>
 										<select
-											value={bDay}
-											onChange={(e) => {
-												this.handleChange(e, "bDay");
-											}}
 											disabled={
 												`${activePage}` === "profile" && "disable"
-											}>
+											}
+											onChange={(e) => {
+												this.handleChange(e, "civilStatus");
+											}}
+											value={civilStatus}>
 											<option
 												disabled='disabled'
 												hidden='hidden'
 												value=''>
-												Day
+												Select Civil Status
 											</option>
-											{birthDay}
+											<option value='Single'>Single</option>
+											<option value='Married'>Married</option>
+											<option value='Widowed'>Widowed</option>
+											<option value='Separated'>Separated</option>
+											<option value='Live-in'>Live-in</option>
 										</select>
+									</div>
+								</div>
+								<div className='group-field'>
+									<div className='field'>
+										<label>Date of Birth: </label>
+										<div className='birthdate'>
+											<select
+												value={bMonth}
+												onChange={(e) => {
+													this.handleChange(e, "bMonth");
+												}}
+												disabled={
+													`${activePage}` === "profile" &&
+													"disable"
+												}>
+												<option
+													disabled='disabled'
+													hidden='hidden'
+													value=''>
+													Month
+												</option>
+												<option value={1}>January</option>
+												<option value={2}>February</option>
+												<option value={3}>March</option>
+												<option value={4}>April</option>
+												<option value={5}>May</option>
+												<option value={6}>June</option>
+												<option value={7}>July</option>
+												<option value={8}>August</option>
+												<option value={9}>September</option>
+												<option value={10}>October</option>
+												<option value={11}>November</option>
+												<option value={12}>December</option>
+											</select>
 
-										{/* <select
+											<select
+												value={bDay}
+												onChange={(e) => {
+													this.handleChange(e, "bDay");
+												}}
+												disabled={
+													`${activePage}` === "profile" &&
+													"disable"
+												}>
+												<option
+													disabled='disabled'
+													hidden='hidden'
+													value=''>
+													Day
+												</option>
+												{birthDay}
+											</select>
+
+											{/* <select
 										value={bYear}
 										onChange={(e) => {
 											this.handleChange(e, "bYear");
@@ -946,27 +968,130 @@ export class ApplicationForm extends Component {
 										</option>
 										{birthYear}
 									</select> */}
+											<input
+												type='number'
+												placeholder='Year'
+												style={{ width: "80px" }}
+												value={bYear === 0 ? "" : bYear}
+												disabled={
+													`${activePage}` === "profile" &&
+													"disable"
+												}
+												onChange={(e) => {
+													this.handleChange(e, "bYear");
+												}}
+											/>
+										</div>
+									</div>
+									<div className='field'>
+										<label>Employment Status/Type: </label>
+										<div className='employment-status-fields'>
+											<select
+												value={employmentStatus}
+												onChange={(e) => {
+													this.handleChange(e, "employmentStatus");
+												}}
+												disabled={
+													`${activePage}` === "profile" &&
+													"disable"
+												}>
+												<option
+													disabled='disabled'
+													hidden='hidden'
+													value=''>
+													Select Status
+												</option>
+												<option value='Employed'>Employed</option>
+												<option value='Unemployed'>
+													Unemployed
+												</option>
+											</select>
+											<select
+												value={employmentType}
+												onChange={(e) => {
+													this.handleChange(e, "employmentType");
+												}}
+												disabled={
+													`${activePage}` === "profile" &&
+													"disable"
+												}>
+												<option
+													disabled='disabled'
+													hidden='hidden'
+													value=''>
+													Select Type
+												</option>
+												{employmentStatus === "Employed" ? (
+													<>
+														<option value='Wage Employed'>
+															Wage Employed
+														</option>
+														<option value='Self Employed'>
+															Self Employed
+														</option>
+													</>
+												) : (
+													<>
+														<option value='Not Specified'>
+															Not Specified
+														</option>
+														<option value='Fresh Graduate'>
+															Fresh Graduate
+														</option>
+														<option value='Finished Contract'>
+															Finished Contract
+														</option>
+														<option value='Resigned'>
+															Resigned
+														</option>
+														<option value='Retired'>
+															Retired
+														</option>
+														{/* <option value='Others'>Others</option> */}
+													</>
+												)}
+											</select>
+										</div>
+									</div>
+								</div>
+
+								<div className='group-field'>
+									<div className='field'>
+										<label>Contact Number: </label>
 										<input
-											type='number'
-											placeholder='Year'
-											style={{ width: "80px" }}
-											value={bYear === 0 ? "" : bYear}
+											type='text'
+											placeholder='Contact Number'
+											value={contactNumber}
+											onChange={(e) => {
+												this.handleChange(e, "contactNumber");
+											}}
 											disabled={
 												`${activePage}` === "profile" && "disable"
 											}
+										/>
+									</div>
+									<div className='field'>
+										<label>Email Address: </label>
+										<input
+											type='email'
+											placeholder='Email Address'
+											value={email}
 											onChange={(e) => {
-												this.handleChange(e, "bYear");
+												this.handleChange(e, "email");
 											}}
+											disabled={
+												`${activePage}` === "profile" && "disable"
+											}
 										/>
 									</div>
 								</div>
-								<div className='field'>
-									<label>Employment Status/Type: </label>
-									<div className='employment-status-fields'>
+								<div className='group-field'>
+									<div className='field'>
+										<label>Disability: </label>
 										<select
-											value={employmentStatus}
+											value={disability}
 											onChange={(e) => {
-												this.handleChange(e, "employmentStatus");
+												this.handleChange(e, "disability");
 											}}
 											disabled={
 												`${activePage}` === "profile" && "disable"
@@ -975,94 +1100,68 @@ export class ApplicationForm extends Component {
 												disabled='disabled'
 												hidden='hidden'
 												value=''>
-												Select Status
+												Select Disability
 											</option>
-											<option value='Employed'>Employed</option>
-											<option value='Unemployed'>Unemployed</option>
-										</select>
-										<select
-											value={employmentType}
-											onChange={(e) => {
-												this.handleChange(e, "employmentType");
-											}}
-											disabled={
-												`${activePage}` === "profile" && "disable"
-											}>
-											<option
-												disabled='disabled'
-												hidden='hidden'
-												value=''>
-												Select Type
-											</option>
-											{employmentStatus === "Employed" ? (
-												<>
-													<option value='Wage Employed'>
-														Wage Employed
-													</option>
-													<option value='Self Employed'>
-														Self Employed
-													</option>
-												</>
-											) : (
-												<>
-													<option value='Not Specified'>
-														Not Specified
-													</option>
-													<option value='Fresh Graduate'>
-														Fresh Graduate
-													</option>
-													<option value='Finished Contract'>
-														Finished Contract
-													</option>
-													<option value='Resigned'>
-														Resigned
-													</option>
-													<option value='Retired'>Retired</option>
-													{/* <option value='Others'>Others</option> */}
-												</>
-											)}
+											<option value='None'>None</option>
+											<option value='Visual'>Visual</option>
+											<option value='Hearing'>Hearing</option>
+											<option value='Speech'>Speech</option>
+											<option value='Physical'>Physical</option>
+											<option value='Others'>Others</option>
 										</select>
 									</div>
-								</div>
-							</div>
+									<div className='field'>
+										<label>
+											{`${activePage}` === "profile"
+												? "Resume:"
+												: "Attach your resume here (if necessary):"}
+										</label>
 
-							<div className='group-field'>
+										{`${activePage}` === "profile" ? (
+											<input
+												type='text'
+												placeholder='No attached file'
+												value={resume}
+												disabled={
+													`${activePage}` === "profile" &&
+													"disable"
+												}
+											/>
+										) : (
+											<input
+												accept='application/pdf,application/msword,
+											application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+												type='file'
+												disabled={
+													`${activePage}` === "profile" &&
+													"disable"
+												}
+												onChange={(e) => {
+													this.handleFileChange(e);
+												}}
+												style={darkTheme ? {} : { color: "black" }}
+											/>
+										)}
+									</div>
+								</div>
 								<div className='field'>
-									<label>Contact Number: </label>
+									<label>Educational Attainment: </label>
 									<input
 										type='text'
-										placeholder='Contact Number'
-										value={contactNumber}
+										placeholder='Educational Attainment'
+										value={educationalAttainment}
 										onChange={(e) => {
-											this.handleChange(e, "contactNumber");
+											this.handleChange(e, "educationalAttainment");
 										}}
 										disabled={
 											`${activePage}` === "profile" && "disable"
 										}
 									/>
-								</div>
-								<div className='field'>
-									<label>Email Address: </label>
-									<input
-										type='email'
-										placeholder='Email Address'
-										value={email}
-										onChange={(e) => {
-											this.handleChange(e, "email");
-										}}
-										disabled={
-											`${activePage}` === "profile" && "disable"
-										}
-									/>
-								</div>
-							</div>
-							<div className='group-field'>
-								<div className='field'>
-									<label>Disability: </label>
+									{/* <label>Highest Educational Attainment: </label>
 									<select
-										value={disability}
+										value={educationalAttainment}
 										onChange={(e) => {
-											this.handleChange(e, "disability");
+											this.handleChange(e, "educationalAttainment");
 										}}
 										disabled={
 											`${activePage}` === "profile" && "disable"
@@ -1071,172 +1170,143 @@ export class ApplicationForm extends Component {
 											disabled='disabled'
 											hidden='hidden'
 											value=''>
-											Select Disability
+											Select Educ. Attainment
 										</option>
-										<option value='None'>None</option>
-										<option value='Visual'>Visual</option>
-										<option value='Hearing'>Hearing</option>
-										<option value='Speech'>Speech</option>
-										<option value='Physical'>Physical</option>
-										<option value='Others'>Others</option>
-									</select>
-								</div>
-								<div className='field'>
-									<label>
-										{`${activePage}` === "profile"
-											? "Resume:"
-											: "Attach your resume here (if necessary):"}
-									</label>
-
-									{`${activePage}` === "profile" ? (
-										<input
-											type='text'
-											placeholder='No attached file'
-											value={resume}
-											disabled={
-												`${activePage}` === "profile" && "disable"
-											}
-										/>
-									) : (
-										<input
-											accept='application/pdf,application/msword,
-											application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-											type='file'
-											disabled={
-												`${activePage}` === "profile" && "disable"
-											}
-											onChange={(e) => {
-												this.handleFileChange(e);
-											}}
-											style={darkTheme ? {} : { color: "black" }}
-										/>
-									)}
+										<option value='Elementary Undergraduate'>
+											Elementary Undergraduate
+										</option>
+										<option value='Elementary Graduate'>
+											Elementary Graduate
+										</option>
+										<option value='JHS Undergraduate'>
+											JHS Undergraduate
+										</option>
+										<option value='JHS Graduate'>JHS Graduate</option>
+										<option value='SHS Undergraduate'>
+											SHS Undergraduate
+										</option>
+										<option value='SHS Graduate'>SHS Graduate</option>
+										<option value='College Undergraduate'>
+											College Undergraduate
+										</option>
+										<option value='College Graduate'>
+											College Graduate
+										</option>
+									</select> */}
 								</div>
 							</div>
-							<div className='field'>
-								<label>Educational Attainment: </label>
-								<input
-									type='text'
-									placeholder='Educational Attainment'
-									value={educationalAttainment}
-									onChange={(e) => {
-										this.handleChange(e, "educationalAttainment");
+
+							{!this.state.isValid && (
+								<p
+									style={{
+										textAlign: "center",
+										padding: "10px",
+										backgroundColor: "red",
+										marginTop: "20px",
+										fontSize: "12px",
+									}}>
+									Fill-in all the necessary fields!
+								</p>
+							)}
+
+							{post.Active_Status ? (
+								<button
+									onClick={(e) => {
+										e.preventDefault();
+										this.viewModal();
 									}}
-									disabled={`${activePage}` === "profile" && "disable"}
+									disabled={
+										`${activePage}` === "profile"
+											? "disabled"
+											: `${activePage}` !== "profile" &&
+											  !isUpdateButtonEnable
+											? "disable"
+											: ""
+									}
+									style={
+										`${activePage}` === "profile"
+											? { opacity: "0.3" }
+											: `${activePage}` !== "profile" &&
+											  !isUpdateButtonEnable
+											? { opacity: "0.3" }
+											: { opacity: "1" }
+									}>
+									{`${activePage}` === "profile"
+										? "Application Sent"
+										: "Send Application"}
+								</button>
+							) : (
+								""
+							)}
+
+							{this.state.isModalOpen ? (
+								<Modal
+									headText='Confirmation Dialog'
+									modalText='Continue sending your application?'
+									confirmText='Send'
+									closeText='Cancel'
+									close={this.onCloseModal}
+									confirm={this.handleSubmit}
+									path={`/jobseeker/home/application-form`}
 								/>
-							</div>
-						</div>
-
-						{!this.state.isValid && (
-							<p
-								style={{
-									textAlign: "center",
-									padding: "10px",
-									backgroundColor: "red",
-									marginTop: "20px",
-									fontSize: "12px",
-								}}>
-								Fill-in all the necessary fields!
-							</p>
-						)}
-
-						{post.Active_Status ? (
-							<button
-								onClick={(e) => {
-									e.preventDefault();
-									this.viewModal();
-								}}
-								disabled={
-									`${activePage}` === "profile"
-										? "disabled"
-										: `${activePage}` !== "profile" &&
-										  !isUpdateButtonEnable
-										? "disable"
-										: ""
-								}
-								style={
-									`${activePage}` === "profile"
-										? { opacity: "0.3" }
-										: `${activePage}` !== "profile" &&
-										  !isUpdateButtonEnable
-										? { opacity: "0.3" }
-										: { opacity: "1" }
-								}>
-								{`${activePage}` === "profile"
-									? "Application Sent"
-									: "Send Application"}
-							</button>
-						) : (
-							""
-						)}
-
-						{this.state.isModalOpen ? (
-							<Modal
-								headText='Confirmation Dialog'
-								modalText='Continue sending your application?'
-								confirmText='Send'
-								closeText='Back'
-								close={this.onCloseModal}
-								confirm={this.handleSubmit}
-								path={`/jobseeker/${activePage}`}
-							/>
-						) : (
-							""
-						)}
-					</form>
-				</div>
-				{`${activePage}` === "profile" && (
-					<div
-						className='application-status-container'
-						style={
-							applicationStatus === "Hired"
-								? {
-										padding: "10px",
-										borderRadius: "5px",
-										background:
-											"linear-gradient(20deg, #00f33d, #88ff00)",
-								  }
-								: applicationStatus === "Declined"
-								? {
-										padding: "10px",
-										borderRadius: "5px",
-										background:
-											"linear-gradient(20deg, #ff004c, #ff7b00)",
-								  }
-								: applicationStatus === "Meet"
-								? {
-										padding: "10px",
-										borderRadius: "5px",
-										background:
-											"linear-gradient(20deg, #00b2ff, #006aff)",
-								  }
-								: {}
-						}>
-						<p
-							style={
-								applicationStatus === "Hired"
-									? {
-											color: "#1f1f1f",
-									  }
-									: {}
-							}>
-							Application Status:
-						</p>
-						<h3
-							style={
-								applicationStatus === "Hired"
-									? {
-											color: "#121212",
-									  }
-									: {}
-							}>
-							{applicationStatus === "Meet"
-								? "Scheduled for an interview"
-								: applicationStatus}
-						</h3>
+							) : (
+								""
+							)}
+						</form>
 					</div>
-				)}
-			</div>
+					{`${activePage}` === "profile" && (
+						<div
+							className='application-status-container'
+							style={
+								applicationStatus === "Hired"
+									? {
+											padding: "10px",
+											borderRadius: "5px",
+											background:
+												"linear-gradient(20deg, #00f33d, #88ff00)",
+									  }
+									: applicationStatus === "Declined"
+									? {
+											padding: "10px",
+											borderRadius: "5px",
+											background:
+												"linear-gradient(20deg, #ff004c, #ff7b00)",
+									  }
+									: applicationStatus === "Meet"
+									? {
+											padding: "10px",
+											borderRadius: "5px",
+											background:
+												"linear-gradient(20deg, #00b2ff, #006aff)",
+									  }
+									: {}
+							}>
+							<p
+								style={
+									applicationStatus === "Hired"
+										? {
+												color: "#1f1f1f",
+										  }
+										: {}
+								}>
+								Application Status:
+							</p>
+							<h3
+								style={
+									applicationStatus === "Hired"
+										? {
+												color: "#121212",
+										  }
+										: {}
+								}>
+								{applicationStatus === "Meet"
+									? "Scheduled for an interview"
+									: applicationStatus}
+							</h3>
+						</div>
+					)}
+				</div>
+			</>
 		);
 	}
 }

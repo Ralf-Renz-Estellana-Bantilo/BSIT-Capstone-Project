@@ -306,7 +306,6 @@ export class Hiree_Information extends Component {
 							isSearchOpen === "true" ? message : employerMessage.Message
 						}
 						disabled={isSearchOpen === "false" ? "disabled" : ""}
-						autoFocus
 					/>
 					<div className='action-buttons'>
 						<button
