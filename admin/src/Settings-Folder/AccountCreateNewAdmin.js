@@ -11,7 +11,7 @@ const AccountCreateNewAdmin = ({
 	administrators,
 	setAdministrators,
 }) => {
-	const [step, setStep] = useState(1);
+	const [step, setStep] = useState(2);
 	const [username, setUsername] = useState(null);
 	const [password, setPassword] = useState(null);
 
@@ -112,7 +112,7 @@ const AccountCreateNewAdmin = ({
 				<h3>Create New Administrator</h3>
 			</div>
 			<div className='new-admin-container'>
-				{/* {step === 1 && (
+				{step === 1 && (
 					<div className='new-admin'>
 						<div className='new-admin-header'>
 							<h3>Verify Current Administrator</h3>
@@ -162,7 +162,7 @@ const AccountCreateNewAdmin = ({
 							</div>
 						)}
 					</div>
-				)} */}
+				)}
 
 				{step === 2 && (
 					<div className='new-admin'>
