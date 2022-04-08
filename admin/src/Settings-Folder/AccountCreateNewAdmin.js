@@ -112,7 +112,7 @@ const AccountCreateNewAdmin = ({
 				<h3>Create New Administrator</h3>
 			</div>
 			<div className='new-admin-container'>
-				{step === 1 && (
+				{/* {step === 1 && (
 					<div className='new-admin'>
 						<div className='new-admin-header'>
 							<h3>Verify Current Administrator</h3>
@@ -162,7 +162,7 @@ const AccountCreateNewAdmin = ({
 							</div>
 						)}
 					</div>
-				)}
+				)} */}
 
 				{step === 2 && (
 					<div className='new-admin'>
