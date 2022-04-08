@@ -28,10 +28,7 @@ const AccountCompanies = ({ companies, adminPosts }) => {
 							<img src={CloseIcon} alt='Close' title='Close' />
 						</div>
 						<div className='company-credentials-img'>
-							<img
-								src={`../assets/${companyInfo.Company_Image}`}
-								alt='Company'
-							/>
+							<img src={companyInfo.Company_Image} alt='Company' />
 						</div>
 						<div className='company-credentials-details'>
 							<h3>{companyInfo.Company_Name}</h3>
@@ -51,8 +48,14 @@ const AccountCompanies = ({ companies, adminPosts }) => {
 							<input type='text' value={companyData.Password} />
 						</div>
 						<p className='note'>
-							Go to the main website and use this login credentials to
-							manage it!
+							Go to the main website and use this login credentials to{" "}
+							<br />
+							manage it! Click{" "}
+							<a
+								href='https://job-search-catarman-prototype.netlify.app/login'
+								target='_blank'>
+								here
+							</a>
 						</p>
 					</div>
 				) : (
@@ -91,7 +94,7 @@ const AccountCompanies = ({ companies, adminPosts }) => {
 													width: "50px",
 												}}>
 												<img
-													src={`../assets/${company.Company_Image}`}
+													src={company.Company_Image}
 													alt='Company'
 												/>
 											</div>

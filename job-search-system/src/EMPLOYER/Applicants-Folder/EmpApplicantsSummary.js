@@ -144,11 +144,7 @@ export class Emp_Applicants_Summary extends Component {
 												className='applicant-image'
 												style={{ cursor: "auto" }}>
 												<img
-													// src={`../assets/${candidate.User_Image}`}
 													src={candidate.User_Image}
-													// src={`${AppConfiguration.url()}/assets/images/${
-													// 	candidate.User_Image
-													// }`}
 													alt='User'
 												/>
 											</div>

@@ -553,6 +553,10 @@ export class ApplicationForm extends Component {
 			}
 		} catch (error) {}
 
+		const resumeName = `${resume}`.split("/")[
+			`${resume}`.split("/").length - 1
+		];
+
 		return (
 			<>
 				{isLoading && (
@@ -1120,8 +1124,11 @@ export class ApplicationForm extends Component {
 										{`${activePage}` === "profile" ? (
 											<input
 												type='text'
-												placeholder='No attached file'
-												value={resume}
+												value={
+													resumeName !== "null"
+														? resumeName
+														: "No attached file"
+												}
 												disabled={
 													`${activePage}` === "profile" &&
 													"disable"

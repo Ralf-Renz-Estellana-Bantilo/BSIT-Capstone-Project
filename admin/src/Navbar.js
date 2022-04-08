@@ -70,34 +70,31 @@ const Navbar = ({
 	};
 
 	const handleUpdateDP = async () => {
-		const date =
-			new Date().getMonth() +
-			1 +
-			"" +
-			new Date().getDate() +
-			new Date().getFullYear();
-
-		const newFileName = date + "_" + fileData.name;
+		let newFileName = "";
 
 		if (fileData.size > 2090000) {
 			alert("File too large (2mb limit) ! Please try again!");
 		} else {
 			try {
 				const data = new FormData();
-				data.append("image", fileData);
+				data.append("file", fileData);
+				data.append("upload_preset", "job-search-catarman-asset");
 
-				// await fetch(`${AppConfiguration.url()}/api/upload-image-admin`, {
-				// 	method: "POST",
-				// 	body: data,
-				// })
-				// 	.then(async (result) => {
-				// 		// console.log(
-				// 		// 	"The File has been Uploaded to the Administrator..."
-				// 		// );
-				// 	})
-				// 	.catch((error) => {
-				// 		console.log("Multer Error!", error);
-				// 	});
+				await axios
+					.post(
+						"https://api.cloudinary.com/v1_1/doprewqnx/image/upload",
+						data
+					)
+					.then(async (res) => {
+						newFileName = res.data.secure_url;
+						setAdmin({
+							...admin,
+							User_Image: res.data.secure_url,
+						});
+					})
+					.catch((error) => {
+						alert(error);
+					});
 
 				await axios
 					.put(`${AppConfiguration.url()}/api/update-user-profile`, {
@@ -105,10 +102,6 @@ const Navbar = ({
 						userID: sessionStorage.getItem("UserID"),
 					})
 					.then((response) => {
-						setAdmin({
-							...admin,
-							User_Image: newFileName,
-						});
 						setProfileModalOpen(false);
 						setToggleChooser(false);
 					});
@@ -207,12 +200,7 @@ const Navbar = ({
 							<div className='profile-content'>
 								<div className='profile-image-container'>
 									<div className='profile-image'>
-										<img
-											src={`${AppConfiguration.url()}/assets/images/${
-												admin.User_Image
-											}`}
-											alt='Admin'
-										/>
+										<img src={admin.User_Image} alt='Admin' />
 									</div>
 									<div
 										className='camera'
@@ -440,9 +428,7 @@ const Navbar = ({
 						</h5>
 						<div className='profile-img'>
 							<img
-								src={`${AppConfiguration.url()}/assets/images/${
-									admin.User_Image
-								}`}
+								src={admin.User_Image}
 								alt='Administrator'
 								onClick={() => setProfileModalOpen(true)}
 							/>

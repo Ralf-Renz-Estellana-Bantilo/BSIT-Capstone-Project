@@ -213,7 +213,7 @@ const Applicants = ({
 																	width: "50px",
 																}}>
 																<img
-																	src={`../assets/${jobSeeker.User_Image}`}
+																	src={jobSeeker.User_Image}
 																	alt='Job Seeker'
 																/>
 															</div>
@@ -281,7 +281,7 @@ const Applicants = ({
 												<div className='applicant-basic-info'>
 													<div className='applicant-image'>
 														<img
-															src={`../assets/${applicant.User_Image}`}
+															src={applicant.User_Image}
 															alt='Applicant'
 														/>
 													</div>

@@ -124,6 +124,12 @@ export class Dp extends Component {
 					this.setState({
 						isLoading: false,
 					});
+				})
+				.catch((error) => {
+					alert(error);
+					this.setState({
+						isLoading: false,
+					});
 				});
 		} catch (error) {
 			alert(error);
@@ -227,7 +233,10 @@ export class Dp extends Component {
 
 					{this.state.showImage ? (
 						<div className='image-preview-container'>
-							<div className='overlay-style' />
+							<div
+								className='overlay-style'
+								onClick={this.toggleImagePreview}
+							/>
 							<div className='image-preview'>
 								<img
 									className='close-preview'

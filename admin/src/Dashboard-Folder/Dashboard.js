@@ -45,7 +45,10 @@ const Dashboard = ({
 	const getTotalVacancyCount = () => {
 		let vacancyCount = 0;
 		for (let a = 0; a < jobPosts.length; a++) {
-			if (jobPosts[a].Active_Status === "Active") {
+			if (
+				jobPosts[a].Active_Status === "Active" &&
+				jobPosts[a].Is_Deleted === "Visible"
+			) {
 				vacancyCount += Number(jobPosts[a].Required_Employees);
 			}
 		}
@@ -111,7 +114,8 @@ const Dashboard = ({
 				if (
 					`${jobPosts[b].Job_Title}`
 						.toUpperCase()
-						.includes(`${uniquePosts[a]}`.toUpperCase())
+						.includes(`${uniquePosts[a]}`.toUpperCase()) &&
+					jobPosts[b].Is_Deleted === "Visible"
 				) {
 					holdMax = jobPosts[b].Maximum_Salary;
 					activeStatus = jobPosts[b].Active_Status;
@@ -161,7 +165,8 @@ const Dashboard = ({
 				`${uniquePosts[a]}`
 					.toUpperCase()
 					.includes(`${jobPosts[b].Job_Title}`.toUpperCase()) &&
-				jobPosts[b].Active_Status === "Active"
+				jobPosts[b].Active_Status === "Active" &&
+				jobPosts[b].Is_Deleted === "Visible"
 			) {
 				count += Number(jobPosts[b].Required_Employees);
 			}
@@ -181,7 +186,8 @@ const Dashboard = ({
 	});
 
 	let activePosts = jobPosts.filter(
-		(posts) => posts.Active_Status === "Active"
+		(posts) =>
+			posts.Active_Status === "Active" && posts.Is_Deleted === "Visible"
 	);
 
 	let totalVacancyCount = getTotalVacancyCount();
@@ -294,7 +300,8 @@ const Dashboard = ({
 													`${jobPosts[a].Company_Address}`
 														.toLowerCase()
 														.includes(barangay.toLowerCase()) &&
-													jobPosts[a].Active_Status === "Active"
+													jobPosts[a].Active_Status === "Active" &&
+													jobPosts[a].Is_Deleted === "Visible"
 												) {
 													count += 1;
 												}
@@ -323,7 +330,8 @@ const Dashboard = ({
 											for (let a = 0; a < jobPosts.length; a++) {
 												if (
 													jobPosts[a].Active_Status === "Active" &&
-													category === jobPosts[a].Category
+													category === jobPosts[a].Category &&
+													jobPosts[a].Is_Deleted === "Visible"
 												) {
 													countVacancy += Number(
 														jobPosts[a].Required_Employees

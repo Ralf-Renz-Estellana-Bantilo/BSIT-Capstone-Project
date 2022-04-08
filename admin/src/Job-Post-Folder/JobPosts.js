@@ -97,105 +97,116 @@ const JobPosts = ({
 	}, []);
 
 	const handlePostJob = async () => {
-		const date =
-			new Date().getMonth() +
-			1 +
-			"" +
-			new Date().getDate() +
-			new Date().getFullYear();
-
-		if (
-			jobTitle === null ||
-			jobCategory === "" ||
-			placeOfWork === null ||
-			noReqEmp === null ||
-			minSalary === null ||
-			maxSalary === null ||
-			prefSex === "" ||
-			civilStatus === "" ||
-			jobType === "" ||
-			jobQualification === null ||
-			jobRequirement === null ||
-			jobDescription === null ||
-			companyName === null ||
-			// companyAcronym === null ||
-			employerType === "" ||
-			workForce === "" ||
-			street === null ||
-			zone === "" ||
-			companyBarangay === "" ||
-			employerFirstName === null ||
-			employerMiddleName === null ||
-			employerLastName === null ||
-			contactNumber === null ||
-			emailAddress === null ||
-			companyDescription === null ||
-			companyImage === null
-			// contactPersonName === null &&
-			// contactPersonPosition === null &&
-			// contactPersonNumber === null &&
-			// contactPersonEmail === null
-		) {
-			alert("Make sure to fill-in all the fields!");
-		} else {
-			let holdAcronym = "";
-			if (hasAcronym) {
-				holdAcronym = "(n/a)";
+		try {
+			if (
+				jobTitle === null ||
+				jobCategory === "" ||
+				placeOfWork === null ||
+				noReqEmp === null ||
+				minSalary === null ||
+				maxSalary === null ||
+				prefSex === "" ||
+				civilStatus === "" ||
+				jobType === "" ||
+				jobQualification === null ||
+				jobRequirement === null ||
+				jobDescription === null ||
+				companyName === null ||
+				// companyAcronym === null ||
+				employerType === "" ||
+				workForce === "" ||
+				street === null ||
+				zone === "" ||
+				companyBarangay === "" ||
+				employerFirstName === null ||
+				employerMiddleName === null ||
+				employerLastName === null ||
+				contactNumber === null ||
+				emailAddress === null ||
+				companyDescription === null ||
+				companyImage === null
+				// contactPersonName === null &&
+				// contactPersonPosition === null &&
+				// contactPersonNumber === null &&
+				// contactPersonEmail === null
+			) {
+				alert("Make sure to fill-in all the fields!");
 			} else {
-				holdAcronym = hasAcronym;
-			}
+				let holdAcronym = "";
+				if (hasAcronym) {
+					holdAcronym = "(n/a)";
+				} else {
+					holdAcronym = hasAcronym;
+				}
 
-			if (companyImage.size > 2090000) {
-				alert("File too large (2mb limit) ! Please try again!");
-			} else {
-				const post = {
-					JobID: shortid.generate(),
-					CompanyID: shortid.generate(),
-					Minutes: new Date().getMinutes(),
-					Hour: new Date().getHours(),
-					Day: new Date().getDate(),
-					Month: new Date().getMonth() + 1,
-					Year: new Date().getFullYear(),
-					Date_Posted: new Date(),
-					Job_Title: jobTitle,
-					Category: jobCategory,
-					Required_Employees: noReqEmp,
-					Minimum_Salary: minSalary,
-					Maximum_Salary: maxSalary,
-					Civil_Status: civilStatus,
-					Work_Place: placeOfWork,
-					Preferred_Sex: prefSex,
-					Job_Type: jobType,
-					Job_Qualifications: jobQualification,
-					Job_Requirements: jobRequirement,
-					Job_Description: jobDescription,
-					Company_Name: companyName,
-					Company_Acronym: holdAcronym,
-					Employer_Type: employerType,
-					Work_Force: workForce,
-					Company_Address: `${street}, ${zone}, ${companyBarangay}`,
-					Street: street,
-					Zone: zone,
-					Barangay: companyBarangay,
-					Employer_First_Name: employerFirstName,
-					Employer_Middle_Name: employerMiddleName,
-					Employer_Last_Name: employerLastName,
-					Employer_Name: `${employerFirstName} ${employerMiddleName} ${employerLastName}`,
-					Contact_Number: contactNumber,
-					Email_Address: emailAddress,
-					Company_Description: companyDescription,
-					Company_Image: date + "_" + companyImage.name,
-					File: companyImage,
-					Contact_Person_Name: contactPersonName,
-					Contact_Person_Position: contactPersonPosition,
-					Contact_Person_Number: contactPersonNumber,
-					Contact_Person_Email: contactPersonEmail,
-					Active_Status: "Active",
-				};
-				setJobPostPanelOpen(false);
-				addPost(post);
-				clearInputEntries();
+				if (companyImage.size > 2090000) {
+					alert("File too large (2mb limit) ! Please try again!");
+				} else {
+					const data = new FormData();
+					data.append("file", companyImage);
+					data.append("upload_preset", "job-search-catarman-asset");
+
+					await axios
+						.post(
+							"https://api.cloudinary.com/v1_1/doprewqnx/image/upload",
+							data
+						)
+						.then(async (res) => {
+							const post = {
+								JobID: shortid.generate(),
+								CompanyID: shortid.generate(),
+								Minutes: new Date().getMinutes(),
+								Hour: new Date().getHours(),
+								Day: new Date().getDate(),
+								Month: new Date().getMonth() + 1,
+								Year: new Date().getFullYear(),
+								Date_Posted: new Date(),
+								Job_Title: jobTitle,
+								Category: jobCategory,
+								Required_Employees: noReqEmp,
+								Minimum_Salary: minSalary,
+								Maximum_Salary: maxSalary,
+								Civil_Status: civilStatus,
+								Work_Place: placeOfWork,
+								Preferred_Sex: prefSex,
+								Job_Type: jobType,
+								Job_Qualifications: jobQualification,
+								Job_Requirements: jobRequirement,
+								Job_Description: jobDescription,
+								Company_Name: companyName,
+								Company_Acronym: holdAcronym,
+								Employer_Type: employerType,
+								Work_Force: workForce,
+								Company_Address: `${street}, ${zone}, ${companyBarangay}`,
+								Street: street,
+								Zone: zone,
+								Barangay: companyBarangay,
+								Employer_First_Name: employerFirstName,
+								Employer_Middle_Name: employerMiddleName,
+								Employer_Last_Name: employerLastName,
+								Employer_Name: `${employerFirstName} ${employerMiddleName} ${employerLastName}`,
+								Contact_Number: contactNumber,
+								Email_Address: emailAddress,
+								Company_Description: companyDescription,
+								Company_Image: res.data.secure_url,
+								File: companyImage,
+								Contact_Person_Name: contactPersonName,
+								Contact_Person_Position: contactPersonPosition,
+								Contact_Person_Number: contactPersonNumber,
+								Contact_Person_Email: contactPersonEmail,
+								Active_Status: "Active",
+							};
+							setJobPostPanelOpen(false);
+							await addPost(post);
+							clearInputEntries();
+						})
+						.catch((error) => {
+							alert(error);
+						});
+				}
 			}
+		} catch (error) {
+			alert(error);
 		}
 	};
 
@@ -291,9 +302,13 @@ const JobPosts = ({
 
 	let activePosts = null;
 	if (status === "All") {
-		activePosts = jobPosts;
+		// activePosts = jobPosts;
+		activePosts = jobPosts.filter((posts) => posts.Is_Deleted === "Visible");
 	} else {
-		activePosts = jobPosts.filter((posts) => posts.Active_Status === status);
+		activePosts = jobPosts.filter(
+			(posts) =>
+				posts.Active_Status === status && posts.Is_Deleted === "Visible"
+		);
 	}
 
 	let countList = 0;
@@ -1274,7 +1289,7 @@ const JobPosts = ({
 														<div className='account-profile-container'>
 															<div className='account-profile'>
 																<img
-																	src={`../assets/${post.Company_Image}`}
+																	src={post.Company_Image}
 																	alt='Establishment'
 																/>
 															</div>

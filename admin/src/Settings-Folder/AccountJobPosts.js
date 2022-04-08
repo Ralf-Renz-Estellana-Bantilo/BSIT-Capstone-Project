@@ -56,7 +56,7 @@ const AccountJobPosts = ({ jobPosts, jobApplicants, adminPosts }) => {
 									<div className='upperLeft-info'>
 										<div className='account-profile'>
 											<img
-												src={`../assets/${post.Company_Image}`}
+												src={post.Company_Image}
 												alt='Establishment'
 											/>
 										</div>

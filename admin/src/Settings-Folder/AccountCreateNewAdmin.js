@@ -151,7 +151,7 @@ const AccountCreateNewAdmin = ({
 										<div className='admin-list'>
 											<div className='admin-list-img'>
 												<img
-													src={`../assets/${admin.User_Image}`}
+													src={admin.User_Image}
 													alt='Administrator'
 												/>
 											</div>

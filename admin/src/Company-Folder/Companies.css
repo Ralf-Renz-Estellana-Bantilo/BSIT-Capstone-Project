@@ -62,9 +62,19 @@
 	transition: all 0.2s;
 }
 
+.is-deleted {
+	background-color: gray;
+	opacity: .8;
+}
+
+
 .company-post:hover {
 	background-color: white;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.is-deleted:hover {
+	background-color: rgb(145, 145, 145);
 }
 
 .post-left-portion h3 {

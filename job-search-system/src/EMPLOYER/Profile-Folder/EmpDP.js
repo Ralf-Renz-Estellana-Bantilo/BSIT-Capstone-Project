@@ -217,7 +217,10 @@ export class Emp_DP extends Component {
 
 					{this.state.showImage ? (
 						<div className='image-preview-container'>
-							<div className='overlay-style' />
+							<div
+								className='overlay-style'
+								onClick={this.toggleImagePreview}
+							/>
 							<div className='image-preview'>
 								<img
 									className='close-preview'

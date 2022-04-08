@@ -8,6 +8,8 @@ class AppConfiguration {
 
 		if (currentURL.includes("localhost")) {
 			this.CONFIGURED_URL = "http://localhost:2000";
+			// this.CONFIGURED_URL =
+			// 	"https://job-search-system-catarman.herokuapp.com";
 		} else {
 			this.CONFIGURED_URL =
 				"https://job-search-system-catarman.herokuapp.com";

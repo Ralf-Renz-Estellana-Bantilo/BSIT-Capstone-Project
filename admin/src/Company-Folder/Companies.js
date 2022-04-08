@@ -47,6 +47,7 @@ const Companies = ({
 	if (companyPreview !== null) {
 		companyPosts = jobPosts.filter(
 			(post) => post.CompanyID === companyPreview.CompanyID
+			// && post.Is_Deleted === "Visible"
 		);
 	}
 
@@ -164,7 +165,7 @@ const Companies = ({
 																	width: "50px",
 																}}>
 																<img
-																	src={`../assets/${company.Company_Image}`}
+																	src={company.Company_Image}
 																	alt='Company'
 																/>
 															</div>
@@ -229,7 +230,7 @@ const Companies = ({
 												<div className='company-image-container'>
 													<div className='company-image'>
 														<img
-															src={`../assets/${companyPreview.Company_Image}`}
+															src={companyPreview.Company_Image}
 															alt='Establishment'
 														/>
 													</div>
@@ -311,18 +312,36 @@ const Companies = ({
 													{companyPosts.map((companyPost) => {
 														return (
 															<div
-																className='company-post'
+																className={
+																	companyPost.Is_Deleted ===
+																	"Visible"
+																		? "company-post"
+																		: "company-post is-deleted"
+																}
 																style={
 																	companyPost.Active_Status ===
-																	"Active"
+																		"Active" &&
+																	companyPost.Is_Deleted !==
+																		"Deleted"
 																		? {
 																				borderLeft:
 																					"5px solid #00ff40",
 																		  }
-																		: {
+																		: companyPost.Active_Status ===
+																				"Closed" &&
+																		  companyPost.Is_Deleted !==
+																				"Deleted"
+																		? {
 																				borderLeft:
 																					"5px solid red",
 																		  }
+																		: companyPost.Is_Deleted ===
+																		  "Deleted"
+																		? {
+																				borderLeft:
+																					"5px solid #006aff",
+																		  }
+																		: ""
 																}
 																onClick={() => {
 																	setFrameNumber(2);
@@ -377,7 +396,9 @@ const Companies = ({
 												<div className='upperLeft-info'>
 													<div className='account-profile'>
 														<img
-															src={`../assets/${selectedPostPreview.Company_Image}`}
+															src={
+																selectedPostPreview.Company_Image
+															}
 															alt='Establishment'
 														/>
 													</div>
@@ -479,20 +500,31 @@ const Companies = ({
 																			className='active-circle'
 																			style={
 																				selectedPostPreview.Active_Status ===
-																				"Active"
+																					"Active" &&
+																				selectedPostPreview.Is_Deleted ===
+																					"Visible"
 																					? {
 																							backgroundColor:
 																								"#00ff40",
 																					  }
-																					: {
+																					: selectedPostPreview.Active_Status ===
+																							"Closed" &&
+																					  selectedPostPreview.Is_Deleted ===
+																							"Visible"
+																					? {
 																							backgroundColor:
 																								"red",
 																					  }
+																					: {
+																							backgroundColor:
+																								"#006aff",
+																					  }
 																			}></div>
 																		<h4>
-																			{
-																				selectedPostPreview.Active_Status
-																			}
+																			{selectedPostPreview.Is_Deleted ===
+																			"Visible"
+																				? selectedPostPreview.Active_Status
+																				: "Deleted"}
 																		</h4>
 																	</div>
 																</div>

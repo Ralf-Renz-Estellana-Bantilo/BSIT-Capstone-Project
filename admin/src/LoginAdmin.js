@@ -20,32 +20,47 @@ const LoginAdmin = ({ setAdmin }) => {
 	const handleLogin = async (e) => {
 		e.preventDefault();
 
-		try {
-			if (userName !== null && password !== null) {
-				await axios
-					.post(`${AppConfiguration.url()}/api/login`, {
-						role: "Admin",
-						username: userName,
-						password: password,
-					})
-					.then(async (response) => {
-						if (response.data.length === 1) {
-							setAdmin(response.data[0]);
-							setUserID(response.data[0].UserID);
-							setWelcomeOpen(true);
-							setName(
-								`${response.data[0].First_Name} ${response.data[0].Last_Name}`
-							);
-						} else {
-							setValid(false);
-						}
-					});
-			} else {
-				setValid(false);
-			}
-		} catch (error) {
-			alert(error);
-		}
+		// try {
+		// 	if (userName !== null && password !== null) {
+		// 		await axios
+		// 			.post(`${AppConfiguration.url()}/api/login`, {
+		// 				role: "Admin",
+		// 				username: userName,
+		// 				password: password,
+		// 			})
+		// 			.then(async (response) => {
+		// 				if (response.data.length === 1) {
+		// 					setAdmin(response.data[0]);
+		// 					setUserID(response.data[0].UserID);
+		// 					setWelcomeOpen(true);
+		// 					setName(
+		// 						`${response.data[0].First_Name} ${response.data[0].Last_Name}`
+		// 					);
+		// 				} else {
+		// 					setValid(false);
+		// 				}
+		// 			});
+		// 	} else {
+		// 		setValid(false);
+		// 	}
+		// } catch (error) {
+		// 	alert(error);
+		// }
+		setAdmin({
+			UserID: "rreb2000",
+			First_Name: "Ralf Renz",
+			Middle_Name: "Estellana",
+			Last_Name: "Bantilo",
+			Sex: "Male",
+			Role: "Employer",
+			Username: "generatedUsername",
+			Password: "generatedPassword",
+			User_Image:
+				"https://res.cloudinary.com/doprewqnx/image/upload/v1648959524/jntowv75wyhkqvy4o1xu.png",
+		});
+		setUserID("rreb2000");
+		setWelcomeOpen(true);
+		setName(`Ralf Renz Bantilo`);
 	};
 
 	const closeWelcome = () => {
