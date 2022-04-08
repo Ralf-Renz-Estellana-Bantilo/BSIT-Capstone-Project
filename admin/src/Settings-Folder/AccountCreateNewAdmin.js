@@ -11,7 +11,7 @@ const AccountCreateNewAdmin = ({
 	administrators,
 	setAdministrators,
 }) => {
-	const [step, setStep] = useState(2);
+	const [step, setStep] = useState(1);
 	const [username, setUsername] = useState(null);
 	const [password, setPassword] = useState(null);
 
