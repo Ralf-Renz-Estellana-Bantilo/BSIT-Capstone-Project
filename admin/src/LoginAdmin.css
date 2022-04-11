@@ -191,7 +191,7 @@
 }
 
 .circle-red {
-	background: linear-gradient(120deg, var(--orange), var(--reddish));
+	background: linear-gradient(120deg, #ff7b00, #ff004c);
 	top: -130px;
 	right: -130px;
 }
@@ -212,7 +212,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: linear-gradient(20deg, var(--reddish), var(--orange));
+	background: linear-gradient(20deg, #ff004c, #ff7b00);
 }
 
 .error-wrapper p {

@@ -1,7 +1,18 @@
 import React from "react";
 import AdminResources from "../AdminResources";
 
-const SummaryJobSeekersHired = ({ employerFeedback, jobPosts }) => {
+const SummaryJobSeekersHired = ({
+	employerFeedback,
+	jobPosts,
+	summaryYear,
+	handlePreviousYear,
+	handleNextYear,
+}) => {
+	let jobPostsCopy = jobPosts.filter((post) => post.Year === summaryYear);
+	let employerFeedbackCopy = employerFeedback.filter(
+		(feedback) => feedback.Year === summaryYear
+	);
+
 	let months = [
 		"January",
 		"February",
@@ -19,11 +30,13 @@ const SummaryJobSeekersHired = ({ employerFeedback, jobPosts }) => {
 
 	const getApplicantsHiredPerMonth = () => {
 		let applicants = [];
-		let hiredApplicants = employerFeedback.filter(
+		let hiredApplicants = employerFeedbackCopy.filter(
 			(feedback) => feedback.Application_Status === "Hired"
 		);
 		let uniqueFeedback = [
-			...new Set(employerFeedback.map((feedback) => feedback.ApplicantID)),
+			...new Set(
+				employerFeedbackCopy.map((feedback) => feedback.ApplicantID)
+			),
 		];
 
 		for (let a = 0; a < months.length; a++) {
@@ -49,17 +62,17 @@ const SummaryJobSeekersHired = ({ employerFeedback, jobPosts }) => {
 	const getHiredApplicantsPerCategory = () => {
 		const listOfCategories = AdminResources.getCategories();
 		let applicants = [];
-		let hiredApplicants = employerFeedback.filter(
+		let hiredApplicants = employerFeedbackCopy.filter(
 			(feedback) => feedback.Application_Status === "Hired"
 		);
 
 		for (let a = 0; a < listOfCategories.length; a++) {
 			let count = 0;
 			for (let b = 0; b < hiredApplicants.length; b++) {
-				for (let c = 0; c < jobPosts.length; c++) {
+				for (let c = 0; c < jobPostsCopy.length; c++) {
 					if (
-						hiredApplicants[b].JobID === jobPosts[c].JobID &&
-						listOfCategories[a] === jobPosts[c].Category
+						hiredApplicants[b].JobID === jobPostsCopy[c].JobID &&
+						listOfCategories[a] === jobPostsCopy[c].Category
 					) {
 						count += 1;
 					}
@@ -108,6 +121,8 @@ const SummaryJobSeekersHired = ({ employerFeedback, jobPosts }) => {
 		}
 	);
 
+	let currentYear = new Date().getFullYear();
+
 	return (
 		<div className='summary-container'>
 			<div className='summary'>
@@ -149,6 +164,23 @@ const SummaryJobSeekersHired = ({ employerFeedback, jobPosts }) => {
 						</tr> */}
 					</table>
 				</div>
+			</div>
+			<div className='summary-duration'>
+				<button
+					onClick={handlePreviousYear}
+					disabled={summaryYear <= 2021 && "disabled"}
+					title='Previous Year'>
+					{" "}
+					-{" "}
+				</button>
+				<p>{summaryYear}</p>
+				<button
+					onClick={handleNextYear}
+					disabled={currentYear <= summaryYear && "disabled"}
+					title='Next Year'>
+					{" "}
+					+{" "}
+				</button>
 			</div>
 		</div>
 	);

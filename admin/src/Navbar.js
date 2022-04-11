@@ -10,6 +10,7 @@ import "./Navbar.css";
 import Modal from "./Modal";
 import axios from "axios";
 import AppConfiguration from "./AppConfiguration";
+import Loading from "./Loading";
 
 const Navbar = ({
 	isSidebarOpen,
@@ -35,6 +36,8 @@ const Navbar = ({
 	const [prevFirstName, setPrevFirstName] = useState("");
 	const [prevMiddleName, setPrevMiddleName] = useState("");
 	const [prevLastName, setPrevLastName] = useState("");
+
+	const [isLoading, setIsLoading] = useState(false);
 
 	const [activeLink, setActiveLink] = useState("Account");
 
@@ -72,43 +75,48 @@ const Navbar = ({
 	const handleUpdateDP = async () => {
 		let newFileName = "";
 
-		if (fileData.size > 2090000) {
-			alert("File too large (2mb limit) ! Please try again!");
-		} else {
-			try {
-				const data = new FormData();
-				data.append("file", fileData);
-				data.append("upload_preset", "job-search-catarman-asset");
+		// if (fileData.size > 2090000) {
+		// 	alert("File too large (2mb limit) ! Please try again!");
+		// } else {
+		try {
+			setIsLoading(true);
+			const data = new FormData();
+			data.append("file", fileData);
+			data.append("upload_preset", "job-search-catarman-asset");
 
-				await axios
-					.post(
-						"https://api.cloudinary.com/v1_1/doprewqnx/image/upload",
-						data
-					)
-					.then(async (res) => {
-						newFileName = res.data.secure_url;
-						setAdmin({
-							...admin,
-							User_Image: res.data.secure_url,
-						});
-					})
-					.catch((error) => {
-						alert(error);
+			await axios
+				.post(
+					"https://api.cloudinary.com/v1_1/doprewqnx/image/upload",
+					data
+				)
+				.then(async (res) => {
+					newFileName = res.data.secure_url;
+					setAdmin({
+						...admin,
+						User_Image: res.data.secure_url,
 					});
+					setIsLoading(false);
+				})
+				.catch((error) => {
+					alert(error);
+					setIsLoading(false);
+				});
 
-				await axios
-					.put(`${AppConfiguration.url()}/api/update-user-profile`, {
-						image: newFileName,
-						userID: sessionStorage.getItem("UserID"),
-					})
-					.then((response) => {
-						setProfileModalOpen(false);
-						setToggleChooser(false);
-					});
-			} catch (error) {
-				alert(error);
-			}
+			await axios
+				.put(`${AppConfiguration.url()}/api/update-user-profile`, {
+					image: newFileName,
+					userID: sessionStorage.getItem("UserID"),
+				})
+				.then((response) => {
+					setProfileModalOpen(false);
+					setToggleChooser(false);
+					setIsLoading(false);
+				});
+		} catch (error) {
+			alert(error);
+			setIsLoading(false);
 		}
+		// }
 	};
 
 	const handleUpdateName = () => {
@@ -153,20 +161,6 @@ const Navbar = ({
 		isUpdateButtonEnable = false;
 	} else if (lastName === "" || firstName === "" || middleName === "") {
 		isUpdateButtonEnable = false;
-	}
-
-	let imageSource = "";
-	if (
-		`${AppConfiguration.url()}/assets/images/${admin.User_Image}`.includes(
-			"undefined"
-		)
-	) {
-		imageSource =
-			"../public/assets/https://res.cloudinary.com/doprewqnx/image/upload/v1648959524/jntowv75wyhkqvy4o1xu.png";
-	} else {
-		imageSource = `${AppConfiguration.url()}/assets/images/${
-			admin.User_Image
-		}`;
 	}
 
 	return (
@@ -444,6 +438,8 @@ const Navbar = ({
 					</div>
 				</div>
 			</div>
+
+			{isLoading && <Loading message={"Updating Profile Picture..."} />}
 		</>
 	);
 };
@@ -451,12 +447,8 @@ const Navbar = ({
 Navbar.defaultProps = {
 	activePage: "whatever",
 	isJobPostPanelOpen: false,
-	setJobPostPanelOpen: function () {
-		// console.log("Function");
-	},
-	handleChangeLink: function () {
-		// console.log("Function");
-	},
+	setJobPostPanelOpen: function () {},
+	handleChangeLink: function () {},
 };
 
 export default Navbar;

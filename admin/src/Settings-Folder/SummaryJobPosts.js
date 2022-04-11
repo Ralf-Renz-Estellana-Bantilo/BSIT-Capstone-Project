@@ -1,20 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AdminResources from "../AdminResources";
 import "./SummaryJobPosts.css";
 
-const SummaryJobPosts = ({ jobPosts }) => {
+const SummaryJobPosts = ({
+	jobPosts,
+	summaryYear,
+	handlePreviousYear,
+	handleNextYear,
+}) => {
+	// const [summaryYear, setSummaryYear] = useState(null);
+	let jobPostsCopy = jobPosts.filter((post) => post.Year === summaryYear);
+
+	// const handlePreviousYear = () => {
+	// 	setSummaryYear((prevYear) => prevYear - 1);
+	// };
+
+	// const handleNextYear = () => {
+	// 	setSummaryYear((prevYear) => prevYear + 1);
+	// };
+
 	const getPostsPerBarangay = () => {
 		let posts = [];
 		const listOfBarangays = AdminResources.getBarangay();
 
 		for (let a = 0; a < listOfBarangays.length; a++) {
 			let count = 0;
-			for (let b = 0; b < jobPosts.length; b++) {
+			for (let b = 0; b < jobPostsCopy.length; b++) {
 				if (
-					`${jobPosts[b].Company_Address}`
+					`${jobPostsCopy[b].Company_Address}`
 						.toLowerCase()
 						.includes(listOfBarangays[a].toLowerCase())
-					// && jobPosts[b].Active_Status === "Active"
+					// && jobPostsCopy[b].Active_Status === "Active"
 				) {
 					count += 1;
 				}
@@ -33,10 +49,10 @@ const SummaryJobPosts = ({ jobPosts }) => {
 
 		for (let a = 0; a < listOfCategories.length; a++) {
 			let count = 0;
-			for (let b = 0; b < jobPosts.length; b++) {
-				// if (jobPosts[b].Active_Status === "Active") {
-				if (listOfCategories[a] === jobPosts[b].Category) {
-					count += Number(jobPosts[b].Required_Employees);
+			for (let b = 0; b < jobPostsCopy.length; b++) {
+				// if (jobPostsCopy[b].Active_Status === "Active") {
+				if (listOfCategories[a] === jobPostsCopy[b].Category) {
+					count += Number(jobPostsCopy[b].Required_Employees);
 				}
 				// }
 			}
@@ -53,13 +69,13 @@ const SummaryJobPosts = ({ jobPosts }) => {
 
 		for (let a = 0; a < listOfBarangays.length; a++) {
 			let count = 0;
-			for (let b = 0; b < jobPosts.length; b++) {
+			for (let b = 0; b < jobPostsCopy.length; b++) {
 				let barangay =
-					jobPosts[b].Company_Address.split(", ")[
-						jobPosts[b].Company_Address.split(", ").length - 1
+					jobPostsCopy[b].Company_Address.split(", ")[
+						jobPostsCopy[b].Company_Address.split(", ").length - 1
 					];
 				if (listOfBarangays[a] === barangay) {
-					count += Number(jobPosts[b].Required_Employees);
+					count += Number(jobPostsCopy[b].Required_Employees);
 				}
 			}
 			let post = { barangay: listOfBarangays[a], count: count };
@@ -71,22 +87,24 @@ const SummaryJobPosts = ({ jobPosts }) => {
 
 	const getInDemandJobs = () => {
 		let uniquePosts = [
-			...new Set(jobPosts.map((post) => `${post.Job_Title}`.toUpperCase())),
+			...new Set(
+				jobPostsCopy.map((post) => `${post.Job_Title}`.toUpperCase())
+			),
 		];
 		let inDemandJobs = [];
 
 		for (let a = 0; a < uniquePosts.length; a++) {
 			let count = 0;
 			let title = "";
-			for (let b = 0; b < jobPosts.length; b++) {
+			for (let b = 0; b < jobPostsCopy.length; b++) {
 				if (
 					`${uniquePosts[a]}`
 						.toUpperCase()
-						.includes(`${jobPosts[b].Job_Title}`.toUpperCase()) &&
-					jobPosts[b].Active_Status === "Active"
+						.includes(`${jobPostsCopy[b].Job_Title}`.toUpperCase()) &&
+					jobPostsCopy[b].Active_Status === "Active"
 				) {
-					count += Number(jobPosts[b].Required_Employees);
-					if (jobPosts[b].Active_Status !== "Active") {
+					count += Number(jobPostsCopy[b].Required_Employees);
+					if (jobPostsCopy[b].Active_Status !== "Active") {
 						title = uniquePosts[a] + " (Closed)";
 					} else {
 						title = uniquePosts[a];
@@ -107,21 +125,23 @@ const SummaryJobPosts = ({ jobPosts }) => {
 	const getHighPayingJob = () => {
 		let jobs = [];
 		let uniquePosts = [
-			...new Set(jobPosts.map((post) => `${post.Job_Title}`.toUpperCase())),
+			...new Set(
+				jobPostsCopy.map((post) => `${post.Job_Title}`.toUpperCase())
+			),
 		];
 
 		for (let a = 0; a < uniquePosts.length; a++) {
 			let maxSalary = 0;
 			let holdMax = 0;
 			let activeStatus = "";
-			for (let b = 0; b < jobPosts.length; b++) {
+			for (let b = 0; b < jobPostsCopy.length; b++) {
 				if (
-					`${jobPosts[b].Job_Title}`
+					`${jobPostsCopy[b].Job_Title}`
 						.toUpperCase()
 						.includes(`${uniquePosts[a]}`.toUpperCase())
 				) {
-					holdMax = jobPosts[b].Maximum_Salary;
-					activeStatus = jobPosts[b].Active_Status;
+					holdMax = jobPostsCopy[b].Maximum_Salary;
+					activeStatus = jobPostsCopy[b].Active_Status;
 					if (holdMax > maxSalary) {
 						maxSalary = holdMax;
 					}
@@ -141,6 +161,10 @@ const SummaryJobPosts = ({ jobPosts }) => {
 
 		return allJobs;
 	};
+
+	// useEffect(() => {
+	// 	setSummaryYear(new Date().getFullYear());
+	// }, []);
 
 	let months = [
 		"January",
@@ -200,8 +224,10 @@ const SummaryJobPosts = ({ jobPosts }) => {
 	const listOfInDemandJobs = getInDemandJobs().sort(
 		(a, b) => b.count - a.count
 	);
+	let countInDemandJobs = 0;
 	let inDemandJobs = listOfInDemandJobs.map((jobs, index) => {
 		if (jobs.count >= 10) {
+			countInDemandJobs++;
 			return (
 				<tr key={index}>
 					<td>{jobs.jobTitle}</td>
@@ -211,12 +237,15 @@ const SummaryJobPosts = ({ jobPosts }) => {
 		}
 	});
 
+	console.log(jobPostsCopy);
+
+	let currentYear = new Date().getFullYear();
 	let currentMonth = new Date().getMonth();
 	let postsPerMonth = months.map((month, index) => {
-		if (index <= currentMonth) {
-			let count = 0;
-			for (let a = 0; a < jobPosts.length; a++) {
-				if (jobPosts[a].Month === index + 1) {
+		let count = 0;
+		if (summaryYear < currentYear) {
+			for (let a = 0; a < jobPostsCopy.length; a++) {
+				if (jobPostsCopy[a].Month === index + 1) {
 					count += 1;
 				}
 			}
@@ -226,12 +255,28 @@ const SummaryJobPosts = ({ jobPosts }) => {
 					<td style={{ textAlign: "center" }}>{count}</td>
 				</tr>
 			);
+		} else if (summaryYear === currentYear) {
+			if (index <= currentMonth) {
+				for (let a = 0; a < jobPostsCopy.length; a++) {
+					if (jobPostsCopy[a].Month === index + 1) {
+						count += 1;
+					}
+				}
+				return (
+					<tr key={index}>
+						<td>{month}</td>
+						<td style={{ textAlign: "center" }}>{count}</td>
+					</tr>
+				);
+			}
 		}
 	});
 
 	let highPayingJobs = getHighPayingJob();
+	let countHighPayingJobs = 0;
 	let allHighPayingJobs = highPayingJobs.map((jobs, index) => {
 		if (jobs.Maximum_Salary > 15000) {
+			countHighPayingJobs++;
 			return (
 				<tr key={index}>
 					<td>
@@ -257,8 +302,8 @@ const SummaryJobPosts = ({ jobPosts }) => {
 	}
 	let totalPostsPerMonth = 0;
 	for (let a = 0; a < months.length; a++) {
-		for (let b = 0; b < jobPosts.length; b++) {
-			if (jobPosts[b].Month === a + 1) {
+		for (let b = 0; b < jobPostsCopy.length; b++) {
+			if (jobPostsCopy[b].Month === a + 1) {
 				totalPostsPerMonth += 1;
 			}
 		}
@@ -357,6 +402,13 @@ const SummaryJobPosts = ({ jobPosts }) => {
 						{inDemandJobs}
 						{/* <td className='summary-total'>TOTAL</td>
 						<td className='summary-value'>{totalPosts}</td> */}
+						{countInDemandJobs === 0 && (
+							<>
+								{" "}
+								<td>no data found</td>
+								<td>no data found</td>
+							</>
+						)}
 					</table>
 				</div>
 			</div>
@@ -374,8 +426,33 @@ const SummaryJobPosts = ({ jobPosts }) => {
 						{allHighPayingJobs}
 						{/* <td className='summary-total'>TOTAL</td>
 						<td className='summary-value'>{totalPosts}</td> */}
+						{countHighPayingJobs === 0 && (
+							<>
+								{" "}
+								<td>no data found</td>
+								<td>no data found</td>
+							</>
+						)}
 					</table>
 				</div>
+			</div>
+
+			<div className='summary-duration'>
+				<button
+					onClick={handlePreviousYear}
+					disabled={summaryYear <= 2021 && "disabled"}
+					title='Previous Year'>
+					{" "}
+					-{" "}
+				</button>
+				<p>{summaryYear}</p>
+				<button
+					onClick={handleNextYear}
+					disabled={currentYear <= summaryYear && "disabled"}
+					title='Next Year'>
+					{" "}
+					+{" "}
+				</button>
 			</div>
 		</div>
 	);

@@ -1386,7 +1386,7 @@ class AdminResources {
 
 		if (month > birthMonth) {
 			age = year - birthYear;
-		} else if (month == birthMonth) {
+		} else if (month === birthMonth) {
 			if (day >= birthDay) {
 				age = year - birthYear;
 			} else {

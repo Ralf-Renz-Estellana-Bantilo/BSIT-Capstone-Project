@@ -264,7 +264,7 @@ export class Login extends Component {
 									/>
 								</div>
 								<input
-									autoFocus
+									// autoFocus
 									autoComplete={"off"}
 									type='text'
 									placeholder='Username'

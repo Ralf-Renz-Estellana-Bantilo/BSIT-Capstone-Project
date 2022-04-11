@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LeftArrow from "../Images/LeftArrow.png";
 import SummaryJobCategories from "./SummaryJobCategories";
 import SummaryJobPosts from "./SummaryJobPosts";
@@ -16,10 +16,24 @@ const AccountReportSummary = ({
 	applicantsData,
 	companiesData,
 }) => {
+	const [summaryYear, setSummaryYear] = useState(null);
+
 	const handleOpenSummary = (text) => {
 		setIsVisible(false);
 		setOpenSummary(text);
 	};
+
+	const handlePreviousYear = async () => {
+		await setSummaryYear((prevYear) => prevYear - 1);
+	};
+
+	const handleNextYear = async () => {
+		await setSummaryYear((prevYear) => prevYear + 1);
+	};
+
+	useEffect(() => {
+		setSummaryYear(new Date().getFullYear());
+	}, []);
 
 	return (
 		<div className='post-preview-panel'>
@@ -33,7 +47,11 @@ const AccountReportSummary = ({
 					/>
 				)}
 
-				{isVisible ? <h3>Reports Summary</h3> : <h3>{openSummary}</h3>}
+				{isVisible ? (
+					<h3>Reports Summary</h3>
+				) : (
+					<h3>{`${openSummary} ${summaryYear}`}</h3>
+				)}
 			</div>
 
 			{isVisible && (
@@ -88,16 +106,27 @@ const AccountReportSummary = ({
 			{!isVisible && (
 				<div className='job-posts'>
 					{openSummary === "Job Posts Summary" ? (
-						<SummaryJobPosts jobPosts={jobPosts} />
+						<SummaryJobPosts
+							jobPosts={jobPosts}
+							summaryYear={summaryYear}
+							handlePreviousYear={handlePreviousYear}
+							handleNextYear={handleNextYear}
+						/>
 					) : openSummary === "Hired Job Seekers Summary" ? (
 						<SummaryJobSeekersHired
 							jobPosts={jobPosts}
 							employerFeedback={employerFeedback}
+							summaryYear={summaryYear}
+							handlePreviousYear={handlePreviousYear}
+							handleNextYear={handleNextYear}
 						/>
 					) : openSummary === "Registered User Summary" ? (
 						<SummaryRegisteredUser
 							applicantsData={applicantsData}
 							companiesData={companiesData}
+							summaryYear={summaryYear}
+							handlePreviousYear={handlePreviousYear}
+							handleNextYear={handleNextYear}
 						/>
 					) : openSummary === "Opportunity Hotspot Summary" ? (
 						<SummaryOpportunityHotspot />

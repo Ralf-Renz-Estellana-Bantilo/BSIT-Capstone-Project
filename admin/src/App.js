@@ -149,8 +149,6 @@ export default function App() {
 	}, []);
 
 	const addPost = async (post) => {
-		setJobPosts((posts) => [...posts, post]);
-
 		const id = shortid.generate();
 		const generatedUsername = generateID();
 		const generatedPassword = id;

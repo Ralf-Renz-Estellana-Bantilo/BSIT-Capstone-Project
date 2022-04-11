@@ -47,3 +47,15 @@ tr:nth-child(even) {
 .summary-number {
 	width: 130px;
 }
+
+.summary-duration{
+	display: flex;
+	column-gap: 10px;
+	align-items: center;
+	justify-content: center;
+}
+
+.summary-duration button{
+	padding: 0 5px;
+	cursor: pointer;
+}

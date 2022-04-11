@@ -1,7 +1,20 @@
 import React from "react";
 import AdminResources from "../AdminResources";
 
-const SummaryRegisteredUser = ({ applicantsData, companiesData }) => {
+const SummaryRegisteredUser = ({
+	applicantsData,
+	companiesData,
+	summaryYear,
+	handlePreviousYear,
+	handleNextYear,
+}) => {
+	let applicantDataCopy = applicantsData.filter(
+		(applicant) => applicant.Reg_Year === summaryYear
+	);
+	let companiesDataCopy = companiesData.filter(
+		(company) => company.Reg_Year === summaryYear
+	);
+
 	let months = [
 		"January",
 		"February",
@@ -21,8 +34,8 @@ const SummaryRegisteredUser = ({ applicantsData, companiesData }) => {
 		let jobSeekers = [];
 		for (let a = 0; a < months.length; a++) {
 			let count = 0;
-			for (let b = 0; b < applicantsData.length; b++) {
-				if (a + 1 === applicantsData[b].Reg_Month) {
+			for (let b = 0; b < applicantDataCopy.length; b++) {
+				if (a + 1 === applicantDataCopy[b].Reg_Month) {
 					count += 1;
 				}
 			}
@@ -37,8 +50,8 @@ const SummaryRegisteredUser = ({ applicantsData, companiesData }) => {
 		let employers = [];
 		for (let a = 0; a < months.length; a++) {
 			let count = 0;
-			for (let b = 0; b < companiesData.length; b++) {
-				if (a + 1 === companiesData[b].Reg_Month) {
+			for (let b = 0; b < companiesDataCopy.length; b++) {
+				if (a + 1 === companiesDataCopy[b].Reg_Month) {
 					count += 1;
 				}
 			}
@@ -53,13 +66,13 @@ const SummaryRegisteredUser = ({ applicantsData, companiesData }) => {
 		let users = [];
 		for (let a = 0; a < months.length; a++) {
 			let count = 0;
-			for (let b = 0; b < companiesData.length; b++) {
-				if (a + 1 === companiesData[b].Reg_Month) {
+			for (let b = 0; b < companiesDataCopy.length; b++) {
+				if (a + 1 === companiesDataCopy[b].Reg_Month) {
 					count += 1;
 				}
 			}
-			for (let b = 0; b < applicantsData.length; b++) {
-				if (a + 1 === applicantsData[b].Reg_Month) {
+			for (let b = 0; b < applicantDataCopy.length; b++) {
+				if (a + 1 === applicantDataCopy[b].Reg_Month) {
 					count += 1;
 				}
 			}
@@ -77,8 +90,8 @@ const SummaryRegisteredUser = ({ applicantsData, companiesData }) => {
 
 		for (let a = 0; a < listOfBarangay.length; a++) {
 			let count = 0;
-			for (let b = 0; b < companiesData.length; b++) {
-				if (listOfBarangay[a] === companiesData[b].Barangay) {
+			for (let b = 0; b < companiesDataCopy.length; b++) {
+				if (listOfBarangay[a] === companiesDataCopy[b].Barangay) {
 					count += 1;
 				}
 			}
@@ -95,8 +108,10 @@ const SummaryRegisteredUser = ({ applicantsData, companiesData }) => {
 
 		for (let a = 0; a < listOfCategories.length; a++) {
 			let count = 0;
-			for (let b = 0; b < applicantsData.length; b++) {
-				if (listOfCategories[a] === applicantsData[b].Preferred_Category) {
+			for (let b = 0; b < applicantDataCopy.length; b++) {
+				if (
+					listOfCategories[a] === applicantDataCopy[b].Preferred_Category
+				) {
 					count += 1;
 				}
 			}
@@ -183,6 +198,8 @@ const SummaryRegisteredUser = ({ applicantsData, companiesData }) => {
 			</tr>
 		);
 	});
+
+	let currentYear = new Date().getFullYear();
 
 	return (
 		<div className='summary-container'>
@@ -277,6 +294,23 @@ const SummaryRegisteredUser = ({ applicantsData, companiesData }) => {
 						</tr>
 					</table>
 				</div>
+			</div>
+			<div className='summary-duration'>
+				<button
+					onClick={handlePreviousYear}
+					disabled={summaryYear <= 2021 && "disabled"}
+					title='Previous Year'>
+					{" "}
+					-{" "}
+				</button>
+				<p>{summaryYear}</p>
+				<button
+					onClick={handleNextYear}
+					disabled={currentYear <= summaryYear && "disabled"}
+					title='Next Year'>
+					{" "}
+					+{" "}
+				</button>
 			</div>
 		</div>
 	);
