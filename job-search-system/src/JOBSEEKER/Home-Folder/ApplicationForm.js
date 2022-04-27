@@ -662,17 +662,24 @@ export class ApplicationForm extends Component {
 													: post.Work_Place}
 											</h4>
 										</div>
-
 										<div className='apply-detail'>
 											<p>Vacancy Count:</p>
 											<h4>{post.Required_Employees}</h4>
 										</div>
-										<div className='apply-detail'>
+										{/* <div className='apply-detail'>
 											<p>Applied | Hired:</p>
 											<h4>
 												{filteredCandidate.length} •{" "}
 												{filteredHiredCandidate.length}
 											</h4>
+										</div> */}
+										<div className='apply-detail'>
+											<p>Applications Recieve:</p>
+											<h4>{filteredCandidate.length}</h4>
+										</div>
+										<div className='apply-detail'>
+											<p>Applicants Hired:</p>
+											<h4>{filteredHiredCandidate.length}</h4>
 										</div>
 										<div className='apply-detail'>
 											<p>Salary Range:</p>
@@ -698,6 +705,10 @@ export class ApplicationForm extends Component {
 										<div className='apply-detail'>
 											<p>Preferred Gender:</p>
 											<h4>{post.Preferred_Sex}</h4>
+										</div>
+										<div className='apply-detail'>
+											<p>Job Vacancy Deadline:</p>
+											<h4>Not Set</h4>
 										</div>
 										<div className='apply-detail'>
 											<p>Job Vacancy Status:</p>
@@ -732,13 +743,13 @@ export class ApplicationForm extends Component {
 											this.divElement = divElement;
 										}}>
 										<div className='job-qualification-portion'>
-											<h3>JOB DESCRIPTION</h3>
+											<h3>HIRING REQUIREMENTS</h3>
 											<p>{post.Job_Qualifications}</p>
 										</div>
-										<div className='job-qualification-portion'>
+										{/* <div className='job-qualification-portion'>
 											<h3>JOB REQUIREMENTS</h3>
 											<p>{post.Job_Requirements}</p>
-										</div>
+										</div> */}
 										<div className='job-qualification-portion'>
 											<h3>JOB DESCRIPTION</h3>
 											<p>{post.Job_Description}</p>
@@ -746,9 +757,10 @@ export class ApplicationForm extends Component {
 
 										{/* <h2>Employer's Name: {post.Employer_Name}</h2> */}
 										{post.Contact_Person_Name === null ? (
-											<h2 style={{ marginBottom: "10px" }}>
-												Employer's Name: {post.Employer_Name}
-											</h2>
+											// <h2 style={{ marginBottom: "10px" }}>
+											// 	Employer's Name: {post.Employer_Name}
+											// </h2>
+											<></>
 										) : (
 											<>
 												<div className='job-qualification-portion'>

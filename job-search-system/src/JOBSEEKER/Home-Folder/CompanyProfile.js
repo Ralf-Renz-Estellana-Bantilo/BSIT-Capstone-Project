@@ -39,9 +39,33 @@ export class CompanyProfile extends Component {
 		}
 	}
 
+	formatCompanyAddress = () => {
+		const { companyAddress } = this.state;
+		let place = `${companyAddress}`.split(", ");
+		let formattedPlace = "";
+
+		if (place.length === 1) {
+			formattedPlace = companyAddress;
+		} else {
+			if (place[0] === "" && place[1] !== "Not Specified") {
+				formattedPlace = place[1] + ", " + place[2];
+			} else if (place[0] !== "" && place[1] === "Not Specified") {
+				formattedPlace = place[0] + ", " + place[2];
+			} else if (place[0] === "" && place[1] === "Not Specified") {
+				formattedPlace = place[2];
+			} else {
+				formattedPlace = companyAddress;
+			}
+		}
+
+		return formattedPlace;
+	};
+
 	render() {
-		const { company, companyAddress } = this.state;
+		const { company } = this.state;
 		const { darkTheme } = this.props;
+
+		const companyAddress = this.formatCompanyAddress();
 		return (
 			<div className='company-profile-container'>
 				<Link to={`/jobseeker/${this.props.activePage}`}>
@@ -76,14 +100,14 @@ export class CompanyProfile extends Component {
 					</div>
 
 					<div className='company-details'>
-						<div className='details-container'>
+						{/* <div className='details-container'>
 							<div className='detail-left'>
 								<h4>Employer:</h4>
 							</div>
 							<div className='detail-right'>
 								<p>{company.Employer_Name}</p>
 							</div>
-						</div>
+						</div> */}
 						<div className='details-container'>
 							<div className='detail-left'>
 								<h4>Company Address:</h4>
@@ -92,14 +116,17 @@ export class CompanyProfile extends Component {
 								<p>{companyAddress}, Catarman, N. Samar</p>
 							</div>
 						</div>
-						<div className='details-container'>
-							<div className='detail-left'>
-								<h4>Acronym/Abbreviation:</h4>
+						{company.Company_Acronym !== "(n/a)" && (
+							<div className='details-container'>
+								<div className='detail-left'>
+									<h4>Acronym/Abbreviation:</h4>
+								</div>
+								<div className='detail-right'>
+									<p>{company.Company_Acronym}</p>
+								</div>
 							</div>
-							<div className='detail-right'>
-								<p>{company.Company_Acronym}</p>
-							</div>
-						</div>
+						)}
+
 						<div className='details-container'>
 							<div className='detail-left'>
 								<h4>Employer Type:</h4>

@@ -595,9 +595,7 @@ export class App extends Component {
 					password: user.Password,
 					userImage: `https://res.cloudinary.com/doprewqnx/image/upload/v1648959524/jntowv75wyhkqvy4o1xu.png`,
 				})
-				.then(() => {
-					// console.log(`Successfully Registered...`);
-				});
+				.then(() => {});
 
 			await axios
 				.post(`${AppConfiguration.url()}/api/create-applicant-data`, {
@@ -619,8 +617,8 @@ export class App extends Component {
 					educationalAttainment: null,
 					hiringStatus: `Inactive`,
 				})
-				.then(() => {
-					// console.log(`Successfully Created your data...`);
+				.then(async () => {
+					await this.toggleSignUp(true);
 				});
 		} else {
 			let addImage = { ...user, userImage: DefaultUserFemale };
@@ -691,8 +689,8 @@ export class App extends Component {
 					educationalAttainment: null,
 					hiringStatus: `Inactive`,
 				})
-				.then(() => {
-					// console.log(`Successfully Created your Applicant data...`);
+				.then(async () => {
+					await this.toggleSignUp(true);
 				});
 		}
 
@@ -1472,7 +1470,6 @@ export class App extends Component {
 			document.body.style.backgroundColor = `#0f0f0f`;
 		} else {
 			document.body.style.backgroundColor = `#cfcfcf`;
-			// document.body.style.backgroundColor = `#c4c4c4`;
 		}
 
 		if (userTypeSession === `Job Seeker`) {
@@ -1480,12 +1477,6 @@ export class App extends Component {
 		} else if (userTypeSession === `Employer`) {
 			userType = `employer`;
 		}
-
-		// const currentURL = window.location.href; // returns the absolute URL of a page
-		// const pathname = window.location.pathname; //returns the current url minus the domain name
-
-		// console.log("currentURL:", currentURL);
-		// console.log("pathname", pathname);
 
 		return (
 			<div className={darkTheme ? `app-dark` : `app-light`}>

@@ -88,11 +88,12 @@ const SummaryJobSeekersHired = ({
 
 	let totalApplicantsHired = getApplicantsHiredPerMonth();
 	let totalHiredJobSeekersPerMonth = 0;
+	let currentYear = new Date().getFullYear();
 	let currentMonth = new Date().getMonth();
+	let currentDay = new Date().getDate();
 	let hiredJobSeekersPerMonth = totalApplicantsHired.map(
 		(hiredApplicant, index) => {
-			if (index <= currentMonth) {
-				totalHiredJobSeekersPerMonth += hiredApplicant.count;
+			if (summaryYear < currentYear) {
 				return (
 					<tr key={index}>
 						<td>{hiredApplicant.month}</td>
@@ -101,6 +102,30 @@ const SummaryJobSeekersHired = ({
 						</td>
 					</tr>
 				);
+			} else if (summaryYear === currentYear) {
+				if (index < currentMonth) {
+					totalHiredJobSeekersPerMonth += hiredApplicant.count;
+					return (
+						<tr key={index}>
+							<td>{hiredApplicant.month}</td>
+							<td style={{ textAlign: "center" }}>
+								{hiredApplicant.count}
+							</td>
+						</tr>
+					);
+				} else if (index === currentMonth) {
+					return (
+						<tr key={index}>
+							<td>
+								{hiredApplicant.month} (as of{" "}
+								{`${currentMonth + 1}/${currentDay}/${currentYear})`}
+							</td>
+							<td style={{ textAlign: "center" }}>
+								{hiredApplicant.count}
+							</td>
+						</tr>
+					);
+				}
 			}
 		}
 	);
@@ -120,8 +145,6 @@ const SummaryJobSeekersHired = ({
 			);
 		}
 	);
-
-	let currentYear = new Date().getFullYear();
 
 	return (
 		<div className='summary-container'>

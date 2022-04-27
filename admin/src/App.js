@@ -173,6 +173,7 @@ export default function App() {
 			Work_Force: post.Work_Force,
 		};
 		setCompaniesData((companyData) => [...companyData, company]);
+		setJobPosts((posts) => [...posts, post]);
 
 		try {
 			await axios
@@ -262,32 +263,6 @@ export default function App() {
 				.then(() => {
 					// console.log("3 Successfully Added a Post...");
 				});
-
-			// const data = new FormData();
-			// data.append("image", post.File);
-			// await fetch(`${AppConfiguration.url()}/api/upload-image`, {
-			// 	method: "POST",
-			// 	body: data,
-			// })
-			// 	.then((result) => {
-			// 		// console.log("4 The File has been Uploaded...");
-			// 	})
-			// 	.catch((error) => {
-			// 		console.log("Multer Error!", error);
-			// 	});
-
-			// await fetch(`${AppConfiguration.url()}/api/upload-image-admin`, {
-			// 	method: "POST",
-			// 	body: data,
-			// })
-			// 	.then((result) => {
-			// 		// console.log(
-			// 		// 	"5 The File has been Uploaded to the Administrator..."
-			// 		// );
-			// 	})
-			// 	.catch((error) => {
-			// 		console.log("Multer Error!", error);
-			// 	});
 		} catch (error) {
 			alert(error);
 		}

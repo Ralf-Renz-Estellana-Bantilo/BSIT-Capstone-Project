@@ -26,14 +26,6 @@ function connectToDatabase() {
 			: "job_search_system_db",
 	});
 
-	// db.connect((err) => {
-	// 	if (err) {
-	// 		console.log("Cannot connect to the database...", err);
-	// 	} else {
-	// 		console.log("MySQL connection successfully stablished...");
-	// 	}
-	// });
-
 	db.on("error", function (err) {
 		console.log("db error", err);
 		if (err.code === "PROTOCOL_CONNECTION_LOST") {
@@ -109,6 +101,16 @@ export const getEmployerUsers = (req, res) => {
 			}
 		}
 	);
+};
+
+export const getRegisteredUsers = (req, res) => {
+	db.query("SELECT * FROM user_account", (err, result) => {
+		if (err) {
+			console.log(err);
+		} else {
+			res.send(result);
+		}
+	});
 };
 
 export const getAdminUsers = (req, res) => {

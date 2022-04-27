@@ -40,21 +40,28 @@ export class PostContent extends Component {
 					className='post-content'>
 					<div className='job-qualification-container'>
 						<div className='job-qualification-portion'>
-							<h3>JOB QUALIFICATIONS</h3>
+							<h3>HIRING REQUIREMENTS</h3>
 							<p>{Job_Qualifications}</p>
 						</div>
-						<div className='job-qualification-portion'>
+						{/* <div className='job-qualification-portion'>
 							<h3>JOB REQUIREMENTS</h3>
 							<p>{Job_Requirements}</p>
-						</div>
-						<div className='job-qualification-portion'>
+						</div> */}
+						<div
+							className='job-qualification-portion'
+							style={
+								Contact_Person_Name === null
+									? { marginBottom: "10px" }
+									: {}
+							}>
 							<h3>JOB DESCRIPTION</h3>
 							<p>{Job_Description}</p>
 						</div>
 						{Contact_Person_Name === null ? (
-							<h2 style={{ marginBottom: "10px" }}>
-								Employer's Name: {Employer_Name}
-							</h2>
+							// <h2 style={{ marginBottom: "10px" }}>
+							// 	Employer's Name: {Employer_Name}
+							// </h2>
+							<></>
 						) : (
 							<>
 								<div className='job-qualification-portion'>

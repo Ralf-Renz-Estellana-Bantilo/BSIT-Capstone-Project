@@ -90,6 +90,8 @@ export class SearchEngine extends Component {
 		const applicantSession = sessionStorage.getItem("ApplicantID");
 		const companySession = sessionStorage.getItem("CompanyID");
 
+		const infosCopy = infos.filter((post) => post.Is_Deleted !== "Deleted");
+
 		if (this.state.scrollPosition !== 0) {
 			localStorage.setItem("searchScroll", this.state.scrollPosition);
 			window.scrollTo(0, this.state.scrollPosition);
@@ -148,7 +150,7 @@ export class SearchEngine extends Component {
 						{/* Job Seeker Search Engine */}
 						{this.state.text !== "" && this.state.text.length > 1 && (
 							<div className='search-engine'>
-								{infos.map((info) => {
+								{infosCopy.map((info) => {
 									if (
 										(`${info.Job_Title}`
 											.toLowerCase()
@@ -191,7 +193,7 @@ export class SearchEngine extends Component {
 									}
 								})}
 								<p className='results'>{`Finding results for "${this.state.text}" | found ${count}`}</p>
-								{infos.map((info) => {
+								{infosCopy.map((info) => {
 									let acronym = "";
 									company.map((comp) => {
 										if (comp.CompanyID === info.CompanyID) {
@@ -287,6 +289,12 @@ export class SearchEngine extends Component {
 											.includes(
 												`${this.state.text}`.toLowerCase()
 											) &&
+											applicant.Hiring_Status === "Active") ||
+										(`${applicant.Good_At}`
+											.toLowerCase()
+											.includes(
+												`${this.state.text}`.toLowerCase()
+											) &&
 											applicant.Hiring_Status === "Active")
 									) {
 										count += 1;
@@ -314,6 +322,12 @@ export class SearchEngine extends Component {
 											) &&
 											applicant.Hiring_Status === "Active") ||
 										(`${applicant.Home_Address}`
+											.toLowerCase()
+											.includes(
+												`${this.state.text}`.toLowerCase()
+											) &&
+											applicant.Hiring_Status === "Active") ||
+										(`${applicant.Good_At}`
 											.toLowerCase()
 											.includes(
 												`${this.state.text}`.toLowerCase()

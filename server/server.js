@@ -1,7 +1,6 @@
 import express from "express";
 import mysql from "mysql2";
 import cors from "cors";
-import multer from "multer";
 import {
 	account_deleteUserAccount,
 	changeAccountPicture,
@@ -10,6 +9,7 @@ import {
 	getAdminUsers,
 	getEmployerUsers,
 	getJobSeekerUsers,
+	getRegisteredUsers,
 	login,
 	retainUser,
 	updateUserAccountBusinessProfile,
@@ -87,8 +87,6 @@ import {
 	createAdminPost,
 	getAdminPosts,
 } from "./controllers/DB_Admin_Posts.js";
-import fileUpload from "express-fileupload";
-import cloudinary from "cloudinary";
 
 const app = express();
 const PORT = process.env.PORT || 2000;
@@ -100,67 +98,6 @@ app.use(
 	})
 );
 app.use(express.json());
-app.use(fileUpload());
-app.use("/assets/images", express.static("./assets/images"));
-app.use("/assets/pdf", express.static("./assets/pdf"));
-
-cloudinary.config({
-	cloud_name: "doprewqnx",
-	api_key: "326167851291639",
-	api_secret: "6G0fgOrs47qz1FWrkNuz-E_FQJQ",
-});
-
-const date =
-	new Date().getMonth() +
-	1 +
-	"" +
-	new Date().getDate() +
-	new Date().getFullYear();
-
-const datePDF =
-	new Date().getMonth() +
-	1 +
-	"" +
-	new Date().getDate() +
-	new Date().getFullYear();
-
-const imageFileStorageEngine = multer.diskStorage({
-	destination: (req, file, callback) => {
-		callback(null, "assets/images");
-	},
-	filename: (req, file, callback) => {
-		callback(null, date + "_" + file.originalname);
-	},
-});
-const adminImageFileStorageEngine = multer.diskStorage({
-	destination: (req, file, callback) => {
-		callback(null, "assets/images");
-	},
-	filename: (req, file, callback) => {
-		callback(null, date + "_" + file.originalname);
-	},
-});
-const pdfFileStorageEngine = multer.diskStorage({
-	destination: (req, file, callback) => {
-		callback(null, "assets/pdf");
-	},
-	filename: (req, file, callback) => {
-		callback(null, datePDF + "_" + file.originalname);
-	},
-});
-
-const uploadImage = multer({
-	storage: imageFileStorageEngine,
-	limits: { fileSize: 2090000 },
-});
-const uploadImageAdmin = multer({
-	storage: adminImageFileStorageEngine,
-	limits: { fileSize: 2090000 },
-});
-const uploadPDF = multer({
-	storage: pdfFileStorageEngine,
-	limits: { fileSize: 2090000 },
-});
 
 let db;
 try {
@@ -211,48 +148,14 @@ try {
 	console.log("Server Error:", error);
 }
 
-// Image Upload ---------
-app.post("/api/upload-image", uploadImage.single("image"), (req, res) => {
-	if (res) {
-		res.send("Successfully Uploaded a File...");
-	} else {
-		console.log("Server Error:", res);
-	}
-});
-app.post(
-	"/api/upload-image-admin",
-	uploadImageAdmin.single("image"),
-	(req, res) => {
-		if (res) {
-			res.send("Successfully Uploaded a File to the Administrator...");
-		} else {
-			console.log("Server Error:", res);
-		}
-	}
-);
-app.post("/api/upload-pdf", uploadPDF.single("pdf"), (req, res) => {
-	if (res) {
-		res.send("Successfully Uploaded a PDF File...");
-	} else {
-		console.log("Server Error:", res);
-	}
-});
-app.get("/api/get-user-image/:filename", (req, res) => {
-	res.download(`./assets/images/${req.params.filename}`);
-});
 app.get("/", (req, res) => {
 	res.send("App is live!");
-});
-
-// Uploading images directly to the database
-app.post("/upload", function (req, res) {
-	const file = req;
-	// console.log(file);
 });
 
 // User_Account Database Table ----------
 app.get("/api/read-user-jobseeker", getJobSeekerUsers);
 app.get("/api/read-user-employer", getEmployerUsers);
+app.get("/api/read-users", getRegisteredUsers);
 app.get("/api/read-user-admin", getAdminUsers);
 app.post("/api/create-user", createUser);
 app.post("/api/login", login);

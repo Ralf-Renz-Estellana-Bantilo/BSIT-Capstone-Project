@@ -237,10 +237,9 @@ const SummaryJobPosts = ({
 		}
 	});
 
-	console.log(jobPostsCopy);
-
 	let currentYear = new Date().getFullYear();
 	let currentMonth = new Date().getMonth();
+	let currentDay = new Date().getDate();
 	let postsPerMonth = months.map((month, index) => {
 		let count = 0;
 		if (summaryYear < currentYear) {
@@ -256,15 +255,25 @@ const SummaryJobPosts = ({
 				</tr>
 			);
 		} else if (summaryYear === currentYear) {
-			if (index <= currentMonth) {
-				for (let a = 0; a < jobPostsCopy.length; a++) {
-					if (jobPostsCopy[a].Month === index + 1) {
-						count += 1;
-					}
+			for (let a = 0; a < jobPostsCopy.length; a++) {
+				if (jobPostsCopy[a].Month === index + 1) {
+					count += 1;
 				}
+			}
+			if (index < currentMonth) {
 				return (
 					<tr key={index}>
 						<td>{month}</td>
+						<td style={{ textAlign: "center" }}>{count}</td>
+					</tr>
+				);
+			} else if (index === currentMonth) {
+				return (
+					<tr key={index}>
+						<td>
+							{month} (as of{" "}
+							{`${currentMonth + 1}/${currentDay}/${currentYear})`}
+						</td>
 						<td style={{ textAlign: "center" }}>{count}</td>
 					</tr>
 				);

@@ -281,12 +281,12 @@ export class Hiree_Information extends Component {
 						</div>
 					</div>
 					<div className='form'>
-						<label>Interests</label>
-						<p className='desc'>{hiree.Interested_In}</p>
+						<label>Personal Skills</label>
+						<p className='desc'>{hiree.Good_At}</p>
 					</div>
 					<div className='form'>
-						<label>Good At</label>
-						<p className='desc'>{hiree.Good_At}</p>
+						<label>Interests</label>
+						<p className='desc'>{hiree.Interested_In}</p>
 					</div>
 					<div className='form'>
 						<label>Credentials</label>

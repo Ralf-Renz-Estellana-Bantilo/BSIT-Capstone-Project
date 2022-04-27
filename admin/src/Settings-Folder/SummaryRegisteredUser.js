@@ -1,5 +1,7 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import AdminResources from "../AdminResources";
+import AppConfiguration from "../AppConfiguration";
 
 const SummaryRegisteredUser = ({
 	applicantsData,
@@ -14,7 +16,6 @@ const SummaryRegisteredUser = ({
 	let companiesDataCopy = companiesData.filter(
 		(company) => company.Reg_Year === summaryYear
 	);
-
 	let months = [
 		"January",
 		"February",
@@ -29,6 +30,18 @@ const SummaryRegisteredUser = ({
 		"November",
 		"December",
 	];
+
+	const [registeredUsers, setRegisteredUsers] = useState(null);
+
+	useEffect(() => {
+		axios.get(`${AppConfiguration.url()}/api/read-users`).then((response) => {
+			if (response) {
+				setRegisteredUsers(response.data);
+			} else {
+				console.log(`Error fetching information...`);
+			}
+		});
+	}, []);
 
 	const getRegisteredJobSeekerPerMonth = () => {
 		let jobSeekers = [];
@@ -84,6 +97,76 @@ const SummaryRegisteredUser = ({
 		return users;
 	};
 
+	const getRegisteredMaleUsersPerMonth = () => {
+		let users = [];
+
+		try {
+			let maleUsers = registeredUsers.filter(
+				(user) => user.Sex === "Male" && user.Role !== "Admin"
+			);
+			for (let a = 0; a < months.length; a++) {
+				let count = 0;
+				for (let b = 0; b < maleUsers.length; b++) {
+					for (let c = 0; c < companiesDataCopy.length; c++) {
+						if (
+							a + 1 === companiesDataCopy[c].Reg_Month &&
+							maleUsers[b].UserID === companiesDataCopy[c].UserID
+						) {
+							count += 1;
+						}
+					}
+					for (let c = 0; c < applicantDataCopy.length; c++) {
+						if (
+							a + 1 === applicantDataCopy[c].Reg_Month &&
+							maleUsers[b].UserID === applicantDataCopy[c].UserID
+						) {
+							count += 1;
+						}
+					}
+				}
+				let user = { month: months[a], count: count };
+				users.push(user);
+			}
+		} catch (error) {}
+
+		return users;
+	};
+
+	const getRegisteredFemaleUsersPerMonth = () => {
+		let users = [];
+
+		try {
+			let femaleUsers = registeredUsers.filter(
+				(user) => user.Sex === "Female" && user.Role !== "Admin"
+			);
+			for (let a = 0; a < months.length; a++) {
+				let count = 0;
+				for (let b = 0; b < femaleUsers.length; b++) {
+					for (let c = 0; c < companiesDataCopy.length; c++) {
+						if (
+							a + 1 === companiesDataCopy[c].Reg_Month &&
+							femaleUsers[b].UserID === companiesDataCopy[c].UserID
+						) {
+							count += 1;
+						}
+					}
+					for (let c = 0; c < applicantDataCopy.length; c++) {
+						if (
+							a + 1 === applicantDataCopy[c].Reg_Month &&
+							femaleUsers[b].UserID === applicantDataCopy[c].UserID
+						) {
+							count += 1;
+						}
+					}
+				}
+				let user = { month: months[a], count: count };
+				users.push(user);
+			}
+		} catch (error) {}
+
+		return users;
+	};
+
 	const getCompaniesPerBarangay = () => {
 		let companies = [];
 		const listOfBarangay = AdminResources.getBarangay();
@@ -124,17 +207,38 @@ const SummaryRegisteredUser = ({
 
 	const listOfRegisteredJobSeekersPerMonth = getRegisteredJobSeekerPerMonth();
 	let totalNumberOfJobSeeker = 0;
+	let currentYear = new Date().getFullYear();
 	let currentMonth = new Date().getMonth();
+	let currentDay = new Date().getDate();
 	let jobSeekersPerMonth = listOfRegisteredJobSeekersPerMonth.map(
 		(jobSeeker, index) => {
 			totalNumberOfJobSeeker += jobSeeker.count;
-			if (index <= currentMonth) {
+			if (summaryYear < currentYear) {
 				return (
 					<tr key={index}>
 						<td>{jobSeeker.month}</td>
 						<td style={{ textAlign: "center" }}>{jobSeeker.count}</td>
 					</tr>
 				);
+			} else if (summaryYear === currentYear) {
+				if (index < currentMonth) {
+					return (
+						<tr key={index}>
+							<td>{jobSeeker.month}</td>
+							<td style={{ textAlign: "center" }}>{jobSeeker.count}</td>
+						</tr>
+					);
+				} else if (index === currentMonth) {
+					return (
+						<tr key={index}>
+							<td>
+								{jobSeeker.month} (as of{" "}
+								{`${currentMonth + 1}/${currentDay}/${currentYear})`}
+							</td>
+							<td style={{ textAlign: "center" }}>{jobSeeker.count}</td>
+						</tr>
+					);
+				}
 			}
 		}
 	);
@@ -144,13 +248,32 @@ const SummaryRegisteredUser = ({
 	let employersPerMonth = listOfRegisteredEmployersPerMonth.map(
 		(employer, index) => {
 			totalNumberOfEmployers += employer.count;
-			if (index <= currentMonth) {
+			if (summaryYear < currentYear) {
 				return (
 					<tr key={index}>
 						<td>{employer.month}</td>
 						<td style={{ textAlign: "center" }}>{employer.count}</td>
 					</tr>
 				);
+			} else if (summaryYear === currentYear) {
+				if (index < currentMonth) {
+					return (
+						<tr key={index}>
+							<td>{employer.month}</td>
+							<td style={{ textAlign: "center" }}>{employer.count}</td>
+						</tr>
+					);
+				} else if (index === currentMonth) {
+					return (
+						<tr key={index}>
+							<td>
+								{employer.month} (as of{" "}
+								{`${currentMonth + 1}/${currentDay}/${currentYear})`}
+							</td>
+							<td style={{ textAlign: "center" }}>{employer.count}</td>
+						</tr>
+					);
+				}
 			}
 		}
 	);
@@ -159,15 +282,105 @@ const SummaryRegisteredUser = ({
 	let totalNumberOfUsers = 0;
 	let usersPerMonth = listOfRegisteredUsersPerMonth.map((user, index) => {
 		totalNumberOfUsers += user.count;
-		if (index <= currentMonth) {
+		if (summaryYear < currentYear) {
 			return (
 				<tr key={index}>
 					<td>{user.month}</td>
 					<td style={{ textAlign: "center" }}>{user.count}</td>
 				</tr>
 			);
+		} else if (summaryYear === currentYear) {
+			if (index < currentMonth) {
+				return (
+					<tr key={index}>
+						<td>{user.month}</td>
+						<td style={{ textAlign: "center" }}>{user.count}</td>
+					</tr>
+				);
+			} else if (index === currentMonth) {
+				return (
+					<tr key={index}>
+						<td>
+							{user.month} (as of{" "}
+							{`${currentMonth + 1}/${currentDay}/${currentYear})`}
+						</td>
+						<td style={{ textAlign: "center" }}>{user.count}</td>
+					</tr>
+				);
+			}
 		}
 	});
+
+	const listOfRegisteredMaleUsersPerMonth = getRegisteredMaleUsersPerMonth();
+	let totalNumberOfMaleUsers = 0;
+	let maleUsersPerMonth = listOfRegisteredMaleUsersPerMonth.map(
+		(user, index) => {
+			totalNumberOfMaleUsers += user.count;
+			if (summaryYear < currentYear) {
+				return (
+					<tr key={index}>
+						<td>{user.month}</td>
+						<td style={{ textAlign: "center" }}>{user.count}</td>
+					</tr>
+				);
+			} else if (summaryYear === currentYear) {
+				if (index < currentMonth) {
+					return (
+						<tr key={index}>
+							<td>{user.month}</td>
+							<td style={{ textAlign: "center" }}>{user.count}</td>
+						</tr>
+					);
+				} else if (index === currentMonth) {
+					return (
+						<tr key={index}>
+							<td>
+								{user.month} (as of{" "}
+								{`${currentMonth + 1}/${currentDay}/${currentYear})`}
+							</td>
+							<td style={{ textAlign: "center" }}>{user.count}</td>
+						</tr>
+					);
+				}
+			}
+		}
+	);
+
+	const listOfRegisteredFemaleUsersPerMonth =
+		getRegisteredFemaleUsersPerMonth();
+	let totalNumberOfFemaleUsers = 0;
+	let femaleUsersPerMonth = listOfRegisteredFemaleUsersPerMonth.map(
+		(user, index) => {
+			totalNumberOfFemaleUsers += user.count;
+			if (summaryYear < currentYear) {
+				return (
+					<tr key={index}>
+						<td>{user.month}</td>
+						<td style={{ textAlign: "center" }}>{user.count}</td>
+					</tr>
+				);
+			} else if (summaryYear === currentYear) {
+				if (index < currentMonth) {
+					return (
+						<tr key={index}>
+							<td>{user.month}</td>
+							<td style={{ textAlign: "center" }}>{user.count}</td>
+						</tr>
+					);
+				} else if (index === currentMonth) {
+					return (
+						<tr key={index}>
+							<td>
+								{user.month} (as of{" "}
+								{`${currentMonth + 1}/${currentDay}/${currentYear})`}
+							</td>
+							<td style={{ textAlign: "center" }}>{user.count}</td>
+						</tr>
+					);
+				}
+			}
+		}
+	);
 
 	const listOfCompaniesPerBarangay = getCompaniesPerBarangay().sort(
 		(a, b) => b.count - a.count
@@ -198,8 +411,6 @@ const SummaryRegisteredUser = ({
 			</tr>
 		);
 	});
-
-	let currentYear = new Date().getFullYear();
 
 	return (
 		<div className='summary-container'>
@@ -253,6 +464,44 @@ const SummaryRegisteredUser = ({
 						<tr>
 							<td className='summary-total'>TOTAL</td>
 							<td className='summary-value'>{totalNumberOfUsers}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div className='summary'>
+				<div className='summary-header'>
+					<h4>TOTAL REGISTERED MALE USER PER MONTH</h4>
+				</div>
+				<div className='summary-content'>
+					<table>
+						<tr>
+							<th className='summary-month'>Month</th>
+							<th className='summary-number'>No. of Male Users</th>
+						</tr>
+						{maleUsersPerMonth}
+						<tr>
+							<td className='summary-total'>TOTAL</td>
+							<td className='summary-value'>{totalNumberOfMaleUsers}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div className='summary'>
+				<div className='summary-header'>
+					<h4>TOTAL REGISTERED FEMALE USER PER MONTH</h4>
+				</div>
+				<div className='summary-content'>
+					<table>
+						<tr>
+							<th className='summary-month'>Month</th>
+							<th className='summary-number'>No. of Female Users</th>
+						</tr>
+						{femaleUsersPerMonth}
+						<tr>
+							<td className='summary-total'>TOTAL</td>
+							<td className='summary-value'>
+								{totalNumberOfFemaleUsers}
+							</td>
 						</tr>
 					</table>
 				</div>

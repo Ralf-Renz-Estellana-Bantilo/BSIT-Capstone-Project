@@ -15,7 +15,7 @@ const Contact = ({ handleChangeLink }) => {
 				)
 				.then(
 					(result) => {
-						console.log(result.text);
+						// console.log(result.text);
 					},
 					(error) => {
 						alert(error.text);

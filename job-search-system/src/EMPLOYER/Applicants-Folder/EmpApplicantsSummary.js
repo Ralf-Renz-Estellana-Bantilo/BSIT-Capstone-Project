@@ -27,7 +27,8 @@ export class Emp_Applicants_Summary extends Component {
 	}
 
 	render() {
-		const { jobTitle, requiredEmp, applied, activeStatus } = this.props;
+		const { jobTitle, requiredEmp, applied, activeStatus, dateClosed } =
+			this.props;
 		const { activeButton, candidates } = this.state;
 
 		let filteredCandidate = [];
@@ -55,7 +56,8 @@ export class Emp_Applicants_Summary extends Component {
 					<div className='summary-header-label'>
 						<h3>
 							{jobTitle}{" "}
-							{activeStatus === "Closed" && `(${activeStatus})`}
+							{activeStatus === "Closed" && `(${activeStatus}`}
+							{dateClosed && ` at ${dateClosed})`}
 						</h3>
 						<p>
 							Required: {requiredEmp} | Applied: {applied}

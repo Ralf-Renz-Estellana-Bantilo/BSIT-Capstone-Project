@@ -58,7 +58,7 @@ const JobPosts = ({
 	const [prefSex, setPrefSex] = useState("");
 	const [jobType, setJobType] = useState("");
 	const [jobQualification, setJobQualification] = useState(null);
-	const [jobRequirement, setJobRequirement] = useState(null);
+	const [jobRequirement, setJobRequirement] = useState("");
 	const [jobDescription, setJobDescription] = useState(null);
 	const [companyName, setCompanyName] = useState(null);
 	const [companyAcronym, setCompanyAcronym] = useState("");
@@ -110,17 +110,17 @@ const JobPosts = ({
 				civilStatus === "" ||
 				jobType === "" ||
 				jobQualification === null ||
-				jobRequirement === null ||
+				// jobRequirement === null ||
 				jobDescription === null ||
 				companyName === null ||
 				// companyAcronym === null ||
 				employerType === "" ||
 				workForce === "" ||
-				street === null ||
-				zone === "" ||
+				// street === null ||
+				// zone === "" ||
 				companyBarangay === "" ||
 				employerFirstName === null ||
-				employerMiddleName === null ||
+				// employerMiddleName === null ||
 				employerLastName === null ||
 				contactNumber === null ||
 				emailAddress === null ||
@@ -309,6 +309,31 @@ const JobPosts = ({
 		}
 	};
 
+	const formatPlaceOfWork = (address) => {
+		try {
+			let place = `${address}`.split(", ");
+			let formattedPlace = "";
+
+			if (place.length === 1) {
+				formattedPlace = address;
+			} else {
+				if (place[0] === "" && place[1] !== "Not Specified") {
+					formattedPlace = place[1] + ", " + place[2];
+				} else if (place[0] !== "" && place[1] === "Not Specified") {
+					formattedPlace = place[0] + ", " + place[2];
+				} else if (place[0] === "" && place[1] === "Not Specified") {
+					formattedPlace = place[2];
+				} else {
+					formattedPlace = address;
+				}
+			}
+
+			return formattedPlace;
+		} catch (error) {
+			return "";
+		}
+	};
+
 	let post = postPreview;
 
 	let numApplicants = [];
@@ -430,6 +455,14 @@ const JobPosts = ({
 		}
 	}
 
+	let companyAddress = "";
+	let formattedPlaceOfWork = "";
+
+	try {
+		companyAddress = formatPlaceOfWork(postPreview.Company_Address);
+		formattedPlaceOfWork = formatPlaceOfWork(post.Work_Place);
+	} catch (error) {}
+
 	return (
 		<>
 			{isLoading && <Loading message={"Processing Job Post..."} />}
@@ -450,7 +483,6 @@ const JobPosts = ({
 					<Modal
 						headText='Delete Post Confirmation'
 						modalText={`Deleting this post means also deleting all the job applicants in it, wanna continue?`}
-						// modalText={`Are you sure you want to permanently delete this post from ${post.Company_Name}?`}
 						confirmText='Yes'
 						closeText='No'
 						close={() => setIsModalOpenDeletePost(false)}
@@ -556,7 +588,9 @@ const JobPosts = ({
 						<div className='main-panel-container'>
 							{isJobPostPanelOpen ? (
 								<div className='job-post-panel-container'>
-									<div className='job-post-panel'>
+									<div
+										className='job-post-panel'
+										style={{ flex: "3" }}>
 										<div className='job-post-header'>
 											<h3>Job Vacancy Form</h3>
 										</div>
@@ -603,6 +637,20 @@ const JobPosts = ({
 														value={placeOfWork}
 														onChange={(e) => {
 															setPlaceOfWork(e.target.value);
+														}}
+													/>
+												</div>
+												<div className='post-field'>
+													<label>
+														Job Vacancy Deadline (Optional):
+														mm/dd/yyyy:
+													</label>
+													<input
+														type='text'
+														placeholder='01/11/2000'
+														value={jobRequirement}
+														onChange={(e) => {
+															setJobRequirement(e.target.value);
 														}}
 													/>
 												</div>
@@ -743,7 +791,7 @@ const JobPosts = ({
 													</div>
 												</div>
 												<div className='job-qualification'>
-													<h4>Job Qualifications</h4>
+													<h4>Hiring Requirements</h4>
 													<textarea
 														name='work-experience'
 														placeholder=' - Sample 
@@ -752,11 +800,12 @@ const JobPosts = ({
 														onChange={(e) =>
 															setJobQualification(e.target.value)
 														}
+														style={{ height: "200px" }}
 														defaultValue={
 															jobQualification
 														}></textarea>
 												</div>
-												<div className='job-qualification'>
+												{/* <div className='job-qualification'>
 													<h4>Job Requirements</h4>
 													<textarea
 														name='work-experience'
@@ -769,7 +818,7 @@ const JobPosts = ({
 														defaultValue={
 															jobRequirement
 														}></textarea>
-												</div>
+												</div> */}
 												<div className='job-qualification'>
 													<h4>Job Description</h4>
 													<textarea
@@ -989,6 +1038,9 @@ const JobPosts = ({
 															</option>
 															<option value='Zone 6'>
 																Zone 6
+															</option>
+															<option value='Not Specified'>
+																Not Specified
 															</option>
 														</select>
 													</div>
@@ -1374,26 +1426,14 @@ const JobPosts = ({
 																		alt='Establishment'
 																	/>
 																</div>
-																{/* {post.Required_Employees >= 5 && (
-															<div
-																className='verify'
-																title='Verified'>
-																<img
-																	src={OKIcon}
-																	alt='Verified'
-																/>
-															</div>
-														)} */}
 															</div>
 
 															<div className='basic-jobPost'>
-																{/* <h2>{post.Company_Name}</h2> */}
 																{previewAcronym !== "(n/a)" ? (
 																	<h2
 																		title={post.Company_Name}>
 																		{previewAcronym}{" "}
 																		<span>(shortened)</span>
-																		{/* {acronym} <span>(acronym/abbreviation)</span> */}
 																	</h2>
 																) : (
 																	<h2>{post.Company_Name}</h2>
@@ -1414,9 +1454,7 @@ const JobPosts = ({
 																			src={LocationIcon}
 																			alt='Location Icon'
 																		/>
-																		<p>
-																			{post.Company_Address}
-																		</p>
+																		<p>{companyAddress}</p>
 																	</div>
 																</div>
 															</div>
@@ -1481,16 +1519,14 @@ const JobPosts = ({
 																			</h4>
 																		</div>
 																		<div className='post-detail'>
-																			<p>Date Posted:</p>
+																			<p>
+																				Job Vacancy
+																				Deadline:
+																			</p>
 																			<h4>
-																				{post.Month < 10
-																					? `0${post.Month}`
-																					: post.Month}
-																				-
-																				{post.Day < 10
-																					? `0${post.Day}`
-																					: post.Day}
-																				-{post.Year}
+																				{post.Job_Requirements
+																					? post.Job_Requirements
+																					: "Not Set"}
 																			</h4>
 																		</div>
 																	</div>
@@ -1546,20 +1582,21 @@ const JobPosts = ({
 															<div className='job-qualification-container'>
 																<div className='job-qualification-portion'>
 																	<h3>
-																		--- Job Qualifications ---
+																		--- Hiring Requirements
+																		---
 																	</h3>
 																	<p>
 																		{post.Job_Qualifications}
 																	</p>
 																</div>
-																<div className='job-qualification-portion'>
+																{/* <div className='job-qualification-portion'>
 																	<h3>
 																		--- Job Requirements ---
 																	</h3>
 																	<p>
 																		{post.Job_Requirements}
 																	</p>
-																</div>
+																</div> */}
 																<div className='job-qualification-portion'>
 																	<h3>
 																		--- Job Description ---
@@ -1574,7 +1611,7 @@ const JobPosts = ({
 																		style={{
 																			textAlign: "center",
 																		}}>
-																		{post.Work_Place}
+																		{formattedPlaceOfWork}
 																	</p>
 																</div>
 																<div className='job-qualification-portion'>

@@ -246,22 +246,29 @@ export class Confirm extends Component {
 						</div>
 					</div>
 					<div className='form'>
-						<label>Job Qualifications</label>
+						<label>Hiring Requirements</label>
 						<p className='desc'>{jobQualification}</p>
 					</div>
-					<div className='form'>
+					{/* <div className='form'>
 						<label>Job Requirements</label>
 						<p className='desc'>{jobRequirement}</p>
-					</div>
+					</div> */}
 					<div className='form'>
 						<label>Job Descriptions</label>
 						<p className='desc'>{jobDescription}</p>
 					</div>
-					<div className='form-fields'>
+					{`${jobRequirement}`.length > 0 && (
 						<div className='form'>
+							<label>Job Vacancy Deadline</label>
+							<p className='desc'>{jobRequirement}</p>
+						</div>
+					)}
+
+					<div className='form-fields'>
+						{/* <div className='form'>
 							<label>Employer's Name</label>
 							<p>{employerName}</p>
-						</div>
+						</div> */}
 						{/* <div className='form'>
 							<label>Establishment Contact Number</label>
 							<p>{contactNo}</p>

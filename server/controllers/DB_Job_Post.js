@@ -269,10 +269,11 @@ export const updateJobPost = (req, res) => {
 
 export const updateActiveStatus = (req, res) => {
 	const jobID = req.body.jobID;
+	const currentDate = new Date().toLocaleDateString();
 
 	db.query(
-		"UPDATE job_posts SET Active_Status='Closed' WHERE JobID=?",
-		[jobID],
+		"UPDATE job_posts SET Active_Status='Closed', Date_Closed=? WHERE JobID=?",
+		[currentDate, jobID],
 		(err, result) => {
 			if (err) {
 				console.log("Error:", err);

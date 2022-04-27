@@ -35,73 +35,6 @@ export class Dp extends Component {
 		}
 	};
 
-	// handleSave = async (e) => {
-	// 	e.preventDefault();
-	// 	const { fileData, file } = this.state;
-	// 	const date =
-	// 		new Date().getMonth() +
-	// 		1 +
-	// 		"" +
-	// 		new Date().getDate() +
-	// 		new Date().getFullYear();
-
-	// 	const newFileName = date + "_" + fileData.name;
-
-	// 	if (fileData.size > 2090000) {
-	// 		alert("File too large (2mb limit) ! Please try again!");
-	// 		this.setState({
-	// 			file: null,
-	// 			fileData: null,
-	// 		});
-	// 	} else {
-	// 		try {
-	// 			// const data = new FormData();
-	// 			// data.append("image", fileData);
-
-	// 			// await fetch(`${AppConfiguration.url()}/api/upload-image`, {
-	// 			// 	method: "POST",
-	// 			// 	body: data,
-	// 			// })
-	// 			// 	.then((result) => {
-	// 			// 		console.log("The File has been Uploaded...");
-	// 			// 		console.log(result);
-	// 			// 	})
-	// 			// 	.catch((error) => {
-	// 			// 		console.log("Multer Error!", error);
-	// 			// 	});
-
-	// 			await axios
-	// 				.put(`${AppConfiguration.url()}/api/update-user-profile`, {
-	// 					image: newFileName,
-	// 					userID: sessionStorage.getItem("UserID"),
-	// 				})
-	// 				.then((response) => {
-	// 					// console.log(response);
-	// 				});
-
-	// 			await axios
-	// 				.put(`${AppConfiguration.url()}/api/update-appplicant-profile`, {
-	// 					image: newFileName,
-	// 					userID: sessionStorage.getItem("UserID"),
-	// 				})
-	// 				.then(async (response) => {
-	// 					// console.log(response);
-	// 					await this.props.changeCurrentUserProfile(
-	// 						newFileName,
-	// 						this.props.currentUser.UserID
-	// 					);
-	// 					this.setState({
-	// 						profileImg: file,
-	// 						toggleChooser: false,
-	// 						file: null,
-	// 					});
-	// 				});
-	// 		} catch (error) {
-	// 			alert(error);
-	// 		}
-	// 	}
-	// };
-
 	handleSave = async (e) => {
 		try {
 			this.setState({
@@ -144,9 +77,7 @@ export class Dp extends Component {
 				image: newFileName,
 				userID: sessionStorage.getItem("UserID"),
 			})
-			.then((response) => {
-				// console.log(response);
-			});
+			.then((response) => {});
 
 		await axios
 			.put(`${AppConfiguration.url()}/api/update-appplicant-profile`, {
@@ -154,7 +85,6 @@ export class Dp extends Component {
 				userID: sessionStorage.getItem("UserID"),
 			})
 			.then(async (response) => {
-				// console.log(response);
 				await this.props.changeCurrentUserProfile(
 					newFileName,
 					this.props.currentUser.UserID
@@ -169,7 +99,6 @@ export class Dp extends Component {
 
 	handleToggleHire = async () => {
 		await this.props.handleToggleHire();
-		// await this.props.setTheme();
 
 		const { hiringStatus } = this.props;
 		const userSession = sessionStorage.getItem("UserID");
@@ -179,9 +108,7 @@ export class Dp extends Component {
 				hiringStatus: hiringStatus,
 				userID: userSession,
 			})
-			.then((response) => {
-				// console.log("Hiring_Status has been Updated");
-			});
+			.then((response) => {});
 	};
 
 	toggleImagePreview = () => {
@@ -224,7 +151,6 @@ export class Dp extends Component {
 					<div className='profile-picture'>
 						<img
 							src={`${User_Image}`}
-							// src={`${AppConfiguration.url()}/assets/images/${User_Image}`}
 							alt='Profile Image'
 							onClick={this.toggleImagePreview}
 							title='Preview Image'
@@ -269,13 +195,10 @@ export class Dp extends Component {
 						onClick={() => {
 							this.setState({
 								toggleChooser: !this.state.toggleChooser,
+								file: null,
 							});
 						}}>
-						<img
-							src={CameraIcon}
-							alt='Edit Profile'
-							// title='Edit Profile Picture'
-						/>
+						<img src={CameraIcon} alt='Edit Profile' />
 					</div>
 				</div>
 				{this.state.toggleChooser ? (

@@ -8,6 +8,7 @@ import axios from "axios";
 import Resources from "../../Resources";
 import AppConfiguration from "../../AppConfiguration";
 import Loading from "../../Loading";
+import RegistrationForm from "./RegistrationForm";
 
 export class Emp_Dashboard extends Component {
 	state = {
@@ -73,105 +74,38 @@ export class Emp_Dashboard extends Component {
 		const employerName = `${currentUser.First_Name} ${currentUser.Middle_Name} ${currentUser.Last_Name}`;
 
 		try {
-			if (fileData.size > 2090000) {
-				alert("File too large (2mb limit) ! Please try again!");
-				this.setState({
-					fileData: null,
+			this.setState({
+				isLoading: true,
+			});
+			const data = new FormData();
+			data.append("file", fileData);
+			data.append("upload_preset", "job-search-catarman-asset");
+
+			await axios
+				.post(
+					"https://api.cloudinary.com/v1_1/doprewqnx/image/upload",
+					data
+				)
+				.then(async (res) => {
+					const newFileName = res.data.secure_url;
+					const companyData = {
+						Company_Name: comp_stablismentName,
+						Employer_Name: employerName,
+						Street: comp_street,
+						Zone: comp_zone,
+						Barangay: comp_barangay,
+						Contact_Number: comp_contactNumber,
+						Company_Description: comp_description,
+						Company_Image: newFileName,
+						UserID: company.UserID,
+						CompanyID: company.CompanyID,
+						Company_Acronym: comp_acronym,
+						Employer_Type: comp_type,
+						Work_Force: comp_workForce,
+						Email_Address: comp_emailAddress,
+					};
+					await this.updateData(employerName, newFileName, companyData);
 				});
-			} else {
-				this.setState({
-					isLoading: true,
-				});
-				const data = new FormData();
-				data.append("file", fileData);
-				data.append("upload_preset", "job-search-catarman-asset");
-
-				await axios
-					.post(
-						"https://api.cloudinary.com/v1_1/doprewqnx/image/upload",
-						data
-					)
-					.then(async (res) => {
-						const newFileName = res.data.secure_url;
-						const companyData = {
-							Company_Name: comp_stablismentName,
-							Employer_Name: employerName,
-							Street: comp_street,
-							Zone: comp_zone,
-							Barangay: comp_barangay,
-							Contact_Number: comp_contactNumber,
-							Company_Description: comp_description,
-							Company_Image: newFileName,
-							UserID: company.UserID,
-							CompanyID: company.CompanyID,
-							Company_Acronym: comp_acronym,
-							Employer_Type: comp_type,
-							Work_Force: comp_workForce,
-							Email_Address: comp_emailAddress,
-						};
-						await this.updateData(employerName, newFileName, companyData);
-					});
-				// Uploading the image to the ClientSide Storage
-				// await axios
-				// 	.put(`${AppConfiguration.url()}/api/insertData-company`, {
-				// 		companyName: comp_stablismentName,
-				// 		employerName: employerName,
-				// 		street: comp_street,
-				// 		zone: comp_zone,
-				// 		barangay: comp_barangay,
-				// 		contactNumber: comp_contactNumber,
-				// 		companyDescription: comp_description,
-				// 		companyImage: newFileName,
-				// 		acronym: comp_acronym,
-				// 		employerType: comp_type,
-				// 		workForce: comp_workForce,
-				// 		emailAddress: comp_emailAddress,
-				// 		userID: company.UserID,
-				// 		companyID: company.CompanyID,
-				// 	})
-				// 	.then((response) => {
-				// 		// console.log(response);
-
-				// 		this.setState({
-				// 			isModalOpen: false,
-				// 		});
-				// 	});
-
-				// await fetch(`${AppConfiguration.url()}/api/upload-image`, {
-				// 	method: "POST",
-				// 	body: data,
-				// })
-				// 	.then(async (result) => {
-				// 		// console.log("The File has been Uploaded...");
-				// 		await this.props.changeCompanyProfile(
-				// 			newFileName,
-				// 			companySession
-				// 		);
-				// 		this.closeModal();
-				// 		await this.props.setCompany(companyData);
-				// 	})
-				// 	.catch((error) => {
-				// 		console.log("Multer Error!", error);
-
-				// 		this.setState({
-				// 			isModalOpen: false,
-				// 		});
-				// 	});
-
-				// Uploading the image to the Admin Storage
-				// await fetch(`${AppConfiguration.url()}/api/upload-image-admin`, {
-				// 	method: "POST",
-				// 	body: data,
-				// })
-				// 	.then(async (result) => {
-				// 		// console.log(
-				// 		// 	"The File has been Uploaded to the Administrator..."
-				// 		// );
-				// 	})
-				// 	.catch((error) => {
-				// 		console.log("Multer Error!", error);
-				// 	});
-			}
 		} catch (error) {
 			console.log(error);
 		}
@@ -338,6 +272,8 @@ export class Emp_Dashboard extends Component {
 			}
 		}
 
+		console.log(comp_stablismentName);
+
 		let barangayResources = barangays.map((barangay) => {
 			return (
 				<option key={barangay} value={barangay}>
@@ -401,7 +337,7 @@ export class Emp_Dashboard extends Component {
 
 		if (
 			comp_stablismentName === "" ||
-			comp_street === "" ||
+			// comp_street === "" ||
 			comp_zone === "" ||
 			comp_barangay === "" ||
 			comp_contactNumber === "" ||
@@ -416,7 +352,7 @@ export class Emp_Dashboard extends Component {
 			isUpdateButtonEnable = false;
 		} else if (
 			comp_stablismentName === null ||
-			comp_street === null ||
+			// comp_street === null ||
 			comp_zone === null ||
 			comp_barangay === null ||
 			comp_contactNumber === null ||
@@ -437,193 +373,16 @@ export class Emp_Dashboard extends Component {
 					{company.companyName === "" ||
 					company.Company_Name === "" ||
 					company.Company_Name === null ? (
-						<div className='employer-register-company-container'>
-							<div className='employer-register-overlay' />
-							<form
-								className='register-form'
-								onSubmit={(e) => this.handleCreateCompanyData(e)}>
-								<h3 onClick={this.closeModal}>
-									Establishment Registration Form
-								</h3>
-								<div className='register-fields'>
-									<div className='register-field'>
-										<label>Business Establishment Name:</label>
-										<input
-											autoFocus
-											type='text'
-											placeholder='Set Establishment Name'
-											onChange={(e) =>
-												this.handleChange(e, "comp_stablismentName")
-											}
-										/>
-									</div>
-									<div className='register-field'>
-										<label>Acronym/Abbreviation:</label>
-										<div className='acronym-container'>
-											<input
-												type='text'
-												placeholder='Set Establishment Acronym/Abbreviation'
-												onChange={(e) =>
-													this.handleChange(e, "comp_acronym")
-												}
-											/>
-											<div className='acronym'>
-												<input
-													type='checkbox'
-													name='acronym'
-													checked={hasAcronym ? "checked" : ""}
-													onChange={this.handleAcronym}
-												/>
-												<label>(n/a)</label>
-											</div>
-										</div>
-									</div>
-									<div className='register-field'>
-										<label>Employer Type:</label>
-										<select
-											defaultValue=''
-											onChange={(e) =>
-												this.handleChange(e, "comp_type")
-											}>
-											<option
-												disabled='disabled'
-												hidden='hidden'
-												value=''>
-												Select Employer Type
-											</option>
-											<option value='Government'>Government</option>
-											<option value='Recruitment & Placement Agency'>
-												Recruitment & Placement Agency
-											</option>
-											<option value='Private'>Private</option>
-											<option value='Licenced Recruitment Agency (Overseas)'>
-												Licenced Recruitment Agency (Overseas)
-											</option>
-											<option value='DO 174-17. Subcontractor'>
-												DO 174-17. Subcontractor
-											</option>
-										</select>
-									</div>
-									<div className='register-field'>
-										<label>Total Work Force:</label>
-										<select
-											defaultValue=''
-											onChange={(e) =>
-												this.handleChange(e, "comp_workForce")
-											}>
-											<option
-												disabled='disabled'
-												hidden='hidden'
-												value=''>
-												Select Total Work Force
-											</option>
-											<option value='Micro (1-9)'>
-												Micro (1-9)
-											</option>
-											<option value='Small (10-99)'>
-												Small (10-99)
-											</option>
-											<option value='Medium (100-199)'>
-												Medium (100-199)
-											</option>
-											<option value='Large (200 and up)'>
-												Large (200 and up)
-											</option>
-										</select>
-									</div>
-									<div className='register-field'>
-										<label>Business Establishment Location:</label>
-										<input
-											type='text'
-											placeholder='Input Street'
-											onChange={(e) =>
-												this.handleChange(e, "comp_street")
-											}
-											style={{ marginBottom: "2px" }}
-										/>
-										<select
-											defaultValue=''
-											onChange={(e) =>
-												this.handleChange(e, "comp_zone")
-											}>
-											<option
-												disabled='disabled'
-												hidden='hidden'
-												value=''>
-												Select Zone
-											</option>
-											<option value='Zone 1'>Zone 1</option>
-											<option value='Zone 2'>Zone 2</option>
-											<option value='Zone 3'>Zone 3</option>
-											<option value='Zone 4'>Zone 4</option>
-											<option value='Zone 5'>Zone 5</option>
-											<option value='Zone 6'>Zone 6</option>
-										</select>
-										<select
-											defaultValue=''
-											onChange={(e) =>
-												this.handleChange(e, "comp_barangay")
-											}>
-											<option
-												disabled='disabled'
-												hidden='hidden'
-												value=''>
-												Select Barangay
-											</option>
-											{barangayResources}
-										</select>
-									</div>
-									<div className='register-field'>
-										<label>Contact Number:</label>
-										<input
-											type='number'
-											placeholder='Enter Contact Number'
-											onChange={(e) =>
-												this.handleChange(e, "comp_contactNumber")
-											}
-										/>
-									</div>
-									<div className='register-field'>
-										<label>Email Address:</label>
-										<input
-											type='email'
-											placeholder='Enter Email Address'
-											onChange={(e) =>
-												this.handleChange(e, "comp_emailAddress")
-											}
-										/>
-									</div>
-									<div className='register-field'>
-										<label>Business Establishment Description:</label>
-										<textarea
-											placeholder='Describe what your business does..'
-											onChange={(e) =>
-												this.handleChange(e, "comp_description")
-											}
-											rows='5'
-										/>
-									</div>
-									<div className='register-field'>
-										<label>Establishment Photo:</label>
-										<input
-											type='file'
-											onChange={this.handleFileChange}
-											accept='image/jpeg, image/png'
-										/>
-									</div>
-									<button
-										onClick={(e) => this.handleCreateCompanyData(e)}
-										style={
-											isUpdateButtonEnable
-												? { opacity: "1" }
-												: { opacity: "0.3" }
-										}
-										disabled={isUpdateButtonEnable ? "" : "disabled"}>
-										Register
-									</button>
-								</div>
-							</form>
-						</div>
+						<RegistrationForm
+							handleCreateCompanyData={this.handleCreateCompanyData}
+							closeModal={this.closeModal}
+							handleChange={this.handleChange}
+							handleAcronym={this.handleAcronym}
+							handleFileChange={this.handleFileChange}
+							isUpdateButtonEnable={isUpdateButtonEnable}
+							barangayResources={barangayResources}
+							hasAcronym={hasAcronym}
+						/>
 					) : (
 						""
 					)}

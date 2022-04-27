@@ -189,6 +189,14 @@ export class Post extends Component {
 										<p>Civil Status:</p>
 										<h4>{info.Civil_Status}</h4>
 									</div>
+									<div className='post-detail'>
+										<p>Place of Work:</p>
+										<h4>
+											{info.Work_Place === info.Company_Address
+												? "Company Location"
+												: info.Work_Place}
+										</h4>
+									</div>
 								</div>
 
 								<div className='post-detail-group2'>
@@ -197,18 +205,19 @@ export class Post extends Component {
 										<h4>{info.Required_Employees}</h4>
 									</div>
 									<div className='post-detail'>
-										<p>Applied | Hired:</p>
-										<h4>
-											{filteredCandidate.length} •{" "}
-											{filteredHiredCandidate.length}
-										</h4>
+										<p>Applications Received:</p>
+										<h4>{filteredCandidate.length}</h4>
 									</div>
 									<div className='post-detail'>
-										<p>Place of Work:</p>
+										<p>Applicants Hired:</p>
+										<h4>{filteredHiredCandidate.length}</h4>
+									</div>
+									<div className='post-detail'>
+										<p>Job Vacancy Deadline:</p>
 										<h4>
-											{info.Work_Place === info.Company_Address
-												? "Company Location"
-												: info.Work_Place}
+											{info.Job_Requirements !== ""
+												? info.Job_Requirements
+												: "Not Set"}
 										</h4>
 									</div>
 									<div className='post-detail'>

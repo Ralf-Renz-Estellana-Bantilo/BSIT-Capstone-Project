@@ -50,7 +50,9 @@ export class SignUp extends Component {
 		});
 	};
 
-	handleSignUp = async () => {
+	handleSignUp = async (e) => {
+		e.preventDefault();
+
 		try {
 			const user = this.state;
 			await axios
@@ -73,7 +75,7 @@ export class SignUp extends Component {
 						if (
 							user.firstName === "" ||
 							user.lastName === "" ||
-							user.middleName === "" ||
+							// user.middleName === "" ||
 							user.role === "" ||
 							user.username === "" ||
 							user.password === "" ||
@@ -94,7 +96,7 @@ export class SignUp extends Component {
 									this.setState({
 										isValid: true,
 									});
-									this.props.toggleSignUp(true);
+									// this.props.toggleSignUp(true);
 									this.props.registerJobSeeker(signUpUser);
 								}
 							} else if (user.role === "Employer") {
@@ -106,7 +108,7 @@ export class SignUp extends Component {
 									this.setState({
 										isValid: true,
 									});
-									this.props.toggleSignUp(true);
+									// this.props.toggleSignUp(true);
 									this.props.registerEmployer(signUpUser);
 								}
 							}
@@ -132,7 +134,7 @@ export class SignUp extends Component {
 		if (
 			user.firstName === "" ||
 			user.lastName === "" ||
-			user.middleName === "" ||
+			// user.middleName === "" ||
 			user.role === ""
 		) {
 			this.setState({
@@ -166,6 +168,7 @@ export class SignUp extends Component {
 
 	componentDidMount = async () => {
 		document.title = "Job Search Catarman";
+		window.scrollTo(0, 0);
 
 		if (`${this.state.role}` !== "" || `${this.state.role}` !== undefined) {
 			await this.setState({ role: `${this.props.userType}` });
@@ -175,7 +178,6 @@ export class SignUp extends Component {
 			});
 		}
 	};
-
 	render() {
 		const {
 			firstName,
@@ -186,12 +188,12 @@ export class SignUp extends Component {
 			password,
 			confirmPassword,
 		} = this.state;
-		const { darkTheme } = this.props;
+		const { darkTheme, isSignUp, toggleSignUp } = this.props;
 
 		return (
 			<div className='login-container'>
 				<div className='login-nav'>
-					<Link to='/' onClick={() => this.props.toggleSignUp(false)}>
+					<Link to='/' onClick={() => toggleSignUp(false)}>
 						<img
 							src={LeftArrow}
 							alt='Go Back'
@@ -255,12 +257,8 @@ export class SignUp extends Component {
 									</div>
 								</div>
 							)}
-							{this.props.isSignUp === true && (
-								<AuthIndication
-									method={this.props.toggleSignUp}
-									delay={5}
-									toggleSignUp={this.props.toggleSignUp}
-								/>
+							{isSignUp === true && (
+								<AuthIndication method={toggleSignUp} delay={3} />
 							)}
 						</div>
 					</div>
@@ -274,7 +272,7 @@ export class SignUp extends Component {
 							<div className='login-form'>
 								<div className='input-field'>
 									<input
-										autoFocus
+										// autoFocus
 										type='text'
 										placeholder='First Name'
 										onChange={(e) => {
@@ -335,14 +333,16 @@ export class SignUp extends Component {
 					)}
 
 					{this.state.step === 2 && (
-						<div className='form-signup'>
+						<form
+							className='form-signup'
+							onSubmit={(e) => this.handleSignUp(e)}>
 							<div className='circle-blue' />
 							<div className='circle-red' />
 
 							<div className='login-form'>
 								<div className='input-field'>
 									<input
-										autoFocus
+										// autoFocus
 										type='text'
 										placeholder='Username'
 										onChange={(e) => {
@@ -418,7 +418,7 @@ export class SignUp extends Component {
 									</select>
 								</div>
 							</div>
-							<div className='dual-button'>
+							{/* <div className='dual-button'>
 								<button
 									className='dual-button-back'
 									onClick={(e) => this.handleSubmitPrev(e)}>
@@ -426,11 +426,14 @@ export class SignUp extends Component {
 								</button>
 								<button
 									className='dual-sign-in'
-									onClick={this.handleSignUp}>
+									onClick={(e) => this.handleSignUp(e)}>
 									Sign Up
 								</button>
-							</div>
-						</div>
+							</div> */}
+							<button onSubmit={(e) => this.handleSignUp(e)}>
+								Sign Up
+							</button>
+						</form>
 					)}
 
 					<div className='steps'>

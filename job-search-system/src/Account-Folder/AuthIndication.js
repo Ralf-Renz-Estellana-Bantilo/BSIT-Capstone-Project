@@ -1,33 +1,29 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import CountDownSignUp from "../JOBSEEKER/Home-Folder/CountDownSignUp";
 
 export class AuthIndication extends Component {
-	toggleSignUp = () => {
-		this.props.toggleSignUp(false);
-	};
+	componentWillUnmount() {
+		this.props.history.push("/login");
+	}
 
 	render() {
 		return (
 			<div className='success-container'>
 				<div className='success-wrapper'>
 					<p>
-						Successfully Registered..{" "}
-						<Link to='/login' onClick={this.toggleSignUp}>
-							Login
-						</Link>{" "}
-						now!
+						Registered Successfully!
+						{
+							<CountDownSignUp
+								method={this.props.method}
+								delay={this.props.delay}
+							/>
+						}
 					</p>
-					{
-						<CountDownSignUp
-							method={this.props.method}
-							delay={this.props.delay}
-						/>
-					}
 				</div>
 			</div>
 		);
 	}
 }
 
-export default AuthIndication;
+export default withRouter(AuthIndication);

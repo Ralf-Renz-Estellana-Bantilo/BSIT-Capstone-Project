@@ -43,6 +43,39 @@ const Companies = ({
 		}
 	}, []);
 
+	const formatPlaceOfWork = () => {
+		try {
+			const street =
+				companyPreview.Street === null ? "" : companyPreview.Street;
+			const zone =
+				companyPreview.Zone === null
+					? "Not Specified"
+					: companyPreview.Zone;
+
+			const address = `${companyPreview.Street}, ${companyPreview.Zone}, ${companyPreview.Barangay}`;
+			let place = `${address}`.split(", ");
+			let formattedPlace = "";
+
+			if (place.length === 1) {
+				formattedPlace = address;
+			} else {
+				if (place[0] === "" && place[1] !== "Not Specified") {
+					formattedPlace = place[1] + ", " + place[2];
+				} else if (place[0] !== "" && place[1] === "Not Specified") {
+					formattedPlace = place[0] + ", " + place[2];
+				} else if (place[0] === "" && place[1] === "Not Specified") {
+					formattedPlace = place[2];
+				} else {
+					formattedPlace = address;
+				}
+			}
+
+			return formattedPlace;
+		} catch (error) {
+			return "";
+		}
+	};
+
 	let companyPosts = null;
 	if (companyPreview !== null) {
 		companyPosts = jobPosts.filter(
@@ -73,6 +106,8 @@ const Companies = ({
 	}
 
 	companiesData.sort((a, b) => (a.Company_Name > b.Company_Name ? 1 : -1));
+
+	const companyAddress = formatPlaceOfWork();
 
 	return (
 		<div className='companies-container'>
@@ -223,7 +258,6 @@ const Companies = ({
 									<div className='post-preview-panel'>
 										<div className='job-post-header'>
 											<h3>Company Detail Preview</h3>
-											{/* {companyPreview !== null && <p>•••</p>} */}
 										</div>
 										{companyPreview !== null ? (
 											<div className='company-detail-container'>
@@ -235,9 +269,6 @@ const Companies = ({
 														/>
 													</div>
 													<h3>{companyPreview.Company_Name}</h3>
-													{/* <StarRating
-														rating={companyPosts.length}
-													/> */}
 												</div>
 												<div className='applicant-detail'>
 													<div className='applicant-info'>
@@ -249,12 +280,7 @@ const Companies = ({
 														</p>
 														<p>
 															Company Address:{" "}
-															<span>
-																{companyPreview.Street},{" "}
-																{companyPreview.Zone},{" "}
-																{companyPreview.Barangay},
-																Catarman
-															</span>
+															<span>{companyAddress}</span>
 														</p>
 														<p>
 															Acronym/Abbreviation:{" "}

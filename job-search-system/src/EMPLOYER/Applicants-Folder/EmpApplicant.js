@@ -18,6 +18,7 @@ export class EmpApplicant extends Component {
 		jobTitle: "",
 		requiredEmp: 0,
 		applied: 0,
+		dateClosed: null,
 	};
 
 	addCandidates = (candidate) => {
@@ -26,12 +27,13 @@ export class EmpApplicant extends Component {
 		});
 	};
 
-	setJobTitle = (activeStatus, title, req, app) => {
+	setJobTitle = (activeStatus, title, req, app, dateClosed) => {
 		this.setState({
 			activeStatus: activeStatus,
 			jobTitle: title,
 			requiredEmp: req,
 			applied: app,
+			dateClosed: dateClosed,
 		});
 	};
 
@@ -65,6 +67,7 @@ export class EmpApplicant extends Component {
 		const { currentUser, jobApplicants, companyJobPost } = this.props;
 		const {
 			company,
+			dateClosed,
 			activeStatus,
 			candidates,
 			isSummaryOpen,
@@ -156,6 +159,7 @@ export class EmpApplicant extends Component {
 							jobTitle={jobTitle}
 							requiredEmp={requiredEmp}
 							applied={applied}
+							dateClosed={dateClosed}
 							toggleSummaryPanel={this.toggleSummaryPanel}
 						/>
 					</div>

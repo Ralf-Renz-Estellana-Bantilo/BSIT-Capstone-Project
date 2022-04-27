@@ -5,7 +5,6 @@
 	flex-direction: column;
 	/* justify-content: space-between; */
 	background: var(--main-background2);
-	position: relative;
 }
 
 .login-nav {
@@ -43,7 +42,22 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
+	position: relative;
+	animation-name: showFromTop;
+	animation-duration: .5s;
 }
+/* 
+@keyframes showFromTop {
+	0% {
+		opacity: 0;
+		top: 100px;
+	}
+
+	100% {
+		opacity: 1;
+		top: 0;
+	}
+} */
 
 .login-header-container {
 	display: flex;

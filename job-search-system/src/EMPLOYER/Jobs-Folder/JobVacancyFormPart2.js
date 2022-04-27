@@ -42,6 +42,24 @@ export class JobVacancyFormPart2 extends Component {
 		});
 	};
 
+	formatPlaceOfWork = () => {
+		const { placeOfWork } = this.props.values;
+		let place = `${placeOfWork}`.split(", ");
+		let formattedPlace = "";
+
+		if (place[0] === "" && place[1] !== "Not Specified") {
+			formattedPlace = place[1] + ", " + place[2];
+		} else if (place[0] !== "" && place[1] === "Not Specified") {
+			formattedPlace = place[0] + ", " + place[2];
+		} else if (place[0] === "" && place[1] === "Not Specified") {
+			formattedPlace = place[2];
+		} else {
+			formattedPlace = placeOfWork;
+		}
+
+		return formattedPlace;
+	};
+
 	componentDidMount() {
 		window.scrollTo(0, 0);
 
@@ -64,6 +82,7 @@ export class JobVacancyFormPart2 extends Component {
 		} = this.props.values;
 
 		const { company, handleChange } = this.props;
+		const placeOfWork = this.formatPlaceOfWork();
 
 		return (
 			<div className='pd-text-fields'>
@@ -120,7 +139,7 @@ export class JobVacancyFormPart2 extends Component {
 									type='text'
 									placeholder='Address: (street, barangay, municipality, province)'
 									onChange={handleChange("address")}
-									defaultValue={`${company.Street}, ${company.Zone}, ${company.Barangay}`}
+									defaultValue={placeOfWork}
 								/>
 							</div>
 						</div>

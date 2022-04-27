@@ -111,7 +111,7 @@ export class EmpCompanyProfile extends Component {
 			firstName === "" ||
 			middleName === "" ||
 			lastName === "" ||
-			street === "" ||
+			// street === "" ||
 			zone === "" ||
 			barangay === "" ||
 			contactNumber === "" ||
@@ -248,7 +248,7 @@ export class EmpCompanyProfile extends Component {
 			firstName === "" ||
 			middleName === "" ||
 			lastName === "" ||
-			street === "" ||
+			// street === "" ||
 			zone === "" ||
 			barangay === "" ||
 			contactNumber === "" ||
@@ -264,7 +264,7 @@ export class EmpCompanyProfile extends Component {
 			firstName === null ||
 			middleName === null ||
 			lastName === null ||
-			street === null ||
+			// street === null ||
 			zone === null ||
 			barangay === null ||
 			contactNumber === null ||
@@ -507,6 +507,9 @@ export class EmpCompanyProfile extends Component {
 										<option value='Zone 4'>Zone 4</option>
 										<option value='Zone 5'>Zone 5</option>
 										<option value='Zone 6'>Zone 6</option>
+										<option value='Not Specified'>
+											Not Specified
+										</option>
 									</select>
 								</div>
 							</div>

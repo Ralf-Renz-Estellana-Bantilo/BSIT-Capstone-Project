@@ -98,6 +98,13 @@ export class Emp_Post extends Component {
 				numApplicant.Candidate_Status === "Hired"
 		);
 
+		let address =
+			companyJobPost.Company_Address.split(", ")[
+				companyJobPost.Company_Address.split(", ").length - 1
+			];
+
+		console.log(companyJobPost);
+
 		return (
 			<div className='post-container'>
 				<div
@@ -108,9 +115,6 @@ export class Emp_Post extends Component {
 							<div className='account-profile'>
 								<img
 									src={companyJobPost.Company_Image}
-									// src={`${AppConfiguration.url()}/assets/images/${
-									// 	companyJobPost.Company_Image
-									// }`}
 									alt='Establishment'
 								/>
 							</div>
@@ -148,7 +152,7 @@ export class Emp_Post extends Component {
 												: { filter: "brightness(0.3)" }
 										}
 									/>
-									<p>{companyJobPost.Company_Address}</p>
+									<p>{address}</p>
 								</div>
 							</div>
 						</div>
@@ -214,6 +218,15 @@ export class Emp_Post extends Component {
 									<p>Civil Status:</p>
 									<h4>{companyJobPost.Civil_Status}</h4>
 								</div>
+								<div className='post-detail'>
+									<p>Place of Work:</p>
+									<h4>
+										{companyJobPost.Work_Place ===
+										companyJobPost.Company_Address
+											? "Company Location"
+											: companyJobPost.Work_Place}
+									</h4>
+								</div>
 							</div>
 
 							<div className='post-detail-group2'>
@@ -222,19 +235,19 @@ export class Emp_Post extends Component {
 									<h4>{companyJobPost.Required_Employees}</h4>
 								</div>
 								<div className='post-detail'>
-									<p>Applied | Hired:</p>
-									<h4>
-										{filteredCandidate.length} •{" "}
-										{filteredHiredCandidate.length}
-									</h4>
+									<p>Applications Recieved:</p>
+									<h4>{filteredCandidate.length}</h4>
 								</div>
 								<div className='post-detail'>
-									<p>Place of Work:</p>
+									<p>Applicants Hired:</p>
+									<h4>{filteredHiredCandidate.length}</h4>
+								</div>
+								<div className='post-detail'>
+									<p>Job Vacancy Deadline:</p>
 									<h4>
-										{companyJobPost.Work_Place ===
-										companyJobPost.Company_Address
-											? "Company Location"
-											: companyJobPost.Work_Place}
+										{companyJobPost.Job_Requirements !== ""
+											? companyJobPost.Job_Requirements
+											: "Not Set"}
 									</h4>
 								</div>
 								<div className='post-detail'>
@@ -248,7 +261,13 @@ export class Emp_Post extends Component {
 													? { backgroundColor: "#00ff40" }
 													: { backgroundColor: "#ff0000" }
 											}></div>
-										<h4>{companyJobPost.Active_Status}</h4>
+										<h4>
+											{companyJobPost.Active_Status}{" "}
+											<>
+												{companyJobPost.Date_Closed &&
+													`at ${companyJobPost.Date_Closed}`}
+											</>{" "}
+										</h4>
 									</div>
 								</div>
 							</div>

@@ -164,7 +164,8 @@ export class Emp_Job_Applicants extends Component {
 											info.Active_Status,
 											info.Job_Title,
 											info.Required_Employees,
-											countApplicants
+											countApplicants,
+											info.Date_Closed
 										);
 										localStorage.setItem(
 											"empApplicantScroll",

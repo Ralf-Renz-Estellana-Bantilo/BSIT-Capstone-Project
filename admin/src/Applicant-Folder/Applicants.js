@@ -411,7 +411,7 @@ const Applicants = ({
 														<p>{applicant.Interested_In}</p>
 													</div>
 													<div className='profession-info'>
-														<h4>Good at:</h4>
+														<h4>Personal Skills:</h4>
 														<p>{applicant.Good_At}</p>
 													</div>
 													<div className='profession-info'>

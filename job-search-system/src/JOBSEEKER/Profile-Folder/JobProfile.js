@@ -193,13 +193,6 @@ export class JobProfile extends Component {
 				fileData,
 			} = this.state;
 
-			const date =
-				new Date().getMonth() +
-				1 +
-				"" +
-				new Date().getDate() +
-				new Date().getFullYear();
-
 			let newFileName = null;
 			if (fileData !== null) {
 				const data = new FormData();
@@ -219,7 +212,6 @@ export class JobProfile extends Component {
 						this.setState({
 							isLoading: false,
 						});
-						// newFileName = date + "_" + fileData.name;
 					});
 			} else if (
 				(fileData === null && resume !== undefined) ||
@@ -320,21 +312,6 @@ export class JobProfile extends Component {
 						this.props.updateApplicantData(user);
 						// console.log(user);
 					});
-
-				// if (fileData !== null) {
-				// 	const data = new FormData();
-				// 	data.append("pdf", fileData);
-				// 	await fetch(`${AppConfiguration.url()}/api/upload-pdf`, {
-				// 		method: "POST",
-				// 		body: data,
-				// 	})
-				// 		.then((result) => {
-				// 			// console.log("The PDF File has been Uploaded...");
-				// 		})
-				// 		.catch((error) => {
-				// 			console.log("Multer Error!", error);
-				// 		});
-				// }
 
 				this.setState({
 					firstName: Resources.formatName(firstName),
@@ -1045,6 +1022,19 @@ export class JobProfile extends Component {
 							</div>
 
 							<div className='field'>
+								<label>Personal Skills:</label>
+								<textarea
+									name='goodAt'
+									id='textarea'
+									cols='30'
+									rows='10'
+									placeholder='Enter the things that you are Personal Skills...'
+									value={goodAt}
+									onChange={(event) => {
+										this.handleChange(event, "goodAt");
+									}}></textarea>
+							</div>
+							<div className='field'>
 								<label>Interests:</label>
 								<textarea
 									name='interest'
@@ -1057,19 +1047,7 @@ export class JobProfile extends Component {
 										this.handleChange(event, "interest");
 									}}></textarea>
 							</div>
-							<div className='field'>
-								<label>Good at:</label>
-								<textarea
-									name='goodAt'
-									id='textarea'
-									cols='30'
-									rows='10'
-									placeholder='Enter the things that you are good at...'
-									value={goodAt}
-									onChange={(event) => {
-										this.handleChange(event, "goodAt");
-									}}></textarea>
-							</div>
+
 							<div className='field'>
 								<label>Credentials:</label>
 								<textarea

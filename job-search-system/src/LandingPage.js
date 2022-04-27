@@ -36,14 +36,14 @@ export class LandingPage extends Component {
 							}
 							onDoubleClick={this.props.setTheme}
 						/>
-						<Link to='/signup'>
+						{/* <Link to='/signup'>
 							<button
 								onClick={() => {
 									this.props.setUserType("");
 								}}>
 								Sign Up
 							</button>
-						</Link>
+						</Link> */}
 					</div>
 					<div className='home-page-content'>
 						<div className='page-logo-container'>

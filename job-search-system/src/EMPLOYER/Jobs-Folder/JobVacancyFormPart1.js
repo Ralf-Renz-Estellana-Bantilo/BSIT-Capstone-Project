@@ -23,7 +23,7 @@ export class JobVacancyFormPart1 extends Component {
 			values.civilStatus !== "" &&
 			values.jobType !== "" &&
 			values.jobQualification !== "" &&
-			values.jobRequirement !== "" &&
+			// values.jobRequirement !== "" &&
 			values.jobDescription !== ""
 		) {
 			this.closeIsNotValid();
@@ -39,6 +39,28 @@ export class JobVacancyFormPart1 extends Component {
 		this.setState({
 			isNotValid: true,
 		});
+	};
+
+	formatPlaceOfWork = () => {
+		const { placeOfWork } = this.props.values;
+		let place = `${placeOfWork}`.split(", ");
+		let formattedPlace = "";
+
+		if (place.length === 1) {
+			formattedPlace = placeOfWork;
+		} else {
+			if (place[0] === "" && place[1] !== "Not Specified") {
+				formattedPlace = place[1] + ", " + place[2];
+			} else if (place[0] !== "" && place[1] === "Not Specified") {
+				formattedPlace = place[0] + ", " + place[2];
+			} else if (place[0] === "" && place[1] === "Not Specified") {
+				formattedPlace = place[2];
+			} else {
+				formattedPlace = placeOfWork;
+			}
+		}
+
+		return formattedPlace;
 	};
 
 	componentDidMount() {
@@ -82,6 +104,7 @@ export class JobVacancyFormPart1 extends Component {
 		});
 
 		const screenSize = document.body.clientWidth;
+		const placeOfWork = this.formatPlaceOfWork();
 
 		return (
 			<div className='text-fields'>
@@ -151,7 +174,16 @@ export class JobVacancyFormPart1 extends Component {
 								type='text'
 								placeholder='Place of Work'
 								onChange={handleChange("placeOfWork")}
-								value={values.placeOfWork}
+								value={placeOfWork}
+							/>
+						</div>
+						<div className='post-field'>
+							<label>Job Vacancy Deadline (Optional): mm/dd/yyyy</label>
+							<input
+								value={values.jobRequirement}
+								type='text'
+								placeholder='01/11/2000'
+								onChange={handleChange("jobRequirement")}
 							/>
 						</div>
 						<div className='post-field-group'>
@@ -246,16 +278,17 @@ export class JobVacancyFormPart1 extends Component {
 						</div>
 
 						<div className='job-qualification'>
-							<h4>Job Qualifications</h4>
+							<h4>Hiring Requirements</h4>
 							<textarea
 								name='work-experience'
 								placeholder=' - Sample 
                             - Job 
                             - Qualifications'
+								style={{ height: "200px" }}
 								onChange={handleChange("jobQualification")}
 								value={values.jobQualification}></textarea>
 						</div>
-						<div className='job-qualification'>
+						{/* <div className='job-qualification'>
 							<h4>Job Requirements</h4>
 							<textarea
 								name='work-experience'
@@ -264,7 +297,7 @@ export class JobVacancyFormPart1 extends Component {
                             - Requirements'
 								onChange={handleChange("jobRequirement")}
 								defaultValue={values.jobRequirement}></textarea>
-						</div>
+						</div> */}
 						<div className='job-qualification'>
 							<h4>Job Description</h4>
 							<textarea
