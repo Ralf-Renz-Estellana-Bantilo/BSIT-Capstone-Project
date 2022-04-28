@@ -52,6 +52,7 @@ export class SignUp extends Component {
 
 	handleSignUp = async (e) => {
 		e.preventDefault();
+		const user = this.state;
 
 		try {
 			const user = this.state;
@@ -258,7 +259,10 @@ export class SignUp extends Component {
 								</div>
 							)}
 							{isSignUp === true && (
-								<AuthIndication method={toggleSignUp} delay={3} />
+								<AuthIndication
+									method={() => toggleSignUp(false)}
+									delay={4}
+								/>
 							)}
 						</div>
 					</div>
@@ -444,6 +448,7 @@ export class SignUp extends Component {
 									? { backgroundColor: "#00b2ff" }
 									: { backgroundColor: "#4d4d4d" }
 							}
+							onClick={this.handleSubmitPrev}
 						/>
 						<div
 							className='step2'
@@ -452,6 +457,7 @@ export class SignUp extends Component {
 									? { backgroundColor: "#4d4d4d" }
 									: { backgroundColor: "#00b2ff" }
 							}
+							onClick={this.handleSubmitNext}
 						/>
 					</div>
 					<p>

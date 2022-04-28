@@ -272,8 +272,6 @@ export class Emp_Dashboard extends Component {
 			}
 		}
 
-		console.log(comp_stablismentName);
-
 		let barangayResources = barangays.map((barangay) => {
 			return (
 				<option key={barangay} value={barangay}>

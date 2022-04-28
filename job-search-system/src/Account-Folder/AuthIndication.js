@@ -1,12 +1,7 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
 import CountDownSignUp from "../JOBSEEKER/Home-Folder/CountDownSignUp";
 
 export class AuthIndication extends Component {
-	componentWillUnmount() {
-		this.props.history.push("/login");
-	}
-
 	render() {
 		return (
 			<div className='success-container'>
@@ -26,4 +21,4 @@ export class AuthIndication extends Component {
 	}
 }
 
-export default withRouter(AuthIndication);
+export default AuthIndication;

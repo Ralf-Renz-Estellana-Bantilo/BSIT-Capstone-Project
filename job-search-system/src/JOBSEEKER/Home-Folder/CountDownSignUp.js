@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 
 export class CountDownSignUp extends Component {
 	constructor(props) {
@@ -20,6 +21,7 @@ export class CountDownSignUp extends Component {
 		if (prevState.count !== this.state.count && this.state.count === 0) {
 			clearInterval(this.timer);
 			this.props.method();
+			this.props.history.push("/login");
 		}
 	}
 
@@ -28,4 +30,4 @@ export class CountDownSignUp extends Component {
 	}
 }
 
-export default CountDownSignUp;
+export default withRouter(CountDownSignUp);

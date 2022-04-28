@@ -38,7 +38,7 @@ export class App extends Component {
 		this.state = {
 			infos: [],
 			showAddTask: [],
-			isSignUp: [],
+			isSignUp: false,
 			activePage: [],
 			scrollPosition: [],
 			applicants: [],
@@ -80,8 +80,7 @@ export class App extends Component {
 	componentDidMount = async () => {
 		this.setState({
 			infos: [],
-			showAddTask: [false],
-			isSignUp: false,
+			showAddTask: false,
 			activePage: `home`,
 			scrollPosition: 0,
 			applicants: [],
@@ -549,177 +548,178 @@ export class App extends Component {
 		const applicants = this.state.applicants;
 		const generateApplicantID = shortid.generate();
 
-		if (user.Sex === `Male`) {
-			let addImage = { ...user, userImage: DefaultUserMale };
+		try {
+			if (user.Sex === `Male`) {
+				let addImage = { ...user, userImage: DefaultUserMale };
 
-			await this.setState({
-				user: {
-					jobSeeker: [...jobSeeker, addImage],
-					employer: [...employer],
-				},
-				userData: {
-					jobSeeker: [
-						...userData.jobSeeker,
-						{
-							id: user.UserID,
-							firstName: Resources.formatName(user.First_Name),
-							middleName: Resources.formatName(user.Middle_Name),
-							lastName: Resources.formatName(user.Last_Name),
-							role: user.Role,
-							homeAddress: null,
-							sex: user.Sex,
-							bMonth: null,
-							bDay: null,
-							bYear: null,
-							contactNumber: null,
-							email: null,
-							civilStatus: null,
-							educationalAttainment: null,
-							username: user.Username,
-							password: user.Password,
-							userImage: `https://res.cloudinary.com/doprewqnx/image/upload/v1648959524/jntowv75wyhkqvy4o1xu.png`,
-						},
-					],
-				},
+				this.setState({
+					user: {
+						jobSeeker: [...jobSeeker, addImage],
+
+						employer: [...employer],
+					},
+					userData: {
+						jobSeeker: [
+							...userData.jobSeeker,
+							{
+								id: user.UserID,
+								firstName: Resources.formatName(user.First_Name),
+								middleName: Resources.formatName(user.Middle_Name),
+								lastName: Resources.formatName(user.Last_Name),
+								role: user.Role,
+								homeAddress: null,
+								sex: user.Sex,
+								bMonth: null,
+								bDay: null,
+								bYear: null,
+								contactNumber: null,
+								email: null,
+								civilStatus: null,
+								educationalAttainment: null,
+								username: user.Username,
+								password: user.Password,
+								userImage: `https://res.cloudinary.com/doprewqnx/image/upload/v1648959524/jntowv75wyhkqvy4o1xu.png`,
+							},
+						],
+					},
+				});
+
+				await axios
+					.post(`${AppConfiguration.url()}/api/create-user`, {
+						userID: user.UserID,
+						firstName: Resources.formatName(user.First_Name),
+						middleName: Resources.formatName(user.Middle_Name),
+						lastName: Resources.formatName(user.Last_Name),
+						sex: user.Sex,
+						role: user.Role,
+						username: user.Username,
+						password: user.Password,
+						userImage: `https://res.cloudinary.com/doprewqnx/image/upload/v1648959524/jntowv75wyhkqvy4o1xu.png`,
+					})
+					.then(() => {});
+
+				await axios
+					.post(`${AppConfiguration.url()}/api/create-applicant-data`, {
+						userID: user.UserID,
+						applicantID: generateApplicantID,
+						firstName: Resources.formatName(user.First_Name),
+						middleName: Resources.formatName(user.Middle_Name),
+						lastName: Resources.formatName(user.Last_Name),
+						role: user.Role,
+						sex: user.Sex,
+						homeAddress: null,
+						userImage: `https://res.cloudinary.com/doprewqnx/image/upload/v1648959524/jntowv75wyhkqvy4o1xu.png`,
+						emailAddress: null,
+						contactNumber: null,
+						bMonth: null,
+						bDay: null,
+						bYear: null,
+						civilStatus: null,
+						educationalAttainment: null,
+						hiringStatus: `Inactive`,
+					})
+					.then(() => {
+						this.toggleSignUp(true);
+					});
+			} else {
+				let addImage = { ...user, userImage: DefaultUserFemale };
+				this.setState({
+					user: {
+						jobSeeker: [...jobSeeker, addImage],
+						employer: [...employer],
+					},
+					userData: {
+						jobSeeker: [
+							...userData.jobSeeker,
+							{
+								id: user.UserID,
+								firstName: Resources.formatName(user.First_Name),
+								middleName: Resources.formatName(user.Middle_Name),
+								lastName: Resources.formatName(user.Last_Name),
+								role: user.Role,
+								homeAddress: null,
+								sex: user.Sex,
+								bMonth: null,
+								bDay: null,
+								bYear: null,
+								contactNumber: null,
+								email: null,
+								civilStatus: null,
+								educationalAttainment: null,
+								username: user.Username,
+								password: user.Password,
+								userImage: `https://res.cloudinary.com/doprewqnx/image/upload/v1648959544/g1r50cq1kbhqaccw7gwk.png`,
+							},
+						],
+					},
+				});
+
+				await axios
+					.post(`${AppConfiguration.url()}/api/create-user`, {
+						userID: user.UserID,
+						firstName: Resources.formatName(user.First_Name),
+						middleName: Resources.formatName(user.Middle_Name),
+						lastName: Resources.formatName(user.Last_Name),
+						sex: user.Sex,
+						role: user.Role,
+						username: user.Username,
+						password: user.Password,
+						userImage: `https://res.cloudinary.com/doprewqnx/image/upload/v1648959544/g1r50cq1kbhqaccw7gwk.png`,
+					})
+					.then(() => {});
+
+				await axios
+					.post(`${AppConfiguration.url()}/api/create-applicant-data`, {
+						userID: user.UserID,
+						applicantID: shortid.generate(),
+						firstName: Resources.formatName(user.First_Name),
+						middleName: Resources.formatName(user.Middle_Name),
+						lastName: Resources.formatName(user.Last_Name),
+						role: user.Role,
+						sex: user.Sex,
+						homeAddress: null,
+						userImage: `https://res.cloudinary.com/doprewqnx/image/upload/v1648959544/g1r50cq1kbhqaccw7gwk.png`,
+						emailAddress: null,
+						contactNumber: null,
+						bMonth: null,
+						bDay: null,
+						bYear: null,
+						civilStatus: null,
+						educationalAttainment: null,
+						hiringStatus: `Inactive`,
+					})
+					.then(() => {
+						this.toggleSignUp(true);
+					});
+			}
+
+			const registeredApplicant = {
+				First_Name: Resources.formatName(user.First_Name),
+				Middle_Name: Resources.formatName(user.Middle_Name),
+				Last_Name: Resources.formatName(user.Last_Name),
+				Home_Address: null,
+				Sex: user.Sex,
+				B_Month: null,
+				B_Day: null,
+				B_Year: null,
+				Contact_Number: null,
+				Email_Address: null,
+				Civil_Status: null,
+				Educ_Attainment: null,
+				Preferred_Job: null,
+				Preferred_Category: null,
+				Preferred_Salary: null,
+				Interested_In: null,
+				Good_At: null,
+				Credentials: null,
+				UserID: user.UserID,
+				ApplicantID: generateApplicantID,
+			};
+
+			this.setState({
+				applicants: [...applicants, registeredApplicant],
 			});
-
-			await axios
-				.post(`${AppConfiguration.url()}/api/create-user`, {
-					userID: user.UserID,
-					firstName: Resources.formatName(user.First_Name),
-					middleName: Resources.formatName(user.Middle_Name),
-					lastName: Resources.formatName(user.Last_Name),
-					sex: user.Sex,
-					role: user.Role,
-					username: user.Username,
-					password: user.Password,
-					userImage: `https://res.cloudinary.com/doprewqnx/image/upload/v1648959524/jntowv75wyhkqvy4o1xu.png`,
-				})
-				.then(() => {});
-
-			await axios
-				.post(`${AppConfiguration.url()}/api/create-applicant-data`, {
-					userID: user.UserID,
-					applicantID: generateApplicantID,
-					firstName: Resources.formatName(user.First_Name),
-					middleName: Resources.formatName(user.Middle_Name),
-					lastName: Resources.formatName(user.Last_Name),
-					role: user.Role,
-					sex: user.Sex,
-					homeAddress: null,
-					userImage: `https://res.cloudinary.com/doprewqnx/image/upload/v1648959524/jntowv75wyhkqvy4o1xu.png`,
-					emailAddress: null,
-					contactNumber: null,
-					bMonth: null,
-					bDay: null,
-					bYear: null,
-					civilStatus: null,
-					educationalAttainment: null,
-					hiringStatus: `Inactive`,
-				})
-				.then(async () => {
-					await this.toggleSignUp(true);
-				});
-		} else {
-			let addImage = { ...user, userImage: DefaultUserFemale };
-			await this.setState({
-				user: {
-					jobSeeker: [...jobSeeker, addImage],
-					employer: [...employer],
-				},
-				userData: {
-					jobSeeker: [
-						...userData.jobSeeker,
-						{
-							id: user.UserID,
-							firstName: Resources.formatName(user.First_Name),
-							middleName: Resources.formatName(user.Middle_Name),
-							lastName: Resources.formatName(user.Last_Name),
-							role: user.Role,
-							homeAddress: null,
-							sex: user.Sex,
-							bMonth: null,
-							bDay: null,
-							bYear: null,
-							contactNumber: null,
-							email: null,
-							civilStatus: null,
-							educationalAttainment: null,
-							username: user.Username,
-							password: user.Password,
-							userImage: `https://res.cloudinary.com/doprewqnx/image/upload/v1648959544/g1r50cq1kbhqaccw7gwk.png`,
-						},
-					],
-				},
-			});
-
-			await axios
-				.post(`${AppConfiguration.url()}/api/create-user`, {
-					userID: user.UserID,
-					firstName: Resources.formatName(user.First_Name),
-					middleName: Resources.formatName(user.Middle_Name),
-					lastName: Resources.formatName(user.Last_Name),
-					sex: user.Sex,
-					role: user.Role,
-					username: user.Username,
-					password: user.Password,
-					userImage: `https://res.cloudinary.com/doprewqnx/image/upload/v1648959544/g1r50cq1kbhqaccw7gwk.png`,
-				})
-				.then(() => {
-					// console.log(`Successfully Registered...`);
-				});
-
-			await axios
-				.post(`${AppConfiguration.url()}/api/create-applicant-data`, {
-					userID: user.UserID,
-					applicantID: shortid.generate(),
-					firstName: Resources.formatName(user.First_Name),
-					middleName: Resources.formatName(user.Middle_Name),
-					lastName: Resources.formatName(user.Last_Name),
-					role: user.Role,
-					sex: user.Sex,
-					homeAddress: null,
-					userImage: `https://res.cloudinary.com/doprewqnx/image/upload/v1648959544/g1r50cq1kbhqaccw7gwk.png`,
-					emailAddress: null,
-					contactNumber: null,
-					bMonth: null,
-					bDay: null,
-					bYear: null,
-					civilStatus: null,
-					educationalAttainment: null,
-					hiringStatus: `Inactive`,
-				})
-				.then(async () => {
-					await this.toggleSignUp(true);
-				});
-		}
-
-		const registeredApplicant = {
-			First_Name: Resources.formatName(user.First_Name),
-			Middle_Name: Resources.formatName(user.Middle_Name),
-			Last_Name: Resources.formatName(user.Last_Name),
-			Home_Address: null,
-			Sex: user.Sex,
-			B_Month: null,
-			B_Day: null,
-			B_Year: null,
-			Contact_Number: null,
-			Email_Address: null,
-			Civil_Status: null,
-			Educ_Attainment: null,
-			Preferred_Job: null,
-			Preferred_Category: null,
-			Preferred_Salary: null,
-			Interested_In: null,
-			Good_At: null,
-			Credentials: null,
-			UserID: user.UserID,
-			ApplicantID: generateApplicantID,
-		};
-
-		this.setState({
-			applicants: [...applicants, registeredApplicant],
-		});
+		} catch (error) {}
 	};
 
 	registerEmployer = async (user) => {
@@ -769,7 +769,7 @@ export class App extends Component {
 				companyImage: ``,
 			})
 			.then(() => {
-				// console.log(`Successfully Registered your Company...`);
+				this.toggleSignUp(true);
 			});
 	};
 

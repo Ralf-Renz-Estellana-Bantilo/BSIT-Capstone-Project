@@ -43,9 +43,10 @@
 	flex-direction: column;
 	justify-content: space-evenly;
 	position: relative;
-	animation-name: showFromTop;
-	animation-duration: .5s;
+	/* animation-name: showFromTop;
+	animation-duration: .5s; */
 }
+
 /* 
 @keyframes showFromTop {
 	0% {
