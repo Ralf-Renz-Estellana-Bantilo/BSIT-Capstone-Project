@@ -21,6 +21,10 @@ export class CountDownSignUp extends Component {
 		if (prevState.count !== this.state.count && this.state.count === 0) {
 			clearInterval(this.timer);
 			this.props.method();
+		}
+
+		const currentURL = window.location.href;
+		if (currentURL.includes("signup")) {
 			this.props.history.push("/login");
 		}
 	}
