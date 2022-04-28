@@ -151,84 +151,9 @@ export class ApplicationForm extends Component {
 				fileData: null,
 			};
 
-			if (fileData !== null) {
-				if (fileData.size > 2090000) {
-					alert("File too large (2mb limit) ! Please try again!");
-					this.setState({
-						fileData: null,
-					});
-				} else {
-					try {
-						this.setState({
-							isLoading: true,
-							isModalOpen: false,
-						});
-						const data = new FormData();
-						data.append("file", fileData);
-						data.append("upload_preset", "job-search-catarman-asset");
-						data.append("api_key", "326167851291639");
-						data.append("api_secret", "6G0fgOrs47qz1FWrkNuz-E_FQJQ");
-
-						await axios
-							.post(
-								"https://api.cloudinary.com/v1_1/doprewqnx/image/upload",
-								data
-							)
-							.then(async (res) => {
-								const applicantDataCopy = {
-									jobID: post.JobID,
-									companyID: post.CompanyID,
-									applicantID: applicantID,
-									jobTitle: post.Job_Title,
-									firstName: firstName,
-									middleName: middleName,
-									lastName: lastName,
-									homeAddress: homeAddress,
-									sex: sex,
-									bMonth: bMonth,
-									bDay: bDay,
-									bYear: bYear,
-									contactNumber: contactNumber,
-									email: email,
-									civilStatus: civilStatus,
-									educationalAttainment: educationalAttainment,
-									resume: res.data.secure_url,
-									userImage: userImage,
-									disability: disability,
-									employmentStatus: employmentStatus,
-									employmentType: employmentType,
-									min: new Date().getMinutes(),
-									hour: new Date().getHours(),
-									day: new Date().getDate(),
-									month: new Date().getMonth() + 1,
-									year: new Date().getFullYear(),
-									fileData: fileData,
-								};
-								await this.props.addJobApplicants(applicantDataCopy);
-								await this.props.handleApplication(
-									this.props.targetCompany
-								);
-								this.setState({
-									isLoading: false,
-								});
-								this.props.history.push(`/jobseeker/${activePage}`);
-							})
-							.catch((error) => {
-								alert(error);
-								this.setState({
-									isLoading: false,
-								});
-							});
-					} catch (error) {
-						console.log(error);
-						alert(error);
-					}
-				}
-			} else {
-				await this.props.addJobApplicants(applicantData);
-				await this.props.handleApplication(this.props.targetCompany);
-				this.props.history.push(`/jobseeker/${activePage}`);
-			}
+			await this.props.addJobApplicants(applicantData);
+			await this.props.handleApplication(this.props.targetCompany);
+			this.props.history.push(`/jobseeker/${activePage}`);
 		} catch (error) {
 			alert(error);
 			console.log(error);
