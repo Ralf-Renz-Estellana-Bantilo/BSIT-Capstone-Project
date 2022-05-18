@@ -11,10 +11,10 @@
 	padding: 5px 10px;
 	display: flex;
 	justify-content: space-between;
-	box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.445);
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.145);
 	z-index: 9;
 	transition: 0.5s background-color;
-	border-bottom: 1px solid var(--border1);
+	/* border-bottom: 1px solid var(--border1); */
 }
 
 .accordion-title div {
@@ -29,9 +29,9 @@
 	position: relative;
 	top: -15px;
 	border-radius: 5px;
-	box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.445);
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.145);
 	transition: 0.5s background-color;
-	border-bottom: 1px solid var(--border1);
+	/* border-bottom: 1px solid var(--border1); */
 }
 
 .accordion-content .accordion-content-button {

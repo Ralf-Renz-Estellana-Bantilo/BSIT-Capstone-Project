@@ -46,7 +46,7 @@
 	--job-post-title: #2d2d2d;
 }
 
-.app-light {
+.app-light-original {
 	transition: 0.5s background-color;
 	width: 800px;
 	margin: 0 auto;
@@ -58,11 +58,9 @@
 	--dark-primary: #ebebeb;
 	--dark-primary-hover: #ffffff;
 	--dark-secondary: #b4b4b4;
-	/* --dark-secondary: #949494; */
 	--accent-main: #121212;
 	--accent1: #1f1f1f;
 	--accent2: #3d3d3d;
-	/* --accent2: #2d2d2d; */
 	--border1: grey;
 	--light-blue: #00b2ff;
 	--dark-blue: #006aff;
@@ -70,6 +68,31 @@
 	--reddish: #ff004c;
 	--new-notif: #c4cdff;
 	--job-post-title: white;
+}
+
+.app-light {
+	transition: 0.5s background-color;
+	width: 800px;
+	margin: 0 auto;
+
+	--main-background: #E0E0E0;
+	--main-background2: #ebebeb;
+	--main-backgroundIndex: #949494;
+	--nav-background: #ebebeb;
+	--dark-primary: #ebebeb;
+	--dark-primary-hover: #ffffff;
+	--dark-secondary: #b4b4b4;
+	--accent-main: #121212;
+	--accent1: #1f1f1f;
+	--accent2: #3d3d3d;
+	--border1: grey;
+	--light-blue: #00b2ff;
+	--dark-blue: #006aff;
+	--orange: #ff7b00;
+	--reddish: #ff004c;
+	--new-notif: #c4cdff;
+	--job-post-title: white;
+	--shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 button:active {

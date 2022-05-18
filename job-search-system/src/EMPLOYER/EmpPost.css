@@ -1,5 +1,6 @@
 .post-container {
 	border-bottom: 1px solid var(--border1);
+	box-shadow: var(--shadow);
 	margin-top: 15px;
 	border-radius: 5px;
 	background-color: var(--nav-background);
@@ -32,7 +33,7 @@
 	overflow: hidden;
 	cursor: pointer;
 	margin-right: 10px;
-	box-shadow: 1px 1px 4px #030303;
+	box-shadow: 1px 1px 2px #030303;
 }
 
 .account-profile:active {

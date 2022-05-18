@@ -5,16 +5,18 @@
 	flex-direction: column;
 	/* justify-content: space-between; */
 	background: var(--main-background2);
+	box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.4);
 }
 
 .login-nav {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background-color: var(--dark-secondary);
+	/* background-color: var(--dark-secondary); */
 	height: 60px;
 	padding: 0 10px;
-	box-shadow: 0px 1px 2px rgba(0, 0, 0, 5);
+	/* box-shadow: 0px 1px 2px rgba(0, 0, 0, 5); */
+	border-bottom: 1px solid var(--border1)
 }
 
 .login-nav a {
@@ -115,6 +117,7 @@
 	position: relative;
 	background-color: var(--main-background3);
 	transition: 0.2s ease-in-out;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .circle-blue,

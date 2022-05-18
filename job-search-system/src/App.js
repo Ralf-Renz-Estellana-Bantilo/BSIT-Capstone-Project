@@ -1469,7 +1469,8 @@ export class App extends Component {
 		if (darkTheme) {
 			document.body.style.backgroundColor = `#0f0f0f`;
 		} else {
-			document.body.style.backgroundColor = `#cfcfcf`;
+			document.body.style.backgroundColor = `#E0E0E0`;
+			// document.body.style.backgroundColor = `#cfcfcf`; //original color
 		}
 
 		if (userTypeSession === `Job Seeker`) {

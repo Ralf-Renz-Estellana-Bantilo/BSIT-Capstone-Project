@@ -2,6 +2,7 @@
 	display: flex;
 	background-color: var(--nav-background);
 	border-bottom: 1px solid var(--border1);
+	box-shadow: var(--shadow);
 	padding: 5px;
 	justify-content: space-around;
 }

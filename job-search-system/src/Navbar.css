@@ -4,8 +4,9 @@
 	top: 69px;
 	z-index: 100;
 	background-color: var(--nav-background);
-	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+	/* box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); */
 	border-bottom: 1px solid var(--border1);
+	box-shadow: var(--shadow);
 	transition: 0.5s background-color;
 }
 

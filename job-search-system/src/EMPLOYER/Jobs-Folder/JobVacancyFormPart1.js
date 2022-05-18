@@ -181,7 +181,7 @@ export class JobVacancyFormPart1 extends Component {
 							<label>Job Vacancy Deadline (Optional): mm/dd/yyyy</label>
 							<input
 								value={values.jobRequirement}
-								type='text'
+								type='date'
 								placeholder='01/11/2000'
 								onChange={handleChange("jobRequirement")}
 							/>

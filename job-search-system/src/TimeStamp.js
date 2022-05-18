@@ -69,10 +69,10 @@ export class TimeStamp {
 			// }
 			return (time = elapsedYear + "y ago");
 		} else if (elapsedMonth !== 0) {
-			// if (elapsedMonth === 1) {
-			// 	return (time = elapsedMonth + " month ago");
-			// }
-			return (time = elapsedMonth + "m ago");
+			if (elapsedMonth === 1) {
+				return (time = elapsedMonth + " month ago");
+			}
+			return (time = elapsedMonth + " months ago");
 		} else if (elapsedDay !== 0) {
 			// if (elapsedDay === 1) {
 			// 	// return (time = "Yesterday");
@@ -88,7 +88,7 @@ export class TimeStamp {
 			// if (elapsedMinute === 1) {
 			// 	return (time = elapsedMinute + " min ago");
 			// }
-			return (time = elapsedMinute + "m ago");
+			return (time = elapsedMinute + " mins ago");
 		}
 
 		return time;

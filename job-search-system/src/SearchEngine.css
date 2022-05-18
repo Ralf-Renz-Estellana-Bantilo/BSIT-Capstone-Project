@@ -9,8 +9,8 @@
 	display: flex;
 	align-items: center;
 	padding: 15px;
-	border-bottom: 1px solid var(--border1);
-	box-shadow: 0 1px 5px black;
+	/* border-bottom: 1px solid var(--border1); */
+	box-shadow: var(--shadow);
 	position: fixed;
 	background-color: var(--dark-primary);
 	width: 100%;

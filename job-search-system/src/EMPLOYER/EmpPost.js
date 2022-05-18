@@ -103,8 +103,6 @@ export class Emp_Post extends Component {
 				companyJobPost.Company_Address.split(", ").length - 1
 			];
 
-		console.log(companyJobPost);
-
 		return (
 			<div className='post-container'>
 				<div
