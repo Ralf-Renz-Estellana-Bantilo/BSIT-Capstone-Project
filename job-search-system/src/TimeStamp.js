@@ -32,6 +32,11 @@ export class TimeStamp {
 		let elapsedMonth = currentMonth - month;
 		let elapsedYear = currentYear - year;
 
+		let formatMonth = `${month}`.length === 1 ? `0${month}` : month;
+		let formatDay = `${day}`.length === 1 ? `0${day}` : day;
+
+		let timestamp = `${formatMonth}-${formatDay}-${year}`;
+
 		if (
 			currentMin === min &&
 			currentHour === hour &&
@@ -72,7 +77,8 @@ export class TimeStamp {
 			// if (elapsedMonth === 1) {
 			// 	return (time = elapsedMonth + " month ago");
 			// }
-			return (time = elapsedMonth + " m ago");
+			return (time = timestamp);
+			// return (time = elapsedMonth + " month ago");
 		} else if (elapsedDay !== 0) {
 			// if (elapsedDay === 1) {
 			// 	// return (time = "Yesterday");
@@ -88,7 +94,7 @@ export class TimeStamp {
 			// if (elapsedMinute === 1) {
 			// 	return (time = elapsedMinute + " min ago");
 			// }
-			return (time = elapsedMinute + " mins ago");
+			return (time = elapsedMinute + "m ago");
 		}
 
 		return time;
