@@ -130,7 +130,7 @@ export class Emp_Jobs extends Component {
 					resetTargetJobPost={this.props.resetTargetJobPost}
 				/>
 
-				{this.props.showAdd === false && (
+				{this.props.showAdd && (
 					<WorkPost
 						onAddPost={this.props.onAddPost}
 						toggle={this.props.toggle}

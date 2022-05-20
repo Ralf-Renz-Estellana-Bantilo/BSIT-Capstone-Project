@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import AppConfiguration from "../AppConfiguration";
 import LeftArrow from "../Images/LeftArrow.png";
 import Modal from "../JOBSEEKER/Home-Folder/Modal";
@@ -67,6 +67,26 @@ export class Hiree_Information extends Component {
 
 	componentDidMount() {
 		window.scrollTo(0, 0);
+
+		const { hiree } = this.props;
+		const isSearchOpen = localStorage.getItem("isSearchOpen");
+		const activePage = localStorage.getItem("activePage");
+		const userTypeSession = sessionStorage.getItem("UserType");
+		let userType = "";
+
+		if (userTypeSession === "Job Seeker") {
+			userType = "jobseeker";
+		} else {
+			userType = "employer";
+		}
+
+		if (!hiree.ApplicantID) {
+			if (isSearchOpen) {
+				this.props.history.push(`/${userType}/search`);
+			} else {
+				this.props.history.push(`/${userType}/${activePage}`);
+			}
+		}
 	}
 
 	render() {
@@ -339,4 +359,4 @@ export class Hiree_Information extends Component {
 	}
 }
 
-export default Hiree_Information;
+export default withRouter(Hiree_Information);

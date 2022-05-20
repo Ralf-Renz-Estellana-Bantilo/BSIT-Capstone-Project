@@ -1545,7 +1545,6 @@ export class App extends Component {
 									activePage={this.state.activePage}
 									infos={this.state.infos}
 									userData={this.state.userData}
-									// badge={this.state.employerFeedback.length}
 									employerFeedback={this.state.employerFeedback}
 									applicants={this.state.applicants}
 									numApplicants={this.state.numApplicants}
@@ -1563,7 +1562,6 @@ export class App extends Component {
 									setCompanyID={this.setCompanyID}
 									closeHasApplied={this.closeHasApplied}
 									closeDeleteState={this.closeDeleteState}
-									// setCurrentUser={this.setCurrentUser}
 								/>
 							)}
 						/>
@@ -1573,23 +1571,17 @@ export class App extends Component {
 							render={() => (
 								<Profile
 									activePage={this.state.activePage}
-									// showAdd={this.state.showAddTask}
 									infos={this.state.infos}
 									company={this.state.company}
 									darkTheme={this.state.darkTheme}
-									// targetCompany={this.state.targetCompany}
 									appliedJobs={this.state.appliedJobs}
 									userData={this.state.userData}
 									user={this.state.user}
 									applicants={this.state.applicants}
-									// badge={this.state.employerFeedback.length}
 									employerFeedback={this.state.employerFeedback}
 									currentUser={this.state.currentUser}
-									// onAddPost={this.addPost}
-									// onAdd={this.onTogglePostForm}
 									handleChangePage={this.handleChangePage}
 									setCompanyID={this.setCompanyID}
-									// setCurrentUser={this.setCurrentUser}
 									setApplicants={this.setApplicants}
 									setEmployerFeedBack={this.setEmployerFeedBack}
 									changeCurrentUserProfile={
@@ -1609,10 +1601,8 @@ export class App extends Component {
 									currentUser={this.state.currentUser}
 									darkTheme={this.state.darkTheme}
 									employerFeedback={this.state.employerFeedback}
-									// badge={this.state.employerFeedback.length}
 									applicants={this.state.applicants}
 									handleChangePage={this.handleChangePage}
-									// setCurrentUser={this.setCurrentUser}
 									updateNotificationStatus={
 										this.updateNotificationStatus
 									}
@@ -1630,7 +1620,6 @@ export class App extends Component {
 									activePage={this.state.activePage}
 									darkTheme={this.state.darkTheme}
 									currentUser={this.state.currentUser}
-									// badge={this.state.employerFeedback.length}
 									employerFeedback={this.state.employerFeedback}
 									applicants={this.state.applicants}
 									handleChangePage={this.handleChangePage}
@@ -1648,7 +1637,6 @@ export class App extends Component {
 							path={`/${userType}/${this.state.activePage}/company-profile`}
 							render={() => (
 								<CompanyProfile
-									// infos={this.state.infos}
 									targetCompany={this.state.targetCompany}
 									activePage={this.state.activePage}
 									darkTheme={this.state.darkTheme}
@@ -1660,14 +1648,11 @@ export class App extends Component {
 							path={`/${userType}/${this.state.activePage}/application-form`}
 							render={() => (
 								<ApplicationForm
-									// user={this.state.user}
 									infos={this.state.infos}
-									// jobApplicants={this.state.jobApplicants}
 									darkTheme={this.state.darkTheme}
 									targetCompany={this.state.targetCompany}
 									activePage={this.state.activePage}
 									currentUser={this.state.currentUser}
-									// applicants={this.state.applicants}
 									employerFeedback={this.state.employerFeedback}
 									numApplicants={this.state.numApplicants}
 									handleChange={this.handleChange}
@@ -1687,7 +1672,6 @@ export class App extends Component {
 									infos={this.state.infos}
 									employerFeedback={this.state.employerFeedback}
 									numApplicants={this.state.numApplicants}
-									// hasApplied={this.state.hasApplied}
 									isDeleted={this.state.isDeleted}
 									applicants={this.state.applicants}
 									darkTheme={this.state.darkTheme}
@@ -1695,8 +1679,6 @@ export class App extends Component {
 									handleChangePage={this.handleChangePage}
 									onDelete={this.deletePost}
 									setCompanyID={this.setCompanyID}
-									// closeHasApplied={this.closeHasApplied}
-									// closeDeleteState={this.closeDeleteState}
 									setHiree={this.setHiree}
 									setEmployerMessage={this.setEmployerMessage}
 								/>
@@ -1741,15 +1723,12 @@ export class App extends Component {
 							path={`/${userType}/dashboard`}
 							component={() => (
 								<EmpDashboard
-									// activePage={this.state.activePage}
 									company={this.state.company}
 									isSidebarOpen={this.state.isSidebarOpen}
 									currentUser={this.state.currentUser}
-									// jobApplicants={this.state.jobApplicants}
 									applicants={this.state.applicants}
 									darkTheme={this.state.darkTheme}
 									toggleSidebar={this.toggleSidebar}
-									// handleChangePage={this.handleChangePage}
 									setCurrentUser={this.setCurrentUser}
 									getJobApplicantsByCompany={
 										this.getJobApplicantsByCompany
@@ -1770,6 +1749,7 @@ export class App extends Component {
 									company={this.state.company}
 									applicants={this.state.applicants}
 									employerFeedback={this.state.employerFeedback}
+									isIndicationOpen={this.state.isIndicationOpen}
 									setCurrentUser={this.setCurrentUser}
 									getJobApplicantsByCompany={
 										this.getJobApplicantsByCompany
@@ -1779,7 +1759,6 @@ export class App extends Component {
 									changeCompanyProfile={this.changeCompanyProfile}
 									updateCompanyProfile={this.updateCompanyProfile}
 									toggleIndication={this.toggleIndication}
-									isIndicationOpen={this.state.isIndicationOpen}
 								/>
 							)}
 						/>
@@ -1823,13 +1802,10 @@ export class App extends Component {
 									jobApplicants={this.state.jobApplicants}
 									company={this.state.company}
 									companyJobPost={this.state.companyJobPost}
-									// user={this.state.user}
 									infos={this.state.infos}
-									// targetCompany={this.state.targetCompany}
 									darkTheme={this.state.darkTheme}
 									isDeleted={this.state.isDeleted}
 									setCurrentUser={this.setCurrentUser}
-									// setCompanyID={this.setCompanyID}
 									setApplicantID={this.setApplicantID}
 									setJobID={this.setJobID}
 									getJobApplicantsByCompany={
@@ -1862,21 +1838,6 @@ export class App extends Component {
 								/>
 							)}
 						/>
-						{/* <Route
-							exact
-							path={`/${userType}/account`}
-							component={() => (
-								<EmpAccount
-									company={this.state.company}
-									darkTheme={this.state.darkTheme}
-									currentUser={this.state.currentUser}
-									setCurrentUser={this.setCurrentUser}
-									getJobApplicantsByCompany={
-										this.getJobApplicantsByCompany
-									}
-								/>
-							)}
-						/> */}
 
 						<Route
 							exact
@@ -1902,7 +1863,6 @@ export class App extends Component {
 									company={this.state.company}
 									employerMessage={this.state.employerMessage}
 									darkTheme={this.state.darkTheme}
-									// employerFeedback={this.state.employerFeedback}
 									addEmployerFeedBack={this.addEmployerFeedBack}
 								/>
 							)}

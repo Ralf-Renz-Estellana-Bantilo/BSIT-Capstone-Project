@@ -42,7 +42,7 @@ const WorkPostHeader = ({
 					// src={`${AppConfiguration.url()}/assets/images/${
 					// 	company.Company_Image
 					// }`}
-					alt='User'
+					alt='Company'
 					title={name}
 				/>
 			</div>

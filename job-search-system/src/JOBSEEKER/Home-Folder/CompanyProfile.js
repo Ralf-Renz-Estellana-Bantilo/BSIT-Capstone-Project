@@ -29,15 +29,21 @@ export class CompanyProfile extends Component {
 			});
 	};
 
-	componentDidMount() {
-		this.filterObject();
+	componentDidMount = async () => {
+		await this.filterObject();
+		const { company } = this.state;
+		const { activePage } = this.props;
 
 		const session = sessionStorage.getItem("UserID");
 		if (!session) {
 			localStorage.clear();
 			this.props.history.push("/login");
 		}
-	}
+
+		if (!company.CompanyID) {
+			this.props.history.push(`/jobseeker/${activePage}`);
+		}
+	};
 
 	formatCompanyAddress = () => {
 		const { companyAddress } = this.state;

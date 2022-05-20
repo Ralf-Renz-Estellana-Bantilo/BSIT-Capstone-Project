@@ -142,7 +142,7 @@ export class Emp_BusinessProfile extends Component {
 											style={
 												darkTheme
 													? { backgroundColor: "#0f0f0f" }
-													: { backgroundColor: "white" }
+													: { backgroundColor: "#f7f7f7" }
 											}>
 											<div className='job-detail-upper-portion'>
 												<h2>{`${messagedApplicants[b].First_Name} ${messagedApplicants[b].Middle_Name} ${messagedApplicants[b].Last_Name}`}</h2>

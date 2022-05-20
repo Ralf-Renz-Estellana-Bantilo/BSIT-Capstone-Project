@@ -111,10 +111,7 @@ export class Emp_Post extends Component {
 					<div className='upperLeft-info'>
 						<Link to='/employer/business-profile'>
 							<div className='account-profile'>
-								<img
-									src={companyJobPost.Company_Image}
-									alt='Establishment'
-								/>
+								<img src={companyJobPost.Company_Image} alt='Company' />
 							</div>
 						</Link>
 

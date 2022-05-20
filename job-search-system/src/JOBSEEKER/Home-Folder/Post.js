@@ -90,7 +90,7 @@ export class Post extends Component {
 										// src={`${AppConfiguration.url()}/assets/images/${
 										// 	info.Company_Image
 										// }`}
-										alt='Establishment'
+										alt='Company'
 									/>
 								</div>
 							</Link>
@@ -125,9 +125,7 @@ export class Post extends Component {
 													: { filter: "brightness(0.3)" }
 											}
 										/>
-										<p title={`${info.Company_Address}`}>
-											{address}, Catarman
-										</p>
+										<p title={`${info.Company_Address}`}>{address}</p>
 									</div>
 								</div>
 							</div>

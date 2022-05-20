@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import AppConfiguration from "../../AppConfiguration";
 import LeftArrow from "../../Images/LeftArrow.png";
 import Modal from "../../JOBSEEKER/Home-Folder/Modal";
@@ -13,6 +13,7 @@ const Emp_Job_Applicant_Data = ({
 	jobApplicantData,
 	employerFeedback,
 	darkTheme,
+	history,
 }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -223,6 +224,10 @@ const Emp_Job_Applicant_Data = ({
 	useEffect(() => {
 		window.scrollTo(0, 0);
 		setHeight(ref.current.clientHeight);
+
+		if (!jobApplicantData.Job_Title) {
+			history.push(`/employer/applicants`);
+		}
 	}, []);
 
 	let jobPost = companyJobPost.filter(
@@ -665,4 +670,4 @@ const Emp_Job_Applicant_Data = ({
 	);
 };
 
-export default Emp_Job_Applicant_Data;
+export default withRouter(Emp_Job_Applicant_Data);

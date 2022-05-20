@@ -5,6 +5,7 @@
 	box-shadow: var(--shadow);
 	padding: 5px;
 	justify-content: space-around;
+	border-radius: 5px;
 }
 
 .filter {
@@ -41,4 +42,10 @@
 
 .filter-container .filter select {
 	text-align: left;
+}
+
+@media only screen and (max-width: 800px) {
+	.filter-container {
+		border-radius: 0;
+	}
 }

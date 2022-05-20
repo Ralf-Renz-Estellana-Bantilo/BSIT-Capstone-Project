@@ -59,7 +59,7 @@ export class AppliedJob extends Component {
 					style={
 						darkTheme
 							? { backgroundColor: "#0f0f0f" }
-							: { backgroundColor: "white" }
+							: { backgroundColor: "#f7f7f7" }
 					}>
 					<div
 						className='job-status'

@@ -178,7 +178,7 @@ export class JobVacancyFormPart1 extends Component {
 							/>
 						</div>
 						<div className='post-field'>
-							<label>Job Vacancy Deadline (Optional): mm/dd/yyyy</label>
+							<label>Job Vacancy Deadline (Optional):</label>
 							<input
 								value={values.jobRequirement}
 								type='date'

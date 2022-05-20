@@ -4,10 +4,11 @@
 	top: 69px;
 	z-index: 100;
 	background-color: var(--nav-background);
-	/* box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); */
+	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
 	border-bottom: 1px solid var(--border1);
-	box-shadow: var(--shadow);
+	/* box-shadow: var(--shadow); */
 	transition: 0.5s background-color;
+	border-radius: 0 0 5px 5px;
 }
 
 .navbar {
@@ -63,5 +64,6 @@
 @media only screen and (max-width: 800px) {
 	.navbar-container {
 		width: 100%;
+		border-radius: 0;
 	}
 }

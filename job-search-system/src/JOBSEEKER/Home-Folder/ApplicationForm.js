@@ -354,6 +354,10 @@ export class ApplicationForm extends Component {
 				}
 			});
 		}
+
+		if (!post.JobID) {
+			this.props.history.push(`/jobseeker/${activePage}`);
+		}
 	};
 
 	static defaultProps = {
@@ -1055,7 +1059,7 @@ export class ApplicationForm extends Component {
 										<label>
 											{`${activePage}` === "profile"
 												? "Resume:"
-												: "Attach your resume here (if necessary):"}
+												: "Attach your resume here:"}
 										</label>
 
 										{`${activePage}` === "profile" ? (

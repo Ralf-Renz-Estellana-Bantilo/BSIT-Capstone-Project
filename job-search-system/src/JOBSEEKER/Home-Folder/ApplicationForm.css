@@ -336,13 +336,15 @@
 
 .application-status-container p {
 	font-size: 13px;
-	color: var(--accent1);
+	/* color: var(--accent1); */
+	color: white;
 	font-weight: 500;
 }
 
 .application-status-container h3 {
 	font-size: 13px;
-	color: var(--accent-main);
+	/* color: var(--accent-main); */
+	color: white;
 	font-weight: 600;
 	margin-left: 5px;
 }
