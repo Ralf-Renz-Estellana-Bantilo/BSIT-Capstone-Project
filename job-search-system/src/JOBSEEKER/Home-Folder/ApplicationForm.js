@@ -371,6 +371,28 @@ export class ApplicationForm extends Component {
 		],
 	};
 
+	formatCompanyAddress = () => {
+		const { Company_Address } = this.state.post;
+		let place = `${Company_Address}`.split(", ");
+		let formattedPlace = "";
+
+		if (place.length === 1) {
+			formattedPlace = Company_Address;
+		} else {
+			if (place[0] === "" && place[1] !== "Not Specified") {
+				formattedPlace = place[1] + ", " + place[2];
+			} else if (place[0] !== "" && place[1] === "Not Specified") {
+				formattedPlace = place[0] + ", " + place[2];
+			} else if (place[0] === "" && place[1] === "Not Specified") {
+				formattedPlace = place[2];
+			} else {
+				formattedPlace = Company_Address;
+			}
+		}
+
+		return formattedPlace;
+	};
+
 	render() {
 		let birthDay = this.props.day.map((day) => {
 			return (
@@ -379,6 +401,8 @@ export class ApplicationForm extends Component {
 				</option>
 			);
 		});
+
+		const companyAddress = this.formatCompanyAddress();
 
 		const { activePage, darkTheme, employerFeedback, numApplicants } =
 			this.props;
@@ -581,7 +605,7 @@ export class ApplicationForm extends Component {
 										</div>
 										<div className='apply-detail'>
 											<p>Company Address :</p>
-											<h4>{post.Company_Address}, Catarman</h4>
+											<h4>{companyAddress}, Catarman</h4>
 										</div>
 										<div className='apply-detail'>
 											<p>Place of Work :</p>
