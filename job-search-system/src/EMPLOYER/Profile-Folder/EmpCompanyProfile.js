@@ -278,6 +278,12 @@ export class EmpCompanyProfile extends Component {
 			isUpdateButtonEnable = false;
 		}
 
+		if (prevState_acronym !== acronym) {
+			isUpdateButtonEnable = true;
+		}
+
+		console.log(acronym);
+
 		return (
 			<>
 				{isIndicationOpen === true && (
