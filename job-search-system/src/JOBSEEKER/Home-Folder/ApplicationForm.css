@@ -336,8 +336,8 @@
 
 .application-status-container p {
 	font-size: 13px;
-	/* color: var(--accent1); */
-	color: white;
+	color: var(--accent1);
+	/* color: white; */
 	font-weight: 500;
 }
 

@@ -154,6 +154,27 @@ export class ApplicationForm extends Component {
 			await this.props.addJobApplicants(applicantData);
 			await this.props.handleApplication(this.props.targetCompany);
 			this.props.history.push(`/jobseeker/${activePage}`);
+
+			if (fileData !== null) {
+				const data = new FormData();
+				data.append("file", fileData);
+				data.append("upload_preset", "job-search-catarman-asset");
+				data.append("api_key", "326167851291639");
+				data.append("api_secret", "6G0fgOrs47qz1FWrkNuz-E_FQJQ");
+
+				await axios
+					.post(
+						"https://api.cloudinary.com/v1_1/doprewqnx/image/upload",
+						data
+					)
+					.then(async (res) => {
+						// console.log(res.data.secure_url);
+						// newFileName = res.data.secure_url;
+						// this.setState({
+						// 	isLoading: false,
+						// });
+					});
+			}
 		} catch (error) {
 			alert(error);
 			console.log(error);
