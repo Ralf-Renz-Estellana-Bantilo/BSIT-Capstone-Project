@@ -32,7 +32,7 @@ export class ApplicationForm extends Component {
 		email: "",
 		civilStatus: "",
 		educationalAttainment: "",
-		resume: "",
+		resume: null,
 		fileData: null,
 		userImage: "",
 		applicants: [],
@@ -121,6 +121,41 @@ export class ApplicationForm extends Component {
 			new Date().getFullYear();
 
 		try {
+			let newFileName = "";
+			if (fileData !== null) {
+				this.setState({
+					isLoading: true,
+				});
+				this.onCloseModal();
+
+				const data = new FormData();
+				data.append("file", fileData);
+				data.append("upload_preset", "job-search-catarman-asset");
+				data.append("api_key", "326167851291639");
+				data.append("api_secret", "6G0fgOrs47qz1FWrkNuz-E_FQJQ");
+
+				await axios
+					.post(
+						"https://api.cloudinary.com/v1_1/doprewqnx/image/upload",
+						data
+					)
+					.then(async (res) => {
+						console.log(res.data.secure_url);
+						newFileName = res.data.secure_url;
+						this.setState({
+							isLoading: false,
+						});
+					});
+			} else if (
+				(fileData === null && resume !== undefined) ||
+				resume !== null
+			) {
+				this.setState({
+					isLoading: false,
+				});
+				newFileName = resume;
+			}
+
 			let applicantData = {
 				jobID: post.JobID,
 				companyID: post.CompanyID,
@@ -138,7 +173,7 @@ export class ApplicationForm extends Component {
 				email: email,
 				civilStatus: civilStatus,
 				educationalAttainment: educationalAttainment,
-				resume: null,
+				resume: newFileName,
 				userImage: userImage,
 				disability: disability,
 				employmentStatus: employmentStatus,
@@ -150,34 +185,14 @@ export class ApplicationForm extends Component {
 				year: new Date().getFullYear(),
 				fileData: null,
 			};
-
 			await this.props.addJobApplicants(applicantData);
 			await this.props.handleApplication(this.props.targetCompany);
 			this.props.history.push(`/jobseeker/${activePage}`);
-
-			if (fileData !== null) {
-				const data = new FormData();
-				data.append("file", fileData);
-				data.append("upload_preset", "job-search-catarman-asset");
-				data.append("api_key", "326167851291639");
-				data.append("api_secret", "6G0fgOrs47qz1FWrkNuz-E_FQJQ");
-
-				await axios
-					.post(
-						"https://api.cloudinary.com/v1_1/doprewqnx/image/upload",
-						data
-					)
-					.then(async (res) => {
-						// console.log(res.data.secure_url);
-						// newFileName = res.data.secure_url;
-						// this.setState({
-						// 	isLoading: false,
-						// });
-					});
-			}
 		} catch (error) {
 			alert(error);
-			console.log(error);
+			this.setState({
+				isLoading: false,
+			});
 		}
 	};
 
