@@ -663,7 +663,7 @@ export class ApplicationForm extends Component {
 											</h4>
 										</div> */}
 										<div className='apply-detail'>
-											<p>Applications Recieve:</p>
+											<p>Applications Recieved:</p>
 											<h4>{filteredCandidate.length}</h4>
 										</div>
 										<div className='apply-detail'>

@@ -343,8 +343,8 @@
 
 .application-status-container h3 {
 	font-size: 13px;
-	/* color: var(--accent-main); */
-	color: white;
+	color: var(--accent-main);
+	/* color: white; */
 	font-weight: 600;
 	margin-left: 5px;
 }
