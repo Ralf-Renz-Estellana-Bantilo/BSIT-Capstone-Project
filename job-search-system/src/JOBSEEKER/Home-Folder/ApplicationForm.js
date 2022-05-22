@@ -112,14 +112,6 @@ export class ApplicationForm extends Component {
 
 		const { activePage } = this.props;
 
-		//  else {
-		const date =
-			new Date().getMonth() +
-			1 +
-			"" +
-			new Date().getDate() +
-			new Date().getFullYear();
-
 		try {
 			let newFileName = "";
 			if (fileData !== null) {
@@ -473,6 +465,8 @@ export class ApplicationForm extends Component {
 				numApplicant.JobID === post.JobID &&
 				numApplicant.Candidate_Status === "Hired"
 		);
+
+		console.log(filteredHiredCandidate);
 
 		let applicationStatus = "";
 		// feedback checking
