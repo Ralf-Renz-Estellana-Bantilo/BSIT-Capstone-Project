@@ -1119,7 +1119,7 @@ export class ApplicationForm extends Component {
 										<label>
 											{`${activePage}` === "profile"
 												? "Resume:"
-												: "Attach your resume here:"}
+												: "Attach your resume here: (PDF only)"}
 										</label>
 
 										{`${activePage}` === "profile" ? (
@@ -1137,8 +1137,9 @@ export class ApplicationForm extends Component {
 											/>
 										) : (
 											<input
-												accept='application/pdf,application/msword,
-											application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+												accept='application/pdf'
+												// 	accept='application/pdf,application/msword,
+												// application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 												type='file'
 												disabled={
 													`${activePage}` === "profile" &&
