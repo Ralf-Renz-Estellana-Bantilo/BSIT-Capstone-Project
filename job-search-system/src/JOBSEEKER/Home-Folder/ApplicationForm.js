@@ -466,8 +466,6 @@ export class ApplicationForm extends Component {
 				numApplicant.Candidate_Status === "Hired"
 		);
 
-		console.log(filteredHiredCandidate);
-
 		let applicationStatus = "";
 		// feedback checking
 		for (let a = 0; a < employerFeedback.length; a++) {

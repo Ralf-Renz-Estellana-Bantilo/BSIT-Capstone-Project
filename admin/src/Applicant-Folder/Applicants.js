@@ -90,7 +90,9 @@ const Applicants = ({
 					.toLowerCase()
 					.includes(`${applicantSearch}`.toLowerCase())
 			) {
-				countApplicant += 1;
+				if (jobSeeker.Preferred_Job !== null) {
+					countApplicant += 1;
+				}
 			}
 		});
 	}
