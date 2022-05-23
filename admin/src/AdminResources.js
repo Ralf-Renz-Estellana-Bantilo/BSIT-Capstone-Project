@@ -1429,6 +1429,11 @@ class AdminResources {
 		let elapsedMonth = currentMonth - month;
 		let elapsedYear = currentYear - year;
 
+		let formatMonth = `${month}`.length === 1 ? `0${month}` : month;
+		let formatDay = `${day}`.length === 1 ? `0${day}` : day;
+
+		let timestamp = `${formatMonth}-${formatDay}-${year}`;
+
 		if (
 			currentMin === min &&
 			currentHour === hour &&
@@ -1469,7 +1474,7 @@ class AdminResources {
 			// if (elapsedMonth === 1) {
 			// 	return (time = elapsedMonth + "m ago");
 			// }
-			return (time = elapsedMonth + "m ago");
+			return (time = timestamp);
 		} else if (elapsedDay !== 0) {
 			// if (elapsedDay === 1) {
 			// 	return (time = "Yesterday");
