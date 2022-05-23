@@ -196,6 +196,10 @@ const Dashboard = ({
 	let highPayingJobs = getHighPayingJob();
 	let registeredCompany = getRegisteredCompany();
 
+	const numberOfJobSeekers = applicantsData.filter(
+		(applicant) => applicant.Preferred_Category !== null
+	);
+
 	return (
 		<div className='dashboard-container'>
 			<div className='content-wrapper'>
@@ -242,7 +246,7 @@ const Dashboard = ({
 								<div className='update-card'>
 									<div className='card-text'>
 										<p>Total number of Job Seekers</p>
-										<h2>{applicantsData.length}</h2>
+										<h2>{numberOfJobSeekers.length}</h2>
 									</div>
 									<div className='card-icon'>
 										<img src={BusinessProfile} alt='Job Posts' />
