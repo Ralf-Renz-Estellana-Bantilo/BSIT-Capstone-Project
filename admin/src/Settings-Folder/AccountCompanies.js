@@ -52,7 +52,7 @@ const AccountCompanies = ({ companies, adminPosts }) => {
 							<br />
 							manage it! Click{" "}
 							<a
-								href='https://job-search-catarman-prototype.netlify.app/login'
+								href='https://job-search-catarman.netlify.app/login'
 								target='_blank'>
 								here
 							</a>

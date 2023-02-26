@@ -26,6 +26,8 @@ const Companies = ({
 	admin,
 	setAdmin,
 	setAdminPosts,
+	employerFeedback,
+	jobApplicants,
 }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
 	const [selectedPostPreview, setSelectedPostPreview] = useState(null);
@@ -108,6 +110,36 @@ const Companies = ({
 	companiesData.sort((a, b) => (a.Company_Name > b.Company_Name ? 1 : -1));
 
 	const companyAddress = formatPlaceOfWork();
+
+	let companyPostStats = null;
+	try {
+		companyPostStats = companyPosts.map((post) => {
+			let hiredApplicants = employerFeedback.filter(
+				(feedback) =>
+					feedback.Application_Status === "Hired" &&
+					feedback.JobID === post.JobID
+			);
+
+			let appliedApplicants = jobApplicants.filter(
+				(applicant) => applicant.JobID === post.JobID
+			);
+
+			let countBalance =
+				Number(post.Required_Employees) - Number(hiredApplicants.length);
+
+			return (
+				<>
+					<tr>
+						<td>{post.Job_Title}</td>
+						<td>{post.Required_Employees}</td>
+						<td>{appliedApplicants.length}</td>
+						<td>{hiredApplicants.length}</td>
+						<td>{countBalance}</td>
+					</tr>
+				</>
+			);
+		});
+	} catch (error) {}
 
 	return (
 		<div className='companies-container'>
@@ -395,6 +427,24 @@ const Companies = ({
 															</div>
 														);
 													})}
+
+													<div className='summary'>
+														<div className='summary-header'>
+															<h4>JOB POST STATISTICS</h4>
+														</div>
+														<div className='summary-content'>
+															<table>
+																<tr>
+																	<th>Job Title</th>
+																	<th>Vacancy Count</th>
+																	<th>Applied</th>
+																	<th>Hired</th>
+																	<th>Balance</th>
+																</tr>
+																{companyPostStats}
+															</table>
+														</div>
+													</div>
 												</div>
 											</div>
 										) : (
@@ -493,7 +543,7 @@ const Companies = ({
 																	</h4>
 																</div>
 																<div className='post-detail'>
-																	<p>Req. Employees:</p>
+																	<p>Vacancy Count:</p>
 																	<h4>
 																		{
 																			selectedPostPreview.Required_Employees
@@ -551,6 +601,9 @@ const Companies = ({
 																			"Visible"
 																				? selectedPostPreview.Active_Status
 																				: "Deleted"}
+
+																			{selectedPostPreview.Date_Closed &&
+																				` @ ${selectedPostPreview.Date_Closed}`}
 																		</h4>
 																	</div>
 																</div>
@@ -559,21 +612,23 @@ const Companies = ({
 													</div>
 													<div className='job-qualification-container'>
 														<div className='job-qualification-portion'>
-															<h3>--- Job Qualifications ---</h3>
+															<h3>
+																--- Hiring Requirements ---
+															</h3>
 															<p>
 																{
 																	selectedPostPreview.Job_Qualifications
 																}
 															</p>
 														</div>
-														<div className='job-qualification-portion'>
+														{/* <div className='job-qualification-portion'>
 															<h3>--- Job Requirements ---</h3>
 															<p>
 																{
 																	selectedPostPreview.Job_Requirements
 																}
 															</p>
-														</div>
+														</div> */}
 														<div className='job-qualification-portion'>
 															<h3>--- Job Description ---</h3>
 															<p>

@@ -87,17 +87,43 @@ import {
 	createAdminPost,
 	getAdminPosts,
 } from "./controllers/DB_Admin_Posts.js";
+import {
+	bulkInsert,
+	insertData,
+	masterdata,
+	masterselect,
+	updateData,
+} from "./api/api.js";
 
 const app = express();
 const PORT = process.env.PORT || 2000;
+app.use(express.json());
 
 app.use(
 	cors({
-		credentials: true,
+		// origin: [
+		// 	"https://job-search-catarman.netlify.app/",
+		// 	"https://ralf-expenses-tracker.netlify.app",
+		// ],
 		origin: "*",
+		preflightContinue: true,
+		methods: ["GET", "POST", "PUT"],
+		credentials: true,
 	})
 );
-app.use(express.json());
+
+// Add headers before the routes are defined
+// app.use(function (req, res, next) {
+// 	res.header("Access-Control-Allow-Origin", "*");
+// 	res.header(
+// 		"Access-Control-Allow-Headers",
+// 		"Origin, X-Requested-With, Content-Type, Accept"
+// 	);
+// 	if (req.method == "OPTIONS") {
+// 		return res.sendStatus(200);
+// 	}
+// 	next();
+// });
 
 let db;
 try {
@@ -258,6 +284,13 @@ app.delete(
 // Admin Posts
 app.get("/api/admin/read-posts", getAdminPosts);
 app.post("/api/admin/add-post", createAdminPost);
+
+// DYNAMIC APIs ----------------------------------------------------------
+app.post("/api/masterselect", masterselect);
+app.post("/api/masterdata", masterdata);
+app.post("/api/bulkInsert", bulkInsert);
+app.post("/api/insertData", insertData);
+app.put("/api/updateData", updateData);
 
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);

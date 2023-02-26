@@ -34,7 +34,10 @@ function PopupMenu({
 
 	return (
 		<div className='modal-container'>
-			<div className='overlay-style' />
+			<div
+				className='overlay-style'
+				onClick={() => setIsPopupMenuOpen(false)}
+			/>
 			<div className='modal-style'>
 				<div className='modal-header'>
 					<h3 className='modal-sub-text'>More Options</h3>

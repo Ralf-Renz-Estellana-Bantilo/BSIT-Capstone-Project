@@ -387,6 +387,8 @@ export default function App() {
 								jobPosts={jobPosts}
 								admin={admin}
 								companySearch={companySearch}
+								employerFeedback={employerFeedback}
+								jobApplicants={jobApplicants}
 								setActivePage={setActivePage}
 								setJobPosts={setJobPosts}
 								setEmployers={setEmployers}
